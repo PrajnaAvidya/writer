@@ -2,7 +2,7 @@
   <div class="game">
     <div class="words">Words: {{ words }}</div>
 
-    <button @click="write">Write</button>
+    <a class="button is-primary" @click="write"><span class="fas fa-pen"></span></a>
   </div>
 </template>
 
