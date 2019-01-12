@@ -1,18 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!--div id="nav">
       <router-link to="/">Home</router-link>
-    </div>
+    </div-->
 
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'app',
+};
+</script>
 
 <style lang="scss">
 #app {
   text-align: center;
 }
 #nav {
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 </style>

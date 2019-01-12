@@ -2,7 +2,31 @@
   <div class="game">
     <div class="words">Words: {{ words }}</div>
 
-    <a class="button is-primary" @click="write"><span class="fas fa-pen"></span></a>
+    <b-tooltip
+      label="Write some words"
+      position="is-bottom"
+      class="write"
+    >
+      <a class="button is-primary" @click="write">
+        <b-icon icon="pen" />
+      </a>
+    </b-tooltip>
+
+    <hr />
+
+    <div class="production">
+      <div class="columns">
+        <div class="column">
+          asdf
+        </div>
+        <div class="column">
+          asdf
+        </div>
+        <div class="column">
+          asdf
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,6 +36,10 @@ export default {
   data: () => ({
     words: 0,
   }),
+  mounted() {
+    console.log(this.$router);
+    console.log(this.$store);
+  },
   methods: {
     write() {
       this.words += 1;
@@ -19,3 +47,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.words {
+  margin-bottom: 15px;
+}
+
+.write {
+  margin-bottom: 20px;
+}
+
+.production {
+  margin: 0 auto;
+  width: 800px;
+}
+</style>
