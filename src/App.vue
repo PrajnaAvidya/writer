@@ -1,10 +1,13 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
+  <section class="section">
+    <div class="container" id="app">
+      <div id="nav">
+        <router-link to="/">Home</router-link>
+      </div>
+
+      <router-view/>
     </div>
-    <router-view/>
-  </div>
+    </section>
 </template>
 
 <style lang="scss">
@@ -12,6 +15,6 @@
   text-align: center;
 }
 #nav {
-  padding: 20px;
+  padding-bottom: 20px;
 }
 </style>
