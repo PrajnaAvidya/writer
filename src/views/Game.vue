@@ -39,7 +39,7 @@ export default {
     lastFrame: null,
 
     // caffeine
-    caffeineTime: 10,
+    caffeineTime: 60,
     buzzActive: false,
     caffeineEndTime: -1,
   }),
