@@ -31,18 +31,22 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'game',
-  data: () => ({
-    words: 0,
-  }),
+  computed: {
+    ...mapGetters([
+      'words',
+    ]),
+  },
   mounted() {
     console.log(this.$router);
     console.log(this.$store);
   },
   methods: {
     write() {
-      this.words += 1;
+      this.$store.commit('incrementWords', 1);
     },
   },
 };
