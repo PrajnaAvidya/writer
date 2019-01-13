@@ -20,7 +20,7 @@
           <a class="button" @click="coffee">Drink Coffee</a>
         </div>
         <div class="column">
-          Caffeine Buzz Remaining: {{ caffeineEndTime - lastFrame | round }}
+          <span v-if="buzzActive()">Caffeine Buzz Remaining: {{ buzzRemaining() }} seconds</span>
         </div>
       </div>
     </div>
@@ -30,7 +30,6 @@
 <script>
 import Big from 'big.js';
 // import { mapGetters } from 'vuex';
-import utils from '../utils';
 
 export default {
   name: 'game',
@@ -40,7 +39,6 @@ export default {
 
     // caffeine
     caffeineTime: 60,
-    buzzActive: false,
     caffeineEndTime: -1,
   }),
   /*
@@ -51,9 +49,6 @@ export default {
     ]),
   },
   */
-  filters: {
-    round: value => utils.round(value),
-  },
   mounted() {
     window.requestAnimationFrame(this.tick);
   },
@@ -75,7 +70,7 @@ export default {
       const frameDivision = Big(1000).div(progress);
 
       // TODO actual frame updates
-      if (this.caffeineEndTime > this.lastFrame) {
+      if (this.buzzActive()) {
         this.words = this.words.plus(Big(1).div(frameDivision));
       }
 
@@ -94,6 +89,12 @@ export default {
       } else {
         this.caffeineEndTime += this.caffeineTime * 1000;
       }
+    },
+    buzzActive() {
+      return this.caffeineEndTime > this.lastFrame;
+    },
+    buzzRemaining() {
+      return this.$options.filters.round((this.caffeineEndTime - this.lastFrame) / 1000);
     },
   },
 };

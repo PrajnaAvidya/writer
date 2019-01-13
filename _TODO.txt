@@ -1,0 +1,2 @@
+periodic vuex update
+save game to localstorage
