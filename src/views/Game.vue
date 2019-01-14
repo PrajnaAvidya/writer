@@ -170,7 +170,7 @@ export default {
       } else {
         this.caffeineEndTime += this.caffeineTime;
         if (this.caffeineEndTime - utils.unixTimestamp() > this.caffeineMaxTime) {
-          this.caffeineEndTime = this.lastFrame + this.caffeineMaxTime;
+          this.caffeineEndTime = utils.unixTimestamp() + this.caffeineMaxTime;
         }
       }
     },
