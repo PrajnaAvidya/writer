@@ -8,6 +8,7 @@ export default {
       decimal: false, // show decimal for values under 100
       alwaysPositive: false, // don't show values below 0
       showNaN: false, // show 'NaN' instead of 0 for invalid numbers
+      exponential: false, // use exp notation?
     };
     const options = Object.assign(defaultOptions, userOptions);
 
@@ -34,12 +35,10 @@ export default {
       return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-    /*
-    // TOOD exponential option
-    if (Options.state.notation && value.lt('1E303')) {
-        return value.toExponential(3);
+    // exponential option
+    if (options.exponential && value.lt('1E303')) {
+      return value.toExponential(3);
     }
-    */
 
     // show regular suffix for under 1E36
     if (value.lt('1E36')) {
@@ -67,6 +66,13 @@ export default {
 
     // number is basically infinity at this point
     return '∞';
+  },
+
+  // generate a random int (inclusive min/max)
+  randomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   },
 
   // TODO use this for buzz and stuff

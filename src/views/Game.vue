@@ -8,7 +8,6 @@
         <b-tooltip
           label="Think of ideas"
           position="is-bottom"
-          class="think"
         >
           <a class="button is-primary is-large" @click="think">
             <b-icon icon="brain" />
@@ -19,7 +18,6 @@
         <b-tooltip
           label="Write some words"
           position="is-bottom"
-          class="write"
         >
           <a class="button is-primary is-large" @click="write">
             <b-icon icon="pen" />
@@ -40,21 +38,21 @@
       </div>
       <!-- /row -->
 
-            <!-- row -->
+      <!-- row -->
       <div class="column is-half">
-        <a class="button" @click="hireStudent">Hire Student</a>
+        <a class="button" @click="hireChild">Hire Child</a>
       </div>
       <div class="column is-half">
-        <span v-if="students > 0">Students: {{ students | round }}</span>
+        <span v-if="children > 0">Children: {{ children | round }}</span>
       </div>
       <!-- /row -->
 
       <!-- row -->
       <div class="column is-half">
-        <a class="button" @click="hireEditor">Hire Editor</a>
+        <a class="button" @click="hireStudent">Hire Student</a>
       </div>
       <div class="column is-half">
-        <span v-if="editors > 0">Editors: {{ editors | round }}</span>
+        <span v-if="students > 0">Students: {{ students | round }}</span>
       </div>
       <!-- /row -->
     </div>
@@ -63,6 +61,7 @@
 
 <script>
 import Big from 'big.js';
+import utils from '../utils';
 // import { mapGetters } from 'vuex';
 
 export default {
@@ -75,15 +74,20 @@ export default {
     baseWrite: Big(1),
     maxWrite: Big(5),
 
+    children: Big(0),
+    childIdeas: Big(1),
+
     students: Big(0),
-    editors: Big(0),
+    studentWords: Big(1),
 
     // used for tick function
     lastFrame: null,
 
     // caffeine
     caffeineTime: 60,
+    caffeineMaxTime: 300,
     caffeineEndTime: -1,
+    caffeineMultiplier: Big(1),
   }),
   /*
   computed: {
@@ -118,22 +122,19 @@ export default {
 
       // caffeine buzz
       if (this.buzzActive()) {
-        this.ideas = this.ideas.plus(frameIncrement);
+        this.ideas = this.ideas.plus(this.caffeineMultiplier.times(frameIncrement));
+      }
+
+      // children
+      if (this.children.gt(0)) {
+        this.ideas = this.ideas.plus(this.children.times(frameIncrement).times(this.childIdeas));
       }
 
       // students
       if (this.students.gt(0) && this.ideas.gt(frameIncrement)) {
-        this.ideas = this.ideas.minus(this.students.times(frameIncrement));
-        this.words = this.words.plus(this.students.times(frameIncrement));
+        this.ideas = this.ideas.minus(this.students.times(frameIncrement).times(this.studentWords));
+        this.words = this.words.plus(this.students.times(frameIncrement).times(this.studentWords));
       }
-
-      // editors
-      /*
-      if (this.editors.gt(0) && this.words.gt(frameIncrement)) {
-        this.words = this.words.minus(this.editors.times(frameIncrement));
-        this.draft = this.draft.plus(this.editors.times(frameIncrement));
-      }
-      */
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -141,7 +142,8 @@ export default {
 
     // TODO only game core stuff (ie ticks) should be in here, everything else in components
     think() {
-      this.ideas = this.ideas.plus(1);
+      const ideaCount = this.buzzActive() ? 2 : 1;
+      this.ideas = this.ideas.plus(ideaCount);
       // this.$store.commit('incrementWords', 1);
     },
     write() {
@@ -150,13 +152,16 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      this.words = this.words.plus(this.randomInt(this.baseWrite, this.maxWrite));
+      this.words = this.words.plus(utils.randomInt(this.baseWrite, this.maxWrite));
     },
     coffee() {
       if (this.caffeineEndTime < this.lastFrame) {
         this.caffeineEndTime = this.lastFrame + this.caffeineTime * 1000;
       } else {
         this.caffeineEndTime += this.caffeineTime * 1000;
+        if ((this.caffeineEndTime - this.lastFrame) / 1000 > this.caffeineMaxTime) {
+          this.caffeineEndTime = this.lastFrame + this.caffeineMaxTime * 1000;
+        }
       }
     },
     buzzActive() {
@@ -166,31 +171,17 @@ export default {
       return this.$options.filters.round((this.caffeineEndTime - this.lastFrame) / 1000);
     },
 
+    hireChild() {
+      this.children = this.children.plus(1);
+    },
     hireStudent() {
       this.students = this.students.plus(1);
-    },
-    hireEditor() {
-      this.editors = this.editors.plus(1);
-    },
-
-    randomInt(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1)) + min;
     },
   },
 };
 </script>
 
 <style lang="scss">
-.ideas {
-  margin-bottom: 8px;
-}
-
-.think, .write {
-  margin-bottom: 20px;
-}
-
 .production {
   margin: 0 auto;
   width: 800px;
