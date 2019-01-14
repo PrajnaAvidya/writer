@@ -155,20 +155,20 @@ export default {
       this.words = this.words.plus(utils.randomInt(this.baseWrite, this.maxWrite));
     },
     coffee() {
-      if (this.caffeineEndTime < this.lastFrame) {
-        this.caffeineEndTime = this.lastFrame + this.caffeineTime * 1000;
+      if (!this.buzzActive()) {
+        this.caffeineEndTime = utils.unixTimestamp() + this.caffeineTime;
       } else {
-        this.caffeineEndTime += this.caffeineTime * 1000;
-        if ((this.caffeineEndTime - this.lastFrame) / 1000 > this.caffeineMaxTime) {
-          this.caffeineEndTime = this.lastFrame + this.caffeineMaxTime * 1000;
+        this.caffeineEndTime += this.caffeineTime;
+        if (this.caffeineEndTime - utils.unixTimestamp() > this.caffeineMaxTime) {
+          this.caffeineEndTime = this.lastFrame + this.caffeineMaxTime;
         }
       }
     },
     buzzActive() {
-      return this.caffeineEndTime > this.lastFrame;
+      return this.caffeineEndTime > utils.unixTimestamp();
     },
     buzzRemaining() {
-      return this.$options.filters.round((this.caffeineEndTime - this.lastFrame) / 1000);
+      return this.caffeineEndTime - utils.unixTimestamp();
     },
 
     hireChild() {

@@ -75,7 +75,6 @@ export default {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   },
 
-  // TODO use this for buzz and stuff
   unixTimestamp() {
     return Math.round((new Date()).getTime() / 1000);
   },
