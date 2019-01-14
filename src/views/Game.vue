@@ -1,39 +1,28 @@
 <template>
   <div class="game">
-    <div class="words">Words: {{ words | roundPositive }}</div>
-    <div class="draft">Draft: {{ draft | round }} words</div>
+    <div class="ideas">Ideas: {{ ideas | roundPositive }}</div>
+    <div class="draft">Words: {{ words | round }}</div>
 
     <div class="columns buttons">
+      <div class="column">
+        <b-tooltip
+          label="Think of ideas"
+          position="is-bottom"
+          class="think"
+        >
+          <a class="button is-primary is-large" @click="think">
+            <b-icon icon="brain" />
+          </a>
+        </b-tooltip>
+      </div>
       <div class="column">
         <b-tooltip
           label="Write some words"
           position="is-bottom"
           class="write"
         >
-          <a class="button is-primary" @click="write">
+          <a class="button is-primary is-large" @click="write">
             <b-icon icon="pen" />
-          </a>
-        </b-tooltip>
-      </div>
-      <div class="column">
-        <b-tooltip
-          label="Edit writing"
-          position="is-bottom"
-          class="write"
-        >
-          <a class="button is-primary" @click="edit">
-            <b-icon icon="paragraph" />
-          </a>
-        </b-tooltip>
-      </div>
-      <div class="column">
-        <b-tooltip
-          label="Edit writing"
-          position="is-bottom"
-          class="write"
-        >
-          <a class="button is-primary" @click="edit">
-            <b-icon icon="keyboard" />
           </a>
         </b-tooltip>
       </div>
@@ -48,6 +37,15 @@
       </div>
       <div class="column is-half">
         <span v-if="buzzActive()">Caffeine Buzz Remaining: {{ buzzRemaining() }} seconds</span>
+      </div>
+      <!-- /row -->
+
+            <!-- row -->
+      <div class="column is-half">
+        <a class="button" @click="hireStudent">Hire Student</a>
+      </div>
+      <div class="column is-half">
+        <span v-if="students > 0">Students: {{ students | round }}</span>
       </div>
       <!-- /row -->
 
@@ -70,15 +68,17 @@ import Big from 'big.js';
 export default {
   name: 'game',
   data: () => ({
+    // currencies
+    ideas: Big(0),
     words: Big(0),
-    baseWords: Big(1),
-    maxWords: Big(2),
-    draft: Big(0),
-    baseEdit: Big(1),
-    maxEdit: Big(4),
 
+    baseWrite: Big(1),
+    maxWrite: Big(5),
+
+    students: Big(0),
     editors: Big(0),
 
+    // used for tick function
     lastFrame: null,
 
     // caffeine
@@ -113,35 +113,44 @@ export default {
       // how much to divide progress current tick
       const frameDivision = Big(1000).div(progress);
 
-      // TODO actual frame updates
+      // actual frame updates
       const frameIncrement = Big(1).div(frameDivision);
+
+      // caffeine buzz
       if (this.buzzActive()) {
-        this.words = this.words.plus(frameIncrement);
+        this.ideas = this.ideas.plus(frameIncrement);
       }
 
+      // students
+      if (this.students.gt(0) && this.ideas.gt(frameIncrement)) {
+        this.ideas = this.ideas.minus(this.students.times(frameIncrement));
+        this.words = this.words.plus(this.students.times(frameIncrement));
+      }
+
+      // editors
+      /*
       if (this.editors.gt(0) && this.words.gt(frameIncrement)) {
         this.words = this.words.minus(this.editors.times(frameIncrement));
         this.draft = this.draft.plus(this.editors.times(frameIncrement));
       }
+      */
 
       // get next frame
       window.requestAnimationFrame(this.tick);
     },
 
     // TODO only game core stuff (ie ticks) should be in here, everything else in components
-    write() {
-      const words = this.randomInt(this.baseWords, this.maxWords);
-      this.words = this.words.plus(words);
+    think() {
+      this.ideas = this.ideas.plus(1);
       // this.$store.commit('incrementWords', 1);
     },
-    edit() {
-      let words = this.randomInt(this.baseEdit, this.maxEdit);
-      if (words > this.words) {
-        // this is weird af but what airbnb style guide wants me to do
-        ({ words } = this);
+    write() {
+      if (this.ideas.lt(1)) {
+        return;
       }
-      this.draft = this.draft.plus(words);
-      this.words = this.words.minus(words);
+
+      this.ideas = this.ideas.minus(1);
+      this.words = this.words.plus(this.randomInt(this.baseWrite, this.maxWrite));
     },
     coffee() {
       if (this.caffeineEndTime < this.lastFrame) {
@@ -155,6 +164,10 @@ export default {
     },
     buzzRemaining() {
       return this.$options.filters.round((this.caffeineEndTime - this.lastFrame) / 1000);
+    },
+
+    hireStudent() {
+      this.students = this.students.plus(1);
     },
     hireEditor() {
       this.editors = this.editors.plus(1);
@@ -170,15 +183,11 @@ export default {
 </script>
 
 <style lang="scss">
-.words {
+.ideas {
   margin-bottom: 8px;
 }
 
-.draft {
-  margin-bottom: 15px;
-}
-
-.write {
+.think, .write {
   margin-bottom: 20px;
 }
 

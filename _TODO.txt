@@ -1,5 +1,5 @@
 periodic vuex updates
 save game to localstorage
 figure out how to move "engine" outside of vue into an external js/module to reference
-
+buzz: length, value, multiplier
 some sort of quality/creativity average for words written
