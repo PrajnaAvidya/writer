@@ -28,6 +28,14 @@
 
     <hr />
 
+    <div class="buy-amounts">
+      <b-tabs size="is-small" type="is-toggle" @change="setBuyAmount($event)">
+        <b-tab-item label="Buy 1"></b-tab-item>
+        <b-tab-item label="Buy 10"></b-tab-item>
+        <b-tab-item label="Buy 100"></b-tab-item>
+      </b-tabs>
+    </div>
+
     <div class="production columns is-multiline">
       <!-- row -->
       <div class="column is-half">
@@ -79,6 +87,8 @@ export default {
 
     students: Big(0),
     studentWords: Big(1),
+
+    buyAmount: 1,
 
     // used for tick function
     lastFrame: null,
@@ -172,10 +182,14 @@ export default {
     },
 
     hireChild() {
-      this.children = this.children.plus(1);
+      this.children = this.children.plus(this.buyAmount);
     },
     hireStudent() {
-      this.students = this.students.plus(1);
+      this.students = this.students.plus(this.buyAmount);
+    },
+
+    setBuyAmount(index) {
+      this.buyAmount = 10 ** index;
     },
   },
 };
@@ -189,5 +203,9 @@ export default {
 .buttons {
   margin: 0 auto;
   width: 200px;
+}
+.buy-amounts {
+  width: 200px;
+  margin: 0 auto;
 }
 </style>
