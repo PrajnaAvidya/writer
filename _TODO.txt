@@ -2,6 +2,7 @@ core todo:
 periodic vuex updates
 save/load (+ autosave) using localforage
 figure out how to move "engine" outside of vue into an external js/module to reference
+remove router (or use it for something)
 
 ideas:
 recurring costs for hired people -- they quit if you can't pay them. or alternately they are "contractors" and only work for a certain amount of time.

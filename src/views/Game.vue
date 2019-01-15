@@ -228,7 +228,8 @@ export default {
       this.calculateBuyCosts();
     },
     buyCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10))
+        .minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
     },
     calculateBuyCosts() {
       this.childCurrentCost = this.buyCost(this.childBaseCost, this.children, this.childCostMultiplier);
