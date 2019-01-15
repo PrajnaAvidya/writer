@@ -26,6 +26,8 @@
       </div>
     </div>
 
+    <div class="money">Money: {{ money | currency }}</div>
+
     <hr />
 
     <div class="buy-amounts">
@@ -78,9 +80,10 @@ export default {
     // currencies
     ideas: Big(0),
     words: Big(0),
+    money: Big(100),
 
     baseWrite: Big(1),
-    maxWrite: Big(5),
+    maxWrite: Big(3),
 
     children: Big(0),
     childIdeas: Big(1),
@@ -162,9 +165,16 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      this.words = this.words.plus(utils.randomInt(this.baseWrite, this.maxWrite));
+      let words = utils.randomInt(this.baseWrite, this.maxWrite);
+      if (this.buzzActive()) {
+        words *= 2;
+      }
+      this.words = this.words.plus(words);
     },
     coffee() {
+      if (this.money.lt(1)) {
+        return;
+      }
       if (!this.buzzActive()) {
         this.caffeineEndTime = utils.unixTimestamp() + this.caffeineTime;
       } else {
@@ -173,6 +183,8 @@ export default {
           this.caffeineEndTime = utils.unixTimestamp() + this.caffeineMaxTime;
         }
       }
+
+      this.money = this.money.minus(1);
     },
     buzzActive() {
       return this.caffeineEndTime > utils.unixTimestamp();

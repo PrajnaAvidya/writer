@@ -3,3 +3,4 @@ import utils from './utils';
 
 Vue.filter('round', value => utils.round(value));
 Vue.filter('roundPositive', value => utils.round(value, { alwaysPositive: true }));
+Vue.filter('currency', value => `$${utils.round(value)}`);
