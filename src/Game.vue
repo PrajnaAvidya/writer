@@ -122,11 +122,11 @@ export default {
       // set current frame
       this.lastFrame = timestamp;
 
-      // how much to divide progress current tick
-      const frameDivision = Big(1000).div(progress);
-      const frameIncrement = Big(1).div(frameDivision);
+      // how much to divide progress for current tick
+      const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
+      /*
       let words = Big(0);
 
       // caffeine buzz
@@ -135,7 +135,6 @@ export default {
       }
 
       // children
-      /*
       if (this.children.gt(0)) {
         this.ideas = this.ideas.plus(this.children.times(frameIncrement).times(this.childIdeas));
       }
@@ -145,13 +144,13 @@ export default {
         this.ideas = this.ideas.minus(this.students.times(frameIncrement).times(this.studentWords));
         words = words.plus(this.students.times(frameIncrement).times(this.studentWords));
       }
-      */
 
       if (this.jobActive) {
         this.jobWords = this.jobWords.plus(words);
       } else {
         this.words = this.words.plus(words);
       }
+      */
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -233,6 +232,8 @@ export default {
           cost: worker.baseCost,
           baseCost: worker.baseCost,
           costMultiplier: worker.costMultiplier,
+          productivity: worker.productivity,
+          quality: worker.quality,
         };
       });
     },
@@ -242,6 +243,7 @@ export default {
       ids.forEach((id) => {
         workers[id].cost = this.buyCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
       });
+      // have to re-assign whole workers object to trigger reactivity
       this.workers = Object.assign({}, workers);
     },
     // jobs
