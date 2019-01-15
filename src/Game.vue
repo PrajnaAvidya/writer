@@ -40,6 +40,7 @@ import Big from 'big.js';
 import utils from './utils';
 // import { mapGetters } from 'vuex';
 
+// components
 import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
@@ -61,31 +62,35 @@ export default {
     words: Big(0),
     money: Big(1000),
 
+    // player writing range
     baseWrite: Big(1),
     maxWrite: Big(3),
-
-    children: Big(0),
-    childIdeas: Big(1),
-    childBaseCost: Big(10),
-    childCostMultiplier: 0.1,
-    childCurrentCost: Big(10),
-
-    students: Big(0),
-    studentWords: Big(1),
-    studentBaseCost: Big(100),
-    studentCostMultiplier: 0.15,
-    studentCurrentCost: Big(100),
-
-    buyAmount: 1,
-
-    // used for tick function
-    lastFrame: null,
 
     // caffeine
     caffeineTime: 60,
     caffeineMaxTime: 300,
     caffeineEndTime: -1,
     caffeineMultiplier: Big(1),
+
+    // children
+    children: Big(0),
+    childIdeas: Big(1),
+    childBaseCost: Big(10),
+    childCostMultiplier: 0.1,
+    childCurrentCost: Big(10),
+
+    // students
+    students: Big(0),
+    studentWords: Big(1),
+    studentBaseCost: Big(100),
+    studentCostMultiplier: 0.15,
+    studentCurrentCost: Big(100),
+
+    // number of things to buy
+    buyAmount: 1,
+
+    // used for tick function
+    lastFrame: null,
   }),
   /*
   computed: {
