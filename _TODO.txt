@@ -3,4 +3,6 @@ save/load (+ autosave) using localforage
 figure out how to move "engine" outside of vue into an external js/module to reference
 
 ideas:
+money currency
+"assignment" system to get paid for short pieces in early game (to buy/hire stuff)
 some sort of quality/creativity average for words written
