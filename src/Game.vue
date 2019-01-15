@@ -1,5 +1,13 @@
 <template>
   <div id="game">
+    <jobs-grid
+      @startJob="startJob"
+      @finishJob="finishJob"
+      :words="jobWords"
+    />
+
+    <hr />
+
     <stat-display
       :ideas="ideas"
       :words="words"
@@ -44,6 +52,7 @@ import utils from './utils';
 import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
+import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
 import StatDisplay from './components/StatDisplay.vue';
 
@@ -53,6 +62,7 @@ export default {
     BuyAmounts,
     CaffeineBuzz,
     CreativeButtons,
+    JobsGrid,
     ProductionGrid,
     StatDisplay,
   },
@@ -60,7 +70,11 @@ export default {
     // currencies
     ideas: Big(0),
     words: Big(0),
-    money: Big(1000),
+    money: Big(20),
+
+    // jobs
+    jobWords: Big(0),
+    jobActive: false,
 
     // player writing range
     baseWrite: Big(1),
@@ -121,9 +135,10 @@ export default {
 
       // how much to divide progress current tick
       const frameDivision = Big(1000).div(progress);
-
-      // actual frame updates
       const frameIncrement = Big(1).div(frameDivision);
+
+      // start actual frame updates
+      let words = Big(0);
 
       // caffeine buzz
       if (this.buzzActive()) {
@@ -138,7 +153,13 @@ export default {
       // students
       if (this.students.gt(0) && this.ideas.gt(frameIncrement)) {
         this.ideas = this.ideas.minus(this.students.times(frameIncrement).times(this.studentWords));
-        this.words = this.words.plus(this.students.times(frameIncrement).times(this.studentWords));
+        words = words.plus(this.students.times(frameIncrement).times(this.studentWords));
+      }
+
+      if (this.jobActive) {
+        this.jobWords = this.jobWords.plus(words);
+      } else {
+        this.words = this.words.plus(words);
       }
 
       // get next frame
@@ -161,10 +182,15 @@ export default {
       if (this.buzzActive()) {
         words *= 2;
       }
-      this.words = this.words.plus(words);
+
+      if (this.jobActive) {
+        this.jobWords = this.jobWords.plus(words);
+      } else {
+        this.words = this.words.plus(words);
+      }
     },
     coffee() {
-      if (this.money.lt(1) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
+      if (this.money.lt(2) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
         return;
       }
       if (!this.buzzActive()) {
@@ -176,7 +202,7 @@ export default {
         }
       }
 
-      this.money = this.money.minus(1);
+      this.money = this.money.minus(2);
     },
     buzzActive() {
       return this.caffeineEndTime > utils.unixTimestamp();
@@ -212,6 +238,20 @@ export default {
     calculateBuyCosts() {
       this.childCurrentCost = this.buyCost(this.childBaseCost, this.children, this.childCostMultiplier);
       this.studentCurrentCost = this.buyCost(this.studentBaseCost, this.students, this.studentCostMultiplier);
+    },
+    resetWords() {
+      this.words = Big(0);
+    },
+    startJob() {
+      this.jobWords = Big(0);
+      this.jobActive = true;
+    },
+    finishJob(reward) {
+      if (reward.gt(0)) {
+        this.money = this.money.plus(reward);
+      }
+
+      this.jobActive = false;
     },
     // === end methods ===
   },
