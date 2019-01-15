@@ -1,9 +1,10 @@
+core todo:
 periodic vuex updates
 save/load (+ autosave) using localforage
 figure out how to move "engine" outside of vue into an external js/module to reference
 
 ideas:
-money currency
+recurring costs for hired people -- they quit if you can't pay them. or alternately they are "contractors" and only work for a certain amount of time.
 "assignment" system to get paid for short pieces in early game (to buy/hire stuff)
 some sort of quality/creativity average for words written
 instead of production tiers being resource specific, allow player to assign them to ideas vs words

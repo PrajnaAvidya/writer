@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <div class="money">Money: {{ money | currency }}</div>
+    <div class="money">Money: {{ money | money }}</div>
 
     <hr />
 
@@ -49,19 +49,25 @@
       <!-- /row -->
 
       <!-- row -->
-      <div class="column is-half">
+      <div class="column is-one-third">
         <a class="button" @click="hireChild">Hire Child</a>
       </div>
-      <div class="column is-half">
+      <div class="column is-one-third">
+        Cost {{ childCurrentCost | money }} for {{ buyAmount }}
+      </div>
+      <div class="column is-one-third">
         <span v-if="children > 0">Children: {{ children | round }}</span>
       </div>
       <!-- /row -->
 
       <!-- row -->
-      <div class="column is-half">
+      <div class="column is-one-third">
         <a class="button" @click="hireStudent">Hire Student</a>
       </div>
-      <div class="column is-half">
+      <div class="column is-one-third">
+        Cost {{ studentCurrentCost | money }} for {{ buyAmount }}
+      </div>
+      <div class="column is-one-third">
         <span v-if="students > 0">Students: {{ students | round }}</span>
       </div>
       <!-- /row -->
@@ -87,9 +93,15 @@ export default {
 
     children: Big(0),
     childIdeas: Big(1),
+    childBaseCost: Big(10),
+    childCostMultiplier: 0.1,
+    childCurrentCost: Big(10),
 
     students: Big(0),
     studentWords: Big(1),
+    studentBaseCost: Big(100),
+    studentCostMultiplier: 0.15,
+    studentCurrentCost: Big(100),
 
     buyAmount: 1,
 
@@ -111,6 +123,7 @@ export default {
   },
   */
   mounted() {
+    this.calculateBuyCosts();
     window.requestAnimationFrame(this.tick);
   },
   methods: {
@@ -194,14 +207,32 @@ export default {
     },
 
     hireChild() {
+      if (this.money.lt(this.childCurrentCost)) {
+        return;
+      }
+      this.money = this.money.minus(this.childCurrentCost);
       this.children = this.children.plus(this.buyAmount);
+      this.calculateBuyCosts();
     },
     hireStudent() {
+      if (this.money.lt(this.studentCurrentCost)) {
+        return;
+      }
+      this.money = this.money.minus(this.studentCurrentCost);
       this.students = this.students.plus(this.buyAmount);
+      this.calculateBuyCosts();
     },
 
     setBuyAmount(index) {
       this.buyAmount = 10 ** index;
+      this.calculateBuyCosts();
+    },
+    buyCost(baseCost, owned, costMultiplier) {
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
+    },
+    calculateBuyCosts() {
+      this.childCurrentCost = this.buyCost(this.childBaseCost, this.children, this.childCostMultiplier);
+      this.studentCurrentCost = this.buyCost(this.studentBaseCost, this.students, this.studentCostMultiplier);
     },
   },
 };
