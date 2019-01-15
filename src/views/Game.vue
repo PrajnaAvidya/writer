@@ -172,7 +172,7 @@ export default {
       this.words = this.words.plus(words);
     },
     coffee() {
-      if (this.money.lt(1)) {
+      if (this.money.lt(1) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
         return;
       }
       if (!this.buzzActive()) {
