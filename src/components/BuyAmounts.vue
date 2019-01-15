@@ -14,10 +14,13 @@
 
 <script>
 export default {
-
+  name: 'buy-amounts',
 };
 </script>
 
 <style lang="scss" scoped>
-
+.buy-amounts {
+  width: 200px;
+  margin: 0 auto;
+}
 </style>

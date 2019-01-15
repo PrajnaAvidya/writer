@@ -16,40 +16,24 @@
       @setBuyAmount="setBuyAmount"
     />
 
-    <div class="production columns is-multiline">
-      <!-- row -->
+    <div class="caffeine columns">
       <div class="column is-half">
         <a class="button" @click="coffee">Drink Coffee</a>
       </div>
       <div class="column is-half">
         <span v-if="buzzActive()">Caffeine Buzz Remaining: {{ buzzRemaining() }} seconds</span>
       </div>
-      <!-- /row -->
-
-      <!-- row -->
-      <div class="column is-one-third">
-        <a class="button" @click="hireChild">Hire Child</a>
-      </div>
-      <div class="column is-one-third">
-        Cost {{ childCurrentCost | money }} for {{ buyAmount }}
-      </div>
-      <div class="column is-one-third">
-        <span v-if="children > 0">Children: {{ children | round }}</span>
-      </div>
-      <!-- /row -->
-
-      <!-- row -->
-      <div class="column is-one-third">
-        <a class="button" @click="hireStudent">Hire Student</a>
-      </div>
-      <div class="column is-one-third">
-        Cost {{ studentCurrentCost | money }} for {{ buyAmount }}
-      </div>
-      <div class="column is-one-third">
-        <span v-if="students > 0">Students: {{ students | round }}</span>
-      </div>
-      <!-- /row -->
     </div>
+
+    <production-grid
+      @hireChild="hireChild"
+      @hireStudent="hireStudent"
+      :buyAmount="buyAmount"
+      :children="children"
+      :child-current-cost="childCurrentCost"
+      :students="students"
+      :studentCurrentCost="studentCurrentCost"
+    />
   </div>
 </template>
 
@@ -60,12 +44,14 @@ import utils from './utils';
 
 import BuyAmounts from './components/BuyAmounts.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
+import ProductionGrid from './components/ProductionGrid.vue';
 
 export default {
   name: 'game',
   components: {
     BuyAmounts,
     CreativeButtons,
+    ProductionGrid,
   },
   data: () => ({
     // currencies
@@ -112,6 +98,7 @@ export default {
     window.requestAnimationFrame(this.tick);
   },
   methods: {
+    // === start global update loop ===
     tick(timestamp) {
       // get time since last frame
       const progress = timestamp - this.lastFrame;
@@ -150,8 +137,9 @@ export default {
       // get next frame
       window.requestAnimationFrame(this.tick);
     },
+    // === end global update loop ===
 
-    // TODO only game core stuff (ie ticks) should be in here, everything else in components
+    // === start methods ===
     think() {
       const ideaCount = this.buzzActive() ? 2 : 1;
       this.ideas = this.ideas.plus(ideaCount);
@@ -189,11 +177,11 @@ export default {
     buzzRemaining() {
       return this.caffeineEndTime - utils.unixTimestamp();
     },
-
     hireChild() {
       if (this.money.lt(this.childCurrentCost)) {
         return;
       }
+
       this.money = this.money.minus(this.childCurrentCost);
       this.children = this.children.plus(this.buyAmount);
       this.calculateBuyCosts();
@@ -206,7 +194,6 @@ export default {
       this.students = this.students.plus(this.buyAmount);
       this.calculateBuyCosts();
     },
-
     setBuyAmount(index) {
       this.buyAmount = 10 ** index;
       this.calculateBuyCosts();
@@ -219,6 +206,7 @@ export default {
       this.childCurrentCost = this.buyCost(this.childBaseCost, this.children, this.childCostMultiplier);
       this.studentCurrentCost = this.buyCost(this.studentBaseCost, this.students, this.studentCostMultiplier);
     },
+    // === end methods ===
   },
 };
 </script>
@@ -227,16 +215,8 @@ export default {
 #game {
   text-align: center;
 }
-.production {
+.caffeine {
   margin: 0 auto;
-  width: 800px;
-}
-.buttons {
-  margin: 0 auto;
-  width: 200px;
-}
-.buy-amounts {
-  width: 200px;
-  margin: 0 auto;
+  width: 700px;
 }
 </style>
