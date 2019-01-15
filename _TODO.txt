@@ -9,5 +9,7 @@ should job words be a separate currency?
 recurring costs for hired people -- they quit if you can't pay them. or alternately they are "contractors" and only work for a certain amount of time (auto renew would be equivalent)
 "assignment" system to get paid for short pieces in early game (to buy/hire stuff)
 some sort of quality/creativity average for words written
+
+NEXT:
 instead of production tiers being resource specific, allow player to assign them to ideas vs words
 - maybe each tier has natural talents for each e.g. child is better at ideas, student is better at words

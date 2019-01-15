@@ -32,13 +32,9 @@
     />
 
     <production-grid
-      @hireChild="hireChild"
-      @hireStudent="hireStudent"
+      @hireWorker="hireWorker"
       :buyAmount="buyAmount"
-      :children="children"
-      :child-current-cost="childCurrentCost"
-      :students="students"
-      :studentCurrentCost="studentCurrentCost"
+      :workers="workers"
     />
   </div>
 </template>
@@ -46,6 +42,7 @@
 <script>
 import Big from 'big.js';
 import utils from './utils';
+import workerData from './data/workers';
 // import { mapGetters } from 'vuex';
 
 // components
@@ -86,19 +83,8 @@ export default {
     caffeineEndTime: -1,
     caffeineMultiplier: Big(1),
 
-    // children
-    children: Big(0),
-    childIdeas: Big(1),
-    childBaseCost: Big(10),
-    childCostMultiplier: 0.1,
-    childCurrentCost: Big(10),
-
-    // students
-    students: Big(0),
-    studentWords: Big(1),
-    studentBaseCost: Big(100),
-    studentCostMultiplier: 0.15,
-    studentCurrentCost: Big(100),
+    // workers (generated)
+    workers: {},
 
     // number of things to buy
     buyAmount: 1,
@@ -114,8 +100,11 @@ export default {
     ]),
   },
   */
-  mounted() {
+  created() {
+    this.generateWorkerData();
     this.calculateBuyCosts();
+  },
+  mounted() {
     window.requestAnimationFrame(this.tick);
   },
   methods: {
@@ -146,6 +135,7 @@ export default {
       }
 
       // children
+      /*
       if (this.children.gt(0)) {
         this.ideas = this.ideas.plus(this.children.times(frameIncrement).times(this.childIdeas));
       }
@@ -155,6 +145,7 @@ export default {
         this.ideas = this.ideas.minus(this.students.times(frameIncrement).times(this.studentWords));
         words = words.plus(this.students.times(frameIncrement).times(this.studentWords));
       }
+      */
 
       if (this.jobActive) {
         this.jobWords = this.jobWords.plus(words);
@@ -210,38 +201,50 @@ export default {
     buzzRemaining() {
       return this.caffeineEndTime - utils.unixTimestamp();
     },
-    hireChild() {
-      if (this.money.lt(this.childCurrentCost)) {
-        return;
-      }
-
-      this.money = this.money.minus(this.childCurrentCost);
-      this.children = this.children.plus(this.buyAmount);
-      this.calculateBuyCosts();
-    },
-    hireStudent() {
-      if (this.money.lt(this.studentCurrentCost)) {
-        return;
-      }
-      this.money = this.money.minus(this.studentCurrentCost);
-      this.students = this.students.plus(this.buyAmount);
-      this.calculateBuyCosts();
-    },
     setBuyAmount(index) {
       this.buyAmount = 10 ** index;
       this.calculateBuyCosts();
     },
     buyCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10))
-        .minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned + this.buyAmount, 10))
+        .minus(Big(1 + costMultiplier).pow(owned))).div(costMultiplier).round();
+    },
+    // workers
+    hireWorker(id) {
+      // check if can afford
+      if (this.money.lt(this.workers[id].cost)) {
+        return;
+      }
+
+      // buy & increment
+      this.money = this.money.minus(this.workers[id].cost);
+      this.workers[id].count += this.buyAmount;
+
+      // recalculate costs
+      this.calculateBuyCosts();
+    },
+    generateWorkerData() {
+      workerData.forEach((worker) => {
+        this.workers[worker.id] = {
+          id: worker.id,
+          name: worker.name,
+          plural: worker.plural,
+          count: 0,
+          cost: worker.baseCost,
+          baseCost: worker.baseCost,
+          costMultiplier: worker.costMultiplier,
+        };
+      });
     },
     calculateBuyCosts() {
-      this.childCurrentCost = this.buyCost(this.childBaseCost, this.children, this.childCostMultiplier);
-      this.studentCurrentCost = this.buyCost(this.studentBaseCost, this.students, this.studentCostMultiplier);
+      const ids = Object.keys(this.workers);
+      const { workers } = this;
+      ids.forEach((id) => {
+        workers[id].cost = this.buyCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
+      });
+      this.workers = Object.assign({}, workers);
     },
-    resetWords() {
-      this.words = Big(0);
-    },
+    // jobs
     startJob() {
       this.jobWords = Big(0);
       this.jobActive = true;
