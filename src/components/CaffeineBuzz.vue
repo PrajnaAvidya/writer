@@ -1,7 +1,7 @@
 <template>
   <div class="caffeine columns">
     <div class="column is-half">
-      <a class="button" @click="$emit('coffee')">Drink Coffee</a>
+      <a class="button" @click="$emit('coffee')">Drink Coffee ($2)</a>
     </div>
     <div class="column is-half">
       <span v-if="buzzActive">Caffeine Buzz Remaining: {{ buzzRemaining }} seconds</span>

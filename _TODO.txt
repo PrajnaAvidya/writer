@@ -2,8 +2,10 @@ core todo:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
 favicon
+color scheme
 
 ideas:
+should job words be a separate currency?
 recurring costs for hired people -- they quit if you can't pay them. or alternately they are "contractors" and only work for a certain amount of time (auto renew would be equivalent)
 "assignment" system to get paid for short pieces in early game (to buy/hire stuff)
 some sort of quality/creativity average for words written
