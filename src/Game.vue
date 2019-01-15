@@ -1,14 +1,15 @@
 <template>
   <div id="game">
-    <div class="ideas">Ideas: {{ ideas | roundPositive }}</div>
-    <div class="draft">Words: {{ words | round }}</div>
+    <stat-display
+      :ideas="ideas"
+      :words="words"
+      :money="money"
+    />
 
     <creative-buttons
       @think="think"
       @write="write"
     />
-
-    <div class="money">Money: {{ money | money }}</div>
 
     <hr />
 
@@ -16,14 +17,11 @@
       @setBuyAmount="setBuyAmount"
     />
 
-    <div class="caffeine columns">
-      <div class="column is-half">
-        <a class="button" @click="coffee">Drink Coffee</a>
-      </div>
-      <div class="column is-half">
-        <span v-if="buzzActive()">Caffeine Buzz Remaining: {{ buzzRemaining() }} seconds</span>
-      </div>
-    </div>
+    <caffeine-buzz
+      @coffee="coffee"
+      :buzzActive="buzzActive()"
+      :buzzRemaining="buzzRemaining()"
+    />
 
     <production-grid
       @hireChild="hireChild"
@@ -43,15 +41,19 @@ import utils from './utils';
 // import { mapGetters } from 'vuex';
 
 import BuyAmounts from './components/BuyAmounts.vue';
+import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
+import StatDisplay from './components/StatDisplay.vue';
 
 export default {
   name: 'game',
   components: {
     BuyAmounts,
+    CaffeineBuzz,
     CreativeButtons,
     ProductionGrid,
+    StatDisplay,
   },
   data: () => ({
     // currencies
@@ -214,9 +216,5 @@ export default {
 <style lang="scss">
 #game {
   text-align: center;
-}
-.caffeine {
-  margin: 0 auto;
-  width: 700px;
 }
 </style>
