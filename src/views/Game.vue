@@ -86,7 +86,7 @@ export default {
     // currencies
     ideas: Big(0),
     words: Big(0),
-    money: Big(100),
+    money: Big(1000),
 
     baseWrite: Big(1),
     maxWrite: Big(3),
