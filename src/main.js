@@ -3,9 +3,7 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 
 import Vue from 'vue';
 import Buefy from 'buefy';
-
-import App from './App.vue';
-import router from './router';
+import Game from './Game.vue';
 import store from './store';
 import './filters';
 
@@ -16,7 +14,6 @@ Vue.use(Buefy, {
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
   store,
-  render: h => h(App),
-}).$mount('#app');
+  render: h => h(Game),
+}).$mount('#game');

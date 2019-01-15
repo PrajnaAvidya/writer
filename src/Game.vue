@@ -1,5 +1,5 @@
 <template>
-  <div class="game">
+  <div id="game">
     <div class="ideas">Ideas: {{ ideas | roundPositive }}</div>
     <div class="draft">Words: {{ words | round }}</div>
 
@@ -77,7 +77,7 @@
 
 <script>
 import Big from 'big.js';
-import utils from '../utils';
+import utils from './utils';
 // import { mapGetters } from 'vuex';
 
 export default {
@@ -240,6 +240,9 @@ export default {
 </script>
 
 <style lang="scss">
+#game {
+  text-align: center;
+}
 .production {
   margin: 0 auto;
   width: 800px;

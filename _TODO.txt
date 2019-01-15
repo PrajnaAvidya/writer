@@ -1,7 +1,6 @@
 core todo:
-periodic vuex updates
+vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
-remove router (or use it for something) - maybe areas: home/writing, job board, employee management
 favicon
 
 ideas:
