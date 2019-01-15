@@ -3,40 +3,18 @@
     <div class="ideas">Ideas: {{ ideas | roundPositive }}</div>
     <div class="draft">Words: {{ words | round }}</div>
 
-    <div class="columns buttons">
-      <div class="column">
-        <b-tooltip
-          label="Think of ideas"
-          position="is-bottom"
-        >
-          <a class="button is-primary is-large" @click="think">
-            <b-icon icon="brain" />
-          </a>
-        </b-tooltip>
-      </div>
-      <div class="column">
-        <b-tooltip
-          label="Write some words"
-          position="is-bottom"
-        >
-          <a class="button is-primary is-large" @click="write">
-            <b-icon icon="pen" />
-          </a>
-        </b-tooltip>
-      </div>
-    </div>
+    <creative-buttons
+      @think="think"
+      @write="write"
+    />
 
     <div class="money">Money: {{ money | money }}</div>
 
     <hr />
 
-    <div class="buy-amounts">
-      <b-tabs size="is-small" type="is-toggle" @change="setBuyAmount($event)">
-        <b-tab-item label="Buy 1"></b-tab-item>
-        <b-tab-item label="Buy 10"></b-tab-item>
-        <b-tab-item label="Buy 100"></b-tab-item>
-      </b-tabs>
-    </div>
+    <buy-amounts
+      @setBuyAmount="setBuyAmount"
+    />
 
     <div class="production columns is-multiline">
       <!-- row -->
@@ -80,8 +58,15 @@ import Big from 'big.js';
 import utils from './utils';
 // import { mapGetters } from 'vuex';
 
+import BuyAmounts from './components/BuyAmounts.vue';
+import CreativeButtons from './components/CreativeButtons.vue';
+
 export default {
   name: 'game',
+  components: {
+    BuyAmounts,
+    CreativeButtons,
+  },
   data: () => ({
     // currencies
     ideas: Big(0),
@@ -170,7 +155,6 @@ export default {
     think() {
       const ideaCount = this.buzzActive() ? 2 : 1;
       this.ideas = this.ideas.plus(ideaCount);
-      // this.$store.commit('incrementWords', 1);
     },
     write() {
       if (this.ideas.lt(1)) {
