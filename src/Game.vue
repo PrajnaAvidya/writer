@@ -126,13 +126,14 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
-      /*
-      let words = Big(0);
 
       // caffeine buzz
       if (this.buzzActive()) {
         this.ideas = this.ideas.plus(this.caffeineMultiplier.times(frameIncrement));
       }
+
+      /*
+      let words = Big(0);
 
       // children
       if (this.children.gt(0)) {

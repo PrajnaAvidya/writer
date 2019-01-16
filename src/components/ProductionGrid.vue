@@ -1,15 +1,38 @@
 <template>
   <div>
-    <div v-for="worker in workers" :key="worker.id" class="production columns">
-      <div class="column">
-        <a class="button" @click="$emit('hireWorker', worker.id)">Hire {{ worker.name }}</a>
+    <div v-for="worker in workers" :key="worker.id" class="production">
+      <div class="columns">
+        <div class="column">
+          <a class="button" @click="$emit('hireWorker', worker.id)">Hire {{ worker.name }}</a>
+        </div>
+        <div class="column">
+          Cost {{ worker.cost | money }} for {{ buyAmount }}
+        </div>
+        <div class="column">
+          <span v-if="worker.count > 0">{{ worker.plural }}: {{ worker.count }}</span>
+        </div>
       </div>
-      <div class="column">
-        Cost {{ worker.cost | money }} for {{ buyAmount }}
+
+      <div v-if="worker.count > 0" class="columns worker-balance">
+        <div class="column">
+          Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
+        </div>
+        <div class="column">
+          <vue-slide-bar
+            v-model="assignments[worker.id]"
+            :min="0"
+            :max="10"
+            :lineHeight="slider.lineHeight"
+            :processStyle="slider.processStyle"
+            :tooltipStyles="slider.tooltipStyles"
+          >
+          </vue-slide-bar>
+        </div>
+        <div class="column">
+          Words: {{ 10 * assignments[worker.id] }}%
+        </div>
       </div>
-      <div class="column">
-        <span v-if="worker.count > 0">{{ worker.plural }}: {{ worker.count }} TODO ASSIGNMENTS</span>
-      </div>
+      <hr />
     </div>
   </div>
 </template>
@@ -20,6 +43,32 @@ export default {
   props: {
     buyAmount: Number,
     workers: Object,
+  },
+  data: () => ({
+    assignments: {
+      child: 0,
+      student: 0,
+    },
+    slider: {
+      lineHeight: 8,
+      processStyle: {
+        backgroundColor: '#7957d5',
+      },
+      tooltipStyles: {
+        backgroundColor: '#7957d5',
+        borderColor: '#7957d5',
+        color: '#7957d5',
+      },
+    },
+  }),
+  watch: {
+    assignments: {
+      handler(val) {
+        console.log(val);
+        // TODO send new balance values to Game
+      },
+      deep: true,
+    },
   },
 };
 </script>

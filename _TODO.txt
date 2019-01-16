@@ -4,6 +4,9 @@ save/load (+ autosave) using localforage
 favicon
 color scheme
 
+misc todo:
+strikethrough main word count when on job
+
 ideas:
 should job words be a separate currency?
 recurring costs for hired people -- they quit if you can't pay them. or alternately they are "contractors" and only work for a certain amount of time (auto renew would be equivalent)
@@ -11,8 +14,9 @@ recurring costs for hired people -- they quit if you can't pay them. or alternat
 some sort of quality/creativity average for words written
 job reward % based on quality level
 quality for ideas too? (higher quality = more words)
-- start treating ideas as individual entities instead of a currency
+- maybe start treating ideas as individual entities instead of a currency? is that too complex?
 
 CURRENT: re-implementing workers
 - ability/ui to assign workers to ideas vs words
 - base producitivy + quality scores for ideas vs words
+- accordion for slider view
