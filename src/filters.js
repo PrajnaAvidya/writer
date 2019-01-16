@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import utils from './utils';
+import round from './utils/round';
 
-Vue.filter('round', value => utils.round(value));
-Vue.filter('roundPositive', value => utils.round(value, { alwaysPositive: true }));
-Vue.filter('money', value => `$${utils.round(value)}`);
+Vue.filter('round', value => round(value));
+Vue.filter('roundPositive', value => round(value, { alwaysPositive: true }));
+Vue.filter('money', value => `$${round(value)}`);

@@ -16,7 +16,10 @@ job reward % based on quality level
 quality for ideas too? (higher quality = more words)
 - maybe start treating ideas as individual entities instead of a currency? is that too complex?
 
+future ideas:
+a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
+
 CURRENT: re-implementing workers
-- ability/ui to assign workers to ideas vs words
+-- need to parse this data in game.vue and calculate worker contributions in tick
 - base producitivy + quality scores for ideas vs words
 - accordion for slider view

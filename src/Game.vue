@@ -40,11 +40,11 @@
 </template>
 
 <script>
+// libraries/utils
 import Big from 'big.js';
-import utils from './utils';
-import workerData from './data/workers';
-// import { mapGetters } from 'vuex';
-
+import generateWorkerData from './utils/generateWorkerData';
+import randomInt from './utils/randomInt';
+import unixTimestamp from './utils/unixTimestamp';
 // components
 import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
@@ -52,6 +52,8 @@ import CreativeButtons from './components/CreativeButtons.vue';
 import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
 import StatDisplay from './components/StatDisplay.vue';
+// data
+import defaultData from './data/defaultGameData';
 
 export default {
   name: 'game',
@@ -63,45 +65,9 @@ export default {
     ProductionGrid,
     StatDisplay,
   },
-  data: () => ({
-    // currencies
-    ideas: Big(0),
-    words: Big(0),
-    money: Big(20),
-
-    // jobs
-    jobWords: Big(0),
-    jobActive: false,
-
-    // player writing range
-    baseWrite: Big(1),
-    maxWrite: Big(3),
-
-    // caffeine
-    caffeineTime: 60,
-    caffeineMaxTime: 300,
-    caffeineEndTime: -1,
-    caffeineMultiplier: Big(1),
-
-    // workers (generated)
-    workers: {},
-
-    // number of things to buy
-    buyAmount: 1,
-
-    // used for tick function
-    lastFrame: null,
-  }),
-  /*
-  computed: {
-    ...mapGetters([
-      // 'words',
-      // 'caffeine',
-    ]),
-  },
-  */
+  data: () => defaultData,
   created() {
-    this.generateWorkerData();
+    this.workers = generateWorkerData();
     this.calculateBuyCosts();
   },
   mounted() {
@@ -159,6 +125,7 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
+    // player input
     think() {
       const ideaCount = this.buzzActive() ? 2 : 1;
       this.ideas = this.ideas.plus(ideaCount);
@@ -169,7 +136,7 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      let words = utils.randomInt(this.baseWrite, this.maxWrite);
+      let words = randomInt(this.baseWrite, this.maxWrite);
       if (this.buzzActive()) {
         words *= 2;
       }
@@ -180,36 +147,33 @@ export default {
         this.words = this.words.plus(words);
       }
     },
+    // caffeine
     coffee() {
       if (this.money.lt(2) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
         return;
       }
       if (!this.buzzActive()) {
-        this.caffeineEndTime = utils.unixTimestamp() + this.caffeineTime;
+        this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
       } else {
         this.caffeineEndTime += this.caffeineTime;
-        if (this.caffeineEndTime - utils.unixTimestamp() > this.caffeineMaxTime) {
-          this.caffeineEndTime = utils.unixTimestamp() + this.caffeineMaxTime;
+        if (this.caffeineEndTime - unixTimestamp() > this.caffeineMaxTime) {
+          this.caffeineEndTime = unixTimestamp() + this.caffeineMaxTime;
         }
       }
 
       this.money = this.money.minus(2);
     },
     buzzActive() {
-      return this.caffeineEndTime > utils.unixTimestamp();
+      return this.caffeineEndTime > unixTimestamp();
     },
     buzzRemaining() {
-      return this.caffeineEndTime - utils.unixTimestamp();
+      return this.caffeineEndTime - unixTimestamp();
     },
+    // workers
     setBuyAmount(index) {
       this.buyAmount = 10 ** index;
       this.calculateBuyCosts();
     },
-    buyCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned + this.buyAmount, 10))
-        .minus(Big(1 + costMultiplier).pow(owned))).div(costMultiplier).round();
-    },
-    // workers
     hireWorker(id) {
       // check if can afford
       if (this.money.lt(this.workers[id].cost)) {
@@ -223,21 +187,6 @@ export default {
       // recalculate costs
       this.calculateBuyCosts();
     },
-    generateWorkerData() {
-      workerData.forEach((worker) => {
-        this.workers[worker.id] = {
-          id: worker.id,
-          name: worker.name,
-          plural: worker.plural,
-          count: 0,
-          cost: worker.baseCost,
-          baseCost: worker.baseCost,
-          costMultiplier: worker.costMultiplier,
-          productivity: worker.productivity,
-          quality: worker.quality,
-        };
-      });
-    },
     calculateBuyCosts() {
       const ids = Object.keys(this.workers);
       const { workers } = this;
@@ -246,6 +195,10 @@ export default {
       });
       // have to re-assign whole workers object to trigger reactivity
       this.workers = Object.assign({}, workers);
+    },
+    buyCost(baseCost, owned, costMultiplier) {
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned + this.buyAmount, 10))
+        .minus(Big(1 + costMultiplier).pow(owned))).div(costMultiplier).round();
     },
     // jobs
     startJob() {
@@ -256,7 +209,6 @@ export default {
       if (reward.gt(0)) {
         this.money = this.money.plus(reward);
       }
-
       this.jobActive = false;
     },
     // === end methods ===
