@@ -46,8 +46,8 @@ export default {
   },
   data: () => ({
     assignments: {
-      child: 0,
-      student: 0,
+      child: 5,
+      student: 5,
     },
     slider: {
       lineHeight: 8,
