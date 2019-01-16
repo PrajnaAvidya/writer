@@ -2,7 +2,7 @@
 
 import Big from 'big.js';
 
-export default function (value, userOptions = {}) {
+export default function (inputValue, userOptions = {}) {
   // get/combine default options
   const defaultOptions = {
     decimal: false, // show decimal for values under 100
@@ -13,14 +13,12 @@ export default function (value, userOptions = {}) {
   const options = Object.assign(defaultOptions, userOptions);
 
   // check if a number
-  if (Number.isNaN(value)) {
+  if (Number.isNaN(inputValue)) {
     return options.showNaN ? 'NaN' : 0;
   }
 
-  // convert to big.js if necessary
-  if (!(value instanceof Big)) {
-    value = Big(value);
-  }
+  // convert to big.js
+  const value = Big(inputValue);
 
   // check if negative
   if (options.alwaysPositive && value.lt(0)) {
@@ -46,8 +44,10 @@ export default function (value, userOptions = {}) {
   if (value.lt('1E36')) {
     const suffixes = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dec'];
     const suffix = suffixes[Math.floor((value.e) / 3)];
-    const sigFig = (value.e % 3);
+
+    const sigFig = value.e % 3;
     value.e = 3 + sigFig;
+
     return `${value.div(1000).toPrecision(4 + sigFig)} ${suffix}`;
   }
 
@@ -58,7 +58,7 @@ export default function (value, userOptions = {}) {
 
     const bigIndex = Math.floor((value.e - 33) / 30);
     const littleIndex = (Math.floor((value.e - 33) / 3) - 1) % 10;
-    const suffix = littleSuffixes[littleIndex] + bigSuffixes[bigIndex];
+    const suffix = `${littleSuffixes[littleIndex]}-${bigSuffixes[bigIndex]}`;
 
     const sigFig = value.e % 3;
     value.e = 3 + sigFig;

@@ -99,6 +99,7 @@ export default {
       }
 
       /*
+      // TODO new worker processing
       let words = Big(0);
 
       // children
@@ -188,9 +189,8 @@ export default {
       this.calculateBuyCosts();
     },
     calculateBuyCosts() {
-      const ids = Object.keys(this.workers);
       const { workers } = this;
-      ids.forEach((id) => {
+      Object.keys(this.workers).forEach((id) => {
         workers[id].cost = this.buyCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
       });
       // have to re-assign whole workers object to trigger reactivity
