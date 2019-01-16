@@ -1,26 +1,29 @@
-core todo:
+CORE TODO:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
 favicon
 color scheme
 
-misc todo/fixes:
-fix screen shifting from announcements
+MISC BUGS/FIXES:
+stop screen shifting from announcements
 
-ideas:
-recurring costs for hired people
+FEATURE IDEAS:
+efficiency stat for idea->word conversion
+- player (already have, need upgrades)
+- worker
+upgrades! (need some kind of story -- use $?)
+recurring costs for workers
 some sort of quality/creativity average for words written
-- workers can have word/idea quality stats
+- player + workers (and upgradeable for both)
 - job reward % based on quality level
 - quality for ideas too? (higher quality = more words)
--- maybe start treating ideas as individual entities instead of a currency? is that too complex?
--- probably easier/better to have an efficiency stat instead (for player + workers)
 
-future ideas/todo:
+WORKERS TODO:
+- idea vs word productivity stats
+- word quality stats
+- efficiency stat
+- accordion for slider view
+
+FUTURE IDEAS/TODO:
 generate jobs based on current progress
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
-
-CURRENT: re-implementing workers
-- idea->word efficiency stat. right now it's just 1 to 1.
-- productivity/efficiency scores for ideas vs words
-- accordion for slider view
