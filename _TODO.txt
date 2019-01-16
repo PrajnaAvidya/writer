@@ -8,15 +8,18 @@ MISC BUGS/FIXES:
 stop screen shifting from announcements
 
 FEATURE IDEAS:
+more carrots for improvement (study early progression of games)
 efficiency stat for idea->word conversion
 - player (already have, need upgrades)
 - worker
-upgrades! (need some kind of story -- use $?)
+reputation currency
+- get from finishing jobs -- more quality = more reputation
+- lose by failing jobs
+upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 - maybe make the slider feature an upgrade
 recurring costs for workers
-some sort of quality/creativity average for words written
-- player + workers (and upgradeable for both)
-- job reward % based on quality level
+"scrap" button to start job over
+- job time limits?
 
 WORKERS TODO:
 - idea vs word productivity stats
@@ -27,3 +30,9 @@ WORKERS TODO:
 FUTURE IDEAS/TODO:
 generate jobs based on current progress
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
+some sort of quality/creativity average for words written
+- minimum reputation for job completion
+- player + workers (and upgradeable for both)
+- job reward % based on quality level (reputation, not money)
+- "scrap" button to start job over
+-- job time limits?
