@@ -1,42 +1,86 @@
 <template>
-  <div class="production columns is-multiline">
-    <!-- row -->
-    <div class="column is-one-third">
-      <a class="button" @click="$emit('hireChild')">Hire Child</a>
-    </div>
-    <div class="column is-one-third">
-      Cost {{ childCurrentCost | money }} for {{ buyAmount }}
-    </div>
-    <div class="column is-one-third">
-      <span v-if="children.gt(0)">Children: {{ children | round }}</span>
-    </div>
-    <!-- /row -->
+  <div>
+    <div v-for="worker in workers" :key="worker.id" class="production">
+      <div class="columns">
+        <div class="column">
+          <a class="button" @click="$emit('hireWorker', worker.id)">Hire {{ worker.name }}</a>
+        </div>
+        <div class="column">
+          Cost {{ worker.cost | money }} for {{ buyAmount }}
+        </div>
+        <div class="column">
+          <span v-if="worker.count > 0">{{ worker.plural }}: {{ worker.count | round }}</span>
+        </div>
+      </div>
 
-    <!-- row -->
-    <div class="column is-one-third">
-      <a class="button" @click="$emit('hireStudent')">Hire Student</a>
+      <div v-if="worker.count > 0" class="columns worker-balance">
+        <div class="column">
+          Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
+        </div>
+        <div class="column">
+          <vue-slide-bar
+            v-model="assignments[worker.id]"
+            :min="0"
+            :max="10"
+            :lineHeight="slider.lineHeight"
+            :processStyle="slider.processStyle"
+            :tooltipStyles="slider.tooltipStyles"
+          >
+          </vue-slide-bar>
+        </div>
+        <div class="column">
+          Words: {{ 10 * assignments[worker.id] }}%
+        </div>
+      </div>
+      <hr />
     </div>
-    <div class="column is-one-third">
-      Cost {{ studentCurrentCost | money }} for {{ buyAmount }}
-    </div>
-    <div class="column is-one-third">
-      <span v-if="students.gt(0)">Students: {{ students | round }}</span>
-    </div>
-    <!-- /row -->
   </div>
 </template>
 
 <script>
-import Big from 'big.js';
-
 export default {
   name: 'production-grid',
   props: {
     buyAmount: Number,
-    children: Big,
-    childCurrentCost: Big,
-    students: Big,
-    studentCurrentCost: Big,
+    workers: Object,
+  },
+  data: () => ({
+    assignments: {
+      child: 0,
+      student: 0,
+    },
+    previousAssignments: {
+      child: 0,
+      student: 0,
+    },
+    slider: {
+      lineHeight: 8,
+      processStyle: {
+        backgroundColor: '#7957d5',
+      },
+      tooltipStyles: {
+        backgroundColor: '#7957d5',
+        borderColor: '#7957d5',
+        color: '#7957d5',
+      },
+    },
+  }),
+  watch: {
+    assignments: {
+      handler(val) {
+        Object.keys(this.assignments).forEach((workerId) => {
+          if (this.assignments[workerId] !== this.previousAssignments[workerId]) {
+            const balance = val[workerId];
+
+            // send new balance value to Game
+            this.$emit('updateWorkerBalance', { workerId, balance });
+
+            this.previousAssignments[workerId] = val[workerId];
+          }
+        });
+      },
+      deep: true,
+    },
   },
 };
 </script>

@@ -12,6 +12,7 @@
       :ideas="ideas"
       :words="words"
       :money="money"
+      :jobActive="jobActive"
     />
 
     <creative-buttons
@@ -32,22 +33,20 @@
     />
 
     <production-grid
-      @hireChild="hireChild"
-      @hireStudent="hireStudent"
+      @hireWorker="hireWorker"
+      @updateWorkerBalance="updateWorkerBalance"
       :buyAmount="buyAmount"
-      :children="children"
-      :child-current-cost="childCurrentCost"
-      :students="students"
-      :studentCurrentCost="studentCurrentCost"
+      :workers="workers"
     />
   </div>
 </template>
 
 <script>
+// libraries/utils
 import Big from 'big.js';
-import utils from './utils';
-// import { mapGetters } from 'vuex';
-
+import generateWorkerData from './utils/generateWorkerData';
+import randomInt from './utils/randomInt';
+import unixTimestamp from './utils/unixTimestamp';
 // components
 import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
@@ -55,6 +54,8 @@ import CreativeButtons from './components/CreativeButtons.vue';
 import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
 import StatDisplay from './components/StatDisplay.vue';
+// data
+import defaultData from './data/defaultGameData';
 
 export default {
   name: 'game',
@@ -66,56 +67,12 @@ export default {
     ProductionGrid,
     StatDisplay,
   },
-  data: () => ({
-    // currencies
-    ideas: Big(0),
-    words: Big(0),
-    money: Big(20),
-
-    // jobs
-    jobWords: Big(0),
-    jobActive: false,
-
-    // player writing range
-    baseWrite: Big(1),
-    maxWrite: Big(3),
-
-    // caffeine
-    caffeineTime: 60,
-    caffeineMaxTime: 300,
-    caffeineEndTime: -1,
-    caffeineMultiplier: Big(1),
-
-    // children
-    children: Big(0),
-    childIdeas: Big(1),
-    childBaseCost: Big(10),
-    childCostMultiplier: 0.1,
-    childCurrentCost: Big(10),
-
-    // students
-    students: Big(0),
-    studentWords: Big(1),
-    studentBaseCost: Big(100),
-    studentCostMultiplier: 0.15,
-    studentCurrentCost: Big(100),
-
-    // number of things to buy
-    buyAmount: 1,
-
-    // used for tick function
-    lastFrame: null,
-  }),
-  /*
-  computed: {
-    ...mapGetters([
-      // 'words',
-      // 'caffeine',
-    ]),
+  data: () => defaultData,
+  created() {
+    this.workers = generateWorkerData();
+    this.calculateWorkerCosts();
   },
-  */
   mounted() {
-    this.calculateBuyCosts();
     window.requestAnimationFrame(this.tick);
   },
   methods: {
@@ -133,29 +90,52 @@ export default {
       // set current frame
       this.lastFrame = timestamp;
 
-      // how much to divide progress current tick
-      const frameDivision = Big(1000).div(progress);
-      const frameIncrement = Big(1).div(frameDivision);
+      // how much to divide progress for current tick
+      const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
-      let words = Big(0);
 
       // caffeine buzz
       if (this.buzzActive()) {
         this.ideas = this.ideas.plus(this.caffeineMultiplier.times(frameIncrement));
       }
 
-      // children
-      if (this.children.gt(0)) {
-        this.ideas = this.ideas.plus(this.children.times(frameIncrement).times(this.childIdeas));
-      }
+      // calculate worker ideas
+      let ideas = Big(0);
+      Object.keys(this.workers).forEach((workerId) => {
+        const worker = this.workers[workerId];
 
-      // students
-      if (this.students.gt(0) && this.ideas.gt(frameIncrement)) {
-        this.ideas = this.ideas.minus(this.students.times(frameIncrement).times(this.studentWords));
-        words = words.plus(this.students.times(frameIncrement).times(this.studentWords));
-      }
+        const ideaBalance = (10 - worker.balance) / 10;
+        const ideaContribution = worker.count.times(frameIncrement).times(worker.productivity).times(ideaBalance);
 
+        if (ideaContribution.gt(0)) {
+          ideas = ideas.plus(ideaContribution);
+        }
+      });
+
+      // add to ideas
+      this.ideas = this.ideas.plus(ideas);
+
+      // calculate worker words
+      let words = Big(0);
+      Object.keys(this.workers).forEach((workerId) => {
+        const worker = this.workers[workerId];
+
+        const wordBalance = worker.balance / 10;
+        const wordContribution = worker.count.times(frameIncrement).times(worker.productivity).times(wordBalance);
+
+        if (wordContribution.gt(0)) {
+          if (this.ideas.gt(wordContribution)) {
+            words = words.plus(wordContribution);
+            this.ideas = this.ideas.minus(wordContribution);
+          } else {
+            words = words.plus(this.ideas);
+            this.ideas = Big(0);
+          }
+        }
+      });
+
+      // add to correct word total
       if (this.jobActive) {
         this.jobWords = this.jobWords.plus(words);
       } else {
@@ -168,6 +148,7 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
+    // player input
     think() {
       const ideaCount = this.buzzActive() ? 2 : 1;
       this.ideas = this.ideas.plus(ideaCount);
@@ -178,7 +159,7 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      let words = utils.randomInt(this.baseWrite, this.maxWrite);
+      let words = randomInt(this.baseWrite, this.maxWrite);
       if (this.buzzActive()) {
         words *= 2;
       }
@@ -189,59 +170,61 @@ export default {
         this.words = this.words.plus(words);
       }
     },
+    // caffeine
     coffee() {
       if (this.money.lt(2) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
         return;
       }
       if (!this.buzzActive()) {
-        this.caffeineEndTime = utils.unixTimestamp() + this.caffeineTime;
+        this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
       } else {
         this.caffeineEndTime += this.caffeineTime;
-        if (this.caffeineEndTime - utils.unixTimestamp() > this.caffeineMaxTime) {
-          this.caffeineEndTime = utils.unixTimestamp() + this.caffeineMaxTime;
+        if (this.caffeineEndTime - unixTimestamp() > this.caffeineMaxTime) {
+          this.caffeineEndTime = unixTimestamp() + this.caffeineMaxTime;
         }
       }
 
       this.money = this.money.minus(2);
     },
     buzzActive() {
-      return this.caffeineEndTime > utils.unixTimestamp();
+      return this.caffeineEndTime > unixTimestamp();
     },
     buzzRemaining() {
-      return this.caffeineEndTime - utils.unixTimestamp();
+      return this.caffeineEndTime - unixTimestamp();
     },
-    hireChild() {
-      if (this.money.lt(this.childCurrentCost)) {
+    // workers
+    setBuyAmount(index) {
+      this.buyAmount = 10 ** index;
+      this.calculateWorkerCosts();
+    },
+    hireWorker(id) {
+      // check if can afford
+      if (this.money.lt(this.workers[id].cost)) {
         return;
       }
 
-      this.money = this.money.minus(this.childCurrentCost);
-      this.children = this.children.plus(this.buyAmount);
-      this.calculateBuyCosts();
+      // buy & increment
+      this.money = this.money.minus(this.workers[id].cost);
+      this.workers[id].count = this.workers[id].count.plus(this.buyAmount);
+
+      // recalculate costs
+      this.calculateWorkerCosts();
     },
-    hireStudent() {
-      if (this.money.lt(this.studentCurrentCost)) {
-        return;
-      }
-      this.money = this.money.minus(this.studentCurrentCost);
-      this.students = this.students.plus(this.buyAmount);
-      this.calculateBuyCosts();
+    updateWorkerBalance({ workerId, balance }) {
+      this.workers[workerId].balance = balance;
     },
-    setBuyAmount(index) {
-      this.buyAmount = 10 ** index;
-      this.calculateBuyCosts();
+    calculateWorkerCosts() {
+      const { workers } = this;
+      Object.keys(this.workers).forEach((id) => {
+        workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
+      });
+      // have to re-assign whole workers object to trigger reactivity
+      this.workers = Object.assign({}, workers);
     },
-    buyCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10))
-        .minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
+    workerCost(baseCost, owned, costMultiplier) {
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
     },
-    calculateBuyCosts() {
-      this.childCurrentCost = this.buyCost(this.childBaseCost, this.children, this.childCostMultiplier);
-      this.studentCurrentCost = this.buyCost(this.studentBaseCost, this.students, this.studentCostMultiplier);
-    },
-    resetWords() {
-      this.words = Big(0);
-    },
+    // jobs
     startJob() {
       this.jobWords = Big(0);
       this.jobActive = true;
@@ -250,7 +233,6 @@ export default {
       if (reward.gt(0)) {
         this.money = this.money.plus(reward);
       }
-
       this.jobActive = false;
     },
     // === end methods ===
