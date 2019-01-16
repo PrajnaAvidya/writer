@@ -12,11 +12,11 @@ efficiency stat for idea->word conversion
 - player (already have, need upgrades)
 - worker
 upgrades! (need some kind of story -- use $?)
+- maybe make the slider feature an upgrade
 recurring costs for workers
 some sort of quality/creativity average for words written
 - player + workers (and upgradeable for both)
 - job reward % based on quality level
-- quality for ideas too? (higher quality = more words)
 
 WORKERS TODO:
 - idea vs word productivity stats
