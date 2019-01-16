@@ -5,7 +5,7 @@ export default [
     plural: 'Children',
     baseCost: 10,
     costMultiplier: 0.12,
-    productivity: 1,
+    productivity: 0.5,
     quality: 0.1,
   },
   {
@@ -14,7 +14,7 @@ export default [
     plural: 'Students',
     baseCost: 100,
     costMultiplier: 0.15,
-    productivity: 2,
+    productivity: 2.5,
     quality: 0.25,
   },
 ];

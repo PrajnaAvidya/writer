@@ -12,6 +12,7 @@
       :ideas="ideas"
       :words="words"
       :money="money"
+      :jobActive="jobActive"
     />
 
     <creative-buttons
@@ -33,6 +34,7 @@
 
     <production-grid
       @hireWorker="hireWorker"
+      @updateWorkerBalance="updateWorkerBalance"
       :buyAmount="buyAmount"
       :workers="workers"
     />
@@ -68,7 +70,7 @@ export default {
   data: () => defaultData,
   created() {
     this.workers = generateWorkerData();
-    this.calculateBuyCosts();
+    this.calculateWorkerCosts();
   },
   mounted() {
     window.requestAnimationFrame(this.tick);
@@ -98,27 +100,47 @@ export default {
         this.ideas = this.ideas.plus(this.caffeineMultiplier.times(frameIncrement));
       }
 
-      /*
-      // TODO new worker processing
+      // calculate worker ideas
+      let ideas = Big(0);
+      Object.keys(this.workers).forEach((workerId) => {
+        const worker = this.workers[workerId];
+
+        const ideaBalance = (10 - worker.balance) / 10;
+        const ideaContribution = worker.count.times(frameIncrement).times(worker.productivity).times(ideaBalance);
+
+        if (ideaContribution.gt(0)) {
+          ideas = ideas.plus(ideaContribution);
+        }
+      });
+
+      // add to ideas
+      this.ideas = this.ideas.plus(ideas);
+
+      // calculate worker words
       let words = Big(0);
+      Object.keys(this.workers).forEach((workerId) => {
+        const worker = this.workers[workerId];
 
-      // children
-      if (this.children.gt(0)) {
-        this.ideas = this.ideas.plus(this.children.times(frameIncrement).times(this.childIdeas));
-      }
+        const wordBalance = worker.balance / 10;
+        const wordContribution = worker.count.times(frameIncrement).times(worker.productivity).times(wordBalance);
 
-      // students
-      if (this.students.gt(0) && this.ideas.gt(frameIncrement)) {
-        this.ideas = this.ideas.minus(this.students.times(frameIncrement).times(this.studentWords));
-        words = words.plus(this.students.times(frameIncrement).times(this.studentWords));
-      }
+        if (wordContribution.gt(0)) {
+          if (this.ideas.gt(wordContribution)) {
+            words = words.plus(wordContribution);
+            this.ideas = this.ideas.minus(wordContribution);
+          } else {
+            words = words.plus(this.ideas);
+            this.ideas = Big(0);
+          }
+        }
+      });
 
+      // add to correct word total
       if (this.jobActive) {
         this.jobWords = this.jobWords.plus(words);
       } else {
         this.words = this.words.plus(words);
       }
-      */
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -173,7 +195,7 @@ export default {
     // workers
     setBuyAmount(index) {
       this.buyAmount = 10 ** index;
-      this.calculateBuyCosts();
+      this.calculateWorkerCosts();
     },
     hireWorker(id) {
       // check if can afford
@@ -183,22 +205,24 @@ export default {
 
       // buy & increment
       this.money = this.money.minus(this.workers[id].cost);
-      this.workers[id].count += this.buyAmount;
+      this.workers[id].count = this.workers[id].count.plus(this.buyAmount);
 
       // recalculate costs
-      this.calculateBuyCosts();
+      this.calculateWorkerCosts();
     },
-    calculateBuyCosts() {
+    updateWorkerBalance({ workerId, balance }) {
+      this.workers[workerId].balance = balance;
+    },
+    calculateWorkerCosts() {
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
-        workers[id].cost = this.buyCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
+        workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
       });
       // have to re-assign whole workers object to trigger reactivity
       this.workers = Object.assign({}, workers);
     },
-    buyCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned + this.buyAmount, 10))
-        .minus(Big(1 + costMultiplier).pow(owned))).div(costMultiplier).round();
+    workerCost(baseCost, owned, costMultiplier) {
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
     },
     // jobs
     startJob() {

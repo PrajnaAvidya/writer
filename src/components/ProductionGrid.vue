@@ -9,7 +9,7 @@
           Cost {{ worker.cost | money }} for {{ buyAmount }}
         </div>
         <div class="column">
-          <span v-if="worker.count > 0">{{ worker.plural }}: {{ worker.count }}</span>
+          <span v-if="worker.count > 0">{{ worker.plural }}: {{ worker.count | round }}</span>
         </div>
       </div>
 
@@ -46,8 +46,12 @@ export default {
   },
   data: () => ({
     assignments: {
-      child: 5,
-      student: 5,
+      child: 0,
+      student: 0,
+    },
+    previousAssignments: {
+      child: 0,
+      student: 0,
     },
     slider: {
       lineHeight: 8,
@@ -64,8 +68,16 @@ export default {
   watch: {
     assignments: {
       handler(val) {
-        console.log(val);
-        // TODO send new balance values to Game
+        Object.keys(this.assignments).forEach((workerId) => {
+          if (this.assignments[workerId] !== this.previousAssignments[workerId]) {
+            const balance = val[workerId];
+
+            // send new balance value to Game
+            this.$emit('updateWorkerBalance', { workerId, balance });
+
+            this.previousAssignments[workerId] = val[workerId];
+          }
+        });
       },
       deep: true,
     },

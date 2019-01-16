@@ -1,5 +1,6 @@
 // generate worker objects from data file
 
+import Big from 'big.js';
 import workerData from '../data/workers';
 
 export default function () {
@@ -10,12 +11,13 @@ export default function () {
       id: worker.id,
       name: worker.name,
       plural: worker.plural,
-      count: 0,
+      count: Big(0),
       cost: worker.baseCost,
       baseCost: worker.baseCost,
       costMultiplier: worker.costMultiplier,
       productivity: worker.productivity,
       quality: worker.quality,
+      balance: 0, // 0 is 100% ideas, 10 is 100% words
     };
   });
 

@@ -4,22 +4,23 @@ save/load (+ autosave) using localforage
 favicon
 color scheme
 
-misc todo:
-strikethrough main word count when on job
+misc todo/fixes:
+fix screen shifting from announcements
 
 ideas:
-should job words be a separate currency?
-recurring costs for hired people -- they quit if you can't pay them. or alternately they are "contractors" and only work for a certain amount of time (auto renew would be equivalent)
-"assignment" system to get paid for short pieces in early game (to buy/hire stuff)
+recurring costs for hired people
 some sort of quality/creativity average for words written
-job reward % based on quality level
-quality for ideas too? (higher quality = more words)
-- maybe start treating ideas as individual entities instead of a currency? is that too complex?
+- workers can have word/idea quality stats
+- job reward % based on quality level
+- quality for ideas too? (higher quality = more words)
+-- maybe start treating ideas as individual entities instead of a currency? is that too complex?
+-- probably easier/better to have an efficiency stat instead (for player + workers)
 
-future ideas:
+future ideas/todo:
+generate jobs based on current progress
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 
 CURRENT: re-implementing workers
--- need to parse this data in game.vue and calculate worker contributions in tick
-- base producitivy + quality scores for ideas vs words
+- idea->word efficiency stat. right now it's just 1 to 1.
+- productivity/efficiency scores for ideas vs words
 - accordion for slider view

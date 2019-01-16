@@ -1,7 +1,7 @@
 <template>
   <div class="stats">
     <div class="ideas">Ideas: {{ ideas | roundPositive }}</div>
-    <div class="words">Words: {{ words | round }}</div>
+    <div class="words" :style="{ textDecoration: jobActive ? 'line-through' : '' }">Words: {{ words | round }}</div>
     <div class="money">Money: {{ money | money }}</div>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default {
     ideas: Big,
     words: Big,
     money: Big,
+    jobActive: Boolean,
   },
 };
 </script>
