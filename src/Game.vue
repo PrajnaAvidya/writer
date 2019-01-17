@@ -23,6 +23,10 @@
 
     <hr>
 
+    <UpgradePanel />
+
+    <hr>
+
     <BuyAmounts
       @setBuyAmount="setBuyAmount"
     />
@@ -55,6 +59,7 @@ import CreativeButtons from './components/CreativeButtons.vue';
 import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
 import StatDisplay from './components/StatDisplay.vue';
+import UpgradePanel from './components/UpgradePanel.vue';
 // data
 import defaultData from './data/defaultGameData';
 
@@ -67,6 +72,7 @@ export default {
     JobsGrid,
     ProductionGrid,
     StatDisplay,
+    UpgradePanel,
   },
   data: () => defaultData,
   created() {

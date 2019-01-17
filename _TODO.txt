@@ -33,3 +33,5 @@ some sort of quality/creativity average for words written
 - "scrap" button to start job over
 -- job time limits?
 "publish" feature to convert words into $/reputation
+flavor texts/lore
+tutorial/tooltips

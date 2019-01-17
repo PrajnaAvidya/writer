@@ -3,8 +3,7 @@
     <BMessage
       has-icon
       :type="messageType"
-      :auto-close="true"
-      :duration="5000"
+      :title="messageTitle"
       :active.sync="showMessage"
     >
       {{ currentMessage }}
@@ -80,6 +79,7 @@ export default {
   data: () => ({
     showMessage: false,
     messageType: '',
+    messageTitle: '',
     currentMessage: '',
     currentJob: null, // TODO
     exampleJobs: [
@@ -115,6 +115,7 @@ export default {
     acceptJob(index) {
       this.currentJob = this.jobs[index];
       this.messageType = 'is-info';
+      this.messageTitle = 'Job Accepted';
       this.currentMessage = `Accepted job ${this.currentJob.name}`;
       this.$emit('startJob');
       this.showMessage = true;
@@ -131,11 +132,13 @@ export default {
     },
     succeedJob() {
       this.messageType = 'is-success';
+      this.messageTitle = 'Success';
       this.currentMessage = 'Job Finished';
       this.showMessage = true;
     },
     failJob() {
       this.messageType = 'is-danger';
+      this.messageTitle = 'Failure';
       this.currentMessage = 'Job Failed';
       this.showMessage = true;
     },
