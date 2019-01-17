@@ -12,7 +12,7 @@
         <div class="column">
           <a
             class="button"
-            @click="hireWorker(worker.id)"
+            @click="$emit('hireWorker', worker.id)"
           >
             Hire {{ worker.name }}
           </a>
@@ -104,12 +104,6 @@ export default {
         });
       },
       deep: true,
-    },
-  },
-  methods: {
-    hireWorker(workerId) {
-      // TODO keep accordion open
-      this.$emit('hireWorker', workerId);
     },
   },
 };

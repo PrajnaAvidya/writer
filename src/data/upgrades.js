@@ -38,7 +38,11 @@ export default {
       },
     ],
     student: [
-      //
+      {
+        order: 1,
+        name: 'student upgrade',
+        description: 'basdfasef',
+      },
     ],
   },
 };

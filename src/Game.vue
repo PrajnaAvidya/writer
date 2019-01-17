@@ -25,13 +25,12 @@
 
     <UpgradePanel
       :upgrades="upgrades"
+      :workers="workers"
     />
 
     <hr>
 
-    <BuyAmounts
-      @setBuyAmount="setBuyAmount"
-    />
+    <BuyAmounts @setBuyAmount="setBuyAmount" />
 
     <CaffeineBuzz
       :buzz-active="buzzActive()"

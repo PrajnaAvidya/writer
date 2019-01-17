@@ -4,42 +4,37 @@
       v-for="workerId in Object.keys(upgrades.workers)"
       :key="workerId"
     >
-      <div
-        v-if="size(upgrades.workers[workerId]) > 0"
-      >
+      <div v-if="size(upgrades.workers[workerId]) > 0">
         <h3 style="upgrade-title">
-          {{ workerId }} Upgrades
+          {{ workers[workerId].name }} Upgrades
         </h3>
         <div
           v-for="upgrade in orderedUpgrades(upgrades.workers[workerId])"
           :key="upgrade.id"
+          class="columns"
         >
-          {{ upgrade }}
+          <div class="column">
+            <strong>{{ upgrade.name }}</strong>
+          </div>
+          <div class="column">
+            {{ upgrade.description }}
+          </div>
+          <div class="column">
+            <a
+              class="button"
+              @click="buyUpgrade(upgrade)"
+            >
+              Buy ({{ upgradeCost(upgrade) }})
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="columns">
-      <div class="column">
-        <strong>Upgrade Name</strong>
-      </div>
-      <div class="column">
-        Upgrade Description/Cost
-      </div>
-      <div class="column">
-        <a
-          class="button"
-          @click="$emit('buyUpgrade', upgrade.id)"
-        >
-          Buy ($1000)
-        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import lodash_size from 'lodash/size';
+import lodashSize from 'lodash/size';
 
 export default {
   name: 'UpgradePanel',
@@ -48,16 +43,27 @@ export default {
       type: Object,
       required: true,
     },
+    workers: {
+      type: Object,
+      required: true,
+    },
   },
   mounted() {
-    console.log(this.upgrades);
+    // console.log(this.upgrades);
   },
   methods: {
+    buyUpgrade(upgrade) {
+      // TODO
+      console.log(upgrade);
+    },
     orderedUpgrades(list) {
       return this.$options.filters.order(list);
     },
     size(list) {
-      return lodash_size(list);
+      return lodashSize(list);
+    },
+    upgradeCost(upgrade) {
+      return '$TODO';
     },
   },
 };

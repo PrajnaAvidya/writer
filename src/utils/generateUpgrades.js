@@ -26,8 +26,6 @@ export default function () {
 
       upgradeId += 1;
     });
-
-    // TODO upgrades will be sorted on frontend
   });
 
   return upgrades;
