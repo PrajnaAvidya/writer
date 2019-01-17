@@ -126,10 +126,10 @@ export default {
 
         if (wordContribution.gt(0)) {
           if (this.ideas.gt(wordContribution)) {
-            words = words.plus(wordContribution);
+            words = words.plus(wordContribution).times(worker.efficiency);
             this.ideas = this.ideas.minus(wordContribution);
           } else {
-            words = words.plus(this.ideas);
+            words = words.plus(this.ideas).times(worker.efficiency);
             this.ideas = Big(0);
           }
         }

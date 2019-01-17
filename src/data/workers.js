@@ -7,6 +7,7 @@ export default [
     costMultiplier: 0.12,
     productivity: 0.5,
     quality: 0.1,
+    efficiency: 1,
   },
   {
     id: 'student',
@@ -16,5 +17,6 @@ export default [
     costMultiplier: 0.15,
     productivity: 2.5,
     quality: 0.25,
+    efficiency: 2,
   },
 ];

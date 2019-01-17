@@ -9,14 +9,12 @@ stop screen shifting from announcements
 
 FEATURE IDEAS:
 more carrots for improvement (study early progression of games)
-efficiency stat for idea->word conversion
-- player (already have, need upgrades)
-- worker
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - lose by failing jobs
 upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 - maybe make the slider feature an upgrade
+- player efficiency
 recurring costs for workers
 "scrap" button to start job over
 - job time limits?
@@ -24,7 +22,6 @@ recurring costs for workers
 WORKERS TODO:
 - idea vs word productivity stats
 - word quality stats
-- efficiency stat
 - accordion for slider view
 
 FUTURE IDEAS/TODO:
@@ -36,3 +33,4 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 - "scrap" button to start job over
 -- job time limits?
+"publish" feature to convert words into $/reputation

@@ -13,7 +13,7 @@ Vue.use(Buefy, {
   defaultIconPack: 'fas',
 });
 
-Vue.component('vue-slide-bar', VueSlideBar);
+Vue.component('VueSlideBar', VueSlideBar);
 
 Vue.config.productionTip = false;
 
