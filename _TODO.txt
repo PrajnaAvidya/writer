@@ -4,7 +4,7 @@ save/load (+ autosave) using localforage
 color scheme -- art direction in general
 
 MISC BUGS/FIXES:
-stop screen shifting from announcements
+
 
 FEATURE IDEAS:
 more carrots for improvement (study early progression of games)

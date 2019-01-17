@@ -5,7 +5,7 @@
       :key="workerId"
     >
       <div v-if="size(upgrades.workers[workerId]) > 0">
-        <h3 style="upgrade-title">
+        <h3 class="upgrade-title">
           {{ workers[workerId].name }} Upgrades
         </h3>
         <div
@@ -24,7 +24,7 @@
               class="button"
               @click="buyUpgrade(upgrade)"
             >
-              Buy ({{ upgradeCost(upgrade) }})
+              {{ upgradeCost(upgrade) }}
             </a>
           </div>
         </div>
@@ -63,12 +63,24 @@ export default {
       return lodashSize(list);
     },
     upgradeCost(upgrade) {
-      return '$TODO';
+      if (!('cost' in upgrade)) {
+        return 'FREE';
+      }
+      const costs = [];
+      if ('money' in upgrade.cost) {
+        costs.push(this.$options.filters.money(upgrade.cost.money));
+      }
+      if ('reputation' in upgrade.cost) {
+        costs.push(`${this.$options.filters.round(upgrade.cost.reputation)} rep`);
+      }
+      return costs.join(' - ');
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
+.upgrade-title {
+  font-weight: bold;
+}
 </style>

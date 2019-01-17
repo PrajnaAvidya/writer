@@ -42,6 +42,10 @@ export default {
         order: 1,
         name: 'student upgrade',
         description: 'basdfasef',
+        cost: {
+          money: 55555555555,
+          reputation: 123456789,
+        },
       },
     ],
   },

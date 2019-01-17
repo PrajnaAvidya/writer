@@ -7,7 +7,7 @@
     >
       <div
         slot="title"
-        class="columns accordion-title"
+        class="columns"
       >
         <div class="column">
           <a
@@ -47,6 +47,7 @@
           </div>
         </div>
       </div>
+      <hr>
     </div>
   </div>
 </template>
@@ -113,10 +114,6 @@ export default {
 .production {
   margin: 0 auto;
   width: 800px;
-}
-.accordion-title {
-  width: 100%;
-  font-weight: bold;
 }
 .not-hired {
   margin-top: -5px;

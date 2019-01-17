@@ -1,5 +1,8 @@
 <template>
   <div class="stats">
+    <div class="status">
+      Status: {{ status() }}
+    </div>
     <div class="ideas">
       Ideas: {{ ideas | roundPositive }}
     </div>
@@ -41,6 +44,11 @@ export default {
       required: true,
     },
     jobActive: Boolean,
+  },
+  methods: {
+    status() {
+      return 'high af';
+    },
   },
 };
 </script>

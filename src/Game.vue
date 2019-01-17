@@ -35,6 +35,7 @@
     <CaffeineBuzz
       :buzz-active="buzzActive()"
       :buzz-remaining="buzzRemaining()"
+      class="caffeine-section"
       @coffee="coffee"
     />
 
@@ -253,5 +254,8 @@ export default {
 <style lang="scss">
 #game {
   text-align: center;
+}
+.caffeine-section {
+  margin-bottom: 10px !important;
 }
 </style>
