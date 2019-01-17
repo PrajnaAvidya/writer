@@ -8,7 +8,7 @@ export default {
   workers: {
     child: [
       {
-        order: 5,
+        order: 15,
         name: 'first upgrade',
         description: 'basdfasef',
       },
@@ -36,6 +36,9 @@ export default {
           efficiency: 10,
         },
       },
+    ],
+    student: [
+      //
     ],
   },
 };

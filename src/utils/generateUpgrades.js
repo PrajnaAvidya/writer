@@ -1,6 +1,5 @@
 // generate upgrade objects from data file
 
-import Big from 'big.js';
 import upgradeData from '../data/upgrades';
 
 export default function () {
@@ -16,16 +15,20 @@ export default function () {
   });
   */
 
-  // TODO workers
+  // workers
   upgrades.workers = {};
   Object.keys(upgradeData.workers).forEach((workerId) => {
-    const upgrade = upgradeData.workers[workerId];
+    let upgradeId = 1;
+    upgrades.workers[workerId] = {};
+    upgradeData.workers[workerId].forEach((upgrade) => {
+      upgrades.workers[workerId][upgradeId] = upgrade;
+      upgrades.workers[workerId][upgradeId].id = upgradeId;
 
-    upgrades.workers[workerId] = {
-      //
-    };
+      upgradeId += 1;
+    });
+
+    // TODO upgrades will be sorted on frontend
   });
 
-  console.log(upgrades);
   return upgrades;
 }

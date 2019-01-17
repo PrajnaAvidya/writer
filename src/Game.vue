@@ -23,7 +23,9 @@
 
     <hr>
 
-    <UpgradePanel />
+    <UpgradePanel
+      :upgrades="upgrades"
+    />
 
     <hr>
 
