@@ -1,57 +1,53 @@
 <template>
   <div>
-    <BulmaAccordion>
+    <div
+      v-for="worker in workers"
+      :key="worker.id"
+      class="production"
+    >
       <div
-        v-for="worker in workers"
-        :key="worker.id"
-        class="production"
+        slot="title"
+        class="columns accordion-title"
       >
-        <BulmaAccordionItem>
-          <div
-            slot="title"
-            class="columns accordion-title"
+        <div class="column">
+          <a
+            class="button"
+            @click="hireWorker(worker.id)"
           >
-            <div class="column">
-              <a
-                class="button"
-                @click="hireWorker(worker.id)"
-              >
-                Hire {{ worker.name }}
-              </a>
-            </div>
-            <div class="column">
-              Cost {{ worker.cost | money }} for {{ buyAmount }}
-            </div>
-            <div class="column">
-              <span v-if="worker.count > 0">
-                {{ worker.plural }}: {{ worker.count | round }}
-              </span>
-            </div>
-          </div>
-
-          <div slot="content">
-            <div class="columns worker-balance">
-              <div class="column">
-                Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
-              </div>
-              <div class="column">
-                <VueSlideBar
-                  v-model="assignments[worker.id]"
-                  :min="0"
-                  :max="10"
-                  :line-height="slider.lineHeight"
-                  :process-style="slider.processStyle"
-                  :tooltip-styles="slider.tooltipStyles"
-                />
-              </div>
-              <div class="column">
-                Words: {{ 10 * assignments[worker.id] }}%
-              </div>
-            </div>
-          </div>
-        </BulmaAccordionItem>
+            Hire {{ worker.name }}
+          </a>
+        </div>
+        <div class="column">
+          Cost {{ worker.cost | money }} for {{ buyAmount }}
+        </div>
+        <div class="column">
+          <span v-if="worker.count > 0">
+            {{ worker.plural }}: {{ worker.count | round }}
+          </span>
+        </div>
       </div>
-    </BulmaAccordion>
+
+      <div slot="content">
+        <div class="columns worker-balance">
+          <div class="column">
+            Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
+          </div>
+          <div class="column">
+            <VueSlideBar
+              v-model="assignments[worker.id]"
+              :min="0"
+              :max="10"
+              :line-height="slider.lineHeight"
+              :process-style="slider.processStyle"
+              :tooltip-styles="slider.tooltipStyles"
+            />
+          </div>
+          <div class="column">
+            Words: {{ 10 * assignments[worker.id] }}%
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
