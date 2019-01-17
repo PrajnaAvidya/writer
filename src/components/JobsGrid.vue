@@ -74,7 +74,10 @@ import Big from 'big.js';
 export default {
   name: 'JobsGrid',
   props: {
-    words: Big,
+    words: {
+      type: Big,
+      required: true,
+    },
   },
   data: () => ({
     showMessage: false,
