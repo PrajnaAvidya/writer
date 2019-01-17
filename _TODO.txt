@@ -1,8 +1,7 @@
 CORE TODO:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
-favicon
-color scheme
+color scheme -- art direction in general
 
 MISC BUGS/FIXES:
 stop screen shifting from announcements
