@@ -12,6 +12,7 @@
       :ideas="ideas"
       :words="words"
       :money="money"
+      :reputation="reputation"
       :job-active="jobActive"
     />
 

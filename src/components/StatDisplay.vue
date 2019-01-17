@@ -12,6 +12,9 @@
     <div class="money">
       Money: {{ money | money }}
     </div>
+    <div class="reputation">
+      Reputation: {{ reputation | round }}
+    </div>
   </div>
 </template>
 
@@ -24,6 +27,7 @@ export default {
     ideas: Big,
     words: Big,
     money: Big,
+    reputation: Big,
     jobActive: Boolean,
   },
 };

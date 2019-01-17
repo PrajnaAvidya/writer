@@ -18,7 +18,7 @@
         Available Jobs
       </div>
       <BTable
-        :data="jobs"
+        :data="exampleJobs"
         :columns="columns"
       >
         <template slot-scope="props">
@@ -82,7 +82,7 @@ export default {
     messageType: '',
     currentMessage: '',
     currentJob: null, // TODO
-    jobs: [
+    exampleJobs: [
       { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(10) },
       { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(25) },
       { index: 2, wordCount: Big(300), name: 'Editorial', payment: Big(50) },
