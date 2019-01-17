@@ -10,6 +10,7 @@
       <div class="column">
         <a
           class="button"
+          @click="$emit('buyUpgrade', upgrade.id)"
         >
           Buy ($1000)
         </a>

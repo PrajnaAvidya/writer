@@ -50,6 +50,7 @@
 // libraries/utils
 import Big from 'big.js';
 import generateWorkerData from './utils/generateWorkerData';
+import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
 // components
@@ -77,6 +78,7 @@ export default {
   data: () => defaultData,
   created() {
     this.workers = generateWorkerData();
+    this.upgrades = generateUpgrades();
     this.calculateWorkerCosts();
   },
   mounted() {

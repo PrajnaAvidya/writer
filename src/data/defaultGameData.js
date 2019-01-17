@@ -5,7 +5,7 @@ export default {
   ideas: Big(0),
   words: Big(0),
   money: Big(2000),
-  reputation: Big(0),
+  reputation: Big(20),
 
   // jobs
   jobWords: Big(0),
