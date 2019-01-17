@@ -1,32 +1,38 @@
 <template>
   <div class="columns buttons">
     <div class="column">
-      <b-tooltip
+      <BTooltip
         label="Think of ideas"
         position="is-bottom"
       >
-        <a class="button is-primary is-large" @click="$emit('think')">
-          <b-icon icon="brain" />
+        <a
+          class="button is-primary is-large"
+          @click="$emit('think')"
+        >
+          <BIcon icon="brain" />
         </a>
-      </b-tooltip>
+      </BTooltip>
     </div>
 
     <div class="column">
-      <b-tooltip
+      <BTooltip
         label="Write some words"
         position="is-bottom"
       >
-        <a class="button is-primary is-large" @click="$emit('write')">
-          <b-icon icon="pen" />
+        <a
+          class="button is-primary is-large"
+          @click="$emit('write')"
+        >
+          <BIcon icon="pen" />
         </a>
-      </b-tooltip>
+      </BTooltip>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'creative-buttons',
+  name: 'CreativeButtons',
 };
 </script>
 

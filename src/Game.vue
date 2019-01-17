@@ -1,42 +1,42 @@
 <template>
   <div id="game">
-    <jobs-grid
+    <JobsGrid
+      :words="jobWords"
       @startJob="startJob"
       @finishJob="finishJob"
-      :words="jobWords"
     />
 
-    <hr />
+    <hr>
 
-    <stat-display
+    <StatDisplay
       :ideas="ideas"
       :words="words"
       :money="money"
-      :jobActive="jobActive"
+      :job-active="jobActive"
     />
 
-    <creative-buttons
+    <CreativeButtons
       @think="think"
       @write="write"
     />
 
-    <hr />
+    <hr>
 
-    <buy-amounts
+    <BuyAmounts
       @setBuyAmount="setBuyAmount"
     />
 
-    <caffeine-buzz
+    <CaffeineBuzz
+      :buzz-active="buzzActive()"
+      :buzz-remaining="buzzRemaining()"
       @coffee="coffee"
-      :buzzActive="buzzActive()"
-      :buzzRemaining="buzzRemaining()"
     />
 
-    <production-grid
+    <ProductionGrid
+      :buy-amount="buyAmount"
+      :workers="workers"
       @hireWorker="hireWorker"
       @updateWorkerBalance="updateWorkerBalance"
-      :buyAmount="buyAmount"
-      :workers="workers"
     />
   </div>
 </template>
@@ -58,7 +58,7 @@ import StatDisplay from './components/StatDisplay.vue';
 import defaultData from './data/defaultGameData';
 
 export default {
-  name: 'game',
+  name: 'Game',
   components: {
     BuyAmounts,
     CaffeineBuzz,

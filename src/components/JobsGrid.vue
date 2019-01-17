@@ -1,46 +1,70 @@
 <template>
   <div class="jobs">
-    <b-message
-    has-icon
-    :type="messageType"
-    :auto-close=true
-    :duration=5000
-    :active.sync="showMessage"
+    <BMessage
+      has-icon
+      :type="messageType"
+      :auto-close="true"
+      :duration="5000"
+      :active.sync="showMessage"
     >
       {{ currentMessage }}
-    </b-message>
+    </BMessage>
 
-    <div class="jobs-table" v-if="!currentJob">
-      <div class="jobs-header">Available Jobs</div>
-      <b-table :data="jobs" :columns="columns">
+    <div
+      v-if="!currentJob"
+      class="jobs-table"
+    >
+      <div class="jobs-header">
+        Available Jobs
+      </div>
+      <BTable
+        :data="jobs"
+        :columns="columns"
+      >
         <template slot-scope="props">
-          <b-table-column field="wordCount" numeric>
+          <BTableColumn
+            field="wordCount"
+            numeric
+          >
             {{ props.row.wordCount | round }}
-          </b-table-column>
-          <b-table-column field="name">
+          </BTableColumn>
+          <BTableColumn field="name">
             {{ props.row.name }}
-          </b-table-column>
-          <b-table-column field="payment" numeric>
+          </BTableColumn>
+          <BTableColumn
+            field="payment"
+            numeric
+          >
             {{ props.row.payment | money }}
-          </b-table-column>
-          <b-table-column field="accept">
+          </BTableColumn>
+          <BTableColumn field="accept">
             <a
               class="button is-small is-primary"
               @click="acceptJob(props.row.index)"
-            >Accept Job</a>
-          </b-table-column>
+            >
+              Accept Job
+            </a>
+          </BTableColumn>
         </template>
-      </b-table>
+      </BTable>
     </div>
 
     <div v-else>
-      <div class="jobs-header">Current Job: {{ currentJob.name }}</div>
-      <div class="jobs-subheader">Minimum Word Count: {{ currentJob.wordCount | round }}</div>
-      <div class="jobs-subheader">Current Word Count: {{ words | round }}</div>
+      <div class="jobs-header">
+        Current Job: {{ currentJob.name }}
+      </div>
+      <div class="jobs-subheader">
+        Minimum Word Count: {{ currentJob.wordCount | round }}
+      </div>
+      <div class="jobs-subheader">
+        Current Word Count: {{ words | round }}
+      </div>
       <a
         class="button is-primary is-small"
         @click="finishJob"
-      >Turn In</a>
+      >
+        Turn In
+      </a>
     </div>
   </div>
 </template>
@@ -49,7 +73,7 @@
 import Big from 'big.js';
 
 export default {
-  name: 'jobs-grid',
+  name: 'JobsGrid',
   props: {
     words: Big,
   },

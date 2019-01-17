@@ -1,48 +1,67 @@
 <template>
   <div>
-    <div v-for="worker in workers" :key="worker.id" class="production">
+    <div
+      v-for="worker in workers"
+      :key="worker.id"
+      class="production"
+    >
       <div class="columns">
         <div class="column">
-          <a class="button" @click="$emit('hireWorker', worker.id)">Hire {{ worker.name }}</a>
+          <a
+            class="button"
+            @click="$emit('hireWorker', worker.id)"
+          >
+            Hire {{ worker.name }}
+          </a>
         </div>
         <div class="column">
           Cost {{ worker.cost | money }} for {{ buyAmount }}
         </div>
         <div class="column">
-          <span v-if="worker.count > 0">{{ worker.plural }}: {{ worker.count | round }}</span>
+          <span v-if="worker.count > 0">
+            {{ worker.plural }}: {{ worker.count | round }}
+          </span>
         </div>
       </div>
 
-      <div v-if="worker.count > 0" class="columns worker-balance">
+      <div
+        v-if="worker.count > 0"
+        class="columns worker-balance"
+      >
         <div class="column">
           Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
         </div>
         <div class="column">
-          <vue-slide-bar
+          <VueSlideBar
             v-model="assignments[worker.id]"
             :min="0"
             :max="10"
-            :lineHeight="slider.lineHeight"
-            :processStyle="slider.processStyle"
-            :tooltipStyles="slider.tooltipStyles"
-          >
-          </vue-slide-bar>
+            :line-height="slider.lineHeight"
+            :process-style="slider.processStyle"
+            :tooltip-styles="slider.tooltipStyles"
+          />
         </div>
         <div class="column">
           Words: {{ 10 * assignments[worker.id] }}%
         </div>
       </div>
-      <hr />
+      <hr>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'production-grid',
+  name: 'ProductionGrid',
   props: {
-    buyAmount: Number,
-    workers: Object,
+    buyAmount: {
+      type: Number,
+      required: true,
+    },
+    workers: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     assignments: {
