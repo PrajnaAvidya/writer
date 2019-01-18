@@ -4,6 +4,7 @@ save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
 intro/tutorial modal
+global css for h tags and stuff
 
 MISC BUGS/FIXES:
 
