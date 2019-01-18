@@ -1,5 +1,7 @@
 <template>
   <div id="game">
+    <IntroModal />
+
     <JobsGrid
       :words="jobWords"
       @startJob="startJob"
@@ -59,6 +61,7 @@ import unixTimestamp from './utils/unixTimestamp';
 import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
+import IntroModal from './components/IntroModal.vue';
 import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
 import StatDisplay from './components/StatDisplay.vue';
@@ -72,6 +75,7 @@ export default {
     BuyAmounts,
     CaffeineBuzz,
     CreativeButtons,
+    IntroModal,
     JobsGrid,
     ProductionGrid,
     StatDisplay,

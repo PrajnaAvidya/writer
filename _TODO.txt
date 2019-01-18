@@ -2,6 +2,8 @@ CORE TODO:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
+grey out things player can't afford
+intro/tutorial modal
 
 MISC BUGS/FIXES:
 
@@ -23,6 +25,13 @@ WORKERS TODO:
 - word quality stats
 - accordion for slider view
 
+UPGRADES TODO:
+click upgrades
+buy upgrade
+- check costs
+- check requirements
+apply upgrade in tick/click
+
 FUTURE IDEAS/TODO:
 generate jobs based on current progress
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
@@ -35,3 +44,9 @@ some sort of quality/creativity average for words written
 "publish" feature to convert words into $/reputation
 flavor texts/lore
 tutorial/tooltips
+
+GAME PROGRESSION IDEAS:
+jobs
+workers
+upgrades
+TODO: selling words

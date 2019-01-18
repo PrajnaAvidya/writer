@@ -1,3 +1,5 @@
+// TODO parse big values in costs (when needed)
+
 export default {
   // clicking upgrades
   clicking: [
