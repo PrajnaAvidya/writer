@@ -1,5 +1,7 @@
 <template>
   <div id="game">
+    <IntroModal />
+
     <JobsGrid
       :words="jobWords"
       @startJob="startJob"
@@ -12,6 +14,7 @@
       :ideas="ideas"
       :words="words"
       :money="money"
+      :reputation="reputation"
       :job-active="jobActive"
     />
 
@@ -22,13 +25,19 @@
 
     <hr>
 
-    <BuyAmounts
-      @setBuyAmount="setBuyAmount"
+    <UpgradePanel
+      :upgrades="upgrades"
+      :workers="workers"
     />
+
+    <hr>
+
+    <BuyAmounts @setBuyAmount="setBuyAmount" />
 
     <CaffeineBuzz
       :buzz-active="buzzActive()"
       :buzz-remaining="buzzRemaining()"
+      class="caffeine-section"
       @coffee="coffee"
     />
 
@@ -45,15 +54,18 @@
 // libraries/utils
 import Big from 'big.js';
 import generateWorkerData from './utils/generateWorkerData';
+import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
 // components
 import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
+import IntroModal from './components/IntroModal.vue';
 import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
 import StatDisplay from './components/StatDisplay.vue';
+import UpgradePanel from './components/UpgradePanel.vue';
 // data
 import defaultData from './data/defaultGameData';
 
@@ -63,13 +75,16 @@ export default {
     BuyAmounts,
     CaffeineBuzz,
     CreativeButtons,
+    IntroModal,
     JobsGrid,
     ProductionGrid,
     StatDisplay,
+    UpgradePanel,
   },
   data: () => defaultData,
   created() {
     this.workers = generateWorkerData();
+    this.upgrades = generateUpgrades();
     this.calculateWorkerCosts();
   },
   mounted() {
@@ -126,10 +141,10 @@ export default {
 
         if (wordContribution.gt(0)) {
           if (this.ideas.gt(wordContribution)) {
-            words = words.plus(wordContribution);
+            words = words.plus(wordContribution).times(worker.efficiency);
             this.ideas = this.ideas.minus(wordContribution);
           } else {
-            words = words.plus(this.ideas);
+            words = words.plus(this.ideas).times(worker.efficiency);
             this.ideas = Big(0);
           }
         }
@@ -243,5 +258,8 @@ export default {
 <style lang="scss">
 #game {
   text-align: center;
+}
+.caffeine-section {
+  margin-bottom: 10px !important;
 }
 </style>

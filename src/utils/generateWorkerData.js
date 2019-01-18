@@ -17,6 +17,7 @@ export default function () {
       costMultiplier: worker.costMultiplier,
       productivity: worker.productivity,
       quality: worker.quality,
+      efficiency: worker.efficiency,
       balance: 0, // 0 is 100% ideas, 10 is 100% words
     };
   });

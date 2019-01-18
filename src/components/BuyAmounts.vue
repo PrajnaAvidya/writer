@@ -18,9 +18,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .buy-amounts {
   width: 200px;
   margin: 0 auto;
+}
+.tab-content {
+  padding: 0 !important;
 }
 </style>

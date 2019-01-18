@@ -5,7 +5,10 @@
       :key="worker.id"
       class="production"
     >
-      <div class="columns">
+      <div
+        slot="title"
+        class="columns"
+      >
         <div class="column">
           <a
             class="button"
@@ -24,25 +27,24 @@
         </div>
       </div>
 
-      <div
-        v-if="worker.count > 0"
-        class="columns worker-balance"
-      >
-        <div class="column">
-          Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
-        </div>
-        <div class="column">
-          <VueSlideBar
-            v-model="assignments[worker.id]"
-            :min="0"
-            :max="10"
-            :line-height="slider.lineHeight"
-            :process-style="slider.processStyle"
-            :tooltip-styles="slider.tooltipStyles"
-          />
-        </div>
-        <div class="column">
-          Words: {{ 10 * assignments[worker.id] }}%
+      <div slot="content">
+        <div class="columns worker-balance">
+          <div class="column">
+            Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
+          </div>
+          <div class="column">
+            <VueSlideBar
+              v-model="assignments[worker.id]"
+              :min="0"
+              :max="10"
+              :line-height="slider.lineHeight"
+              :process-style="slider.processStyle"
+              :tooltip-styles="slider.tooltipStyles"
+            />
+          </div>
+          <div class="column">
+            Words: {{ 10 * assignments[worker.id] }}%
+          </div>
         </div>
       </div>
       <hr>
@@ -71,6 +73,10 @@ export default {
     previousAssignments: {
       child: 0,
       student: 0,
+    },
+    displayWorker: {
+      child: true,
+      student: false,
     },
     slider: {
       lineHeight: 8,
@@ -104,9 +110,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .production {
   margin: 0 auto;
   width: 800px;
+}
+.not-hired {
+  margin-top: -5px;
+  margin-bottom: -5px;
 }
 </style>

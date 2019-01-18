@@ -1,22 +1,28 @@
+CURRENT TODO:
+intro/modal
+move caffeine to own area
+hide upgrades/workers at first
+hide jobs/reputation
+some kind of "publish" feature to convert early words into $
+
 CORE TODO:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
-favicon
-color scheme
+color scheme -- art direction in general
+grey out things player can't afford
+global css for h tags and stuff
 
 MISC BUGS/FIXES:
-stop screen shifting from announcements
+
 
 FEATURE IDEAS:
 more carrots for improvement (study early progression of games)
-efficiency stat for idea->word conversion
-- player (already have, need upgrades)
-- worker
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - lose by failing jobs
 upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 - maybe make the slider feature an upgrade
+- player efficiency
 recurring costs for workers
 "scrap" button to start job over
 - job time limits?
@@ -24,8 +30,14 @@ recurring costs for workers
 WORKERS TODO:
 - idea vs word productivity stats
 - word quality stats
-- efficiency stat
 - accordion for slider view
+
+UPGRADES TODO:
+click upgrades
+buy upgrade
+- check costs
+- check requirements
+apply upgrade in tick/click
 
 FUTURE IDEAS/TODO:
 generate jobs based on current progress
@@ -36,3 +48,11 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 - "scrap" button to start job over
 -- job time limits?
+flavor texts/lore
+tutorial/tooltips
+
+GAME PROGRESSION IDEAS:
+jobs
+workers
+upgrades
+TODO: selling words

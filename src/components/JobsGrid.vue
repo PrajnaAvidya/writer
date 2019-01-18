@@ -3,8 +3,7 @@
     <BMessage
       has-icon
       :type="messageType"
-      :auto-close="true"
-      :duration="5000"
+      :title="messageTitle"
       :active.sync="showMessage"
     >
       {{ currentMessage }}
@@ -18,7 +17,7 @@
         Available Jobs
       </div>
       <BTable
-        :data="jobs"
+        :data="exampleJobs"
         :columns="columns"
       >
         <template slot-scope="props">
@@ -75,14 +74,18 @@ import Big from 'big.js';
 export default {
   name: 'JobsGrid',
   props: {
-    words: Big,
+    words: {
+      type: Big,
+      required: true,
+    },
   },
   data: () => ({
     showMessage: false,
     messageType: '',
+    messageTitle: '',
     currentMessage: '',
     currentJob: null, // TODO
-    jobs: [
+    exampleJobs: [
       { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(10) },
       { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(25) },
       { index: 2, wordCount: Big(300), name: 'Editorial', payment: Big(50) },
@@ -115,6 +118,7 @@ export default {
     acceptJob(index) {
       this.currentJob = this.jobs[index];
       this.messageType = 'is-info';
+      this.messageTitle = 'Job Accepted';
       this.currentMessage = `Accepted job ${this.currentJob.name}`;
       this.$emit('startJob');
       this.showMessage = true;
@@ -131,11 +135,13 @@ export default {
     },
     succeedJob() {
       this.messageType = 'is-success';
+      this.messageTitle = 'Success';
       this.currentMessage = 'Job Finished';
       this.showMessage = true;
     },
     failJob() {
       this.messageType = 'is-danger';
+      this.messageTitle = 'Failure';
       this.currentMessage = 'Job Failed';
       this.showMessage = true;
     },

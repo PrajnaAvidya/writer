@@ -4,7 +4,8 @@ export default {
   // currencies
   ideas: Big(0),
   words: Big(0),
-  money: Big(20),
+  money: Big(2000),
+  reputation: Big(20),
 
   // jobs
   jobWords: Big(0),
@@ -23,8 +24,11 @@ export default {
   // workers (generated)
   workers: {},
 
-  // number of things to buy
+  // number of workers to buy
   buyAmount: 1,
+
+  // upgrades (generated)
+  upgrades: {},
 
   // used for tick function
   lastFrame: null,
