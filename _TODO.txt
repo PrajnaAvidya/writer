@@ -1,9 +1,15 @@
+CURRENT TODO:
+intro/modal
+move caffeine to own area
+hide upgrades/workers at first
+hide jobs/reputation
+some kind of "publish" feature to convert early words into $
+
 CORE TODO:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
-intro/tutorial modal
 global css for h tags and stuff
 
 MISC BUGS/FIXES:
@@ -42,7 +48,6 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 - "scrap" button to start job over
 -- job time limits?
-"publish" feature to convert words into $/reputation
 flavor texts/lore
 tutorial/tooltips
 
