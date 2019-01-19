@@ -22,6 +22,7 @@ export default {
 .buy-amounts {
   width: 200px;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 .tab-content {
   padding: 0 !important;

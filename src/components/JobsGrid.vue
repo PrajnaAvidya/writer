@@ -116,7 +116,7 @@ export default {
   }),
   methods: {
     acceptJob(index) {
-      this.currentJob = this.jobs[index];
+      this.currentJob = this.exampleJobs[index];
       this.messageType = 'is-info';
       this.messageTitle = 'Job Accepted';
       this.currentMessage = `Accepted job ${this.currentJob.name}`;

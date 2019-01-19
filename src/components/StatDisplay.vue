@@ -1,7 +1,7 @@
 <template>
   <div class="stats">
     <div class="status">
-      Status: {{ status() }}
+      Status: {{ status }}
     </div>
     <div class="stat">
       Ideas: {{ ideas | roundPositive }}
@@ -53,9 +53,13 @@ export default {
     },
     jobActive: Boolean,
   },
-  methods: {
+  computed: {
     status() {
-      return 'high af';
+      if (this.jobActive) {
+        return 'Working on a Job';
+      }
+
+      return 'Freelance Writing';
     },
   },
 };

@@ -1,6 +1,5 @@
 CURRENT TODO:
 intro/modal
-some kind of "sell words" feature to convert words into tiny amounts of $
 
 CORE TODO:
 vuex -- periodic updates instead of every frame

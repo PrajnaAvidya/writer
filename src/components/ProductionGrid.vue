@@ -112,6 +112,7 @@ export default {
 
 <style lang="scss">
 .production {
+  padding-top: 10px;
   margin: 0 auto;
   width: 800px;
 }
