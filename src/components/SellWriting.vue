@@ -25,9 +25,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.sell-writing {
-  margin-top: 25px;
-}
 .writing-value {
   margin-right: 10px;
 }

@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div :hidden="!showProduction">
+    <BuyAmounts @setBuyAmount="$emit('setBuyAmount', $event)" />
+
     <div
       v-for="worker in workers"
       :key="worker.id"
@@ -53,9 +55,15 @@
 </template>
 
 <script>
+import BuyAmounts from './BuyAmounts.vue';
+
 export default {
   name: 'ProductionGrid',
+  components: {
+    BuyAmounts,
+  },
   props: {
+    showProduction: Boolean,
     buyAmount: {
       type: Number,
       required: true,

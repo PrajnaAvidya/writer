@@ -1,17 +1,23 @@
 <template>
-  <div class="caffeine columns">
-    <div class="column is-half">
-      <a
-        class="button"
-        @click="$emit('coffee')"
-      >
-        Drink Coffee ({{ coffeeCost | moneyCents }})
-      </a>
-    </div>
-    <div class="column is-half">
-      <span v-if="buzzActive">
-        Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
-      </span>
+  <div
+    class="caffeine"
+    :hidden="!showCaffeine"
+  >
+    <hr>
+    <div class="columns">
+      <div class="column is-half">
+        <a
+          class="button"
+          @click="$emit('coffee')"
+        >
+          Drink Coffee ({{ coffeeCost | moneyCents }})
+        </a>
+      </div>
+      <div class="column is-half">
+        <span v-if="buzzActive">
+          Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +26,7 @@
 export default {
   name: 'CaffeineBuzz',
   props: {
+    showCaffeine: Boolean,
     coffeeCost: {
       type: Object,
       required: true,

@@ -3,12 +3,11 @@
     <IntroModal />
 
     <JobsGrid
+      :show-jobs="showJobs"
       :words="jobWords"
       @startJob="startJob"
       @finishJob="finishJob"
     />
-
-    <hr>
 
     <StatDisplay
       :ideas="ideas"
@@ -29,9 +28,8 @@
       @sellWords="sellWords"
     />
 
-    <hr>
-
     <CaffeineBuzz
+      :show-caffeine="showCaffeine"
       :buzz-active="buzzActive()"
       :buzz-remaining="buzzRemaining()"
       :coffee-cost="coffeeCost"
@@ -39,21 +37,18 @@
       @coffee="coffee"
     />
 
-    <hr>
-
     <UpgradePanel
+      :show-upgrades="showUpgrades"
       :upgrades="upgrades"
       :workers="workers"
     />
 
-    <hr>
-
-    <BuyAmounts @setBuyAmount="setBuyAmount" />
-
     <ProductionGrid
+      :show-production="showProduction"
       :buy-amount="buyAmount"
       :workers="workers"
       @hireWorker="hireWorker"
+      @setBuyAmount="setBuyAmount"
       @updateWorkerBalance="updateWorkerBalance"
     />
   </div>
@@ -67,7 +62,6 @@ import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
 // components
-import BuyAmounts from './components/BuyAmounts.vue';
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import CreativeButtons from './components/CreativeButtons.vue';
 import IntroModal from './components/IntroModal.vue';
@@ -82,7 +76,6 @@ import defaultData from './data/defaultGameData';
 export default {
   name: 'Game',
   components: {
-    BuyAmounts,
     CaffeineBuzz,
     CreativeButtons,
     IntroModal,
@@ -125,6 +118,18 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
+
+      // unfolding updates
+      if (!this.showCaffeine && this.money.gte(this.coffeeCost)) {
+        this.showCaffeine = true;
+      }
+      if (!this.showJobs && (this.money.gte(1) || this.words.gte(100))) {
+        this.showJobs = true;
+      }
+      if (!this.showProduction && this.money.gte(10)) {
+        this.showProduction = true;
+      }
+      // TODO unlock upgrades
 
       // caffeine buzz ideas
       if (this.buzzActive()) {

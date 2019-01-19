@@ -8,6 +8,12 @@ export default {
   money: Big(0),
   reputation: Big(0),
 
+  // unfolding
+  showCaffeine: false,
+  showJobs: false,
+  showProduction: false,
+  showUpgrades: false,
+
   // jobs
   jobWords: Big(0),
   jobActive: false,
@@ -18,11 +24,11 @@ export default {
   maxWrite: Big(3),
 
   // caffeine
-  coffeeCost: Big(1),
-  caffeineTime: 120,
-  caffeineMaxTime: 600,
+  coffeeCost: Big(0.5),
+  caffeineTime: 30,
+  caffeineMaxTime: 300,
   caffeineEndTime: -1,
-  caffeineIdeaGeneration: Big(1),
+  caffeineIdeaGeneration: Big(0.5),
   caffeineClickMultiplier: Big(2),
 
   // workers (generated)

@@ -3,7 +3,7 @@
     <div class="column">
       <BTooltip
         label="Think of ideas"
-        position="is-bottom"
+        position="is-left"
       >
         <a
           class="button is-primary is-large"
@@ -17,7 +17,7 @@
     <div class="column">
       <BTooltip
         label="Write some words"
-        position="is-bottom"
+        position="is-right"
       >
         <a
           class="button is-primary is-large"

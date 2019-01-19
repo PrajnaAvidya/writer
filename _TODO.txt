@@ -1,19 +1,15 @@
 CURRENT TODO:
 intro/modal
+upgrades
 
 CORE TODO:
 vuex -- periodic updates instead of every frame
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
-global css for h tags and stuff
-hide upgrades/workers at first
-hide jobs/reputation at first
 
-MISC BUGS/FIXES:
-
-
-FEATURE IDEAS:
+IDEAS:
+increase word value with word count (exponential counts) -- maybe could be an upgrade
 more carrots for improvement (study early progression of games)
 reputation currency
 - get from finishing jobs -- more quality = more reputation
@@ -24,12 +20,11 @@ upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 recurring costs for workers
 "scrap" button to start job over
 - job time limits?
-ability to feed coffee to children
+give coffee to children/workers
 
 WORKERS TODO:
 - idea vs word productivity stats
-- word quality stats
-- accordion for slider view
+- accordion/expanding for slider/detail view
 
 UPGRADES TODO:
 click upgrades
@@ -51,8 +46,8 @@ flavor texts/lore
 tutorial/tooltips
 
 GAME PROGRESSION IDEAS:
-sell enough words to buy a coffee
-take on a couple jobs to afford a child
-...
-workers
-upgrades
+sell enough words to buy a coffee then show
+get caffeine buzz up to X or money up to Y and show jobs
+take on a couple jobs to afford hiring a child
+unlock unlock students after X children
+unlock upgrades after X students

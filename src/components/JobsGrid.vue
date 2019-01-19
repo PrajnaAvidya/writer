@@ -1,5 +1,8 @@
 <template>
-  <div class="jobs">
+  <div
+    class="jobs"
+    :hidden="!showJobs"
+  >
     <BMessage
       has-icon
       :type="messageType"
@@ -65,6 +68,8 @@
         Turn In
       </a>
     </div>
+
+    <hr>
   </div>
 </template>
 
@@ -74,6 +79,7 @@ import Big from 'big.js';
 export default {
   name: 'JobsGrid',
   props: {
+    showJobs: Boolean,
     words: {
       type: Big,
       required: true,

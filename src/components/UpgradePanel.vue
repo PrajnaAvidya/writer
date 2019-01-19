@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div
+    class="upgrades"
+    :hidden="!showUpgrades"
+  >
+    <hr>
+
     <div
       v-for="workerId in Object.keys(upgrades.workers)"
       :key="workerId"
@@ -39,6 +44,7 @@ import lodashSize from 'lodash/size';
 export default {
   name: 'UpgradePanel',
   props: {
+    showUpgrades: Boolean,
     upgrades: {
       type: Object,
       required: true,
