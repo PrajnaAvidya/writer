@@ -4,7 +4,7 @@
     :can-cancel="false"
   >
     <div class="card">
-      <h1 class="title">
+      <h1 class="title is-1">
         Writer Incremental
       </h1>
 
@@ -48,10 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  size: 200%;
-  font-weight: bold;
-}
 .card {
   padding: 50px;
 }

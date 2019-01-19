@@ -16,6 +16,7 @@
       :money="money"
       :reputation="reputation"
       :job-active="jobActive"
+      :word-value="wordValue"
     />
 
     <CreativeButtons
@@ -23,11 +24,17 @@
       @write="write"
     />
 
+    <SellWriting
+      :writing-value="writingValue"
+      @sellWords="sellWords"
+    />
+
     <hr>
 
     <CaffeineBuzz
       :buzz-active="buzzActive()"
       :buzz-remaining="buzzRemaining()"
+      :coffee-cost="coffeeCost"
       class="caffeine-section"
       @coffee="coffee"
     />
@@ -66,6 +73,7 @@ import CreativeButtons from './components/CreativeButtons.vue';
 import IntroModal from './components/IntroModal.vue';
 import JobsGrid from './components/JobsGrid.vue';
 import ProductionGrid from './components/ProductionGrid.vue';
+import SellWriting from './components/SellWriting.vue';
 import StatDisplay from './components/StatDisplay.vue';
 import UpgradePanel from './components/UpgradePanel.vue';
 // data
@@ -80,10 +88,16 @@ export default {
     IntroModal,
     JobsGrid,
     ProductionGrid,
+    SellWriting,
     StatDisplay,
     UpgradePanel,
   },
   data: () => defaultData,
+  computed: {
+    writingValue() {
+      return this.words.times(this.wordValue);
+    },
+  },
   created() {
     this.workers = generateWorkerData();
     this.upgrades = generateUpgrades();
@@ -112,9 +126,9 @@ export default {
 
       // start actual frame updates
 
-      // caffeine buzz
+      // caffeine buzz ideas
       if (this.buzzActive()) {
-        this.ideas = this.ideas.plus(this.caffeineMultiplier.times(frameIncrement));
+        this.ideas = this.ideas.plus(this.caffeineIdeaGeneration.times(frameIncrement));
       }
 
       // calculate worker ideas
@@ -167,7 +181,10 @@ export default {
     // === start methods ===
     // player input
     think() {
-      const ideaCount = this.buzzActive() ? 2 : 1;
+      let ideaCount = this.baseIdeas;
+      if (this.buzzActive()) {
+        ideaCount = ideaCount.times(this.caffeineClickMultiplier);
+      }
       this.ideas = this.ideas.plus(ideaCount);
     },
     write() {
@@ -176,9 +193,9 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      let words = randomInt(this.baseWrite, this.maxWrite);
+      let words = Big(randomInt(this.baseWrite, this.maxWrite));
       if (this.buzzActive()) {
-        words *= 2;
+        words = words.times(this.caffeineClickMultiplier);
       }
 
       if (this.jobActive) {
@@ -189,7 +206,7 @@ export default {
     },
     // caffeine
     coffee() {
-      if (this.money.lt(2) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
+      if (this.money.lt(this.coffeeCost) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
         return;
       }
       if (!this.buzzActive()) {
@@ -201,7 +218,7 @@ export default {
         }
       }
 
-      this.money = this.money.minus(2);
+      this.money = this.money.minus(this.coffeeCost);
     },
     buzzActive() {
       return this.caffeineEndTime > unixTimestamp();
@@ -251,6 +268,13 @@ export default {
         this.money = this.money.plus(reward);
       }
       this.jobActive = false;
+    },
+    // economy
+    sellWords() {
+      if (this.words.gt(0)) {
+        this.money = this.money.plus(this.words.times(this.wordValue));
+        this.words = Big(0);
+      }
     },
     // === end methods ===
   },

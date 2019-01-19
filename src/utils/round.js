@@ -25,9 +25,9 @@ export default function (inputValue, userOptions = {}) {
     return 0;
   }
 
-  // return decimal if under 100
+  // return decimal if enabled & small enough
   if (options.decimal && value.lt(100)) {
-    return value.toFixed(1);
+    return value.toFixed(2);
   }
 
   // return number for under 1000

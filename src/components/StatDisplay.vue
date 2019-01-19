@@ -3,44 +3,52 @@
     <div class="status">
       Status: {{ status() }}
     </div>
-    <div class="ideas">
+    <div class="stat">
       Ideas: {{ ideas | roundPositive }}
     </div>
     <div
-      class="words"
+      class="stat"
       :style="{ textDecoration: jobActive ? 'line-through' : '' }"
     >
       Words: {{ words | round }}
     </div>
-    <div class="money">
-      Money: {{ money | money }}
+    <div
+      class="stat"
+      :style="{ textDecoration: jobActive ? 'line-through' : '' }"
+    >
+      Word Value: {{ wordValue | moneyCents }}
     </div>
-    <div class="reputation">
+    <div class="stat">
+      Money: {{ money | moneyCents }}
+    </div>
+    <div class="stat">
       Reputation: {{ reputation | round }}
     </div>
   </div>
 </template>
 
 <script>
-import Big from 'big.js';
-
 export default {
   name: 'StatDisplay',
   props: {
     ideas: {
-      type: Big,
+      type: Object,
       required: true,
     },
     words: {
-      type: Big,
+      type: Object,
+      required: true,
+    },
+    wordValue: {
+      type: Object,
       required: true,
     },
     money: {
-      type: Big,
+      type: Object,
       required: true,
     },
     reputation: {
-      type: Big,
+      type: Object,
       required: true,
     },
     jobActive: Boolean,

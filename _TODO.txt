@@ -25,6 +25,7 @@ upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 recurring costs for workers
 "scrap" button to start job over
 - job time limits?
+ability to feed coffee to children
 
 WORKERS TODO:
 - idea vs word productivity stats

@@ -5,7 +5,7 @@
         class="button"
         @click="$emit('coffee')"
       >
-        Drink Coffee ($2)
+        Drink Coffee ({{ coffeeCost | moneyCents }})
       </a>
     </div>
     <div class="column is-half">
@@ -20,6 +20,10 @@
 export default {
   name: 'CaffeineBuzz',
   props: {
+    coffeeCost: {
+      type: Object,
+      required: true,
+    },
     buzzActive: Boolean,
     buzzRemaining: {
       type: Number,

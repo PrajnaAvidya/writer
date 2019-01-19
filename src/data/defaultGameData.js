@@ -4,22 +4,26 @@ export default {
   // currencies
   ideas: Big(0),
   words: Big(0),
-  money: Big(2000),
-  reputation: Big(20),
+  wordValue: Big(0.01),
+  money: Big(0),
+  reputation: Big(0),
 
   // jobs
   jobWords: Big(0),
   jobActive: false,
 
-  // player writing range
+  // player ranges
+  baseIdeas: Big(1),
   baseWrite: Big(1),
   maxWrite: Big(3),
 
   // caffeine
-  caffeineTime: 60,
-  caffeineMaxTime: 300,
+  coffeeCost: Big(1),
+  caffeineTime: 120,
+  caffeineMaxTime: 600,
   caffeineEndTime: -1,
-  caffeineMultiplier: Big(1),
+  caffeineIdeaGeneration: Big(1),
+  caffeineClickMultiplier: Big(2),
 
   // workers (generated)
   workers: {},

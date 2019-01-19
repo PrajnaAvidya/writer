@@ -5,7 +5,7 @@
       :key="workerId"
     >
       <div v-if="size(upgrades.workers[workerId]) > 0">
-        <h3 class="upgrade-title">
+        <h3 class="title is-3">
           {{ workers[workerId].name }} Upgrades
         </h3>
         <div
@@ -80,7 +80,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.upgrade-title {
-  font-weight: bold;
-}
+
 </style>
