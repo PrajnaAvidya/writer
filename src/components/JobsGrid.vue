@@ -47,7 +47,6 @@
         </template>
       </BTable>
     </div>
-    <hr>
   </div>
 </template>
 
@@ -103,14 +102,14 @@ export default {
 
       if (this.words.gte(job.wordCount)) {
         this.succeedJob();
-        this.$emit('finishJob', job.payment);
+        this.$root.$emit('finishJob', job.payment);
       } else {
         this.failJob();
-        this.$emit('finishJob', Big(0));
+        this.$root.$emit('finishJob', Big(0));
       }
 
       // subtract words
-      this.$emit('subtractWords', job.wordCount);
+      this.$root.$emit('subtractWords', job.wordCount);
 
       // TODO start jobs cooldown
     },

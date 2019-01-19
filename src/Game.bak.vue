@@ -2,58 +2,54 @@
   <div id="game">
     <IntroModal />
 
-    <section class="section stats">
-      <div class="container">
-        <StatDisplay
-          :ideas="ideas"
-          :words="words"
-          :money="money"
-          :reputation="reputation"
-          :word-value="wordValue"
-        />
+    <JobsGrid
+      :show-jobs="showJobs"
+      :words="words"
+      @finishJob="addMoney"
+      @subtractWords="subtractWords"
+    />
 
-        <CaffeineBuzz
-          :show-caffeine="showCaffeine"
-          :buzz-active="buzzActive()"
-          :buzz-remaining="buzzRemaining()"
-          :coffee-cost="coffeeCost"
-          class="caffeine-section"
-        />
-      </div>
-    </section>
+    <StatDisplay
+      :ideas="ideas"
+      :words="words"
+      :money="money"
+      :reputation="reputation"
+      :word-value="wordValue"
+    />
 
-    <section class="section nav">
-      <div class="container">
-        <div id="nav">
-          <RouterLink to="/">
-            Home
-          </RouterLink>
-          |
-          <RouterLink to="/workers">
-            Workers
-          </RouterLink>
-          |
-          <RouterLink to="/agency">
-            Agency
-          </RouterLink>
-        </div>
-      </div>
-    </section>
+    <CreativeButtons
+      @think="think"
+      @write="write"
+    />
 
-    <section class="section main">
-      <div class="container">
-        <RouterView
-          :show-jobs="showJobs"
-          :show-production="showProduction"
-          :show-upgrades="showUpgrades"
-          :words="words"
-          :writing-value="writingValue"
-          :workers="workers"
-          :upgrades="upgrades"
-          :buy-amount="buyAmount"
-        />
-      </div>
-    </section>
+    <SellWriting
+      :writing-value="writingValue"
+      @sellWords="sellWords"
+    />
+
+    <CaffeineBuzz
+      :show-caffeine="showCaffeine"
+      :buzz-active="buzzActive()"
+      :buzz-remaining="buzzRemaining()"
+      :coffee-cost="coffeeCost"
+      class="caffeine-section"
+      @coffee="coffee"
+    />
+
+    <UpgradePanel
+      :show-upgrades="showUpgrades"
+      :upgrades="upgrades"
+      :workers="workers"
+    />
+
+    <ProductionGrid
+      :show-production="showProduction"
+      :buy-amount="buyAmount"
+      :workers="workers"
+      @hireWorker="hireWorker"
+      @setBuyAmount="setBuyAmount"
+      @updateWorkerBalance="updateWorkerBalance"
+    />
   </div>
 </template>
 
@@ -66,8 +62,13 @@ import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
 // components
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
+import CreativeButtons from './components/CreativeButtons.vue';
 import IntroModal from './components/IntroModal.vue';
+import JobsGrid from './components/JobsGrid.vue';
+import ProductionGrid from './components/ProductionGrid.vue';
+import SellWriting from './components/SellWriting.vue';
 import StatDisplay from './components/StatDisplay.vue';
+import UpgradePanel from './components/UpgradePanel.vue';
 // data
 import defaultData from './data/defaultGameData';
 
@@ -75,8 +76,13 @@ export default {
   name: 'Game',
   components: {
     CaffeineBuzz,
+    CreativeButtons,
     IntroModal,
+    JobsGrid,
+    ProductionGrid,
+    SellWriting,
     StatDisplay,
+    UpgradePanel,
   },
   data: () => defaultData,
   computed: {
@@ -91,17 +97,6 @@ export default {
   },
   mounted() {
     window.requestAnimationFrame(this.tick);
-
-    // register events
-    this.$root.$on('think', this.think);
-    this.$root.$on('write', this.write);
-    this.$root.$on('coffee', this.coffee);
-    this.$root.$on('hireWorker', this.hireWorker);
-    this.$root.$on('setBuyAmount', this.setBuyAmount);
-    this.$root.$on('updateWorkerBalance', this.updateWorkerBalance);
-    this.$root.$on('addMoney', this.addMoney);
-    this.$root.$on('subtractWords', this.subtractWords);
-    this.$root.$on('sellWords', this.sellWords);
   },
   methods: {
     // === start global update loop ===

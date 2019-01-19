@@ -1,6 +1,6 @@
 <template>
   <div :hidden="!showProduction">
-    <BuyAmounts @setBuyAmount="$emit('setBuyAmount', $event)" />
+    <BuyAmounts />
 
     <div
       v-for="worker in workers"
@@ -14,7 +14,7 @@
         <div class="column">
           <a
             class="button"
-            @click="$emit('hireWorker', worker.id)"
+            @click="$root.$emit('hireWorker', worker.id)"
           >
             Hire {{ worker.name }}
           </a>

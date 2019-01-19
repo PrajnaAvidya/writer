@@ -3,8 +3,6 @@
     class="upgrades"
     :hidden="!showUpgrades"
   >
-    <hr>
-
     <div
       v-for="workerId in Object.keys(upgrades.workers)"
       :key="workerId"

@@ -9,10 +9,10 @@ export default {
   reputation: Big(0),
 
   // unfolding
-  showCaffeine: false,
-  showJobs: false,
-  showProduction: false,
-  showUpgrades: false,
+  showCaffeine: true,
+  showJobs: true,
+  showProduction: true,
+  showUpgrades: true,
 
   // player ranges
   baseIdeas: Big(1),

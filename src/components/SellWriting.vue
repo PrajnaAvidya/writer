@@ -6,7 +6,7 @@
 
     <a
       class="button"
-      @click="$emit('sellWords')"
+      @click="$root.$emit('sellWords')"
     >
       Sell Words
     </a>

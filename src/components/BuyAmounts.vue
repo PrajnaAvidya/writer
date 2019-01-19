@@ -3,7 +3,7 @@
     <BTabs
       size="is-small"
       type="is-toggle"
-      @change="$emit('setBuyAmount', $event)"
+      @change="$root.$emit('setBuyAmount', $event)"
     >
       <BTabItem label="Buy 1" />
       <BTabItem label="Buy 10" />
