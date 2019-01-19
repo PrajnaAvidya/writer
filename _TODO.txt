@@ -9,6 +9,8 @@ color scheme -- art direction in general
 grey out things player can't afford
 
 IDEAS:
+make jobs subtract from current word count instead of meta-game
+- job cooldown timer so only 1 every X minutes
 increase word value with word count (exponential counts) -- maybe could be an upgrade
 more carrots for improvement (study early progression of games)
 reputation currency
