@@ -4,9 +4,9 @@
 
     <JobsGrid
       :show-jobs="showJobs"
-      :words="jobWords"
-      @startJob="startJob"
-      @finishJob="finishJob"
+      :words="words"
+      @finishJob="addMoney"
+      @subtractWords="subtractWords"
     />
 
     <StatDisplay
@@ -14,7 +14,6 @@
       :words="words"
       :money="money"
       :reputation="reputation"
-      :job-active="jobActive"
       :word-value="wordValue"
     />
 
@@ -171,12 +170,8 @@ export default {
         }
       });
 
-      // add to correct word total
-      if (this.jobActive) {
-        this.jobWords = this.jobWords.plus(words);
-      } else {
-        this.words = this.words.plus(words);
-      }
+      // add to word total
+      this.words = this.words.plus(words);
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -203,11 +198,7 @@ export default {
         words = words.times(this.caffeineClickMultiplier);
       }
 
-      if (this.jobActive) {
-        this.jobWords = this.jobWords.plus(words);
-      } else {
-        this.words = this.words.plus(words);
-      }
+      this.words = this.words.plus(words);
     },
     // caffeine
     coffee() {
@@ -263,21 +254,23 @@ export default {
     workerCost(baseCost, owned, costMultiplier) {
       return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
     },
-    // jobs
-    startJob() {
-      this.jobWords = Big(0);
-      this.jobActive = true;
-    },
-    finishJob(reward) {
-      if (reward.gt(0)) {
-        this.money = this.money.plus(reward);
-      }
-      this.jobActive = false;
-    },
     // economy
+    addMoney(money) {
+      if (money.gt(0)) {
+        this.money = this.money.plus(money);
+      }
+    },
+    subtractWords(words) {
+      if (words.gt(0)) {
+        this.words = this.words.minus(words);
+        if (this.words.lt(0)) {
+          this.words = Big(0);
+        }
+      }
+    },
     sellWords() {
       if (this.words.gt(0)) {
-        this.money = this.money.plus(this.words.times(this.wordValue));
+        this.addMoney(this.words.times(this.wordValue));
         this.words = Big(0);
       }
     },

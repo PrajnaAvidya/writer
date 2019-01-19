@@ -14,10 +14,6 @@ export default {
   showProduction: false,
   showUpgrades: false,
 
-  // jobs
-  jobWords: Big(0),
-  jobActive: false,
-
   // player ranges
   baseIdeas: Big(1),
   baseWrite: Big(1),

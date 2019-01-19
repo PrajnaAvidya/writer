@@ -1,21 +1,12 @@
 <template>
   <div class="stats">
-    <div class="status">
-      Status: {{ status }}
-    </div>
     <div class="stat">
       Ideas: {{ ideas | roundPositive }}
     </div>
-    <div
-      class="stat"
-      :style="{ textDecoration: jobActive ? 'line-through' : '' }"
-    >
+    <div class="stat">
       Words: {{ words | round }}
     </div>
-    <div
-      class="stat"
-      :style="{ textDecoration: jobActive ? 'line-through' : '' }"
-    >
+    <div class="stat">
       Word Value: {{ wordValue | moneyCents }}
     </div>
     <div class="stat">
@@ -50,16 +41,6 @@ export default {
     reputation: {
       type: Object,
       required: true,
-    },
-    jobActive: Boolean,
-  },
-  computed: {
-    status() {
-      if (this.jobActive) {
-        return 'Working on a Job';
-      }
-
-      return 'Freelance Writing';
     },
   },
 };

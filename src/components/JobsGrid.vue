@@ -12,10 +12,7 @@
       {{ currentMessage }}
     </BMessage>
 
-    <div
-      v-if="!currentJob"
-      class="jobs-table"
-    >
+    <div class="jobs-table">
       <div class="jobs-header">
         Available Jobs
       </div>
@@ -50,25 +47,6 @@
         </template>
       </BTable>
     </div>
-
-    <div v-else>
-      <div class="jobs-header">
-        Current Job: {{ currentJob.name }}
-      </div>
-      <div class="jobs-subheader">
-        Minimum Word Count: {{ currentJob.wordCount | round }}
-      </div>
-      <div class="jobs-subheader">
-        Current Word Count: {{ words | round }}
-      </div>
-      <a
-        class="button is-primary is-small"
-        @click="finishJob"
-      >
-        Turn In
-      </a>
-    </div>
-
     <hr>
   </div>
 </template>
@@ -81,7 +59,7 @@ export default {
   props: {
     showJobs: Boolean,
     words: {
-      type: Big,
+      type: Object,
       required: true,
     },
   },
@@ -90,7 +68,6 @@ export default {
     messageType: '',
     messageTitle: '',
     currentMessage: '',
-    currentJob: null, // TODO
     exampleJobs: [
       { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(5) },
       { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(11) },
@@ -122,22 +99,20 @@ export default {
   }),
   methods: {
     acceptJob(index) {
-      this.currentJob = this.exampleJobs[index];
-      this.messageType = 'is-info';
-      this.messageTitle = 'Job Accepted';
-      this.currentMessage = `Accepted job ${this.currentJob.name}`;
-      this.$emit('startJob');
-      this.showMessage = true;
-    },
-    finishJob() {
-      if (this.words >= this.currentJob.wordCount) {
+      const job = this.exampleJobs[index];
+
+      if (this.words.gte(job.wordCount)) {
         this.succeedJob();
-        this.$emit('finishJob', this.currentJob.payment);
+        this.$emit('finishJob', job.payment);
       } else {
         this.failJob();
         this.$emit('finishJob', Big(0));
       }
-      this.currentJob = null;
+
+      // subtract words
+      this.$emit('subtractWords', job.wordCount);
+
+      // TODO start jobs cooldown
     },
     succeedJob() {
       this.messageType = 'is-success';
