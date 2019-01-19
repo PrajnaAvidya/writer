@@ -86,9 +86,9 @@ export default {
     currentMessage: '',
     currentJob: null, // TODO
     exampleJobs: [
-      { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(10) },
-      { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(25) },
-      { index: 2, wordCount: Big(300), name: 'Editorial', payment: Big(50) },
+      { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(5) },
+      { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(11) },
+      { index: 2, wordCount: Big(400), name: 'Editorial', payment: Big(24) },
     ],
     columns: [
       {

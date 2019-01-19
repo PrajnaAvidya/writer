@@ -51,7 +51,8 @@ flavor texts/lore
 tutorial/tooltips
 
 GAME PROGRESSION IDEAS:
-jobs
+sell enough words to buy a coffee
+take on a couple jobs to afford a child
+...
 workers
 upgrades
-TODO: selling words
