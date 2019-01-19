@@ -25,6 +25,15 @@
 
     <hr>
 
+    <CaffeineBuzz
+      :buzz-active="buzzActive()"
+      :buzz-remaining="buzzRemaining()"
+      class="caffeine-section"
+      @coffee="coffee"
+    />
+
+    <hr>
+
     <UpgradePanel
       :upgrades="upgrades"
       :workers="workers"
@@ -33,13 +42,6 @@
     <hr>
 
     <BuyAmounts @setBuyAmount="setBuyAmount" />
-
-    <CaffeineBuzz
-      :buzz-active="buzzActive()"
-      :buzz-remaining="buzzRemaining()"
-      class="caffeine-section"
-      @coffee="coffee"
-    />
 
     <ProductionGrid
       :buy-amount="buyAmount"

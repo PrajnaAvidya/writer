@@ -1,9 +1,6 @@
 CURRENT TODO:
 intro/modal
-move caffeine to own area
-hide upgrades/workers at first
-hide jobs/reputation
-some kind of "publish" feature to convert early words into $
+some kind of "sell words" feature to convert words into tiny amounts of $
 
 CORE TODO:
 vuex -- periodic updates instead of every frame
@@ -11,6 +8,8 @@ save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
 global css for h tags and stuff
+hide upgrades/workers at first
+hide jobs/reputation at first
 
 MISC BUGS/FIXES:
 
