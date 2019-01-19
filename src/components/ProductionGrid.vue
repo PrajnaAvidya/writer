@@ -106,7 +106,7 @@ export default {
             const balance = val[workerId];
 
             // send new balance value to Game
-            this.$emit('updateWorkerBalance', { workerId, balance });
+            this.$root.$emit('updateWorkerBalance', { workerId, balance });
 
             this.previousAssignments[workerId] = val[workerId];
           }
