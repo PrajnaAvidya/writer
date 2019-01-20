@@ -29,6 +29,10 @@ export default {
 
   // workers (generated)
   workers: {},
+  assignments: {
+    child: 0,
+    student: 0,
+  },
 
   // number of workers to buy
   buyAmount: 1,

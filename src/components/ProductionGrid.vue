@@ -72,16 +72,13 @@ export default {
       type: Object,
       required: true,
     },
+    assignments: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
-    assignments: {
-      child: 0,
-      student: 0,
-    },
-    previousAssignments: {
-      child: 0,
-      student: 0,
-    },
+    previousAssignments: {},
     displayWorker: {
       child: true,
       student: false,
@@ -114,6 +111,9 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    this.previousAssignments = this.assignments;
   },
 };
 </script>

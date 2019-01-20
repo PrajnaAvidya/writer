@@ -102,10 +102,9 @@ export default {
 
       if (this.words.gte(job.wordCount)) {
         this.succeedJob();
-        this.$root.$emit('finishJob', job.payment);
+        this.$root.$emit('addMoney', job.payment);
       } else {
         this.failJob();
-        this.$root.$emit('finishJob', Big(0));
       }
 
       // subtract words

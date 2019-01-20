@@ -10,6 +10,7 @@
       :show-production="showProduction"
       :buy-amount="buyAmount"
       :workers="workers"
+      :assignments="assignments"
     />
   </div>
 </template>
@@ -36,6 +37,10 @@ export default {
       required: true,
     },
     upgrades: {
+      type: Object,
+      required: true,
+    },
+    assignments: {
       type: Object,
       required: true,
     },

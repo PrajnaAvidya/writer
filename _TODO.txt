@@ -1,7 +1,9 @@
 CURRENT TODO:
+new layout/router
 intro/modal
 upgrades
 job cooldown
+state management for buy amount
 
 CORE TODO:
 vuex -- periodic updates instead of every frame
@@ -10,6 +12,7 @@ color scheme -- art direction in general
 grey out things player can't afford
 
 IDEAS:
+don't allow job failure
 increase word value with word count (exponential counts) -- maybe could be an upgrade
 more carrots for improvement (study early progression of games)
 reputation currency
@@ -19,8 +22,6 @@ upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 - maybe make the slider feature an upgrade
 - player efficiency
 recurring costs for workers
-"scrap" button to start job over
-- job time limits?
 give coffee to children/workers
 
 WORKERS TODO:

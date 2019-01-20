@@ -51,6 +51,7 @@
           :workers="workers"
           :upgrades="upgrades"
           :buy-amount="buyAmount"
+          :assignments="assignments"
         />
       </div>
     </section>
