@@ -8,9 +8,9 @@
       :key="workerId"
     >
       <div v-if="size(upgrades.workers[workerId]) > 0">
-        <h3 class="title is-3">
+        <h4 class="title is-4">
           {{ workers[workerId].name }} Upgrades
-        </h3>
+        </h4>
         <div
           v-for="upgrade in orderedUpgrades(upgrades.workers[workerId])"
           :key="upgrade.id"

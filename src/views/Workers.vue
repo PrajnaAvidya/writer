@@ -5,7 +5,7 @@
       :upgrades="upgrades"
       :workers="workers"
     />
-
+    <hr>
     <ProductionGrid
       :show-production="showProduction"
       :workers="workers"

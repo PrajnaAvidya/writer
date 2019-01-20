@@ -3,58 +3,56 @@
     <IntroModal />
 
     <section class="section stats">
-      <div class="container">
-        <StatDisplay
-          :ideas="ideas"
-          :words="words"
-          :money="money"
-          :reputation="reputation"
-          :word-value="wordValue"
-        />
+      <StatDisplay
+        :ideas="ideas"
+        :words="words"
+        :money="money"
+        :reputation="reputation"
+        :word-value="wordValue"
+      />
 
-        <SellWriting :writing-value="writingValue" />
+      <hr>
 
-        <CaffeineBuzz
-          :show-caffeine="showCaffeine"
-          :buzz-active="buzzActive()"
-          :buzz-remaining="buzzRemaining()"
-          :coffee-cost="coffeeCost"
-          class="caffeine-section"
-        />
-      </div>
+      <SellWriting :writing-value="writingValue" />
+
+      <CaffeineBuzz
+        :show-caffeine="showCaffeine"
+        :buzz-active="buzzActive()"
+        :buzz-remaining="buzzRemaining()"
+        :coffee-cost="coffeeCost"
+        class="caffeine-section"
+      />
     </section>
 
     <section class="section nav">
-      <div class="container">
-        <div id="nav">
-          <RouterLink to="/">
-            Home
-          </RouterLink>
-          |
-          <RouterLink to="/workers">
-            Workers
-          </RouterLink>
-          |
-          <RouterLink to="/agency">
-            Agency
-          </RouterLink>
-        </div>
+      <div id="nav">
+        <hr>
+        <RouterLink to="/">
+          Home
+        </RouterLink>
+        |
+        <RouterLink to="/workers">
+          Workers
+        </RouterLink>
+        |
+        <RouterLink to="/agency">
+          Agency
+        </RouterLink>
+        <hr>
       </div>
     </section>
 
     <section class="section main">
-      <div class="container">
-        <RouterView
-          :show-jobs="showJobs"
-          :show-production="showProduction"
-          :show-upgrades="showUpgrades"
-          :words="words"
-          :workers="workers"
-          :upgrades="upgrades"
-          :assignments="assignments"
-          :job-timer="jobTimer"
-        />
-      </div>
+      <RouterView
+        :show-jobs="showJobs"
+        :show-production="showProduction"
+        :show-upgrades="showUpgrades"
+        :words="words"
+        :workers="workers"
+        :upgrades="upgrades"
+        :assignments="assignments"
+        :job-timer="jobTimer"
+      />
     </section>
   </div>
 </template>
@@ -307,6 +305,17 @@ export default {
 <style lang="scss">
 #game {
   text-align: center;
+}
+.stats, .main {
+  padding: 0;
+  width: 900px;
+  margin: 0 auto;
+}
+.stats {
+  padding-top: 20px;
+}
+.nav {
+  padding: 25px;
 }
 .caffeine-section {
   margin-bottom: 10px !important;
