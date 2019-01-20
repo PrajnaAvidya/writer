@@ -3,12 +3,11 @@
     class="caffeine"
     :hidden="!showCaffeine"
   >
-    <hr>
     <div class="columns">
       <div class="column is-half">
         <a
           class="button"
-          @click="$emit('coffee')"
+          @click="$root.$emit('coffee')"
         >
           Drink Coffee ({{ coffeeCost | moneyCents }})
         </a>

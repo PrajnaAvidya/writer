@@ -9,10 +9,10 @@ export default {
   reputation: Big(0),
 
   // unfolding
-  showCaffeine: false,
-  showJobs: false,
-  showProduction: false,
-  showUpgrades: false,
+  showCaffeine: true,
+  showJobs: true,
+  showProduction: true,
+  showUpgrades: true,
 
   // player ranges
   baseIdeas: Big(1),
@@ -27,11 +27,15 @@ export default {
   caffeineIdeaGeneration: Big(0.5),
   caffeineClickMultiplier: Big(2),
 
+  // jobs
+  jobTimer: 60,
+
   // workers (generated)
   workers: {},
-
-  // number of workers to buy
-  buyAmount: 1,
+  assignments: {
+    child: 0,
+    student: 0,
+  },
 
   // upgrades (generated)
   upgrades: {},

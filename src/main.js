@@ -6,6 +6,7 @@ import Buefy from 'buefy';
 import VueSlideBar from 'vue-slide-bar';
 
 import Game from './Game.vue';
+import router from './router';
 import store from './store';
 import './filters';
 
@@ -18,6 +19,7 @@ Vue.component('VueSlideBar', VueSlideBar);
 Vue.config.productionTip = false;
 
 new Vue({
+  router,
   store,
   render: h => h(Game),
 }).$mount('#game');

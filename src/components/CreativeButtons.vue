@@ -7,7 +7,7 @@
       >
         <a
           class="button is-primary is-large"
-          @click="$emit('think')"
+          @click="$root.$emit('think')"
         >
           <BIcon icon="brain" />
         </a>
@@ -21,7 +21,7 @@
       >
         <a
           class="button is-primary is-large"
-          @click="$emit('write')"
+          @click="$root.$emit('write')"
         >
           <BIcon icon="pen" />
         </a>

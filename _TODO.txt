@@ -1,15 +1,19 @@
 CURRENT TODO:
+new layout
 intro/modal
 upgrades
-job cooldown
+job cooldown ui
+generate job data based on progress
 
 CORE TODO:
-vuex -- periodic updates instead of every frame
+move more stuff to vuex
+vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
 
 IDEAS:
+use tabs for nav
 increase word value with word count (exponential counts) -- maybe could be an upgrade
 more carrots for improvement (study early progression of games)
 reputation currency
@@ -19,8 +23,6 @@ upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 - maybe make the slider feature an upgrade
 - player efficiency
 recurring costs for workers
-"scrap" button to start job over
-- job time limits?
 give coffee to children/workers
 
 WORKERS TODO:
@@ -35,7 +37,6 @@ buy upgrade
 apply upgrade in tick/click
 
 FUTURE IDEAS/TODO:
-generate jobs based on current progress
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 some sort of quality/creativity average for words written
 - minimum reputation for job completion

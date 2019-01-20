@@ -1,6 +1,6 @@
 <template>
   <div :hidden="!showProduction">
-    <BuyAmounts @setBuyAmount="$emit('setBuyAmount', $event)" />
+    <BuyAmounts />
 
     <div
       v-for="worker in workers"
@@ -14,7 +14,7 @@
         <div class="column">
           <a
             class="button"
-            @click="$emit('hireWorker', worker.id)"
+            @click="$root.$emit('hireWorker', worker.id)"
           >
             Hire {{ worker.name }}
           </a>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import BuyAmounts from './BuyAmounts.vue';
 
 export default {
@@ -64,24 +65,17 @@ export default {
   },
   props: {
     showProduction: Boolean,
-    buyAmount: {
-      type: Number,
+    workers: {
+      type: Object,
       required: true,
     },
-    workers: {
+    assignments: {
       type: Object,
       required: true,
     },
   },
   data: () => ({
-    assignments: {
-      child: 0,
-      student: 0,
-    },
-    previousAssignments: {
-      child: 0,
-      student: 0,
-    },
+    previousAssignments: {},
     displayWorker: {
       child: true,
       student: false,
@@ -98,6 +92,11 @@ export default {
       },
     },
   }),
+  computed: {
+    ...mapState([
+      'buyAmount',
+    ]),
+  },
   watch: {
     assignments: {
       handler(val) {
@@ -106,7 +105,7 @@ export default {
             const balance = val[workerId];
 
             // send new balance value to Game
-            this.$emit('updateWorkerBalance', { workerId, balance });
+            this.$root.$emit('updateWorkerBalance', { workerId, balance });
 
             this.previousAssignments[workerId] = val[workerId];
           }
@@ -114,6 +113,9 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    this.previousAssignments = Object.assign({}, this.assignments);
   },
 };
 </script>

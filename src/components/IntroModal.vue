@@ -36,7 +36,7 @@
 export default {
   name: 'IntroModal',
   data: () => ({
-    active: true,
+    active: false,
     name: 'Rafiq',
   }),
   methods: {

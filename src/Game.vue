@@ -2,73 +2,76 @@
   <div id="game">
     <IntroModal />
 
-    <JobsGrid
-      :show-jobs="showJobs"
-      :words="words"
-      @finishJob="addMoney"
-      @subtractWords="subtractWords"
-    />
+    <section class="section stats">
+      <div class="container">
+        <StatDisplay
+          :ideas="ideas"
+          :words="words"
+          :money="money"
+          :reputation="reputation"
+          :word-value="wordValue"
+        />
 
-    <StatDisplay
-      :ideas="ideas"
-      :words="words"
-      :money="money"
-      :reputation="reputation"
-      :word-value="wordValue"
-    />
+        <SellWriting :writing-value="writingValue" />
 
-    <CreativeButtons
-      @think="think"
-      @write="write"
-    />
+        <CaffeineBuzz
+          :show-caffeine="showCaffeine"
+          :buzz-active="buzzActive()"
+          :buzz-remaining="buzzRemaining()"
+          :coffee-cost="coffeeCost"
+          class="caffeine-section"
+        />
+      </div>
+    </section>
 
-    <SellWriting
-      :writing-value="writingValue"
-      @sellWords="sellWords"
-    />
+    <section class="section nav">
+      <div class="container">
+        <div id="nav">
+          <RouterLink to="/">
+            Home
+          </RouterLink>
+          |
+          <RouterLink to="/workers">
+            Workers
+          </RouterLink>
+          |
+          <RouterLink to="/agency">
+            Agency
+          </RouterLink>
+        </div>
+      </div>
+    </section>
 
-    <CaffeineBuzz
-      :show-caffeine="showCaffeine"
-      :buzz-active="buzzActive()"
-      :buzz-remaining="buzzRemaining()"
-      :coffee-cost="coffeeCost"
-      class="caffeine-section"
-      @coffee="coffee"
-    />
-
-    <UpgradePanel
-      :show-upgrades="showUpgrades"
-      :upgrades="upgrades"
-      :workers="workers"
-    />
-
-    <ProductionGrid
-      :show-production="showProduction"
-      :buy-amount="buyAmount"
-      :workers="workers"
-      @hireWorker="hireWorker"
-      @setBuyAmount="setBuyAmount"
-      @updateWorkerBalance="updateWorkerBalance"
-    />
+    <section class="section main">
+      <div class="container">
+        <RouterView
+          :show-jobs="showJobs"
+          :show-production="showProduction"
+          :show-upgrades="showUpgrades"
+          :words="words"
+          :workers="workers"
+          :upgrades="upgrades"
+          :assignments="assignments"
+          :job-timer="jobTimer"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 // libraries/utils
 import Big from 'big.js';
+import { mapState, mapMutations } from 'vuex';
 import generateWorkerData from './utils/generateWorkerData';
 import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
 // components
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
-import CreativeButtons from './components/CreativeButtons.vue';
 import IntroModal from './components/IntroModal.vue';
-import JobsGrid from './components/JobsGrid.vue';
-import ProductionGrid from './components/ProductionGrid.vue';
 import SellWriting from './components/SellWriting.vue';
 import StatDisplay from './components/StatDisplay.vue';
-import UpgradePanel from './components/UpgradePanel.vue';
 // data
 import defaultData from './data/defaultGameData';
 
@@ -76,19 +79,20 @@ export default {
   name: 'Game',
   components: {
     CaffeineBuzz,
-    CreativeButtons,
     IntroModal,
-    JobsGrid,
-    ProductionGrid,
     SellWriting,
     StatDisplay,
-    UpgradePanel,
   },
   data: () => defaultData,
   computed: {
     writingValue() {
       return this.words.times(this.wordValue);
     },
+    ...mapState([
+      'buyAmount',
+      'jobActive',
+      'nextJobTime',
+    ]),
   },
   created() {
     this.workers = generateWorkerData();
@@ -97,6 +101,22 @@ export default {
   },
   mounted() {
     window.requestAnimationFrame(this.tick);
+
+    // register events
+    this.$root.$on('think', this.think);
+    this.$root.$on('write', this.write);
+    this.$root.$on('coffee', this.coffee);
+    this.$root.$on('hireWorker', this.hireWorker);
+    this.$root.$on('updateWorkerBalance', this.updateWorkerBalance);
+    this.$root.$on('addMoney', this.addMoney);
+    this.$root.$on('subtractWords', this.subtractWords);
+    this.$root.$on('sellWords', this.sellWords);
+
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'setBuyAmountIndex') {
+        this.calculateWorkerCosts();
+      }
+    });
   },
   methods: {
     // === start global update loop ===
@@ -129,6 +149,12 @@ export default {
         this.showProduction = true;
       }
       // TODO unlock upgrades
+
+
+      // check job cooldown
+      if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
+        this.setJobActive();
+      }
 
       // caffeine buzz ideas
       if (this.buzzActive()) {
@@ -223,10 +249,6 @@ export default {
       return this.caffeineEndTime - unixTimestamp();
     },
     // workers
-    setBuyAmount(index) {
-      this.buyAmount = 10 ** index;
-      this.calculateWorkerCosts();
-    },
     hireWorker(id) {
       // check if can afford
       if (this.money.lt(this.workers[id].cost)) {
@@ -275,6 +297,9 @@ export default {
       }
     },
     // === end methods ===
+    ...mapMutations([
+      'setJobActive',
+    ]),
   },
 };
 </script>

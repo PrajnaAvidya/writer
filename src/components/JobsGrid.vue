@@ -12,7 +12,10 @@
       {{ currentMessage }}
     </BMessage>
 
-    <div class="jobs-table">
+    <div
+      v-if="jobActive"
+      class="jobs-table"
+    >
       <div class="jobs-header">
         Available Jobs
       </div>
@@ -36,23 +39,25 @@
           >
             {{ props.row.payment | money }}
           </BTableColumn>
-          <BTableColumn field="accept">
+          <BTableColumn field="complete">
             <a
               class="button is-small is-primary"
-              @click="acceptJob(props.row.index)"
+              :disabled="props.row.wordCount.gt(words)"
+              @click="completeJob(props.row.index)"
             >
-              Accept Job
+              Complete Job
             </a>
           </BTableColumn>
         </template>
       </BTable>
     </div>
-    <hr>
   </div>
 </template>
 
 <script>
 import Big from 'big.js';
+import { mapState, mapMutations } from 'vuex';
+import unixTimestamp from '../utils/unixTimestamp';
 
 export default {
   name: 'JobsGrid',
@@ -60,6 +65,10 @@ export default {
     showJobs: Boolean,
     words: {
       type: Object,
+      required: true,
+    },
+    jobTimer: {
+      type: Number,
       required: true,
     },
   },
@@ -91,41 +100,41 @@ export default {
         numeric: true,
       },
       {
-        field: 'accept',
-        label: 'Accept',
+        field: 'complete',
+        label: 'Complete',
         width: 200,
       },
     ],
   }),
+  computed: {
+    ...mapState([
+      'jobActive',
+    ]),
+  },
   methods: {
-    acceptJob(index) {
+    completeJob(index) {
       const job = this.exampleJobs[index];
 
-      if (this.words.gte(job.wordCount)) {
-        this.succeedJob();
-        this.$emit('finishJob', job.payment);
-      } else {
-        this.failJob();
-        this.$emit('finishJob', Big(0));
+      if (this.words.lt(job.wordCount)) {
+        return;
       }
 
-      // subtract words
-      this.$emit('subtractWords', job.wordCount);
-
-      // TODO start jobs cooldown
-    },
-    succeedJob() {
       this.messageType = 'is-success';
       this.messageTitle = 'Success';
       this.currentMessage = 'Job Finished';
       this.showMessage = true;
+
+      this.$root.$emit('addMoney', job.payment);
+
+      // subtract words
+      this.$root.$emit('subtractWords', job.wordCount);
+
+      // start jobs cooldown
+      this.resetJobTimer(this.jobTimer);
     },
-    failJob() {
-      this.messageType = 'is-danger';
-      this.messageTitle = 'Failure';
-      this.currentMessage = 'Job Failed';
-      this.showMessage = true;
-    },
+    ...mapMutations([
+      'resetJobTimer',
+    ]),
   },
 };
 </script>
