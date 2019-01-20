@@ -3,15 +3,16 @@ new layout/router
 intro/modal
 upgrades
 job cooldown
-state management for buy amount
 
 CORE TODO:
-vuex -- periodic updates instead of every frame
+move more stuff to vuex
+vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
 
 IDEAS:
+use tabs for nav
 don't allow job failure
 increase word value with word count (exponential counts) -- maybe could be an upgrade
 more carrots for improvement (study early progression of games)

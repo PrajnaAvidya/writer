@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import BuyAmounts from './BuyAmounts.vue';
 
 export default {
@@ -64,10 +65,6 @@ export default {
   },
   props: {
     showProduction: Boolean,
-    buyAmount: {
-      type: Number,
-      required: true,
-    },
     workers: {
       type: Object,
       required: true,
@@ -95,6 +92,11 @@ export default {
       },
     },
   }),
+  computed: {
+    ...mapState([
+      'buyAmount',
+    ]),
+  },
   watch: {
     assignments: {
       handler(val) {

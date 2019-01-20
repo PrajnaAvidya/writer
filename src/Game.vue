@@ -50,7 +50,6 @@
           :writing-value="writingValue"
           :workers="workers"
           :upgrades="upgrades"
-          :buy-amount="buyAmount"
           :assignments="assignments"
         />
       </div>
@@ -61,6 +60,7 @@
 <script>
 // libraries/utils
 import Big from 'big.js';
+import { mapState } from 'vuex';
 import generateWorkerData from './utils/generateWorkerData';
 import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
@@ -84,6 +84,9 @@ export default {
     writingValue() {
       return this.words.times(this.wordValue);
     },
+    ...mapState([
+      'buyAmount',
+    ]),
   },
   created() {
     this.workers = generateWorkerData();
@@ -98,11 +101,16 @@ export default {
     this.$root.$on('write', this.write);
     this.$root.$on('coffee', this.coffee);
     this.$root.$on('hireWorker', this.hireWorker);
-    this.$root.$on('setBuyAmount', this.setBuyAmount);
     this.$root.$on('updateWorkerBalance', this.updateWorkerBalance);
     this.$root.$on('addMoney', this.addMoney);
     this.$root.$on('subtractWords', this.subtractWords);
     this.$root.$on('sellWords', this.sellWords);
+
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'setBuyAmountIndex') {
+        this.calculateWorkerCosts();
+      }
+    });
   },
   methods: {
     // === start global update loop ===
@@ -229,10 +237,6 @@ export default {
       return this.caffeineEndTime - unixTimestamp();
     },
     // workers
-    setBuyAmount(index) {
-      this.buyAmount = 10 ** index;
-      this.calculateWorkerCosts();
-    },
     hireWorker(id) {
       // check if can afford
       if (this.money.lt(this.workers[id].cost)) {

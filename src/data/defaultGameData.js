@@ -34,9 +34,6 @@ export default {
     student: 0,
   },
 
-  // number of workers to buy
-  buyAmount: 1,
-
   // upgrades (generated)
   upgrades: {},
 

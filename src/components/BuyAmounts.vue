@@ -1,9 +1,9 @@
 <template>
   <div class="buy-amounts">
     <BTabs
+      v-model="buyIndex"
       size="is-small"
       type="is-toggle"
-      @change="$root.$emit('setBuyAmount', $event)"
     >
       <BTabItem label="Buy 1" />
       <BTabItem label="Buy 10" />
@@ -13,8 +13,28 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: 'BuyAmounts',
+  computed: {
+    buyIndex: {
+      get() {
+        return this.buyAmountIndex;
+      },
+      set(value) {
+        this.setBuyAmountIndex(value);
+      },
+    },
+    ...mapState([
+      'buyAmountIndex',
+    ]),
+  },
+  methods: {
+    ...mapMutations([
+      'setBuyAmountIndex',
+    ]),
+  },
 };
 </script>
 

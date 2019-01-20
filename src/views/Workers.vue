@@ -8,7 +8,6 @@
 
     <ProductionGrid
       :show-production="showProduction"
-      :buy-amount="buyAmount"
       :workers="workers"
       :assignments="assignments"
     />
@@ -28,10 +27,6 @@ export default {
   props: {
     showProduction: Boolean,
     showUpgrades: Boolean,
-    buyAmount: {
-      type: Number,
-      required: true,
-    },
     workers: {
       type: Object,
       required: true,
