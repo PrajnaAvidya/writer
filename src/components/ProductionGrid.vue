@@ -115,7 +115,7 @@ export default {
     },
   },
   mounted() {
-    this.previousAssignments = this.assignments;
+    this.previousAssignments = Object.assign({}, this.assignments);
   },
 };
 </script>

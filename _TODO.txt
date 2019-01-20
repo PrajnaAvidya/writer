@@ -13,7 +13,6 @@ grey out things player can't afford
 
 IDEAS:
 use tabs for nav
-don't allow job failure
 increase word value with word count (exponential counts) -- maybe could be an upgrade
 more carrots for improvement (study early progression of games)
 reputation currency
