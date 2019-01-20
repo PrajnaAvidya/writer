@@ -38,6 +38,10 @@
         <RouterLink to="/agency">
           Agency
         </RouterLink>
+        |
+        <RouterLink to="/upgrades">
+          Upgrades
+        </RouterLink>
         <hr>
       </div>
     </section>

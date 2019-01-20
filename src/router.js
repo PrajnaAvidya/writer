@@ -22,5 +22,10 @@ export default new Router({
       name: 'agency',
       component: () => import('./views/Agency.vue'),
     },
+    {
+      path: '/upgrades',
+      name: 'upgrades',
+      component: () => import('./views/Upgrades.vue'),
+    },
   ],
 });
