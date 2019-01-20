@@ -27,6 +27,9 @@ export default {
   caffeineIdeaGeneration: Big(0.5),
   caffeineClickMultiplier: Big(2),
 
+  // jobs
+  jobTimer: 60,
+
   // workers (generated)
   workers: {},
   assignments: {

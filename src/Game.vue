@@ -12,6 +12,8 @@
           :word-value="wordValue"
         />
 
+        <SellWriting :writing-value="writingValue" />
+
         <CaffeineBuzz
           :show-caffeine="showCaffeine"
           :buzz-active="buzzActive()"
@@ -47,10 +49,10 @@
           :show-production="showProduction"
           :show-upgrades="showUpgrades"
           :words="words"
-          :writing-value="writingValue"
           :workers="workers"
           :upgrades="upgrades"
           :assignments="assignments"
+          :job-timer="jobTimer"
         />
       </div>
     </section>
@@ -60,7 +62,7 @@
 <script>
 // libraries/utils
 import Big from 'big.js';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import generateWorkerData from './utils/generateWorkerData';
 import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
@@ -68,6 +70,7 @@ import unixTimestamp from './utils/unixTimestamp';
 // components
 import CaffeineBuzz from './components/CaffeineBuzz.vue';
 import IntroModal from './components/IntroModal.vue';
+import SellWriting from './components/SellWriting.vue';
 import StatDisplay from './components/StatDisplay.vue';
 // data
 import defaultData from './data/defaultGameData';
@@ -77,6 +80,7 @@ export default {
   components: {
     CaffeineBuzz,
     IntroModal,
+    SellWriting,
     StatDisplay,
   },
   data: () => defaultData,
@@ -86,6 +90,8 @@ export default {
     },
     ...mapState([
       'buyAmount',
+      'jobActive',
+      'nextJobTime',
     ]),
   },
   created() {
@@ -143,6 +149,12 @@ export default {
         this.showProduction = true;
       }
       // TODO unlock upgrades
+
+
+      // check job cooldown
+      if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
+        this.setJobActive();
+      }
 
       // caffeine buzz ideas
       if (this.buzzActive()) {
@@ -285,6 +297,9 @@ export default {
       }
     },
     // === end methods ===
+    ...mapMutations([
+      'setJobActive',
+    ]),
   },
 };
 </script>

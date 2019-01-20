@@ -12,7 +12,10 @@
       {{ currentMessage }}
     </BMessage>
 
-    <div class="jobs-table">
+    <div
+      v-if="jobActive"
+      class="jobs-table"
+    >
       <div class="jobs-header">
         Available Jobs
       </div>
@@ -53,6 +56,8 @@
 
 <script>
 import Big from 'big.js';
+import { mapState, mapMutations } from 'vuex';
+import unixTimestamp from '../utils/unixTimestamp';
 
 export default {
   name: 'JobsGrid',
@@ -60,6 +65,10 @@ export default {
     showJobs: Boolean,
     words: {
       type: Object,
+      required: true,
+    },
+    jobTimer: {
+      type: Number,
       required: true,
     },
   },
@@ -97,9 +106,13 @@ export default {
       },
     ],
   }),
+  computed: {
+    ...mapState([
+      'jobActive',
+    ]),
+  },
   methods: {
     completeJob(index) {
-      console.log(this.words.toString());
       const job = this.exampleJobs[index];
 
       if (this.words.lt(job.wordCount)) {
@@ -116,8 +129,12 @@ export default {
       // subtract words
       this.$root.$emit('subtractWords', job.wordCount);
 
-      // TODO start jobs cooldown
+      // start jobs cooldown
+      this.resetJobTimer(this.jobTimer);
     },
+    ...mapMutations([
+      'resetJobTimer',
+    ]),
   },
 };
 </script>

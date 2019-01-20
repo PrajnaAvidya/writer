@@ -3,10 +3,7 @@
     <JobsGrid
       :show-jobs="showJobs"
       :words="words"
-    />
-
-    <SellWriting
-      :writing-value="writingValue"
+      :job-timer="jobTimer"
     />
   </div>
 </template>
@@ -19,7 +16,6 @@ export default {
   name: 'Agency',
   components: {
     JobsGrid,
-    SellWriting,
   },
   props: {
     showJobs: Boolean,
@@ -27,8 +23,8 @@ export default {
       type: Object,
       required: true,
     },
-    writingValue: {
-      type: Object,
+    jobTimer: {
+      type: Number,
       required: true,
     },
   },

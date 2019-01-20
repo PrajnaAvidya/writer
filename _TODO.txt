@@ -1,8 +1,9 @@
 CURRENT TODO:
-new layout/router
+new layout
 intro/modal
 upgrades
-job cooldown
+job cooldown ui
+generate job data based on progress
 
 CORE TODO:
 move more stuff to vuex
@@ -36,7 +37,6 @@ buy upgrade
 apply upgrade in tick/click
 
 FUTURE IDEAS/TODO:
-generate jobs based on current progress
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 some sort of quality/creativity average for words written
 - minimum reputation for job completion
