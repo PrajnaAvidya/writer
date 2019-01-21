@@ -81,10 +81,6 @@ export default {
   },
   data: () => ({
     previousAssignments: {},
-    displayWorker: {
-      child: true,
-      student: false,
-    },
     slider: {
       lineHeight: 8,
       processStyle: {
