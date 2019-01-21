@@ -35,6 +35,7 @@ export default {
   assignments: {
     child: 0,
     student: 0,
+    grad: 0,
   },
 
   // upgrades (generated)

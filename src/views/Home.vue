@@ -1,5 +1,10 @@
 <template>
   <div class="home">
+    <img
+      src="@/assets/writing.jpg"
+      width="40%"
+      height="40%"
+    >
     <CreativeButtons />
   </div>
 </template>

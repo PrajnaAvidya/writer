@@ -2,15 +2,19 @@ CURRENT TODO:
 new layout
 intro/modal
 upgrades
+- generic worker upgrades that get generated
 job cooldown ui
+rework unfolding
 generate job data based on progress
 
 CORE TODO:
+stats
 move more stuff to vuex
 vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
 grey out things player can't afford
+google analytics/event tracking
 
 IDEAS:
 use tabs for nav

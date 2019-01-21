@@ -6,7 +6,7 @@ export default {
     //
   ],
 
-  // TODO worker upgrades
+  // TODO generic worker upgrades
   workers: {
     child: [
       {

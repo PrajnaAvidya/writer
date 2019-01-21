@@ -7,6 +7,11 @@
       :key="worker.id"
       class="production"
     >
+      <img
+        :src="`/images/${worker.id}.jpg`"
+        width="25%"
+        height="25%"
+      >
       <div
         slot="title"
         class="columns"
@@ -76,10 +81,6 @@ export default {
   },
   data: () => ({
     previousAssignments: {},
-    displayWorker: {
-      child: true,
-      student: false,
-    },
     slider: {
       lineHeight: 8,
       processStyle: {

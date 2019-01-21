@@ -30,8 +30,8 @@ export default function (inputValue, userOptions = {}) {
     return value.toFixed(2);
   }
 
-  // return number for under 1000
-  if (value.lt(1000)) {
+  // return number for under 1M
+  if (value.lt(1000000)) {
     return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
