@@ -10,14 +10,15 @@ export default function () {
     workers[worker.id] = {
       id: worker.id,
       name: worker.name,
-      plural: worker.plural,
-      count: Big(0),
+      pluralName: worker.plural,
+      quantity: Big(0),
       cost: worker.baseCost,
       baseCost: worker.baseCost,
       costMultiplier: worker.costMultiplier,
-      productivity: worker.productivity,
-      quality: worker.quality,
-      efficiency: worker.efficiency,
+      baseProductivity: worker.productivity,
+      productivityMultiplier: Big(1),
+      baseEfficiency: worker.efficiency,
+      efficiencyMultiplier: Big(1),
       balance: 0, // 0 is 100% ideas, 10 is 100% words
     };
   });

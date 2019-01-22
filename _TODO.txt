@@ -1,9 +1,12 @@
 CURRENT TODO:
-upgrades
-rework unfolding
+make more generic upgrades
 
 CORE TODO:
+rework unfolding
 stats
+- stats page
+- show worker attributes
+- show clicking attributes
 move more stuff to vuex
 vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
@@ -28,11 +31,9 @@ WORKERS TODO:
 - accordion/expanding for slider/detail view
 
 UPGRADES TODO:
-click upgrades
-buy upgrade
-- check costs
-- check requirements
-apply upgrade in tick/click
+adder upgrades?
+clicking upgrades
+caffeine upgrades
 
 FUTURE IDEAS/TODO:
 generate job data based on progress

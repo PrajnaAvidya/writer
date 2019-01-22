@@ -66,7 +66,6 @@
 import Big from 'big.js';
 import { mapState, mapMutations } from 'vuex';
 import generateWorkerData from './utils/generateWorkerData';
-import generateWorkerMultipliers from './utils/generateWorkerMultipliers';
 import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
@@ -117,8 +116,6 @@ export default {
     // generate all the initial data
     setupData() {
       this.workers = generateWorkerData();
-      this.workerProductivityMultipliers = generateWorkerMultipliers();
-      this.workerEfficiencyMultipliers = generateWorkerMultipliers();
       this.upgrades = generateUpgrades();
       this.calculateWorkerCosts();
     },
@@ -133,6 +130,9 @@ export default {
       this.$root.$on('addWords', this.addWords);
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
+      this.$root.$on('multiplyEfficiency', this.multiplyEfficiency);
+      this.$root.$on('multiplyProductivity', this.multiplyProductivity);
+      this.$root.$on('removeUpgrade', this.removeUpgrade);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -176,15 +176,13 @@ export default {
         this.ideas = this.ideas.plus(this.caffeineIdeaGeneration.times(frameIncrement));
       }
 
-      // TODO: worker productivity/efficiency multipliers
-
       // calculate worker ideas
       let ideas = Big(0);
       Object.keys(this.workers).forEach((workerId) => {
         const worker = this.workers[workerId];
 
         const ideaBalance = (10 - worker.balance) / 10;
-        const ideaContribution = worker.count.times(frameIncrement).times(worker.productivity).times(ideaBalance);
+        const ideaContribution = worker.quantity.times(frameIncrement).times(worker.productivityMultiplier.times(worker.baseProductivity)).times(ideaBalance);
 
         if (ideaContribution.gt(0)) {
           ideas = ideas.plus(ideaContribution);
@@ -200,14 +198,14 @@ export default {
         const worker = this.workers[workerId];
 
         const wordBalance = worker.balance / 10;
-        const wordContribution = worker.count.times(frameIncrement).times(worker.productivity).times(wordBalance);
+        const wordContribution = worker.quantity.times(frameIncrement).times(worker.productivityMultiplier.times(worker.baseProductivity)).times(wordBalance);
 
         if (wordContribution.gt(0)) {
           if (this.ideas.gt(wordContribution)) {
-            words = words.plus(wordContribution).times(worker.efficiency);
+            words = words.plus(wordContribution).times(worker.efficiencyMultiplier.times(worker.baseEfficiency));
             this.ideas = this.ideas.minus(wordContribution);
           } else {
-            words = words.plus(this.ideas).times(worker.efficiency);
+            words = words.plus(this.ideas).times(worker.efficiencyMultiplier.times(worker.baseEfficiency));
             this.ideas = Big(0);
           }
         }
@@ -265,7 +263,7 @@ export default {
     buzzRemaining() {
       return this.caffeineEndTime - unixTimestamp();
     },
-    // workers
+    // workers/upgrades
     hireWorker(id) {
       // check if can afford
       if (this.money.lt(this.workers[id].cost)) {
@@ -274,7 +272,7 @@ export default {
 
       // buy & increment
       this.money = this.money.minus(this.workers[id].cost);
-      this.workers[id].count = this.workers[id].count.plus(this.buyAmount);
+      this.workers[id].quantity = this.workers[id].quantity.plus(this.buyAmount);
 
       // recalculate costs
       this.calculateWorkerCosts();
@@ -285,13 +283,32 @@ export default {
     calculateWorkerCosts() {
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
-        workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].count, workers[id].costMultiplier);
+        workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier);
       });
       // have to re-assign whole workers object to trigger reactivity
       this.workers = Object.assign({}, workers);
     },
     workerCost(baseCost, owned, costMultiplier) {
       return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
+    },
+    multiplyEfficiency(data) {
+      if (data.amount <= 1) {
+        return;
+      }
+      this.workers[data.worker].efficiencyMultiplier = this.workers[data.worker].efficiencyMultiplier.times(data.amount);
+    },
+    multiplyProductivity(data) {
+      if (data.amount <= 1) {
+        return;
+      }
+      this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
+    },
+    removeUpgrade(upgradeId) {
+      /*
+      const newUpgrades = this.upgrades;
+      delete this.upgrades[upgradeId];
+      */
+      this.$delete(this.upgrades, upgradeId);
     },
     // economy
     addMoney(money) {

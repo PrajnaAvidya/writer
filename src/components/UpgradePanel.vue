@@ -55,7 +55,7 @@ export default {
       if (upgrade.requirements) {
         let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].count.lt(required)) {
+          if (this.workers[workerId].quantity.lt(required)) {
             console.log(`Not enough ${workerId}`);
             metRequirements = false;
             return false;
@@ -83,10 +83,16 @@ export default {
         }
       }
 
-      // TODO apply upgrade
-      console.log(upgrade);
+      // apply upgrade
+      Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
+        this.$root.$emit('multiplyEfficiency', { worker: workerId, amount: upgrade.efficiencyMultipliers[workerId] });
+      });
+      Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
+        this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.productivityMultipliers[workerId] });
+      });
 
-      // TODO remove from upgrade list
+      // remove from upgrade list
+      this.$root.$emit('removeUpgrade', upgrade.id);
     },
     orderedUpgrades(list) {
       return this.$options.filters.orderCost(list);
@@ -104,7 +110,7 @@ export default {
     requirementsText(upgrade) {
       const requirements = [];
       Object.keys(upgrade.requirements).forEach((workerId) => {
-        requirements.push(`Requires ${upgrade.requirements[workerId]} ${this.workers[workerId].plural}`);
+        requirements.push(`Requires ${upgrade.requirements[workerId]} ${this.workers[workerId].pluralName}`);
       });
       return requirements.join('<br>');
     },

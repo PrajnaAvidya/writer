@@ -23,8 +23,8 @@
           Cost {{ worker.cost | money }} for {{ buyAmount }}
         </div>
         <div class="column">
-          <span v-if="worker.count > 0">
-            {{ worker.plural }}: {{ worker.count | round }}
+          <span v-if="worker.quantity.gt(0)">
+            {{ worker.pluralName }}: {{ worker.quantity | round }}
           </span>
         </div>
       </div>
