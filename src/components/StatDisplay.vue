@@ -12,9 +12,6 @@
     <div class="stat">
       Money: {{ money | moneyCents }}
     </div>
-    <div class="stat">
-      Reputation: {{ reputation | round }}
-    </div>
   </div>
 </template>
 
@@ -35,10 +32,6 @@ export default {
       required: true,
     },
     money: {
-      type: Object,
-      required: true,
-    },
-    reputation: {
       type: Object,
       required: true,
     },

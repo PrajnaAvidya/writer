@@ -7,7 +7,6 @@
         :ideas="ideas"
         :words="words"
         :money="money"
-        :reputation="reputation"
         :word-value="wordValue"
       />
 
@@ -52,6 +51,7 @@
         :show-production="showProduction"
         :show-upgrades="showUpgrades"
         :words="words"
+        :money="money"
         :workers="workers"
         :upgrades="upgrades"
         :assignments="assignments"
@@ -66,6 +66,7 @@
 import Big from 'big.js';
 import { mapState, mapMutations } from 'vuex';
 import generateWorkerData from './utils/generateWorkerData';
+import generateWorkerMultipliers from './utils/generateWorkerMultipliers';
 import generateUpgrades from './utils/generateUpgrades';
 import randomInt from './utils/randomInt';
 import unixTimestamp from './utils/unixTimestamp';
@@ -97,30 +98,42 @@ export default {
     ]),
   },
   created() {
-    this.workers = generateWorkerData();
-    this.upgrades = generateUpgrades();
-    this.calculateWorkerCosts();
+    this.setupData();
   },
   mounted() {
-    window.requestAnimationFrame(this.tick);
+    this.registerEvents();
 
-    // register events
-    this.$root.$on('think', this.think);
-    this.$root.$on('write', this.write);
-    this.$root.$on('coffee', this.coffee);
-    this.$root.$on('hireWorker', this.hireWorker);
-    this.$root.$on('updateWorkerBalance', this.updateWorkerBalance);
-    this.$root.$on('addMoney', this.addMoney);
-    this.$root.$on('subtractWords', this.subtractWords);
-    this.$root.$on('sellWords', this.sellWords);
-
+    // subscribe to mutations
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'setBuyAmountIndex') {
         this.calculateWorkerCosts();
       }
     });
+
+    // start game
+    window.requestAnimationFrame(this.tick);
   },
   methods: {
+    // generate all the initial data
+    setupData() {
+      this.workers = generateWorkerData();
+      this.workerProductivityMultipliers = generateWorkerMultipliers();
+      this.workerEfficiencyMultipliers = generateWorkerMultipliers();
+      this.upgrades = generateUpgrades();
+      this.calculateWorkerCosts();
+    },
+    registerEvents() {
+      this.$root.$on('think', this.think);
+      this.$root.$on('write', this.write);
+      this.$root.$on('coffee', this.coffee);
+      this.$root.$on('hireWorker', this.hireWorker);
+      this.$root.$on('updateWorkerBalance', this.updateWorkerBalance);
+      this.$root.$on('addMoney', this.addMoney);
+      this.$root.$on('subtractMoney', this.subtractMoney);
+      this.$root.$on('addWords', this.addWords);
+      this.$root.$on('subtractWords', this.subtractWords);
+      this.$root.$on('sellWords', this.sellWords);
+    },
     // === start global update loop ===
     tick(timestamp) {
       // get time since last frame
@@ -140,7 +153,8 @@ export default {
 
       // start actual frame updates
 
-      // unfolding updates
+      // TODO redo unfolding
+      /*
       if (!this.showCaffeine && this.money.gte(this.coffeeCost)) {
         this.showCaffeine = true;
       }
@@ -150,8 +164,7 @@ export default {
       if (!this.showProduction && this.money.gte(10)) {
         this.showProduction = true;
       }
-      // TODO unlock upgrades
-
+      */
 
       // check job cooldown
       if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
@@ -162,6 +175,8 @@ export default {
       if (this.buzzActive()) {
         this.ideas = this.ideas.plus(this.caffeineIdeaGeneration.times(frameIncrement));
       }
+
+      // TODO: worker productivity/efficiency multipliers
 
       // calculate worker ideas
       let ideas = Big(0);
@@ -282,6 +297,19 @@ export default {
     addMoney(money) {
       if (money.gt(0)) {
         this.money = this.money.plus(money);
+      }
+    },
+    subtractMoney(money) {
+      if (money.gt(0)) {
+        this.money = this.money.minus(money);
+        if (this.money.lt(0)) {
+          this.money = Big(0);
+        }
+      }
+    },
+    addWords(words) {
+      if (words.gt(0)) {
+        this.words = this.words.plus(words);
       }
     },
     subtractWords(words) {

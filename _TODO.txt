@@ -1,6 +1,5 @@
 CURRENT TODO:
 upgrades
-job cooldown ui
 rework unfolding
 
 CORE TODO:
@@ -25,7 +24,7 @@ recurring costs for workers
 give coffee to children/workers
 
 WORKERS TODO:
-- idea vs word productivity stats
+- idea vs word productivity stats?
 - accordion/expanding for slider/detail view
 
 UPGRADES TODO:

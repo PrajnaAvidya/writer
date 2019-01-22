@@ -6,7 +6,6 @@ export default {
   words: Big(0),
   wordValue: Big(0.01),
   money: Big(0),
-  reputation: Big(0),
 
   // unfolding
   showCaffeine: true,
@@ -32,6 +31,8 @@ export default {
 
   // workers (generated)
   workers: {},
+  workerProductivityMultipliers: {},
+  workerEfficiencyMultipliers: {},
   assignments: {
     child: 0,
     student: 0,

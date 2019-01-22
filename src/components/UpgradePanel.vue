@@ -4,41 +4,31 @@
     :hidden="!showUpgrades"
   >
     <div
-      v-for="workerId in Object.keys(upgrades.workers)"
-      :key="workerId"
+      v-for="upgrade in orderedUpgrades(upgrades)"
+      :key="upgrade.id"
+      class="columns"
     >
-      <div v-if="size(upgrades.workers[workerId]) > 0">
-        <h4 class="title is-4">
-          {{ workers[workerId].name }} Upgrades
-        </h4>
-        <div
-          v-for="upgrade in orderedUpgrades(upgrades.workers[workerId])"
-          :key="upgrade.id"
-          class="columns"
+      <div class="column">
+        <strong>{{ upgrade.name }}</strong>
+      </div>
+      <div class="column">
+        {{ descriptionText(upgrade) }}
+        <br>
+        {{ requirementsText(upgrade) }}
+      </div>
+      <div class="column">
+        <a
+          class="button"
+          @click="buyUpgrade(upgrade)"
         >
-          <div class="column">
-            <strong>{{ upgrade.name }}</strong>
-          </div>
-          <div class="column">
-            {{ upgrade.description }}
-          </div>
-          <div class="column">
-            <a
-              class="button"
-              @click="buyUpgrade(upgrade)"
-            >
-              {{ upgradeCost(upgrade) }}
-            </a>
-          </div>
-        </div>
+          {{ upgrade.cost | money }}
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import lodashSize from 'lodash/size';
-
 export default {
   name: 'UpgradePanel',
   props: {
@@ -51,33 +41,72 @@ export default {
       type: Object,
       required: true,
     },
+    money: {
+      type: Object,
+      required: true,
+    },
   },
   mounted() {
     // console.log(this.upgrades);
   },
   methods: {
     buyUpgrade(upgrade) {
-      // TODO
+      // check requirements
+      if (upgrade.requirements) {
+        let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+          const required = upgrade.requirements[workerId];
+          if (this.workers[workerId].count.lt(required)) {
+            console.log(`Not enough ${workerId}`);
+            metRequirements = false;
+            return false;
+          }
+          return true;
+        });
+
+        if (!metRequirements) {
+          return;
+        }
+      }
+
+      // costs
+      if (upgrade.cost) {
+        // check costs
+        if (upgrade.cost) {
+          if (this.money.lt(upgrade.cost)) {
+            return;
+          }
+        }
+
+        // subtract costs
+        if (upgrade.cost) {
+          this.$root.$emit('subtractMoney', upgrade.cost);
+        }
+      }
+
+      // TODO apply upgrade
       console.log(upgrade);
+
+      // TODO remove from upgrade list
     },
     orderedUpgrades(list) {
-      return this.$options.filters.order(list);
+      return this.$options.filters.orderCost(list);
     },
-    size(list) {
-      return lodashSize(list);
+    descriptionText(upgrade) {
+      const effects = [];
+      Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
+        effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.productivityMultipliers[workerId]}x`);
+      });
+      Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
+        effects.push(`Multiplies ${this.workers[workerId].name} efficiency by ${upgrade.efficiencyMultipliers[workerId]}x`);
+      });
+      return effects.join('<br>');
     },
-    upgradeCost(upgrade) {
-      if (!('cost' in upgrade)) {
-        return 'FREE';
-      }
-      const costs = [];
-      if ('money' in upgrade.cost) {
-        costs.push(this.$options.filters.money(upgrade.cost.money));
-      }
-      if ('reputation' in upgrade.cost) {
-        costs.push(`${this.$options.filters.round(upgrade.cost.reputation)} rep`);
-      }
-      return costs.join(' - ');
+    requirementsText(upgrade) {
+      const requirements = [];
+      Object.keys(upgrade.requirements).forEach((workerId) => {
+        requirements.push(`Requires ${upgrade.requirements[workerId]} ${this.workers[workerId].plural}`);
+      });
+      return requirements.join('<br>');
     },
   },
 };

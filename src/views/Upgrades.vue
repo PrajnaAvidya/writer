@@ -4,6 +4,7 @@
       :show-upgrades="showUpgrades"
       :upgrades="upgrades"
       :workers="workers"
+      :money="money"
     />
   </div>
 </template>
@@ -23,6 +24,10 @@ export default {
       required: true,
     },
     upgrades: {
+      type: Object,
+      required: true,
+    },
+    money: {
       type: Object,
       required: true,
     },

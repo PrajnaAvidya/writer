@@ -6,4 +6,4 @@ Vue.filter('round', value => round(value));
 Vue.filter('roundPositive', value => round(value, { alwaysPositive: true }));
 Vue.filter('money', value => `$${round(value)}`);
 Vue.filter('moneyCents', value => `$${round(value, { decimal: true })}`);
-Vue.filter('order', list => sortBy(list, ['order']));
+Vue.filter('orderCost', list => sortBy(list, item => parseInt(item.cost.toFixed(), 10)));
