@@ -51,6 +51,12 @@
         </template>
       </BTable>
     </div>
+
+    <div v-else>
+      <div class="jobs-header">
+        Come back later for new jobs
+      </div>
+    </div>
   </div>
 </template>
 
