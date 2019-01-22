@@ -1,11 +1,7 @@
 CURRENT TODO:
-new layout
-intro/modal
 upgrades
-- generic worker upgrades that get generated
 job cooldown ui
 rework unfolding
-generate job data based on progress
 
 CORE TODO:
 stats
@@ -22,7 +18,6 @@ increase word value with word count (exponential counts) -- maybe could be an up
 more carrots for improvement (study early progression of games)
 reputation currency
 - get from finishing jobs -- more quality = more reputation
-- lose by failing jobs
 upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
 - maybe make the slider feature an upgrade
 - player efficiency
@@ -41,13 +36,13 @@ buy upgrade
 apply upgrade in tick/click
 
 FUTURE IDEAS/TODO:
+generate job data based on progress
+intro/modal
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 some sort of quality/creativity average for words written
 - minimum reputation for job completion
 - player + workers (and upgradeable for both)
 - job reward % based on quality level (reputation, not money)
-- "scrap" button to start job over
--- job time limits?
 flavor texts/lore
 tutorial/tooltips
 

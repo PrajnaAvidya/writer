@@ -7,11 +7,6 @@
       :key="worker.id"
       class="production"
     >
-      <img
-        :src="`/images/${worker.id}.jpg`"
-        width="25%"
-        height="25%"
-      >
       <div
         slot="title"
         class="columns"
