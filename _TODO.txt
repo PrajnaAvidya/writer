@@ -1,5 +1,6 @@
 CURRENT TODO:
-make more generic upgrades
+grey out things player can't afford
+don't show upgrade until half requirements met
 
 CORE TODO:
 rework unfolding
@@ -11,7 +12,6 @@ move more stuff to vuex
 vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
-grey out things player can't afford
 google analytics/event tracking
 
 IDEAS:
@@ -20,9 +20,7 @@ increase word value with word count (exponential counts) -- maybe could be an up
 more carrots for improvement (study early progression of games)
 reputation currency
 - get from finishing jobs -- more quality = more reputation
-upgrades! (need some kind of store/new panel -- use $ or reputation? or both)
-- maybe make the slider feature an upgrade
-- player efficiency
+- make it unlock different things than money
 recurring costs for workers
 give coffee to children/workers
 
@@ -33,6 +31,8 @@ WORKERS TODO:
 UPGRADES TODO:
 adder upgrades?
 clicking upgrades
+- idea multiplier
+- writing multipliers
 caffeine upgrades
 
 FUTURE IDEAS/TODO:

@@ -26,6 +26,26 @@ export default {
       requirement: 10,
       productivityMultiplier: 2,
     },
+    {
+      cost: 200,
+      requirement: 15,
+      efficiencyMultiplier: 2,
+    },
+    {
+      cost: 500,
+      requirement: 25,
+      productivityMultiplier: 2,
+    },
+    {
+      cost: 2000,
+      requirement: 35,
+      efficiencyMultiplier: 2,
+    },
+    {
+      cost: 5000,
+      requirement: 40,
+      productivityMultiplier: 2,
+    },
   ],
 
   /*
