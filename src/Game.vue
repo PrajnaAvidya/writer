@@ -41,6 +41,10 @@
         <RouterLink to="/upgrades">
           Upgrades
         </RouterLink>
+        |
+        <RouterLink to="/stats">
+          Stats
+        </RouterLink>
         <hr>
       </div>
     </section>
