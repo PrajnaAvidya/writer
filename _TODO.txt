@@ -1,5 +1,4 @@
 CURRENT TODO:
-clicking upgrade requirements
 caffeine upgrades
 worker attributes
 clicking attributes
@@ -17,6 +16,7 @@ color scheme -- art direction in general
 google analytics/event tracking
 consider ditching buefy for home grown components
 - consider ditching bulma completely once i start working on art/design
+don't hide upgrades after first reveal
 
 WRITING/LORE TODO:
 upgrade names/flavor texts

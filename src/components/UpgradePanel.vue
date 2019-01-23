@@ -122,14 +122,12 @@ export default {
     },
     requirementsText(upgrade) {
       const requirements = [];
-      if (upgrade.requirements) {
-        if (upgrade.type === 'worker') {
-          Object.keys(upgrade.requirements).forEach((workerId) => {
-            requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
-          });
-        } else if (upgrade.type === 'clicking') {
-          // TODO
-        }
+      if (upgrade.type === 'worker') {
+        Object.keys(upgrade.requirements).forEach((workerId) => {
+          requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
+        });
+      } else if (upgrade.type === 'clicking') {
+        // requirement is money only
       }
 
       return requirements.join('<br>');
@@ -138,45 +136,46 @@ export default {
       if (this.money.lt(upgrade.cost)) {
         return false;
       }
-      if (upgrade.requirements) {
-        let metRequirements = true;
-        if (upgrade.type === 'worker') {
-          metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-            const required = upgrade.requirements[workerId];
-            if (this.workers[workerId].quantity.lt(required)) {
-              metRequirements = false;
-              return false;
-            }
-            return true;
-          });
-        } else if (upgrade.type === 'clicking') {
-          // TODO
-        }
-        if (!metRequirements) {
-          return false;
-        }
+
+      let metRequirements = true;
+
+      if (upgrade.type === 'worker') {
+        metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+          const required = upgrade.requirements[workerId];
+          if (this.workers[workerId].quantity.lt(required)) {
+            metRequirements = false;
+            return false;
+          }
+          return true;
+        });
+      } else if (upgrade.type === 'clicking') {
+        // clicking upgrades just require money
       }
+      if (!metRequirements) {
+        return false;
+      }
+
       return true;
     },
     canSeeUpgrade(upgrade) {
-      if (upgrade.requirements) {
-        let metRequirements = true;
-        if (upgrade.type === 'worker') {
-          metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-            const required = upgrade.requirements[workerId];
-            if (this.workers[workerId].quantity.lt(required.div(2))) {
-              metRequirements = false;
-              return false;
-            }
-            return true;
-          });
-        } else if (upgrade.type === 'clicking') {
-          // TODO
-        }
-        if (!metRequirements) {
-          return false;
-        }
+      let metRequirements = true;
+
+      if (upgrade.type === 'worker') {
+        metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+          const required = upgrade.requirements[workerId];
+          if (this.workers[workerId].quantity.lt(required.div(2))) {
+            metRequirements = false;
+            return false;
+          }
+          return true;
+        });
+      } else if (upgrade.type === 'clicking') {
+        return this.money.gte(upgrade.cost.div(2));
       }
+      if (!metRequirements) {
+        return false;
+      }
+
       return true;
     },
   },
