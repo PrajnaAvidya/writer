@@ -1,5 +1,5 @@
 CURRENT TODO:
-don't show upgrade until half requirements met
+stats tracking/page
 
 CORE TODO:
 rework unfolding
@@ -35,6 +35,7 @@ clicking upgrades
 - idea multiplier
 - writing multipliers
 caffeine upgrades
+word value
 
 FUTURE IDEAS/TODO:
 generate job data based on progress
