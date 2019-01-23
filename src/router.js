@@ -9,23 +9,28 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: () => import('./views/Home.vue'),
     },
     {
       path: '/workers',
-      name: 'workers',
+      name: 'Workers',
       component: () => import('./views/Workers.vue'),
     },
     {
       path: '/agency',
-      name: 'agency',
+      name: 'Agency',
       component: () => import('./views/Agency.vue'),
     },
     {
       path: '/upgrades',
-      name: 'upgrades',
+      name: 'Upgrades',
       component: () => import('./views/Upgrades.vue'),
+    },
+    {
+      path: '/stats',
+      name: 'Stats',
+      component: () => import('./views/Stats.vue'),
     },
   ],
 });

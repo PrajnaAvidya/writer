@@ -41,6 +41,10 @@
         <RouterLink to="/upgrades">
           Upgrades
         </RouterLink>
+        |
+        <RouterLink to="/stats">
+          Stats
+        </RouterLink>
         <hr>
       </div>
     </section>
@@ -117,6 +121,7 @@ export default {
     setupData() {
       this.workers = generateWorkerData();
       this.upgrades = generateUpgrades();
+      this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
       this.calculateWorkerCosts();
     },
     registerEvents() {
@@ -191,6 +196,7 @@ export default {
 
       // add to ideas
       this.ideas = this.ideas.plus(ideas);
+      this.newIdeas = this.newIdeas.plus(ideas);
 
       // calculate worker words
       let words = Big(0);
@@ -213,6 +219,22 @@ export default {
 
       // add to word total
       this.words = this.words.plus(words);
+      this.newWords = this.newWords.plus(words);
+
+      // update stats periodically
+      if (unixTimestamp() > this.nextStatUpdate) {
+        console.log('updating stats');
+        this.addToStat({ stat: 'ideas', amount: this.newIdeas });
+        this.addToStat({ stat: 'words', amount: this.newWords });
+        this.addToStat({ stat: 'clickIdeas', amount: this.newClickIdeas });
+        this.addToStat({ stat: 'clickWords', amount: this.newClickWords });
+        this.newIdeas = Big(0);
+        this.newWords = Big(0);
+        this.newClickIdeas = Big(0);
+        this.newClickWords = Big(0);
+
+        this.nextStatUpdate = unixTimestamp() + 3;
+      }
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -222,11 +244,13 @@ export default {
     // === start methods ===
     // player input
     think() {
-      let ideaCount = this.baseIdeas;
+      let ideas = this.baseIdeas;
       if (this.buzzActive()) {
-        ideaCount = ideaCount.times(this.caffeineClickMultiplier);
+        ideas = ideas.times(this.caffeineClickMultiplier);
       }
-      this.ideas = this.ideas.plus(ideaCount);
+      this.newIdeas = this.newIdeas.plus(ideas);
+      this.newClickIdeas = this.newClickIdeas.plus(ideas);
+      this.ideas = this.ideas.plus(ideas);
     },
     write() {
       if (this.ideas.lt(1)) {
@@ -238,7 +262,8 @@ export default {
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
       }
-
+      this.newWords = this.newWords.plus(words);
+      this.newClickWords = this.newClickWords.plus(words);
       this.words = this.words.plus(words);
     },
     // caffeine
@@ -255,7 +280,7 @@ export default {
         }
       }
 
-      this.money = this.money.minus(this.coffeeCost);
+      this.subtractMoney(this.coffeeCost);
     },
     buzzActive() {
       return this.caffeineEndTime > unixTimestamp();
@@ -271,7 +296,7 @@ export default {
       }
 
       // buy & increment
-      this.money = this.money.minus(this.workers[id].cost);
+      this.subtractMoney(this.workers[id].cost);
       this.workers[id].quantity = this.workers[id].quantity.plus(this.buyAmount);
 
       // recalculate costs
@@ -304,21 +329,20 @@ export default {
       this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
     },
     removeUpgrade(upgradeId) {
-      /*
-      const newUpgrades = this.upgrades;
-      delete this.upgrades[upgradeId];
-      */
+      this.addToStat({ stat: 'upgrades', amount: 1 });
       this.$delete(this.upgrades, upgradeId);
     },
     // economy
     addMoney(money) {
       if (money.gt(0)) {
         this.money = this.money.plus(money);
+        this.addToStat({ stat: 'money', amount: money });
       }
     },
     subtractMoney(money) {
       if (money.gt(0)) {
         this.money = this.money.minus(money);
+        this.addToStat({ stat: 'moneySpent', amount: money });
         if (this.money.lt(0)) {
           this.money = Big(0);
         }
@@ -346,6 +370,7 @@ export default {
     // === end methods ===
     ...mapMutations([
       'setJobActive',
+      'addToStat',
     ]),
   },
 };
