@@ -7,6 +7,7 @@
       v-for="upgrade in orderedUpgrades(upgrades)"
       :key="upgrade.id"
       class="columns"
+      :class="{ 'is-hidden': !canSeeUpgrade(upgrade) }"
     >
       <div class="column">
         <strong>{{ upgrade.name }}</strong>
@@ -89,7 +90,7 @@ export default {
     requirementsText(upgrade) {
       const requirements = [];
       Object.keys(upgrade.requirements).forEach((workerId) => {
-        requirements.push(`Requires ${upgrade.requirements[workerId]} ${this.workers[workerId].pluralName}`);
+        requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
       });
       return requirements.join('<br>');
     },
@@ -101,6 +102,22 @@ export default {
         let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
           if (this.workers[workerId].quantity.lt(required)) {
+            metRequirements = false;
+            return false;
+          }
+          return true;
+        });
+        if (!metRequirements) {
+          return false;
+        }
+      }
+      return true;
+    },
+    canSeeUpgrade(upgrade) {
+      if (upgrade.requirements) {
+        let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+          const required = upgrade.requirements[workerId];
+          if (this.workers[workerId].quantity.lt(required.div(2))) {
             metRequirements = false;
             return false;
           }

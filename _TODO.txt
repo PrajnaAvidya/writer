@@ -12,6 +12,8 @@ vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
 google analytics/event tracking
+consider ditching buefy for home grown components
+- consider ditching bulma completely once i start working on art/design
 
 IDEAS:
 use tabs for nav

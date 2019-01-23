@@ -31,7 +31,7 @@ export default function () {
         productivityMultipliers: {},
         efficiencyMultipliers: {},
       };
-      upgrade.requirements[worker.id] = genericUpgrade.requirement;
+      upgrade.requirements[worker.id] = Big(genericUpgrade.requirement);
       if (genericUpgrade.productivityMultiplier) {
         upgrade.productivityMultipliers[worker.id] = genericUpgrade.productivityMultiplier;
       }
