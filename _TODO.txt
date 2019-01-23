@@ -1,45 +1,30 @@
-CURRENT TODO:
-show worker attributes
-show clicking attributes
+MOVE ACTION ITEMS TO HACKNPLAN
 
 CORE TODO:
-rework unfolding
-stats
-- find more stats to track
-- show worker attributes
-- show clicking attributes
-move more stuff to vuex
-- save revealed upgrades
-vuex -- periodic updates instead of every frame (what ive done with other games)
-save/load (+ autosave) using localforage
-color scheme -- art direction in general
+rework unfolding/progression
+find more stats to track
+art direction/color scheme
 google analytics/event tracking
-consider ditching buefy for home grown components
+consider ditching buefy for homegrown components
 - consider ditching bulma completely once i start working on art/design
-only show unmet upgrade requirements
 click animations
 
 FUTURE IDEAS/TODO:
 more requirements for non-worker upgrades
-upgrades for job cooldown
 use tabs for nav
 increase word value with exponential word count -- could be an upgrade
-more carrots for improvement (study early progression of games)
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - make it unlock different things than money
-recurring costs for workers
-give coffee to children/workers
 something that affects coffee cost (upgrade tradeoff?)
-auto-drink coffee upgrade
-generate job data based on progress
 intro/modal
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 some sort of quality/creativity average for words written
-- minimum reputation for job completion
+- minimum quality for job completion
 - player + workers (and upgradeable for both)
 - job reward % based on quality level (reputation, not money)
 tutorial/tooltips
+sell % of words instead of all
 
 WRITING/LORE TODO:
 upgrade names/flavor texts
