@@ -64,12 +64,28 @@ export default {
       }
 
       // apply multipliers
-      Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
-        this.$root.$emit('multiplyEfficiency', { worker: workerId, amount: upgrade.efficiencyMultipliers[workerId] });
-      });
-      Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
-        this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.productivityMultipliers[workerId] });
-      });
+      if (upgrade.type === 'worker') {
+        if (upgrade.productivityMultipliers) {
+          Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
+            this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.productivityMultipliers[workerId] });
+          });
+        }
+        if (upgrade.efficiencyMultipliers) {
+          Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
+            this.$root.$emit('multiplyEfficiency', { worker: workerId, amount: upgrade.efficiencyMultipliers[workerId] });
+          });
+        }
+      } else if (upgrade.type === 'clicking') {
+        if (upgrade.clickingIdeaMultiplier) {
+          this.$root.$emit('multiplyClickingIdeas', upgrade.clickingIdeaMultiplier);
+        }
+        if (upgrade.clickingWritingMultiplier) {
+          this.$root.$emit('multiplyClickingWords', upgrade.clickingWritingMultiplier);
+        }
+        if (upgrade.clickingMaxWritingMultiplier) {
+          this.$root.$emit('multiplyClickingMaxWords', upgrade.clickingMaxWritingMultiplier);
+        }
+      }
 
       // remove from upgrade list
       this.$root.$emit('removeUpgrade', upgrade.id);
@@ -79,19 +95,43 @@ export default {
     },
     descriptionText(upgrade) {
       const effects = [];
-      Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
-        effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.productivityMultipliers[workerId]}x`);
-      });
-      Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
-        effects.push(`Multiplies ${this.workers[workerId].name} efficiency by ${upgrade.efficiencyMultipliers[workerId]}x`);
-      });
+      if (upgrade.type === 'worker') {
+        if (upgrade.productivityMultipliers) {
+          Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
+            effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.productivityMultipliers[workerId]}x`);
+          });
+        }
+        if (upgrade.efficiencyMultipliers) {
+          Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
+            effects.push(`Multiplies ${this.workers[workerId].name} efficiency by ${upgrade.efficiencyMultipliers[workerId]}x`);
+          });
+        }
+      } else if (upgrade.type === 'clicking') {
+        if (upgrade.clickingIdeaMultiplier) {
+          effects.push(`Multiplies idea clicks by ${upgrade.clickingIdeaMultiplier}`);
+        }
+        if (upgrade.clickingWritingMultiplier) {
+          effects.push(`Multiplies writing clicks by ${upgrade.clickingWritingMultiplier}`);
+        }
+        if (upgrade.clickingMaxWritingMultiplier) {
+          effects.push(`Multiplies writing max clicks by ${upgrade.clickingMaxWritingMultiplier}`);
+        }
+      }
+
       return effects.join('<br>');
     },
     requirementsText(upgrade) {
       const requirements = [];
-      Object.keys(upgrade.requirements).forEach((workerId) => {
-        requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
-      });
+      if (upgrade.requirements) {
+        if (upgrade.type === 'worker') {
+          Object.keys(upgrade.requirements).forEach((workerId) => {
+            requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
+          });
+        } else if (upgrade.type === 'clicking') {
+          // TODO
+        }
+      }
+
       return requirements.join('<br>');
     },
     canBuyUpgrade(upgrade) {
@@ -99,14 +139,19 @@ export default {
         return false;
       }
       if (upgrade.requirements) {
-        let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-          const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required)) {
-            metRequirements = false;
-            return false;
-          }
-          return true;
-        });
+        let metRequirements = true;
+        if (upgrade.type === 'worker') {
+          metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+            const required = upgrade.requirements[workerId];
+            if (this.workers[workerId].quantity.lt(required)) {
+              metRequirements = false;
+              return false;
+            }
+            return true;
+          });
+        } else if (upgrade.type === 'clicking') {
+          // TODO
+        }
         if (!metRequirements) {
           return false;
         }
@@ -115,14 +160,19 @@ export default {
     },
     canSeeUpgrade(upgrade) {
       if (upgrade.requirements) {
-        let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-          const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required.div(2))) {
-            metRequirements = false;
-            return false;
-          }
-          return true;
-        });
+        let metRequirements = true;
+        if (upgrade.type === 'worker') {
+          metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+            const required = upgrade.requirements[workerId];
+            if (this.workers[workerId].quantity.lt(required.div(2))) {
+              metRequirements = false;
+              return false;
+            }
+            return true;
+          });
+        } else if (upgrade.type === 'clicking') {
+          // TODO
+        }
         if (!metRequirements) {
           return false;
         }

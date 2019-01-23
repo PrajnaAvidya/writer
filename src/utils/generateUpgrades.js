@@ -9,22 +9,36 @@ export default function () {
   let id = 0;
 
   // TODO clicking
-  /*
-  upgrades.clicking = {};
-  upgradeData.clicking.forEach((upgrade) => {
-    upgrades.clicking[upgrade.id] = {
-      id: upgrade.id,
+  upgradeData.clicking.forEach((clickingUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'clicking',
+      name: 'Clicking Upgrade',
+      cost: Big(clickingUpgrade.cost),
     };
+
+    if (clickingUpgrade.ideaMultiplier) {
+      upgrade.clickingIdeaMultiplier = clickingUpgrade.ideaMultiplier;
+    }
+    if (clickingUpgrade.writingMultiplier) {
+      upgrade.clickingWritingMultiplier = clickingUpgrade.writingMultiplier;
+    }
+    if (clickingUpgrade.maxWritingMultiplier) {
+      upgrade.clickingMaxWritingMultiplier = clickingUpgrade.maxWritingMultiplier;
+    }
+
+    upgrades[id] = upgrade;
   });
-  */
 
   // generic worker upgrades
-  // TODO names/descriptions
   upgradeData.genericWorker.forEach((genericUpgrade) => {
     workers.forEach((worker) => {
       id += 1;
       const upgrade = {
         id,
+        type: 'worker',
         name: `${worker.name} Upgrade`,
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},

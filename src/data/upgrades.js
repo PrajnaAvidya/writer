@@ -1,7 +1,30 @@
 export default {
-  // TODO
+  // TODO requirements
   clicking: [
-    //
+    {
+      cost: 1000,
+      ideaMultiplier: 2,
+    },
+    {
+      cost: 1000,
+      writingMultiplier: 2,
+    },
+    {
+      cost: 10000,
+      maxWritingMultiplier: 2,
+    },
+    {
+      cost: 100000,
+      ideaMultiplier: 2,
+    },
+    {
+      cost: 100000,
+      writingMultiplier: 2,
+    },
+    {
+      cost: 1000000,
+      maxWritingMultiplier: 2,
+    },
   ],
 
   // TODO

@@ -1,4 +1,6 @@
 CURRENT TODO:
+clicking upgrade requirements
+caffeine upgrades
 worker attributes
 clicking attributes
 
@@ -16,6 +18,10 @@ google analytics/event tracking
 consider ditching buefy for home grown components
 - consider ditching bulma completely once i start working on art/design
 
+WRITING/LORE TODO:
+upgrade names/flavor texts
+worker flavor texts
+
 IDEAS:
 use tabs for nav
 increase word value with word count (exponential counts) -- maybe could be an upgrade
@@ -32,9 +38,6 @@ WORKERS TODO:
 
 UPGRADES TODO:
 adder upgrades?
-clicking upgrades
-- idea multiplier
-- writing multipliers
 caffeine upgrades
 word value
 

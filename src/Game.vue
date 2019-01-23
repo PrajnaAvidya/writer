@@ -138,6 +138,9 @@ export default {
       this.$root.$on('multiplyEfficiency', this.multiplyEfficiency);
       this.$root.$on('multiplyProductivity', this.multiplyProductivity);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
+      this.$root.$on('multiplyClickingIdeas', this.multiplyClickingIdeas);
+      this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
+      this.$root.$on('multiplyClickingMaxWords', this.multiplyClickingMaxWords);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -265,6 +268,25 @@ export default {
       this.newWords = this.newWords.plus(words);
       this.newClickWords = this.newClickWords.plus(words);
       this.words = this.words.plus(words);
+    },
+    multiplyClickingIdeas(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.baseIdeas = this.baseIdeas.times(amount);
+    },
+    multiplyClickingWords(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.baseWrite = this.baseWrite.times(amount);
+      this.maxWrite = this.maxWrite.times(amount);
+    },
+    multiplyClickingMaxWords(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.maxWrite = this.maxWrite.times(amount);
     },
     // caffeine
     coffee() {
