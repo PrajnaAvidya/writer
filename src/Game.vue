@@ -144,6 +144,7 @@ export default {
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
+      this.$root.$on('multiplyWordValue', this.multiplyWordValue);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -409,6 +410,11 @@ export default {
       if (this.words.gt(0)) {
         this.addMoney(this.words.times(this.wordValue));
         this.words = Big(0);
+      }
+    },
+    multiplyWordValue(amount) {
+      if (amount > 1) {
+        this.wordValue = this.wordValue.times(amount);
       }
     },
     // === end methods ===

@@ -1,7 +1,6 @@
 CURRENT TODO:
-word value upgrades
-worker attributes
-clicking attributes
+show worker attributes
+show clicking attributes
 
 CORE TODO:
 rework unfolding
@@ -16,14 +15,14 @@ color scheme -- art direction in general
 google analytics/event tracking
 consider ditching buefy for home grown components
 - consider ditching bulma completely once i start working on art/design
+only show unmet upgrade requirements
+click animations
 
-WRITING/LORE TODO:
-upgrade names/flavor texts
-worker flavor texts
-
-IDEAS:
+FUTURE IDEAS/TODO:
+more requirements for non-worker upgrades
+upgrades for job cooldown
 use tabs for nav
-increase word value with word count (exponential counts) -- maybe could be an upgrade
+increase word value with exponential word count -- could be an upgrade
 more carrots for improvement (study early progression of games)
 reputation currency
 - get from finishing jobs -- more quality = more reputation
@@ -31,12 +30,7 @@ reputation currency
 recurring costs for workers
 give coffee to children/workers
 something that affects coffee cost (upgrade tradeoff?)
-
-WORKERS TODO:
-- idea vs word productivity stats?
-- accordion/expanding for slider/detail view
-
-FUTURE IDEAS/TODO:
+auto-drink coffee upgrade
 generate job data based on progress
 intro/modal
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
@@ -46,9 +40,6 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 tutorial/tooltips
 
-GAME PROGRESSION IDEAS:
-sell enough words to buy a coffee then show
-get caffeine buzz up to X or money up to Y and show jobs
-take on a couple jobs to afford hiring a child
-unlock unlock students after X children
-unlock upgrades after X students
+WRITING/LORE TODO:
+upgrade names/flavor texts
+worker flavor texts

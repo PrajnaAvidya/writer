@@ -19,14 +19,14 @@ export default function () {
       cost: Big(caffeineUpgrade.cost),
     };
 
-    if (caffeineUpgrade.caffeineMaxLengthAdder) {
-      upgrade.caffeineMaxLengthAdder = caffeineUpgrade.caffeineMaxLengthAdder;
+    if (caffeineUpgrade.maxLengthAdder) {
+      upgrade.maxLengthAdder = caffeineUpgrade.maxLengthAdder;
     }
-    if (caffeineUpgrade.caffeineLengthMultiplier) {
-      upgrade.caffeineLengthMultiplier = caffeineUpgrade.caffeineLengthMultiplier;
+    if (caffeineUpgrade.lengthMultiplier) {
+      upgrade.lengthMultiplier = caffeineUpgrade.lengthMultiplier;
     }
-    if (caffeineUpgrade.caffeinePowerMultiplier) {
-      upgrade.caffeinePowerMultiplier = caffeineUpgrade.caffeinePowerMultiplier;
+    if (caffeineUpgrade.powerMultiplier) {
+      upgrade.powerMultiplier = caffeineUpgrade.powerMultiplier;
     }
 
     upgrades[id] = upgrade;
@@ -44,13 +44,13 @@ export default function () {
     };
 
     if (clickingUpgrade.ideaMultiplier) {
-      upgrade.clickingIdeaMultiplier = clickingUpgrade.ideaMultiplier;
+      upgrade.ideaMultiplier = clickingUpgrade.ideaMultiplier;
     }
     if (clickingUpgrade.writingMultiplier) {
-      upgrade.clickingWritingMultiplier = clickingUpgrade.writingMultiplier;
+      upgrade.writingMultiplier = clickingUpgrade.writingMultiplier;
     }
     if (clickingUpgrade.maxWritingMultiplier) {
-      upgrade.clickingMaxWritingMultiplier = clickingUpgrade.maxWritingMultiplier;
+      upgrade.maxWritingMultiplier = clickingUpgrade.maxWritingMultiplier;
     }
 
     upgrades[id] = upgrade;
@@ -60,6 +60,7 @@ export default function () {
   upgradeData.genericWorker.forEach((genericUpgrade) => {
     workers.forEach((worker) => {
       id += 1;
+
       const upgrade = {
         id,
         type: 'worker',
@@ -79,6 +80,21 @@ export default function () {
 
       upgrades[id] = upgrade;
     });
+  });
+
+  // word value
+  upgradeData.wordValue.forEach((wordValueUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'wordValue',
+      name: 'Word Value Upgrade',
+      cost: Big(wordValueUpgrade.cost),
+      multiplier: wordValueUpgrade.multiplier,
+    };
+
+    upgrades[id] = upgrade;
   });
 
   // workers

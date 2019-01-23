@@ -41,39 +41,39 @@ export default {
   caffeine: [
     {
       cost: 100,
-      caffeineLengthMultiplier: 2,
+      lengthMultiplier: 2,
     },
     {
       cost: 10000,
-      caffeineLengthMultiplier: 2,
+      lengthMultiplier: 2,
     },
     {
       cost: 1000000,
-      caffeineLengthMultiplier: 2,
+      lengthMultiplier: 2,
     },
     {
       cost: 1000,
-      caffeineMaxLengthAdder: 300,
+      maxLengthAdder: 300,
     },
     {
       cost: 10000,
-      caffeineMaxLengthAdder: 300,
+      maxLengthAdder: 300,
     },
     {
       cost: 100000,
-      caffeineMaxLengthAdder: 300,
+      maxLengthAdder: 300,
     },
     {
       cost: 10000,
-      caffeinePowerMultiplier: 2,
+      powerMultiplier: 2,
     },
     {
       cost: 1E6,
-      caffeinePowerMultiplier: 2,
+      powerMultiplier: 2,
     },
     {
       cost: 1E8,
-      caffeinePowerMultiplier: 2,
+      powerMultiplier: 2,
     },
   ],
 
@@ -113,6 +113,46 @@ export default {
       cost: 5000,
       requirement: 40,
       productivityMultiplier: 2,
+    },
+  ],
+
+  // word value
+  wordValue: [
+    {
+      cost: 1E2,
+      multiplier: 2,
+    },
+    {
+      cost: 1E3,
+      multiplier: 2,
+    },
+    {
+      cost: 1E4,
+      multiplier: 2,
+    },
+    {
+      cost: 1E5,
+      multiplier: 2,
+    },
+    {
+      cost: 1E6,
+      multiplier: 2,
+    },
+    {
+      cost: 1E7,
+      multiplier: 2,
+    },
+    {
+      cost: 1E8,
+      multiplier: 2,
+    },
+    {
+      cost: 1E9,
+      multiplier: 2,
+    },
+    {
+      cost: 1E10,
+      multiplier: 2,
     },
   ],
 };

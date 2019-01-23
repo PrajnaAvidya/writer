@@ -80,25 +80,27 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
-        if (upgrade.clickingIdeaMultiplier) {
-          this.$root.$emit('multiplyClickingIdeas', upgrade.clickingIdeaMultiplier);
+        if (upgrade.ideaMultiplier) {
+          this.$root.$emit('multiplyClickingIdeas', upgrade.ideaMultiplier);
         }
-        if (upgrade.clickingWritingMultiplier) {
-          this.$root.$emit('multiplyClickingWords', upgrade.clickingWritingMultiplier);
+        if (upgrade.writingMultiplier) {
+          this.$root.$emit('multiplyClickingWords', upgrade.writingMultiplier);
         }
-        if (upgrade.clickingMaxWritingMultiplier) {
-          this.$root.$emit('multiplyClickingMaxWords', upgrade.clickingMaxWritingMultiplier);
+        if (upgrade.maxWritingMultiplier) {
+          this.$root.$emit('multiplyClickingMaxWords', upgrade.maxWritingMultiplier);
         }
       } else if (upgrade.type === 'caffeine') {
-        if (upgrade.caffeineMaxLengthAdder) {
-          this.$root.$emit('addCaffeineMaxLength', upgrade.caffeineMaxLengthAdder);
+        if (upgrade.maxLengthAdder) {
+          this.$root.$emit('addCaffeineMaxLength', upgrade.maxLengthAdder);
         }
-        if (upgrade.caffeineLengthMultiplier) {
-          this.$root.$emit('multiplyCaffeineLength', upgrade.caffeineLengthMultiplier);
+        if (upgrade.lengthMultiplier) {
+          this.$root.$emit('multiplyCaffeineLength', upgrade.lengthMultiplier);
         }
-        if (upgrade.caffeinePowerMultiplier) {
-          this.$root.$emit('multiplyCaffeinePower', upgrade.caffeinePowerMultiplier);
+        if (upgrade.powerMultiplier) {
+          this.$root.$emit('multiplyCaffeinePower', upgrade.powerMultiplier);
         }
+      } else if (upgrade.type === 'wordValue') {
+        this.$root.$emit('multiplyWordValue', upgrade.multiplier);
       }
 
       // remove from upgrade list
@@ -121,25 +123,27 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
-        if (upgrade.clickingIdeaMultiplier) {
-          effects.push(`Multiplies idea clicks by ${upgrade.clickingIdeaMultiplier}`);
+        if (upgrade.ideaMultiplier) {
+          effects.push(`Multiplies idea clicks by ${upgrade.ideaMultiplier}`);
         }
-        if (upgrade.clickingWritingMultiplier) {
-          effects.push(`Multiplies writing clicks by ${upgrade.clickingWritingMultiplier}`);
+        if (upgrade.writingMultiplier) {
+          effects.push(`Multiplies writing clicks by ${upgrade.writingMultiplier}`);
         }
-        if (upgrade.clickingMaxWritingMultiplier) {
-          effects.push(`Multiplies writing max clicks by ${upgrade.clickingMaxWritingMultiplier}`);
+        if (upgrade.maxWritingMultiplier) {
+          effects.push(`Multiplies writing max clicks by ${upgrade.maxWritingMultiplier}`);
         }
       } else if (upgrade.type === 'caffeine') {
-        if (upgrade.caffeineMaxLengthAdder) {
-          effects.push(`Adds ${upgrade.caffeineMaxLengthAdder}s to caffeine max length`);
+        if (upgrade.maxLengthAdder) {
+          effects.push(`Adds ${upgrade.maxLengthAdder}s to caffeine max length`);
         }
-        if (upgrade.caffeineLengthMultiplier) {
-          effects.push(`Multiplies caffeine duration by ${upgrade.caffeineLengthMultiplier}`);
+        if (upgrade.lengthMultiplier) {
+          effects.push(`Multiplies caffeine duration by ${upgrade.lengthMultiplier}`);
         }
-        if (upgrade.caffeinePowerMultiplier) {
-          effects.push(`Multiplies caffeine effect by ${upgrade.caffeinePowerMultiplier}`);
+        if (upgrade.powerMultiplier) {
+          effects.push(`Multiplies caffeine effect by ${upgrade.powerMultiplier}`);
         }
+      } else if (upgrade.type === 'wordValue') {
+        effects.push(`Multiplies word value effect by ${upgrade.multiplier}`);
       }
 
       return effects.join('<br>');
@@ -150,7 +154,7 @@ export default {
         Object.keys(upgrade.requirements).forEach((workerId) => {
           requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
         });
-      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine') {
+      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine' || upgrade.type === 'wordValue') {
         // requirement is money only
       }
 
@@ -172,7 +176,7 @@ export default {
           }
           return true;
         });
-      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine') {
+      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine' || upgrade.type === 'wordValue') {
         // clicking upgrades just require money
       }
       if (!metRequirements) {
@@ -194,7 +198,7 @@ export default {
           }
           return true;
         });
-      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine') {
+      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine' || upgrade.type === 'wordValue') {
         // show upgrade when player has 1/2 money
         metRequirements = this.money.gte(upgrade.cost.div(2));
       }
