@@ -4,23 +4,27 @@
       <tbody>
         <tr>
           <th>Ideas Had</th>
-          <td>69</td>
+          <td>{{ stats.ideas | round }}</td>
         </tr>
         <tr>
           <th>Words Written</th>
-          <td>420</td>
+          <td>{{ stats.words | round }}</td>
         </tr>
         <tr>
           <th>Money Made</th>
-          <td>{{ 69 | money }}</td>
+          <td>{{ stats.money | moneyCents }}</td>
+        </tr>
+        <tr>
+          <th>Money Spent</th>
+          <td>{{ stats.moneySpent | moneyCents }}</td>
         </tr>
         <tr>
           <th>Jobs Completed</th>
-          <td>420</td>
+          <td>{{ stats.jobs | round }}</td>
         </tr>
         <tr>
           <th>Upgrades Bought</th>
-          <td>69%</td>
+          <td>{{ stats.upgrades | round }}</td>
         </tr>
       </tbody>
     </table>
@@ -28,8 +32,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'Stats',
+  computed: {
+    ...mapState([
+      'stats',
+    ]),
+  },
 };
 </script>
 

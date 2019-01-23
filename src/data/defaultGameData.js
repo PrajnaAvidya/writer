@@ -37,6 +37,11 @@ export default {
   // upgrades (generated)
   upgrades: {},
 
+  // stats
+  newIdeas: Big(0),
+  newWords: Big(0),
+
   // used for tick function
-  lastFrame: null,
+  lastFrame: 0,
+  nextStatUpdate: 0,
 };
