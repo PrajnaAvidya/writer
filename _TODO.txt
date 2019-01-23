@@ -9,6 +9,7 @@ stats
 - show worker attributes
 - show clicking attributes
 move more stuff to vuex
+- save revealed upgrades
 vuex -- periodic updates instead of every frame (what ive done with other games)
 save/load (+ autosave) using localforage
 color scheme -- art direction in general
