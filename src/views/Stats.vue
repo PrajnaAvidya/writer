@@ -11,6 +11,14 @@
           <td>{{ stats.words | round }}</td>
         </tr>
         <tr>
+          <th>Ideas Had from Clicks</th>
+          <td>{{ stats.clickIdeas | round }}</td>
+        </tr>
+        <tr>
+          <th>Words Written from Clicks</th>
+          <td>{{ stats.clickWords | round }}</td>
+        </tr>
+        <tr>
           <th>Money Made</th>
           <td>{{ stats.money | moneyCents }}</td>
         </tr>
@@ -24,7 +32,7 @@
         </tr>
         <tr>
           <th>Upgrades Bought</th>
-          <td>{{ stats.upgrades | round }}</td>
+          <td>{{ stats.upgrades | round }} ({{ upgradePercent }}%)</td>
         </tr>
       </tbody>
     </table>
@@ -37,6 +45,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'Stats',
   computed: {
+    upgradePercent() {
+      return this.stats.upgrades.div(this.stats.totalUpgrades).times(100).toFixed(0);
+    },
     ...mapState([
       'stats',
     ]),

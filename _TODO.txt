@@ -1,10 +1,11 @@
 CURRENT TODO:
-stats tracking/page
+worker attributes
+clicking attributes
 
 CORE TODO:
 rework unfolding
 stats
-- stats page
+- find more stats to track
 - show worker attributes
 - show clicking attributes
 move more stuff to vuex

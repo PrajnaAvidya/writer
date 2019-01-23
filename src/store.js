@@ -16,10 +16,13 @@ function initialState() {
     stats: {
       ideas: Big(0),
       words: Big(0),
+      clickIdeas: Big(0),
+      clickWords: Big(0),
       money: Big(0),
       moneySpent: Big(0),
       jobs: Big(0),
       upgrades: Big(0),
+      totalUpgrades: Big(0),
     },
   };
 }

@@ -121,6 +121,7 @@ export default {
     setupData() {
       this.workers = generateWorkerData();
       this.upgrades = generateUpgrades();
+      this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
       this.calculateWorkerCosts();
     },
     registerEvents() {
@@ -225,8 +226,12 @@ export default {
         console.log('updating stats');
         this.addToStat({ stat: 'ideas', amount: this.newIdeas });
         this.addToStat({ stat: 'words', amount: this.newWords });
+        this.addToStat({ stat: 'clickIdeas', amount: this.newClickIdeas });
+        this.addToStat({ stat: 'clickWords', amount: this.newClickWords });
         this.newIdeas = Big(0);
         this.newWords = Big(0);
+        this.newClickIdeas = Big(0);
+        this.newClickWords = Big(0);
 
         this.nextStatUpdate = unixTimestamp() + 3;
       }
@@ -244,6 +249,7 @@ export default {
         ideas = ideas.times(this.caffeineClickMultiplier);
       }
       this.newIdeas = this.newIdeas.plus(ideas);
+      this.newClickIdeas = this.newClickIdeas.plus(ideas);
       this.ideas = this.ideas.plus(ideas);
     },
     write() {
@@ -257,6 +263,7 @@ export default {
         words = words.times(this.caffeineClickMultiplier);
       }
       this.newWords = this.newWords.plus(words);
+      this.newClickWords = this.newClickWords.plus(words);
       this.words = this.words.plus(words);
     },
     // caffeine

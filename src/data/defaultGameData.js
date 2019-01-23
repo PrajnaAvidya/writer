@@ -40,6 +40,8 @@ export default {
   // stats
   newIdeas: Big(0),
   newWords: Big(0),
+  newClickIdeas: Big(0),
+  newClickWords: Big(0),
 
   // used for tick function
   lastFrame: 0,
