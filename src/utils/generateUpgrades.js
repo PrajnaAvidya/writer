@@ -8,7 +8,31 @@ export default function () {
   const upgrades = {};
   let id = 0;
 
-  // TODO clicking
+  // caffeine
+  upgradeData.caffeine.forEach((caffeineUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'caffeine',
+      name: 'Caffeine Upgrade',
+      cost: Big(caffeineUpgrade.cost),
+    };
+
+    if (caffeineUpgrade.caffeineMaxLengthAdder) {
+      upgrade.caffeineMaxLengthAdder = caffeineUpgrade.caffeineMaxLengthAdder;
+    }
+    if (caffeineUpgrade.caffeineLengthMultiplier) {
+      upgrade.caffeineLengthMultiplier = caffeineUpgrade.caffeineLengthMultiplier;
+    }
+    if (caffeineUpgrade.caffeinePowerMultiplier) {
+      upgrade.caffeinePowerMultiplier = caffeineUpgrade.caffeinePowerMultiplier;
+    }
+
+    upgrades[id] = upgrade;
+  });
+
+  // clicking
   upgradeData.clicking.forEach((clickingUpgrade) => {
     id += 1;
 
@@ -32,7 +56,7 @@ export default function () {
     upgrades[id] = upgrade;
   });
 
-  // generic worker upgrades
+  // generic worker
   upgradeData.genericWorker.forEach((genericUpgrade) => {
     workers.forEach((worker) => {
       id += 1;

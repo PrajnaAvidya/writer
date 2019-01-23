@@ -141,6 +141,9 @@ export default {
       this.$root.$on('multiplyClickingIdeas', this.multiplyClickingIdeas);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
       this.$root.$on('multiplyClickingMaxWords', this.multiplyClickingMaxWords);
+      this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
+      this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
+      this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -309,6 +312,25 @@ export default {
     },
     buzzRemaining() {
       return this.caffeineEndTime - unixTimestamp();
+    },
+    addCaffeineMaxLength(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.caffeineMaxTime += amount;
+    },
+    multiplyCaffeineLength(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.caffeineTime *= amount;
+    },
+    multiplyCaffeinePower(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.caffeineIdeaGeneration = this.caffeineIdeaGeneration.times(amount);
+      this.caffeineClickMultiplier = this.caffeineClickMultiplier.times(amount);
     },
     // workers/upgrades
     hireWorker(id) {

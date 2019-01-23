@@ -38,9 +38,43 @@ export default {
     },
   ],
 
-  // TODO
   caffeine: [
-
+    {
+      cost: 100,
+      caffeineLengthMultiplier: 2,
+    },
+    {
+      cost: 10000,
+      caffeineLengthMultiplier: 2,
+    },
+    {
+      cost: 1000000,
+      caffeineLengthMultiplier: 2,
+    },
+    {
+      cost: 1000,
+      caffeineMaxLengthAdder: 300,
+    },
+    {
+      cost: 10000,
+      caffeineMaxLengthAdder: 300,
+    },
+    {
+      cost: 100000,
+      caffeineMaxLengthAdder: 300,
+    },
+    {
+      cost: 10000,
+      caffeinePowerMultiplier: 2,
+    },
+    {
+      cost: 1E6,
+      caffeinePowerMultiplier: 2,
+    },
+    {
+      cost: 1E8,
+      caffeinePowerMultiplier: 2,
+    },
   ],
 
   // costs are multiples of worker base cost

@@ -7,7 +7,7 @@
       v-for="upgrade in orderedUpgrades(upgrades)"
       :key="upgrade.id"
       class="columns"
-      :class="{ 'is-hidden': !canSeeUpgrade(upgrade) }"
+      :class="{ 'is-hidden': !revealedUpgrades[upgrade.id] && !canSeeUpgrade(upgrade) }"
     >
       <div class="column">
         <strong>{{ upgrade.name }}</strong>
@@ -48,6 +48,10 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    // TODO save to vuex
+    revealedUpgrades: {},
+  }),
   mounted() {
     // console.log(this.upgrades);
   },
@@ -85,6 +89,16 @@ export default {
         if (upgrade.clickingMaxWritingMultiplier) {
           this.$root.$emit('multiplyClickingMaxWords', upgrade.clickingMaxWritingMultiplier);
         }
+      } else if (upgrade.type === 'caffeine') {
+        if (upgrade.caffeineMaxLengthAdder) {
+          this.$root.$emit('addCaffeineMaxLength', upgrade.caffeineMaxLengthAdder);
+        }
+        if (upgrade.caffeineLengthMultiplier) {
+          this.$root.$emit('multiplyCaffeineLength', upgrade.caffeineLengthMultiplier);
+        }
+        if (upgrade.caffeinePowerMultiplier) {
+          this.$root.$emit('multiplyCaffeinePower', upgrade.caffeinePowerMultiplier);
+        }
       }
 
       // remove from upgrade list
@@ -116,6 +130,16 @@ export default {
         if (upgrade.clickingMaxWritingMultiplier) {
           effects.push(`Multiplies writing max clicks by ${upgrade.clickingMaxWritingMultiplier}`);
         }
+      } else if (upgrade.type === 'caffeine') {
+        if (upgrade.caffeineMaxLengthAdder) {
+          effects.push(`Adds ${upgrade.caffeineMaxLengthAdder}s to caffeine max length`);
+        }
+        if (upgrade.caffeineLengthMultiplier) {
+          effects.push(`Multiplies caffeine duration by ${upgrade.caffeineLengthMultiplier}`);
+        }
+        if (upgrade.caffeinePowerMultiplier) {
+          effects.push(`Multiplies caffeine effect by ${upgrade.caffeinePowerMultiplier}`);
+        }
       }
 
       return effects.join('<br>');
@@ -126,7 +150,7 @@ export default {
         Object.keys(upgrade.requirements).forEach((workerId) => {
           requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
         });
-      } else if (upgrade.type === 'clicking') {
+      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine') {
         // requirement is money only
       }
 
@@ -148,7 +172,7 @@ export default {
           }
           return true;
         });
-      } else if (upgrade.type === 'clicking') {
+      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine') {
         // clicking upgrades just require money
       }
       if (!metRequirements) {
@@ -161,6 +185,7 @@ export default {
       let metRequirements = true;
 
       if (upgrade.type === 'worker') {
+        // show upgrade when player has 1/2 workers
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
           if (this.workers[workerId].quantity.lt(required.div(2))) {
@@ -169,13 +194,15 @@ export default {
           }
           return true;
         });
-      } else if (upgrade.type === 'clicking') {
-        return this.money.gte(upgrade.cost.div(2));
+      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine') {
+        // show upgrade when player has 1/2 money
+        metRequirements = this.money.gte(upgrade.cost.div(2));
       }
       if (!metRequirements) {
         return false;
       }
 
+      this.revealedUpgrades[upgrade.id] = true;
       return true;
     },
   },

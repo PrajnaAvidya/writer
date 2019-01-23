@@ -1,5 +1,5 @@
 CURRENT TODO:
-caffeine upgrades
+word value upgrades
 worker attributes
 clicking attributes
 
@@ -16,7 +16,6 @@ color scheme -- art direction in general
 google analytics/event tracking
 consider ditching buefy for home grown components
 - consider ditching bulma completely once i start working on art/design
-don't hide upgrades after first reveal
 
 WRITING/LORE TODO:
 upgrade names/flavor texts
@@ -31,15 +30,11 @@ reputation currency
 - make it unlock different things than money
 recurring costs for workers
 give coffee to children/workers
+something that affects coffee cost (upgrade tradeoff?)
 
 WORKERS TODO:
 - idea vs word productivity stats?
 - accordion/expanding for slider/detail view
-
-UPGRADES TODO:
-adder upgrades?
-caffeine upgrades
-word value
 
 FUTURE IDEAS/TODO:
 generate job data based on progress
@@ -49,7 +44,6 @@ some sort of quality/creativity average for words written
 - minimum reputation for job completion
 - player + workers (and upgradeable for both)
 - job reward % based on quality level (reputation, not money)
-flavor texts/lore
 tutorial/tooltips
 
 GAME PROGRESSION IDEAS:
