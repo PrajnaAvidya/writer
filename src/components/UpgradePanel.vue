@@ -18,6 +18,7 @@
       </div>
       <div class="column">
         <a
+          :disabled="!canBuyUpgrade(upgrade)"
           class="button"
           @click="buyUpgrade(upgrade)"
         >
@@ -52,38 +53,16 @@ export default {
   methods: {
     buyUpgrade(upgrade) {
       // check requirements
-      if (upgrade.requirements) {
-        let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-          const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required)) {
-            console.log(`Not enough ${workerId}`);
-            metRequirements = false;
-            return false;
-          }
-          return true;
-        });
-
-        if (!metRequirements) {
-          return;
-        }
+      if (!this.canBuyUpgrade(upgrade)) {
+        return;
       }
 
-      // costs
+      // subtract costs
       if (upgrade.cost) {
-        // check costs
-        if (upgrade.cost) {
-          if (this.money.lt(upgrade.cost)) {
-            return;
-          }
-        }
-
-        // subtract costs
-        if (upgrade.cost) {
-          this.$root.$emit('subtractMoney', upgrade.cost);
-        }
+        this.$root.$emit('subtractMoney', upgrade.cost);
       }
 
-      // apply upgrade
+      // apply multipliers
       Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
         this.$root.$emit('multiplyEfficiency', { worker: workerId, amount: upgrade.efficiencyMultipliers[workerId] });
       });
@@ -113,6 +92,25 @@ export default {
         requirements.push(`Requires ${upgrade.requirements[workerId]} ${this.workers[workerId].pluralName}`);
       });
       return requirements.join('<br>');
+    },
+    canBuyUpgrade(upgrade) {
+      if (this.money.lt(upgrade.cost)) {
+        return false;
+      }
+      if (upgrade.requirements) {
+        let metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
+          const required = upgrade.requirements[workerId];
+          if (this.workers[workerId].quantity.lt(required)) {
+            metRequirements = false;
+            return false;
+          }
+          return true;
+        });
+        if (!metRequirements) {
+          return false;
+        }
+      }
+      return true;
     },
   },
 };

@@ -1,5 +1,4 @@
 CURRENT TODO:
-grey out things player can't afford
 don't show upgrade until half requirements met
 
 CORE TODO:

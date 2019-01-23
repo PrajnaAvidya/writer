@@ -13,10 +13,16 @@
       >
         <div class="column">
           <a
+            :disabled="worker.cost.gt(money)"
             class="button"
             @click="$root.$emit('hireWorker', worker.id)"
           >
-            Hire {{ worker.name }}
+            <span v-if="buyAmount === 1">
+              Hire {{ worker.name }}
+            </span>
+            <span v-else>
+              Hire {{ buyAmount }} {{ worker.pluralName }}
+            </span>
           </a>
         </div>
         <div class="column">
@@ -70,6 +76,10 @@ export default {
       required: true,
     },
     assignments: {
+      type: Object,
+      required: true,
+    },
+    money: {
       type: Object,
       required: true,
     },

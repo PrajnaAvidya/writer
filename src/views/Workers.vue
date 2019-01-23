@@ -4,6 +4,7 @@
       :show-production="showProduction"
       :workers="workers"
       :assignments="assignments"
+      :money="money"
     />
   </div>
 </template>
@@ -23,6 +24,10 @@ export default {
       required: true,
     },
     assignments: {
+      type: Object,
+      required: true,
+    },
+    money: {
       type: Object,
       required: true,
     },
