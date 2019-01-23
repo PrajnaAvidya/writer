@@ -1,4 +1,5 @@
 import Big from 'big.js';
+import workerIndex from '../utils/workerIndex';
 
 export default {
   // currencies
@@ -31,13 +32,7 @@ export default {
 
   // workers (generated)
   workers: {},
-  workerProductivityMultipliers: {},
-  workerEfficiencyMultipliers: {},
-  assignments: {
-    child: 0,
-    student: 0,
-    grad: 0,
-  },
+  assignments: workerIndex(0),
 
   // upgrades (generated)
   upgrades: {},
