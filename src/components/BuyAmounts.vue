@@ -1,14 +1,31 @@
 <template>
   <div class="buy-amounts">
-    <BTabs
-      v-model="buyIndex"
-      size="is-small"
-      type="is-toggle"
-    >
-      <BTabItem label="Buy 1" />
-      <BTabItem label="Buy 10" />
-      <BTabItem label="Buy 100" />
-    </BTabs>
+    <div class="tabs is-toggle is-small">
+      <ul>
+        <li
+          :class="{ 'is-active': buyIndex === 0 }"
+          @click="buyIndex = 0"
+        >
+          <a>
+            <span>Buy 1</span>
+          </a>
+        </li>
+        <li
+          :class="{ 'is-active': buyIndex === 1 }"
+          @click="buyIndex = 1"
+        >
+          <a>
+            <span>Buy 10</span>
+          </a>
+        </li>
+        <li
+          :class="{ 'is-active': buyIndex === 2 }"
+          @click="buyIndex = 2"
+        >
+          <a><span>Buy 100</span></a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 

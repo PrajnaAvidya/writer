@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "big.js": "^5.2.2",
-    "buefy": "^0.7.2",
+    "bulma": "^0.7.2",
+    "bulma-tooltip": "^2.0.2",
     "lodash": "^4.17.11",
     "vue": "^2.5.21",
     "vue-router": "^3.0.2",

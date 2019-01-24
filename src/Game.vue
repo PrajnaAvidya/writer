@@ -426,22 +426,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #game {
   text-align: center;
-}
-.stats, .main {
-  padding: 0;
-  width: 900px;
-  margin: 0 auto;
-}
-.stats {
-  padding-top: 20px;
-}
-.nav {
-  padding: 25px;
-}
-.caffeine-section {
-  margin-bottom: 10px !important;
 }
 </style>

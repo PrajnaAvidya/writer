@@ -5,8 +5,7 @@ rework unfolding/progression
 find more stats to track
 art direction/color scheme
 google analytics/event tracking
-consider ditching buefy for homegrown components
-- consider ditching bulma completely once i start working on art/design
+consider ditching bulma once i start working on art/design
 click animations
 
 FUTURE IDEAS/TODO:

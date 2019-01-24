@@ -3,14 +3,22 @@
     class="jobs"
     :hidden="!showJobs"
   >
-    <BMessage
-      has-icon
-      :type="messageType"
-      :title="messageTitle"
-      :active.sync="showMessage"
+    <article
+      class="message is-success"
+      :class="{ 'is-hidden': !showMessage }"
     >
-      {{ currentMessage }}
-    </BMessage>
+      <div class="message-header">
+        <p>{{ messageTitle }}</p>
+        <button
+          class="delete"
+          aria-label="delete"
+          @click="showMessage = false"
+        />
+      </div>
+      <div class="message-body">
+        {{ currentMessage }}
+      </div>
+    </article>
 
     <div
       v-if="jobActive"
@@ -19,37 +27,43 @@
       <div class="jobs-header">
         Available Jobs
       </div>
-      <BTable
-        :data="exampleJobs"
-        :columns="columns"
-      >
-        <template slot-scope="props">
-          <BTableColumn
-            field="wordCount"
-            numeric
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 120px">
+              Word Count
+            </th>
+            <th style="width: 400px">
+              Job Name
+            </th>
+            <th style="width: 120px">
+              Payment
+            </th>
+            <th style="width: 200px">
+              Complete
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="job in exampleJobs"
+            :key="job.index"
           >
-            {{ props.row.wordCount | round }}
-          </BTableColumn>
-          <BTableColumn field="name">
-            {{ props.row.name }}
-          </BTableColumn>
-          <BTableColumn
-            field="payment"
-            numeric
-          >
-            {{ props.row.payment | money }}
-          </BTableColumn>
-          <BTableColumn field="complete">
-            <a
-              class="button is-small is-primary"
-              :disabled="props.row.wordCount.gt(words)"
-              @click="completeJob(props.row.index)"
-            >
-              Complete Job
-            </a>
-          </BTableColumn>
-        </template>
-      </BTable>
+            <td>{{ job.wordCount | round }}</td>
+            <td>{{ job.name }}</td>
+            <td>{{ job.payment | money }}</td>
+            <td>
+              <a
+                class="button is-small is-primary"
+                :disabled="job.wordCount.gt(words)"
+                @click="completeJob(job.index)"
+              >
+                Complete Job
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div v-else>
@@ -80,36 +94,12 @@ export default {
   },
   data: () => ({
     showMessage: false,
-    messageType: '',
     messageTitle: '',
     currentMessage: '',
     exampleJobs: [
       { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(5) },
       { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(11) },
       { index: 2, wordCount: Big(400), name: 'Editorial', payment: Big(24) },
-    ],
-    columns: [
-      {
-        field: 'wordCount',
-        label: 'Word Count',
-        numeric: true,
-        width: 120,
-      },
-      {
-        field: 'name',
-        label: 'Job Name',
-        width: 400,
-      },
-      {
-        field: 'payment',
-        label: 'Payment',
-        numeric: true,
-      },
-      {
-        field: 'complete',
-        label: 'Complete',
-        width: 200,
-      },
     ],
   }),
   computed: {
@@ -125,7 +115,6 @@ export default {
         return;
       }
 
-      this.messageType = 'is-success';
       this.messageTitle = 'Success';
       this.currentMessage = 'Job Finished';
       this.showMessage = true;
