@@ -1,31 +1,23 @@
 <template>
   <div class="columns buttons">
     <div class="column">
-      <BTooltip
-        label="Think of ideas"
-        position="is-left"
+      <a
+        class="button is-primary is-large tooltip is-tooltip-left"
+        data-tooltip="Think of ideas"
+        @click="$root.$emit('think')"
       >
-        <a
-          class="button is-primary is-large"
-          @click="$root.$emit('think')"
-        >
-          <BIcon icon="brain" />
-        </a>
-      </BTooltip>
+        <i class="fas fa-brain fa-lg" />
+      </a>
     </div>
 
     <div class="column">
-      <BTooltip
-        label="Write some words"
-        position="is-right"
+      <a
+        class="button is-primary is-large tooltip is-tooltip-right"
+        data-tooltip="Write some words"
+        @click="$root.$emit('write')"
       >
-        <a
-          class="button is-primary is-large"
-          @click="$root.$emit('write')"
-        >
-          <BIcon icon="pen" />
-        </a>
-      </BTooltip>
+        <i class="fas fa-pen fa-lg" />
+      </a>
     </div>
   </div>
 </template>
