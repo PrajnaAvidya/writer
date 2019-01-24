@@ -278,16 +278,8 @@ export default {
     },
     // caffeine
     coffee() {
-      if (this.buzzRemaining() > this.caffeineMaxTime - 5) {
-        return;
-      }
       if (!this.buzzActive()) {
         this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
-      } else {
-        this.caffeineEndTime += this.caffeineTime;
-        if (this.caffeineEndTime - unixTimestamp() > this.caffeineMaxTime) {
-          this.caffeineEndTime = unixTimestamp() + this.caffeineMaxTime;
-        }
       }
     },
     buzzActive() {
@@ -296,11 +288,11 @@ export default {
     buzzRemaining() {
       return this.caffeineEndTime - unixTimestamp();
     },
-    addCaffeineMaxLength(amount) {
-      if (amount <= 1) {
+    reduceCaffeineCooldown(amount) {
+      if (amount < 1) {
         return;
       }
-      this.caffeineMaxTime += amount;
+      this.caffeineCooldown -= amount;
     },
     multiplyCaffeineLength(amount) {
       if (amount <= 1) {

@@ -6,16 +6,16 @@ export default {
   ideas: Big(0),
   words: Big(0),
   wordValue: Big(0.01),
-  money: Big(0),
+  money: Big(1000000),
 
   // player ranges
   baseIdeas: Big(1),
-  baseWrite: Big(2),
-  maxWrite: Big(5),
+  baseWrite: Big(1),
+  maxWrite: Big(3),
 
   // caffeine
   caffeineTime: 30,
-  caffeineMaxTime: 300,
+  caffeineCooldown: 600,
   caffeineEndTime: -1,
   caffeineIdeaGeneration: Big(1),
   caffeineClickMultiplier: Big(2),

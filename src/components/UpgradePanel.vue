@@ -86,8 +86,8 @@ export default {
           this.$root.$emit('multiplyClickingMaxWords', upgrade.maxWritingMultiplier);
         }
       } else if (upgrade.type === 'caffeine') {
-        if (upgrade.maxLengthAdder) {
-          this.$root.$emit('addCaffeineMaxLength', upgrade.maxLengthAdder);
+        if (upgrade.cooldownReduction) {
+          this.$root.$emit('reduceCaffeineCooldown', upgrade.cooldownReduction);
         }
         if (upgrade.lengthMultiplier) {
           this.$root.$emit('multiplyCaffeineLength', upgrade.lengthMultiplier);
@@ -129,8 +129,8 @@ export default {
           effects.push(`Multiplies writing max clicks by ${upgrade.maxWritingMultiplier}`);
         }
       } else if (upgrade.type === 'caffeine') {
-        if (upgrade.maxLengthAdder) {
-          effects.push(`Adds ${upgrade.maxLengthAdder}s to caffeine max length`);
+        if (upgrade.cooldownReduction) {
+          effects.push(`Subtracts ${upgrade.cooldownReduction}s from caffeine cooldown`);
         }
         if (upgrade.lengthMultiplier) {
           effects.push(`Multiplies caffeine duration by ${upgrade.lengthMultiplier}`);

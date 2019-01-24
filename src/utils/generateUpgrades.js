@@ -19,8 +19,8 @@ export default function () {
       cost: Big(caffeineUpgrade.cost),
     };
 
-    if (caffeineUpgrade.maxLengthAdder) {
-      upgrade.maxLengthAdder = caffeineUpgrade.maxLengthAdder;
+    if (caffeineUpgrade.cooldownReduction) {
+      upgrade.cooldownReduction = caffeineUpgrade.cooldownReduction;
     }
     if (caffeineUpgrade.lengthMultiplier) {
       upgrade.lengthMultiplier = caffeineUpgrade.lengthMultiplier;

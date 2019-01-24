@@ -53,15 +53,15 @@ export default {
     },
     {
       cost: 1000,
-      maxLengthAdder: 300,
+      cooldownReduction: 180,
     },
     {
       cost: 10000,
-      maxLengthAdder: 300,
+      cooldownReduction: 180,
     },
     {
       cost: 100000,
-      maxLengthAdder: 300,
+      cooldownReduction: 180,
     },
     {
       cost: 10000,
