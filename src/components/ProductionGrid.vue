@@ -89,12 +89,12 @@ export default {
     slider: {
       lineHeight: 8,
       processStyle: {
-        backgroundColor: '#7957d5',
+        backgroundColor: '#3273DC',
       },
       tooltipStyles: {
-        backgroundColor: '#7957d5',
-        borderColor: '#7957d5',
-        color: '#7957d5',
+        backgroundColor: '#3273DC',
+        borderColor: '#3273DC',
+        color: '#3273DC',
       },
     },
   }),
