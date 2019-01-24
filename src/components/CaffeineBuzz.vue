@@ -1,15 +1,12 @@
 <template>
-  <div
-    class="caffeine"
-    :hidden="!showCaffeine"
-  >
+  <div class="caffeine">
     <div class="columns">
       <div class="column is-half">
         <a
           class="button"
           @click="$root.$emit('coffee')"
         >
-          Drink Coffee ({{ coffeeCost | moneyCents }})
+          Drink Coffee
         </a>
       </div>
       <div class="column is-half">
@@ -25,11 +22,6 @@
 export default {
   name: 'CaffeineBuzz',
   props: {
-    showCaffeine: Boolean,
-    coffeeCost: {
-      type: Object,
-      required: true,
-    },
     buzzActive: Boolean,
     buzzRemaining: {
       type: Number,

@@ -3,11 +3,12 @@ export default [
     id: 'child',
     name: 'Child',
     plural: 'Children',
-    baseCost: 10,
+    baseCost: 5,
     costMultiplier: 0.125,
-    productivity: 0.5,
-    efficiency: 1,
+    productivity: 1,
+    efficiency: 2,
   },
+  /*
   {
     id: 'student',
     name: 'Student',
@@ -35,4 +36,5 @@ export default [
     productivity: 15,
     efficiency: 4,
   },
+  */
 ];

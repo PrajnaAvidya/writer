@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="upgrades"
-    :hidden="!showUpgrades"
-  >
+  <div class="upgrades">
     <div
       v-for="upgrade in orderedUpgrades(upgrades)"
       :key="upgrade.id"
@@ -34,7 +31,6 @@
 export default {
   name: 'UpgradePanel',
   props: {
-    showUpgrades: Boolean,
     upgrades: {
       type: Object,
       required: true,

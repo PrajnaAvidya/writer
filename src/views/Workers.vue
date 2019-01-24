@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <ProductionGrid
-      :show-production="showProduction"
       :workers="workers"
       :assignments="assignments"
       :money="money"
@@ -18,7 +17,6 @@ export default {
     ProductionGrid,
   },
   props: {
-    showProduction: Boolean,
     workers: {
       type: Object,
       required: true,

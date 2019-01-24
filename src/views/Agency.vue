@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <JobsGrid
-      :show-jobs="showJobs"
       :words="words"
       :job-timer="jobTimer"
     />
@@ -18,7 +17,6 @@ export default {
     JobsGrid,
   },
   props: {
-    showJobs: Boolean,
     words: {
       type: Object,
       required: true,

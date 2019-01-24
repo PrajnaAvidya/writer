@@ -1,7 +1,6 @@
 <template>
   <div>
     <UpgradePanel
-      :show-upgrades="showUpgrades"
       :upgrades="upgrades"
       :workers="workers"
       :money="money"
@@ -18,7 +17,6 @@ export default {
     UpgradePanel,
   },
   props: {
-    showUpgrades: Boolean,
     workers: {
       type: Object,
       required: true,

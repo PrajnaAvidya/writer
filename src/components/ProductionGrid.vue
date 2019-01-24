@@ -1,5 +1,5 @@
 <template>
-  <div :hidden="!showProduction">
+  <div>
     <BuyAmounts />
 
     <div
@@ -70,7 +70,6 @@ export default {
     BuyAmounts,
   },
   props: {
-    showProduction: Boolean,
     workers: {
       type: Object,
       required: true,

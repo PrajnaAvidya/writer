@@ -17,10 +17,8 @@
       <hr>
 
       <CaffeineBuzz
-        :show-caffeine="showCaffeine"
         :buzz-active="buzzActive()"
         :buzz-remaining="buzzRemaining()"
-        :coffee-cost="coffeeCost"
         class="caffeine-section"
       />
     </section>
@@ -53,9 +51,6 @@
 
     <section class="section main">
       <RouterView
-        :show-jobs="showJobs"
-        :show-production="showProduction"
-        :show-upgrades="showUpgrades"
         :words="words"
         :money="money"
         :workers="workers"
@@ -166,19 +161,6 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
-
-      // TODO redo unfolding
-      /*
-      if (!this.showCaffeine && this.money.gte(this.coffeeCost)) {
-        this.showCaffeine = true;
-      }
-      if (!this.showJobs && (this.money.gte(1) || this.words.gte(100))) {
-        this.showJobs = true;
-      }
-      if (!this.showProduction && this.money.gte(10)) {
-        this.showProduction = true;
-      }
-      */
 
       // check job cooldown
       if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
@@ -296,7 +278,7 @@ export default {
     },
     // caffeine
     coffee() {
-      if (this.money.lt(this.coffeeCost) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
+      if (this.buzzRemaining() > this.caffeineMaxTime - 5) {
         return;
       }
       if (!this.buzzActive()) {
@@ -307,8 +289,6 @@ export default {
           this.caffeineEndTime = unixTimestamp() + this.caffeineMaxTime;
         }
       }
-
-      this.subtractMoney(this.coffeeCost);
     },
     buzzActive() {
       return this.caffeineEndTime > unixTimestamp();

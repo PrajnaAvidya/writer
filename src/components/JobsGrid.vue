@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="jobs"
-    :hidden="!showJobs"
-  >
+  <div class="jobs">
     <article
       class="message is-success"
       :class="{ 'is-hidden': !showMessage }"
@@ -82,7 +79,6 @@ import unixTimestamp from '../utils/unixTimestamp';
 export default {
   name: 'JobsGrid',
   props: {
-    showJobs: Boolean,
     words: {
       type: Object,
       required: true,
@@ -97,9 +93,9 @@ export default {
     messageTitle: '',
     currentMessage: '',
     exampleJobs: [
-      { index: 0, wordCount: Big(100), name: 'Blurb', payment: Big(5) },
-      { index: 1, wordCount: Big(200), name: 'Op-Ed', payment: Big(11) },
-      { index: 2, wordCount: Big(400), name: 'Editorial', payment: Big(24) },
+      { index: 0, wordCount: Big(200), name: 'Blurb', payment: Big(5) },
+      { index: 1, wordCount: Big(500), name: 'Op-Ed', payment: Big(15) },
+      { index: 2, wordCount: Big(1000), name: 'Editorial', payment: Big(32) },
     ],
   }),
   computed: {
