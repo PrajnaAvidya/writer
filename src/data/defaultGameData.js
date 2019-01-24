@@ -17,11 +17,12 @@ export default {
   caffeineTime: 30,
   caffeineCooldown: 600,
   caffeineEndTime: -1,
-  caffeineIdeaGeneration: Big(1),
+  caffeineNextAvailable: -1,
+  caffeineIdeaGeneration: Big(2),
   caffeineClickMultiplier: Big(2),
 
   // jobs
-  jobTimer: 60,
+  jobCooldown: 300,
 
   // workers (generated)
   workers: {},

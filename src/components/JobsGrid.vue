@@ -65,7 +65,7 @@
 
     <div v-else>
       <div class="jobs-header">
-        Come back later for new jobs
+        New job available in {{ jobAvailableTimer }} seconds
       </div>
     </div>
   </div>
@@ -83,13 +83,14 @@ export default {
       type: Object,
       required: true,
     },
-    jobTimer: {
+    jobCooldown: {
       type: Number,
       required: true,
     },
   },
   data: () => ({
     showMessage: false,
+    jobAvailableTimer: -1,
     messageTitle: '',
     currentMessage: '',
     exampleJobs: [
@@ -101,9 +102,17 @@ export default {
   computed: {
     ...mapState([
       'jobActive',
+      'nextJobTime',
     ]),
   },
+  mounted() {
+    setInterval(() => this.updateTimer(), 1000);
+  },
   methods: {
+    updateTimer() {
+      this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
+      console.log(this.jobAvailableTimer);
+    },
     completeJob(index) {
       const job = this.exampleJobs[index];
 
@@ -121,7 +130,7 @@ export default {
       this.$root.$emit('subtractWords', job.wordCount);
 
       // start jobs cooldown
-      this.resetJobTimer(this.jobTimer);
+      this.resetJobTimer(this.jobCooldown);
     },
     ...mapMutations([
       'resetJobTimer',

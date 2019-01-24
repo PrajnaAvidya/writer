@@ -2,7 +2,7 @@
   <div class="home">
     <JobsGrid
       :words="words"
-      :job-timer="jobTimer"
+      :job-cooldown="jobCooldown"
     />
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
       type: Object,
       required: true,
     },
-    jobTimer: {
+    jobCooldown: {
       type: Number,
       required: true,
     },

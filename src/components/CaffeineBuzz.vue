@@ -13,12 +13,19 @@
         <span v-if="buzzActive">
           Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
         </span>
+        <span v-else>
+          <span v-if="coffeeAvailableTimer > 0">
+            Coffee available in {{ coffeeAvailableTimer }} seconds
+          </span>
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import unixTimestamp from '../utils/unixTimestamp';
+
 export default {
   name: 'CaffeineBuzz',
   props: {
@@ -26,6 +33,21 @@ export default {
     buzzRemaining: {
       type: Number,
       required: true,
+    },
+    caffeineNextAvailable: {
+      type: Number,
+      required: true,
+    },
+  },
+  data: () => ({
+    coffeeAvailableTimer: -1,
+  }),
+  mounted() {
+    setInterval(() => this.updateTimer(), 1000);
+  },
+  methods: {
+    updateTimer() {
+      this.coffeeAvailableTimer = parseInt(this.caffeineNextAvailable - unixTimestamp(), 10);
     },
   },
 };

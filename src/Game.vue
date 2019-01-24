@@ -19,6 +19,7 @@
       <CaffeineBuzz
         :buzz-active="buzzActive()"
         :buzz-remaining="buzzRemaining()"
+        :caffeine-next-available="caffeineNextAvailable"
         class="caffeine-section"
       />
     </section>
@@ -56,7 +57,7 @@
         :workers="workers"
         :upgrades="upgrades"
         :assignments="assignments"
-        :job-timer="jobTimer"
+        :job-cooldown="jobCooldown"
       />
     </section>
   </div>
@@ -278,8 +279,9 @@ export default {
     },
     // caffeine
     coffee() {
-      if (!this.buzzActive()) {
+      if (unixTimestamp() >= this.caffeineNextAvailable) {
         this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
+        this.caffeineNextAvailable = unixTimestamp() + this.caffeineTime + this.caffeineCooldown;
       }
     },
     buzzActive() {
