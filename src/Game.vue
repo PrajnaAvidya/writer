@@ -14,6 +14,8 @@
 
       <SellWriting :writing-value="writingValue" />
 
+      <hr>
+
       <CaffeineBuzz
         :show-caffeine="showCaffeine"
         :buzz-active="buzzActive()"
