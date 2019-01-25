@@ -67,17 +67,17 @@
 // libraries/utils
 import Big from 'big.js';
 import { mapState, mapMutations } from 'vuex';
-import generateWorkerData from './utils/generateWorkerData';
-import generateUpgrades from './utils/generateUpgrades';
-import randomInt from './utils/randomInt';
-import unixTimestamp from './utils/unixTimestamp';
+import generateWorkerData from '@/utils/generateWorkerData';
+import generateUpgrades from '@/utils/generateUpgrades';
+import randomInt from '@/utils/randomInt';
+import unixTimestamp from '@/utils/unixTimestamp';
 // components
-import CaffeineBuzz from './components/CaffeineBuzz.vue';
-import IntroModal from './components/IntroModal.vue';
-import SellWriting from './components/SellWriting.vue';
-import StatDisplay from './components/StatDisplay.vue';
+import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
+import IntroModal from '@/components/IntroModal.vue';
+import SellWriting from '@/components/SellWriting.vue';
+import StatDisplay from '@/components/StatDisplay.vue';
 // data
-import defaultData from './data/defaultGameData';
+import defaultData from '@/data/defaultGameData';
 
 export default {
   name: 'Game',

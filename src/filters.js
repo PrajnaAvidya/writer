@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import sortBy from 'lodash/sortBy';
-import round from './utils/round';
+import round from '@/utils/round';
 
 Vue.filter('round', value => round(value));
 Vue.filter('roundPositive', value => round(value, { alwaysPositive: true }));

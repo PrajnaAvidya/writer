@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import UpgradePanel from '../components/UpgradePanel.vue';
+import UpgradePanel from '@/components/UpgradePanel.vue';
 
 export default {
   name: 'Upgrades',

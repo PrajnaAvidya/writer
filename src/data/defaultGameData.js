@@ -1,5 +1,5 @@
 import Big from 'big.js';
-import workerIndex from '../utils/workerIndex';
+import workerIndex from '@/utils/workerIndex';
 
 export default {
   // currencies

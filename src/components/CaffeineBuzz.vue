@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import unixTimestamp from '../utils/unixTimestamp';
+import unixTimestamp from '@/utils/unixTimestamp';
 
 export default {
   name: 'CaffeineBuzz',

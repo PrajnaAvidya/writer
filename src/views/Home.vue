@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CreativeButtons from '../components/CreativeButtons.vue';
+import CreativeButtons from '@/components/CreativeButtons.vue';
 
 export default {
   name: 'Home',

@@ -74,7 +74,7 @@
 <script>
 import Big from 'big.js';
 import { mapState, mapMutations } from 'vuex';
-import unixTimestamp from '../utils/unixTimestamp';
+import unixTimestamp from '@/utils/unixTimestamp';
 
 export default {
   name: 'JobsGrid',
@@ -111,7 +111,6 @@ export default {
   methods: {
     updateTimer() {
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
-      console.log(this.jobAvailableTimer);
     },
     completeJob(index) {
       const job = this.exampleJobs[index];
@@ -131,6 +130,7 @@ export default {
 
       // start jobs cooldown
       this.resetJobTimer(this.jobCooldown);
+      this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
     },
     ...mapMutations([
       'resetJobTimer',

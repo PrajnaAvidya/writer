@@ -62,7 +62,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import BuyAmounts from './BuyAmounts.vue';
+import BuyAmounts from '@/components/BuyAmounts.vue';
 
 export default {
   name: 'ProductionGrid',

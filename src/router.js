@@ -10,27 +10,27 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: () => import('./views/Home.vue'),
+      component: () => import('@/views/Home.vue'),
     },
     {
       path: '/workers',
       name: 'Workers',
-      component: () => import('./views/Workers.vue'),
+      component: () => import('@/views/Workers.vue'),
     },
     {
       path: '/agency',
       name: 'Agency',
-      component: () => import('./views/Agency.vue'),
+      component: () => import('@/views/Agency.vue'),
     },
     {
       path: '/upgrades',
       name: 'Upgrades',
-      component: () => import('./views/Upgrades.vue'),
+      component: () => import('@/views/Upgrades.vue'),
     },
     {
       path: '/stats',
       name: 'Stats',
-      component: () => import('./views/Stats.vue'),
+      component: () => import('@/views/Stats.vue'),
     },
   ],
 });

@@ -1,8 +1,8 @@
 // generate upgrade objects from data file
 
 import Big from 'big.js';
-import upgradeData from '../data/upgrades';
-import workers from '../data/workers';
+import upgradeData from '@/data/upgrades';
+import workers from '@/data/workers';
 
 export default function () {
   const upgrades = {};

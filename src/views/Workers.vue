@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ProductionGrid from '../components/ProductionGrid.vue';
+import ProductionGrid from '@/components/ProductionGrid.vue';
 
 export default {
   name: 'Workers',

@@ -9,7 +9,6 @@ consider ditching bulma once i start working on art/design
 click animations
 
 FUTURE IDEAS/TODO:
-coffee cooldown instead of cost
 make it possible to get going with <20 clicks
 more requirements for non-worker upgrades
 use tabs for nav

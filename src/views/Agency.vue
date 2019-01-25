@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import JobsGrid from '../components/JobsGrid.vue';
-import SellWriting from '../components/SellWriting.vue';
+import JobsGrid from '@/components/JobsGrid.vue';
+import SellWriting from '@/components/SellWriting.vue';
 
 export default {
   name: 'Agency',
