@@ -1,6 +1,6 @@
 import 'bulma/css/bulma.min.css';
 import 'bulma-tooltip/dist/css/bulma-tooltip.min.css';
-import '@/../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import Vue from 'vue';
 import VueSlideBar from 'vue-slide-bar';
