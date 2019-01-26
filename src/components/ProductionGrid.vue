@@ -6,6 +6,7 @@
       v-for="worker in workers"
       :key="worker.id"
       class="production"
+      :class="{ 'is-hidden': !showWorker(worker) }"
     >
       <div
         slot="title"
@@ -121,6 +122,11 @@ export default {
   },
   mounted() {
     this.previousAssignments = Object.assign({}, this.assignments);
+  },
+  methods: {
+    showWorker(worker) {
+      return worker.id === 'child' || this.workers[worker.previousId].quantity.gte(5);
+    },
   },
 };
 </script>

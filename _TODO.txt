@@ -1,6 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-make ideas naturally come in, semi randomized
-replace maxWrite with random "crits"
 
 CORE TODO:
 rework unfolding/progression
@@ -31,3 +29,4 @@ sell % of words instead of all
 WRITING/LORE TODO:
 upgrade names/flavor texts
 worker flavor texts
+intro modal story

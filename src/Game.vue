@@ -142,6 +142,7 @@ export default {
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
+      this.$root.$on('reduceCaffeineCooldown', this.reduceCaffeineCooldown);
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
       this.$root.$on('reduceJobCooldown', this.reduceJobCooldown);
       this.$root.$on('multiplyJobReward', this.multiplyJobReward);
