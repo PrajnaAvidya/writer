@@ -44,6 +44,9 @@ export default new Vuex.Store({
       state.stats.jobs = state.stats.jobs.plus(1);
       state.nextJobTime = unixTimestamp() + timer;
     },
+    adjustJobTimer(state, amount) {
+      state.nextJobTime += amount;
+    },
     setJobActive(state) {
       state.jobActive = true;
     },

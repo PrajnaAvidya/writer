@@ -110,7 +110,7 @@ export default {
     ]),
   },
   mounted() {
-    setInterval(() => this.updateTimer(), 1000);
+    setInterval(() => this.updateTimer(), 250);
   },
   methods: {
     updateTimer() {

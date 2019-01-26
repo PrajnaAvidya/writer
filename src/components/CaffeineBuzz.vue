@@ -44,7 +44,7 @@ export default {
     coffeeAvailableTimer: -1,
   }),
   mounted() {
-    setInterval(() => this.updateTimer(), 1000);
+    setInterval(() => this.updateTimer(), 250);
   },
   methods: {
     updateTimer() {

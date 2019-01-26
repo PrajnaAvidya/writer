@@ -9,11 +9,11 @@ export default {
   money: Big(1000000),
 
   // player ranges
-  baseIdeas: Big(1),
-  baseWrite: Big(1),
+  playerIdeas: Big(1),
+  playerWords: Big(1),
 
   // caffeine
-  caffeineTime: 30,
+  caffeineTime: 5,
   caffeineCooldown: 600,
   caffeineEndTime: -1,
   caffeineNextAvailable: -1,

@@ -3,7 +3,7 @@
     <div class="column">
       <a
         class="button is-primary is-large tooltip is-tooltip-left"
-        data-tooltip="Think of ideas"
+        :data-tooltip="thinkTooltip()"
         @click="$root.$emit('think')"
       >
         <i class="fas fa-brain fa-lg" />
@@ -13,7 +13,7 @@
     <div class="column">
       <a
         class="button is-primary is-large tooltip is-tooltip-right"
-        data-tooltip="Write some words"
+        :data-tooltip="writeTooltip()"
         @click="$root.$emit('write')"
       >
         <i class="fas fa-pen fa-lg" />
@@ -25,6 +25,32 @@
 <script>
 export default {
   name: 'CreativeButtons',
+  props: {
+    playerIdeas: {
+      type: Object,
+      required: true,
+    },
+    playerWords: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {
+    thinkTooltip() {
+      if (this.playerIdeas.eq(1)) {
+        return 'Think of ideas';
+      }
+
+      return `Think of ${this.$options.filters.round(this.playerIdeas)} ideas`;
+    },
+    writeTooltip() {
+      if (this.playerWords.eq(1)) {
+        return 'Write some words';
+      }
+
+      return `Write ${this.$options.filters.round(this.playerWords)} words`;
+    },
+  },
 };
 </script>
 

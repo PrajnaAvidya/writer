@@ -52,6 +52,8 @@
 
     <section class="section main">
       <RouterView
+        :player-ideas="playerIdeas"
+        :player-words="playerWords"
         :words="words"
         :money="money"
         :workers="workers"
@@ -239,7 +241,7 @@ export default {
     // === start methods ===
     // player input
     think() {
-      let ideas = this.baseIdeas;
+      let ideas = this.playerIdeas;
       if (this.buzzActive()) {
         ideas = ideas.times(this.caffeineClickMultiplier);
       }
@@ -253,7 +255,7 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      let words = this.baseWrite;
+      let words = this.playerWords;
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
       }
@@ -265,13 +267,13 @@ export default {
       if (amount <= 1) {
         return;
       }
-      this.baseIdeas = this.baseIdeas.times(amount);
+      this.playerIdeas = this.playerIdeas.times(amount);
     },
     multiplyClickingWords(amount) {
       if (amount <= 1) {
         return;
       }
-      this.baseWrite = this.baseWrite.times(amount);
+      this.playerWords = this.playerWords.times(amount);
     },
     // caffeine
     coffee() {
@@ -291,6 +293,7 @@ export default {
         return;
       }
       this.caffeineCooldown -= amount;
+      this.caffeineNextAvailable -= amount;
     },
     multiplyCaffeineLength(amount) {
       if (amount <= 1) {
@@ -356,6 +359,7 @@ export default {
       }
 
       this.jobCooldown -= amount;
+      this.adjustJobTimer(-amount);
     },
     multiplyJobReward(amount) {
       if (amount <= 1) {
@@ -408,6 +412,7 @@ export default {
     ...mapMutations([
       'setJobActive',
       'addToStat',
+      'adjustJobTimer',
     ]),
   },
 };
