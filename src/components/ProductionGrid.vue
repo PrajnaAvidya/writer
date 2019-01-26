@@ -1,7 +1,5 @@
 <template>
   <div>
-    <BuyAmounts />
-
     <div
       v-for="worker in workers"
       :key="worker.id"
@@ -42,13 +40,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import BuyAmounts from '@/components/BuyAmounts.vue';
 
 export default {
   name: 'ProductionGrid',
-  components: {
-    BuyAmounts,
-  },
   props: {
     workers: {
       type: Object,

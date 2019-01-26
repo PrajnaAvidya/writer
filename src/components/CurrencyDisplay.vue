@@ -1,12 +1,9 @@
 <template>
-  <div class="stats">
-    <div class="stat">
+  <div>
+    <div>
       Words: {{ words | round }}
     </div>
-    <div class="stat">
-      Word Value: {{ wordValue | moneyCents }}
-    </div>
-    <div class="stat">
+    <div>
       Money: {{ money | moneyCents }}
     </div>
   </div>
@@ -14,13 +11,9 @@
 
 <script>
 export default {
-  name: 'StatDisplay',
+  name: 'CurrencyDisplay',
   props: {
     words: {
-      type: Object,
-      required: true,
-    },
-    wordValue: {
       type: Object,
       required: true,
     },

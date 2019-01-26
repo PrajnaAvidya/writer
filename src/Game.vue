@@ -3,17 +3,10 @@
     <IntroModal />
 
     <section class="section stats">
-      <StatDisplay
+      <CurrencyDisplay
         :words="words"
         :money="money"
-        :word-value="wordValue"
       />
-
-      <hr>
-
-      <SellWriting :writing-value="writingValue" />
-
-      <hr>
 
       <CaffeineBuzz
         :buzz-active="buzzActive()"
@@ -75,7 +68,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
 import SellWriting from '@/components/SellWriting.vue';
-import StatDisplay from '@/components/StatDisplay.vue';
+import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 // data
 import defaultData from '@/data/defaultGameData';
 
@@ -84,8 +77,7 @@ export default {
   components: {
     CaffeineBuzz,
     IntroModal,
-    SellWriting,
-    StatDisplay,
+    CurrencyDisplay,
   },
   data: () => defaultData,
   computed: {
