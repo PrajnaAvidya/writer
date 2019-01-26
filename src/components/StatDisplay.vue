@@ -1,9 +1,6 @@
 <template>
   <div class="stats">
     <div class="stat">
-      Ideas: {{ ideas | roundPositive }}
-    </div>
-    <div class="stat">
       Words: {{ words | round }}
     </div>
     <div class="stat">
@@ -19,10 +16,6 @@
 export default {
   name: 'StatDisplay',
   props: {
-    ideas: {
-      type: Object,
-      required: true,
-    },
     words: {
       type: Object,
       required: true,

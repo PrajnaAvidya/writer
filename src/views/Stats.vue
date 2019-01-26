@@ -3,16 +3,8 @@
     <table class="table">
       <tbody>
         <tr>
-          <th>Ideas Had</th>
-          <td>{{ stats.ideas | round }}</td>
-        </tr>
-        <tr>
           <th>Words Written</th>
           <td>{{ stats.words | round }}</td>
-        </tr>
-        <tr>
-          <th>Ideas Had from Clicks</th>
-          <td>{{ stats.clickIdeas | round }}</td>
         </tr>
         <tr>
           <th>Words Written from Clicks</th>

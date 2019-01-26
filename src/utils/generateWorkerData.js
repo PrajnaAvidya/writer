@@ -22,7 +22,6 @@ export default function () {
       productivityMultiplier: Big(1),
       baseEfficiency: worker.efficiency,
       efficiencyMultiplier: Big(1),
-      balance: 0, // 0 is 100% ideas, 10 is 100% words
     };
     if (workers[previousId]) {
       workers[previousId].nextId = worker.id;

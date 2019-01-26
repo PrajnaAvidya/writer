@@ -1,35 +1,5 @@
 export default {
   clicking: [
-    // ideas
-    {
-      cost: 1E2,
-      ideaMultiplier: 2,
-    },
-    {
-      cost: 1E3,
-      ideaMultiplier: 2,
-    },
-    {
-      cost: 1E4,
-      ideaMultiplier: 2,
-    },
-    {
-      cost: 1E5,
-      ideaMultiplier: 2,
-    },
-    {
-      cost: 1E6,
-      ideaMultiplier: 2,
-    },
-    {
-      cost: 1E7,
-      ideaMultiplier: 2,
-    },
-    {
-      cost: 1E8,
-      ideaMultiplier: 2,
-    },
-    // words
     {
       cost: 1E2,
       writingMultiplier: 2,
