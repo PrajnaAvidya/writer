@@ -12,11 +12,15 @@ function initialState() {
 
     nextJobTime: null,
 
+    nextCaffeineTime: -1,
+    endCaffeineTime: -1,
+
     stats: {
       words: Big(0),
       clickWords: Big(0),
       money: Big(0),
       moneySpent: Big(0),
+      caffeines: Big(0),
       jobs: Big(0),
       upgrades: Big(0),
       totalUpgrades: Big(0),
@@ -42,6 +46,14 @@ export default new Vuex.Store({
     },
     adjustJobTimer(state, amount) {
       state.nextJobTime += amount;
+    },
+    activateCaffeine(state, { timer, cooldown }) {
+      state.endCaffeineTime = unixTimestamp() + timer;
+      state.nextCaffeineTime = state.endCaffeineTime + cooldown;
+      state.stats.caffeines = state.stats.caffeines.plus(1);
+    },
+    adjustCaffeineTimer(state, amount) {
+      state.nextCaffeineTime += amount;
     },
     addToStat(state, { stat, amount }) {
       if (Big(amount).gt(0)) {

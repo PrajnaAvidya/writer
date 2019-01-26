@@ -13,8 +13,6 @@ export default {
   // caffeine
   caffeineTime: 30,
   caffeineCooldown: 600,
-  caffeineEndTime: -1,
-  caffeineNextAvailable: -1,
   caffeineClickMultiplier: Big(2),
 
   // jobs

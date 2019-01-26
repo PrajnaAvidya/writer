@@ -18,7 +18,6 @@
       <CaffeineBuzz
         :buzz-active="buzzActive()"
         :buzz-remaining="buzzRemaining()"
-        :caffeine-next-available="caffeineNextAvailable"
         class="caffeine-section"
       />
     </section>
@@ -96,6 +95,8 @@ export default {
     ...mapState([
       'buyAmount',
       'nextJobTime',
+      'nextCaffeineTime',
+      'endCaffeineTime',
     ]),
   },
   created() {
@@ -213,23 +214,22 @@ export default {
     },
     // caffeine
     coffee() {
-      if (unixTimestamp() >= this.caffeineNextAvailable) {
-        this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
-        this.caffeineNextAvailable = unixTimestamp() + this.caffeineTime + this.caffeineCooldown;
+      if (unixTimestamp() >= this.nextCaffeineTime) {
+        this.activateCaffeine({ timer: this.caffeineTime, cooldown: this.caffeineCooldown });
       }
     },
     buzzActive() {
-      return this.caffeineEndTime > unixTimestamp();
+      return this.endCaffeineTime > unixTimestamp();
     },
     buzzRemaining() {
-      return this.caffeineEndTime - unixTimestamp();
+      return this.endCaffeineTime - unixTimestamp();
     },
     reduceCaffeineCooldown(amount) {
       if (amount < 1) {
         return;
       }
       this.caffeineCooldown -= amount;
-      this.caffeineNextAvailable -= amount;
+      this.adjustCaffeineTimer(-amount);
     },
     multiplyCaffeineLength(amount) {
       if (amount <= 1) {
@@ -344,6 +344,8 @@ export default {
     ...mapMutations([
       'addToStat',
       'adjustJobTimer',
+      'activateCaffeine',
+      'adjustCaffeineTimer',
     ]),
   },
 };

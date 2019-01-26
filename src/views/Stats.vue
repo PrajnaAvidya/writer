@@ -19,6 +19,10 @@
           <td>{{ stats.moneySpent | moneyCents }}</td>
         </tr>
         <tr>
+          <th>Coffees Drank</th>
+          <td>{{ stats.caffeines | round }}</td>
+        </tr>
+        <tr>
           <th>Jobs Completed</th>
           <td>{{ stats.jobs | round }}</td>
         </tr>
