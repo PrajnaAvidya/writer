@@ -99,7 +99,7 @@ export default function () {
       upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
     }
 
-    upgrade[id] = upgrade;
+    upgrades[id] = upgrade;
   });
 
   // word value
