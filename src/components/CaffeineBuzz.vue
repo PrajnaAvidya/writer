@@ -26,6 +26,7 @@
 
 <script>
 import unixTimestamp from '@/utils/unixTimestamp';
+import { mapState } from 'vuex';
 
 export default {
   name: 'CaffeineBuzz',
@@ -35,20 +36,21 @@ export default {
       type: Number,
       required: true,
     },
-    caffeineNextAvailable: {
-      type: Number,
-      required: true,
-    },
   },
   data: () => ({
     coffeeAvailableTimer: -1,
   }),
+  computed: {
+    ...mapState([
+      'nextCaffeineTime',
+    ]),
+  },
   mounted() {
     setInterval(() => this.updateTimer(), 250);
   },
   methods: {
     updateTimer() {
-      this.coffeeAvailableTimer = parseInt(this.caffeineNextAvailable - unixTimestamp(), 10);
+      this.coffeeAvailableTimer = parseInt(this.nextCaffeineTime - unixTimestamp(), 10);
     },
   },
 };

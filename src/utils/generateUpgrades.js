@@ -42,10 +42,6 @@ export default function () {
       name: 'Clicking Upgrade',
       cost: Big(clickingUpgrade.cost),
     };
-
-    if (clickingUpgrade.ideaMultiplier) {
-      upgrade.ideaMultiplier = clickingUpgrade.ideaMultiplier;
-    }
     if (clickingUpgrade.writingMultiplier) {
       upgrade.writingMultiplier = clickingUpgrade.writingMultiplier;
     }

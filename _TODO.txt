@@ -1,7 +1,7 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-get rid of ideas because currently theres no point
-more dynamic sell options -- could be merged with jobs inc. cooldown
+more dynamic sell options -- could be merged with jobs inc. cooldown & remove sell words button
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
+not currently using vue slide bar
 
 CORE TODO:
 rework unfolding/progression

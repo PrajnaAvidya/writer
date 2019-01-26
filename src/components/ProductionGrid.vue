@@ -35,27 +35,6 @@
           </span>
         </div>
       </div>
-
-      <div slot="content">
-        <div class="columns worker-balance">
-          <div class="column">
-            Ideas: {{ 10 * (10 - assignments[worker.id]) }}%
-          </div>
-          <div class="column">
-            <VueSlideBar
-              v-model="assignments[worker.id]"
-              :min="0"
-              :max="10"
-              :line-height="slider.lineHeight"
-              :process-style="slider.processStyle"
-              :tooltip-styles="slider.tooltipStyles"
-            />
-          </div>
-          <div class="column">
-            Words: {{ 10 * assignments[worker.id] }}%
-          </div>
-        </div>
-      </div>
       <hr>
     </div>
   </div>

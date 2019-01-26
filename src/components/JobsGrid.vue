@@ -18,7 +18,7 @@
     </article>
 
     <div
-      v-if="jobActive"
+      v-if="jobAvailableTimer <= 0"
       class="jobs-table"
     >
       <div class="jobs-header">
@@ -105,7 +105,6 @@ export default {
   }),
   computed: {
     ...mapState([
-      'jobActive',
       'nextJobTime',
     ]),
   },

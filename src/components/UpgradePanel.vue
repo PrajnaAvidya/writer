@@ -82,9 +82,6 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
-        if (upgrade.ideaMultiplier) {
-          this.$root.$emit('multiplyClickingIdeas', upgrade.ideaMultiplier);
-        }
         if (upgrade.writingMultiplier) {
           this.$root.$emit('multiplyClickingWords', upgrade.writingMultiplier);
         }
@@ -126,9 +123,6 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
-        if (upgrade.ideaMultiplier) {
-          effects.push(`Multiplies idea clicks by ${upgrade.ideaMultiplier}`);
-        }
         if (upgrade.writingMultiplier) {
           effects.push(`Multiplies writing clicks by ${upgrade.writingMultiplier}`);
         }

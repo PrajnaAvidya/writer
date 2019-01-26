@@ -4,7 +4,6 @@
 
     <section class="section stats">
       <StatDisplay
-        :ideas="ideas"
         :words="words"
         :money="money"
         :word-value="wordValue"
@@ -19,7 +18,6 @@
       <CaffeineBuzz
         :buzz-active="buzzActive()"
         :buzz-remaining="buzzRemaining()"
-        :caffeine-next-available="caffeineNextAvailable"
         class="caffeine-section"
       />
     </section>
@@ -52,7 +50,6 @@
 
     <section class="section main">
       <RouterView
-        :player-ideas="playerIdeas"
         :player-words="playerWords"
         :words="words"
         :money="money"
@@ -97,8 +94,9 @@ export default {
     },
     ...mapState([
       'buyAmount',
-      'jobActive',
       'nextJobTime',
+      'nextCaffeineTime',
+      'endCaffeineTime',
     ]),
   },
   created() {
@@ -126,11 +124,9 @@ export default {
       this.calculateWorkerCosts();
     },
     registerEvents() {
-      this.$root.$on('think', this.think);
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
       this.$root.$on('hireWorker', this.hireWorker);
-      this.$root.$on('updateWorkerBalance', this.updateWorkerBalance);
       this.$root.$on('addMoney', this.addMoney);
       this.$root.$on('subtractMoney', this.subtractMoney);
       this.$root.$on('addWords', this.addWords);
@@ -139,7 +135,6 @@ export default {
       this.$root.$on('multiplyEfficiency', this.multiplyEfficiency);
       this.$root.$on('multiplyProductivity', this.multiplyProductivity);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
-      this.$root.$on('multiplyClickingIdeas', this.multiplyClickingIdeas);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
@@ -168,49 +163,15 @@ export default {
 
       // start actual frame updates
 
-      // check job cooldown
-      if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
-        this.setJobActive();
-      }
-
-      // caffeine buzz ideas
-      if (this.buzzActive()) {
-        this.ideas = this.ideas.plus(this.caffeineIdeaGeneration.times(frameIncrement));
-      }
-
-      // calculate worker ideas
-      let ideas = Big(0);
-      Object.keys(this.workers).forEach((workerId) => {
-        const worker = this.workers[workerId];
-
-        const ideaBalance = (10 - worker.balance) / 10;
-        const ideaContribution = worker.quantity.times(frameIncrement).times(worker.productivityMultiplier.times(worker.baseProductivity)).times(ideaBalance);
-
-        if (ideaContribution.gt(0)) {
-          ideas = ideas.plus(ideaContribution);
-        }
-      });
-
-      // add to ideas
-      this.ideas = this.ideas.plus(ideas);
-      this.newIdeas = this.newIdeas.plus(ideas);
-
       // calculate worker words
       let words = Big(0);
       Object.keys(this.workers).forEach((workerId) => {
         const worker = this.workers[workerId];
 
-        const wordBalance = worker.balance / 10;
-        const wordContribution = worker.quantity.times(frameIncrement).times(worker.productivityMultiplier.times(worker.baseProductivity)).times(wordBalance);
+        const wordContribution = worker.quantity.times(frameIncrement).times(worker.productivityMultiplier.times(worker.baseProductivity));
 
         if (wordContribution.gt(0)) {
-          if (this.ideas.gt(wordContribution)) {
-            words = words.plus(wordContribution).times(worker.efficiencyMultiplier.times(worker.baseEfficiency));
-            this.ideas = this.ideas.minus(wordContribution);
-          } else {
-            words = words.plus(this.ideas).times(worker.efficiencyMultiplier.times(worker.baseEfficiency));
-            this.ideas = Big(0);
-          }
+          words = words.plus(wordContribution).times(worker.efficiencyMultiplier.times(worker.baseEfficiency));
         }
       });
 
@@ -221,13 +182,9 @@ export default {
       // update stats periodically
       if (unixTimestamp() > this.nextStatUpdate) {
         // console.log('updating stats');
-        this.addToStat({ stat: 'ideas', amount: this.newIdeas });
         this.addToStat({ stat: 'words', amount: this.newWords });
-        this.addToStat({ stat: 'clickIdeas', amount: this.newClickIdeas });
         this.addToStat({ stat: 'clickWords', amount: this.newClickWords });
-        this.newIdeas = Big(0);
         this.newWords = Big(0);
-        this.newClickIdeas = Big(0);
         this.newClickWords = Big(0);
 
         this.nextStatUpdate = unixTimestamp() + 3;
@@ -240,21 +197,7 @@ export default {
 
     // === start methods ===
     // player input
-    think() {
-      let ideas = this.playerIdeas;
-      if (this.buzzActive()) {
-        ideas = ideas.times(this.caffeineClickMultiplier);
-      }
-      this.newIdeas = this.newIdeas.plus(ideas);
-      this.newClickIdeas = this.newClickIdeas.plus(ideas);
-      this.ideas = this.ideas.plus(ideas);
-    },
     write() {
-      if (this.ideas.lt(1)) {
-        return;
-      }
-
-      this.ideas = this.ideas.minus(1);
       let words = this.playerWords;
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
@@ -262,12 +205,6 @@ export default {
       this.newWords = this.newWords.plus(words);
       this.newClickWords = this.newClickWords.plus(words);
       this.words = this.words.plus(words);
-    },
-    multiplyClickingIdeas(amount) {
-      if (amount <= 1) {
-        return;
-      }
-      this.playerIdeas = this.playerIdeas.times(amount);
     },
     multiplyClickingWords(amount) {
       if (amount <= 1) {
@@ -277,23 +214,22 @@ export default {
     },
     // caffeine
     coffee() {
-      if (unixTimestamp() >= this.caffeineNextAvailable) {
-        this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
-        this.caffeineNextAvailable = unixTimestamp() + this.caffeineTime + this.caffeineCooldown;
+      if (unixTimestamp() >= this.nextCaffeineTime) {
+        this.activateCaffeine({ timer: this.caffeineTime, cooldown: this.caffeineCooldown });
       }
     },
     buzzActive() {
-      return this.caffeineEndTime > unixTimestamp();
+      return this.endCaffeineTime > unixTimestamp();
     },
     buzzRemaining() {
-      return this.caffeineEndTime - unixTimestamp();
+      return this.endCaffeineTime - unixTimestamp();
     },
     reduceCaffeineCooldown(amount) {
       if (amount < 1) {
         return;
       }
       this.caffeineCooldown -= amount;
-      this.caffeineNextAvailable -= amount;
+      this.adjustCaffeineTimer(-amount);
     },
     multiplyCaffeineLength(amount) {
       if (amount <= 1) {
@@ -305,7 +241,6 @@ export default {
       if (amount <= 1) {
         return;
       }
-      this.caffeineIdeaGeneration = this.caffeineIdeaGeneration.times(amount);
       this.caffeineClickMultiplier = this.caffeineClickMultiplier.times(amount);
     },
     // workers/upgrades
@@ -321,9 +256,6 @@ export default {
 
       // recalculate costs
       this.calculateWorkerCosts();
-    },
-    updateWorkerBalance({ workerId, balance }) {
-      this.workers[workerId].balance = balance;
     },
     calculateWorkerCosts() {
       const { workers } = this;
@@ -410,9 +342,10 @@ export default {
     },
     // === end methods ===
     ...mapMutations([
-      'setJobActive',
       'addToStat',
       'adjustJobTimer',
+      'activateCaffeine',
+      'adjustCaffeineTimer',
     ]),
   },
 };
