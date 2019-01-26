@@ -1,5 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-more dynamic sell options -- could be merged with jobs inc. cooldown & remove sell words button
+idea: replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
 not currently using vue slide bar
 
@@ -19,7 +19,6 @@ increase word value with exponential word count -- could be an upgrade
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - make it unlock different things than money
-something that affects coffee cost (upgrade tradeoff?)
 intro/modal
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 some sort of quality/creativity average for words written
