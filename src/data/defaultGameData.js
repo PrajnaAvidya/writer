@@ -11,7 +11,7 @@ export default {
   playerWords: Big(1),
 
   // caffeine
-  caffeineTime: 5,
+  caffeineTime: 30,
   caffeineCooldown: 600,
   caffeineEndTime: -1,
   caffeineNextAvailable: -1,

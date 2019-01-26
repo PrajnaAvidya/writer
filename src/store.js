@@ -10,7 +10,6 @@ function initialState() {
     buyAmount: 1,
     buyAmountIndex: 0,
 
-    jobActive: true,
     nextJobTime: null,
 
     stats: {
@@ -38,15 +37,11 @@ export default new Vuex.Store({
       state.buyAmount = 10 ** index;
     },
     resetJobTimer(state, timer) {
-      state.jobActive = false;
       state.stats.jobs = state.stats.jobs.plus(1);
       state.nextJobTime = unixTimestamp() + timer;
     },
     adjustJobTimer(state, amount) {
       state.nextJobTime += amount;
-    },
-    setJobActive(state) {
-      state.jobActive = true;
     },
     addToStat(state, { stat, amount }) {
       if (Big(amount).gt(0)) {

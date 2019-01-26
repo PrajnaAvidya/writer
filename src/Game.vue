@@ -95,7 +95,6 @@ export default {
     },
     ...mapState([
       'buyAmount',
-      'jobActive',
       'nextJobTime',
     ]),
   },
@@ -162,11 +161,6 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
-
-      // check job cooldown
-      if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
-        this.setJobActive();
-      }
 
       // calculate worker words
       let words = Big(0);
@@ -348,7 +342,6 @@ export default {
     },
     // === end methods ===
     ...mapMutations([
-      'setJobActive',
       'addToStat',
       'adjustJobTimer',
     ]),
