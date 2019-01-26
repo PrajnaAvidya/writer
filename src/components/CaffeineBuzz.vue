@@ -4,6 +4,7 @@
       <div class="column is-half">
         <a
           class="button"
+          :disabled="buzzActive || coffeeAvailableTimer > 0"
           @click="$root.$emit('coffee')"
         >
           Drink Coffee
