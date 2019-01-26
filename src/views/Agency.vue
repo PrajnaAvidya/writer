@@ -3,6 +3,7 @@
     <JobsGrid
       :words="words"
       :job-cooldown="jobCooldown"
+      :job-reward-multiplier="jobRewardMultiplier"
     />
   </div>
 </template>
@@ -23,6 +24,10 @@ export default {
     },
     jobCooldown: {
       type: Number,
+      required: true,
+    },
+    jobRewardMultiplier: {
+      type: Object,
       required: true,
     },
   },

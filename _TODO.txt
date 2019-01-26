@@ -1,4 +1,6 @@
 MOVE ACTION ITEMS TO HACKNPLAN
+make ideas naturally come in, semi randomized
+replace maxWrite with random "crits"
 
 CORE TODO:
 rework unfolding/progression

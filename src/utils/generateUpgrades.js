@@ -82,6 +82,26 @@ export default function () {
     });
   });
 
+  // jobs
+  upgradeData.jobs.forEach((jobUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'jobs',
+      name: 'Jobs Upgrade',
+      cost: Big(jobUpgrade.cost),
+    };
+    if (jobUpgrade.cooldownReduction) {
+      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
+    }
+    if (jobUpgrade.rewardMultiplier) {
+      upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
+    }
+
+    upgrade[id] = upgrade;
+  });
+
   // word value
   upgradeData.wordValue.forEach((wordValueUpgrade) => {
     id += 1;

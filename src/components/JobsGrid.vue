@@ -87,6 +87,10 @@ export default {
       type: Number,
       required: true,
     },
+    jobRewardMultiplier: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     showMessage: false,
@@ -123,7 +127,7 @@ export default {
       this.currentMessage = 'Job Finished';
       this.showMessage = true;
 
-      this.$root.$emit('addMoney', job.payment);
+      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
 
       // subtract words
       this.$root.$emit('subtractWords', job.wordCount);

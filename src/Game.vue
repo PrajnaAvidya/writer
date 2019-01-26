@@ -58,6 +58,7 @@
         :upgrades="upgrades"
         :assignments="assignments"
         :job-cooldown="jobCooldown"
+        :job-reward-multiplier="jobRewardMultiplier"
       />
     </section>
   </div>
@@ -138,11 +139,12 @@ export default {
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('multiplyClickingIdeas', this.multiplyClickingIdeas);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
-      this.$root.$on('multiplyClickingMaxWords', this.multiplyClickingMaxWords);
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
+      this.$root.$on('reduceJobCooldown', this.reduceJobCooldown);
+      this.$root.$on('multiplyJobReward', this.multiplyJobReward);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -215,7 +217,7 @@ export default {
 
       // update stats periodically
       if (unixTimestamp() > this.nextStatUpdate) {
-        console.log('updating stats');
+        // console.log('updating stats');
         this.addToStat({ stat: 'ideas', amount: this.newIdeas });
         this.addToStat({ stat: 'words', amount: this.newWords });
         this.addToStat({ stat: 'clickIdeas', amount: this.newClickIdeas });
@@ -250,7 +252,7 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      let words = Big(randomInt(this.baseWrite, this.maxWrite));
+      let words = this.baseWrite;
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
       }
@@ -269,13 +271,6 @@ export default {
         return;
       }
       this.baseWrite = this.baseWrite.times(amount);
-      this.maxWrite = this.maxWrite.times(amount);
-    },
-    multiplyClickingMaxWords(amount) {
-      if (amount <= 1) {
-        return;
-      }
-      this.maxWrite = this.maxWrite.times(amount);
     },
     // caffeine
     coffee() {
@@ -352,6 +347,21 @@ export default {
     removeUpgrade(upgradeId) {
       this.addToStat({ stat: 'upgrades', amount: 1 });
       this.$delete(this.upgrades, upgradeId);
+    },
+    // jobs
+    reduceJobCooldown(amount) {
+      if (amount < 1) {
+        return;
+      }
+
+      this.jobCooldown -= amount;
+    },
+    multiplyJobReward(amount) {
+      if (amount <= 1) {
+        return;
+      }
+
+      this.jobRewardMultiplier = this.jobRewardMultiplier.times(amount);
     },
     // economy
     addMoney(money) {

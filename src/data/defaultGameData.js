@@ -11,7 +11,6 @@ export default {
   // player ranges
   baseIdeas: Big(1),
   baseWrite: Big(1),
-  maxWrite: Big(3),
 
   // caffeine
   caffeineTime: 30,
@@ -23,6 +22,7 @@ export default {
 
   // jobs
   jobCooldown: 300,
+  jobRewardMultiplier: Big(1),
 
   // workers (generated)
   workers: {},
