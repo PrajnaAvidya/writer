@@ -14,11 +14,12 @@
 
       <SellWriting :writing-value="writingValue" />
 
+      <hr>
+
       <CaffeineBuzz
-        :show-caffeine="showCaffeine"
         :buzz-active="buzzActive()"
         :buzz-remaining="buzzRemaining()"
-        :coffee-cost="coffeeCost"
+        :caffeine-next-available="caffeineNextAvailable"
         class="caffeine-section"
       />
     </section>
@@ -51,15 +52,13 @@
 
     <section class="section main">
       <RouterView
-        :show-jobs="showJobs"
-        :show-production="showProduction"
-        :show-upgrades="showUpgrades"
         :words="words"
         :money="money"
         :workers="workers"
         :upgrades="upgrades"
         :assignments="assignments"
-        :job-timer="jobTimer"
+        :job-cooldown="jobCooldown"
+        :job-reward-multiplier="jobRewardMultiplier"
       />
     </section>
   </div>
@@ -69,17 +68,17 @@
 // libraries/utils
 import Big from 'big.js';
 import { mapState, mapMutations } from 'vuex';
-import generateWorkerData from './utils/generateWorkerData';
-import generateUpgrades from './utils/generateUpgrades';
-import randomInt from './utils/randomInt';
-import unixTimestamp from './utils/unixTimestamp';
+import generateWorkerData from '@/utils/generateWorkerData';
+import generateUpgrades from '@/utils/generateUpgrades';
+import randomInt from '@/utils/randomInt';
+import unixTimestamp from '@/utils/unixTimestamp';
 // components
-import CaffeineBuzz from './components/CaffeineBuzz.vue';
-import IntroModal from './components/IntroModal.vue';
-import SellWriting from './components/SellWriting.vue';
-import StatDisplay from './components/StatDisplay.vue';
+import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
+import IntroModal from '@/components/IntroModal.vue';
+import SellWriting from '@/components/SellWriting.vue';
+import StatDisplay from '@/components/StatDisplay.vue';
 // data
-import defaultData from './data/defaultGameData';
+import defaultData from '@/data/defaultGameData';
 
 export default {
   name: 'Game',
@@ -140,11 +139,13 @@ export default {
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('multiplyClickingIdeas', this.multiplyClickingIdeas);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
-      this.$root.$on('multiplyClickingMaxWords', this.multiplyClickingMaxWords);
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
+      this.$root.$on('reduceCaffeineCooldown', this.reduceCaffeineCooldown);
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
+      this.$root.$on('reduceJobCooldown', this.reduceJobCooldown);
+      this.$root.$on('multiplyJobReward', this.multiplyJobReward);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -164,19 +165,6 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
-
-      // TODO redo unfolding
-      /*
-      if (!this.showCaffeine && this.money.gte(this.coffeeCost)) {
-        this.showCaffeine = true;
-      }
-      if (!this.showJobs && (this.money.gte(1) || this.words.gte(100))) {
-        this.showJobs = true;
-      }
-      if (!this.showProduction && this.money.gte(10)) {
-        this.showProduction = true;
-      }
-      */
 
       // check job cooldown
       if (!this.jobActive && unixTimestamp() >= this.nextJobTime) {
@@ -230,7 +218,7 @@ export default {
 
       // update stats periodically
       if (unixTimestamp() > this.nextStatUpdate) {
-        console.log('updating stats');
+        // console.log('updating stats');
         this.addToStat({ stat: 'ideas', amount: this.newIdeas });
         this.addToStat({ stat: 'words', amount: this.newWords });
         this.addToStat({ stat: 'clickIdeas', amount: this.newClickIdeas });
@@ -265,7 +253,7 @@ export default {
       }
 
       this.ideas = this.ideas.minus(1);
-      let words = Big(randomInt(this.baseWrite, this.maxWrite));
+      let words = this.baseWrite;
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
       }
@@ -284,29 +272,13 @@ export default {
         return;
       }
       this.baseWrite = this.baseWrite.times(amount);
-      this.maxWrite = this.maxWrite.times(amount);
-    },
-    multiplyClickingMaxWords(amount) {
-      if (amount <= 1) {
-        return;
-      }
-      this.maxWrite = this.maxWrite.times(amount);
     },
     // caffeine
     coffee() {
-      if (this.money.lt(this.coffeeCost) || this.buzzRemaining() > this.caffeineMaxTime - 5) {
-        return;
-      }
-      if (!this.buzzActive()) {
+      if (unixTimestamp() >= this.caffeineNextAvailable) {
         this.caffeineEndTime = unixTimestamp() + this.caffeineTime;
-      } else {
-        this.caffeineEndTime += this.caffeineTime;
-        if (this.caffeineEndTime - unixTimestamp() > this.caffeineMaxTime) {
-          this.caffeineEndTime = unixTimestamp() + this.caffeineMaxTime;
-        }
+        this.caffeineNextAvailable = unixTimestamp() + this.caffeineTime + this.caffeineCooldown;
       }
-
-      this.subtractMoney(this.coffeeCost);
     },
     buzzActive() {
       return this.caffeineEndTime > unixTimestamp();
@@ -314,11 +286,11 @@ export default {
     buzzRemaining() {
       return this.caffeineEndTime - unixTimestamp();
     },
-    addCaffeineMaxLength(amount) {
-      if (amount <= 1) {
+    reduceCaffeineCooldown(amount) {
+      if (amount < 1) {
         return;
       }
-      this.caffeineMaxTime += amount;
+      this.caffeineCooldown -= amount;
     },
     multiplyCaffeineLength(amount) {
       if (amount <= 1) {
@@ -376,6 +348,21 @@ export default {
     removeUpgrade(upgradeId) {
       this.addToStat({ stat: 'upgrades', amount: 1 });
       this.$delete(this.upgrades, upgradeId);
+    },
+    // jobs
+    reduceJobCooldown(amount) {
+      if (amount < 1) {
+        return;
+      }
+
+      this.jobCooldown -= amount;
+    },
+    multiplyJobReward(amount) {
+      if (amount <= 1) {
+        return;
+      }
+
+      this.jobRewardMultiplier = this.jobRewardMultiplier.times(amount);
     },
     // economy
     addMoney(money) {

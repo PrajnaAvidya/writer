@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="upgrades"
-    :hidden="!showUpgrades"
-  >
+  <div class="upgrades">
     <div
       v-for="upgrade in orderedUpgrades(upgrades)"
       :key="upgrade.id"
@@ -34,7 +31,6 @@
 export default {
   name: 'UpgradePanel',
   props: {
-    showUpgrades: Boolean,
     upgrades: {
       type: Object,
       required: true,
@@ -62,12 +58,18 @@ export default {
         return;
       }
 
-      // subtract costs
+      // subtract cost
       if (upgrade.cost) {
         this.$root.$emit('subtractMoney', upgrade.cost);
       }
 
-      // apply multipliers
+      // apply
+      this.applyUpgrade(upgrade);
+
+      // remove from list
+      this.$root.$emit('removeUpgrade', upgrade.id);
+    },
+    applyUpgrade(upgrade) {
       if (upgrade.type === 'worker') {
         if (upgrade.productivityMultipliers) {
           Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
@@ -86,12 +88,9 @@ export default {
         if (upgrade.writingMultiplier) {
           this.$root.$emit('multiplyClickingWords', upgrade.writingMultiplier);
         }
-        if (upgrade.maxWritingMultiplier) {
-          this.$root.$emit('multiplyClickingMaxWords', upgrade.maxWritingMultiplier);
-        }
       } else if (upgrade.type === 'caffeine') {
-        if (upgrade.maxLengthAdder) {
-          this.$root.$emit('addCaffeineMaxLength', upgrade.maxLengthAdder);
+        if (upgrade.cooldownReduction) {
+          this.$root.$emit('reduceCaffeineCooldown', upgrade.cooldownReduction);
         }
         if (upgrade.lengthMultiplier) {
           this.$root.$emit('multiplyCaffeineLength', upgrade.lengthMultiplier);
@@ -101,10 +100,14 @@ export default {
         }
       } else if (upgrade.type === 'wordValue') {
         this.$root.$emit('multiplyWordValue', upgrade.multiplier);
+      } else if (upgrade.type === 'jobs') {
+        if (upgrade.cooldownReduction) {
+          this.$root.$emit('reduceJobCooldown', upgrade.cooldownReduction);
+        }
+        if (upgrade.rewardMultiplier) {
+          this.$root.$emit('multiplyJobReward', upgrade.rewardMultiplier);
+        }
       }
-
-      // remove from upgrade list
-      this.$root.$emit('removeUpgrade', upgrade.id);
     },
     orderedUpgrades(list) {
       return this.$options.filters.orderCost(list);
@@ -129,12 +132,9 @@ export default {
         if (upgrade.writingMultiplier) {
           effects.push(`Multiplies writing clicks by ${upgrade.writingMultiplier}`);
         }
-        if (upgrade.maxWritingMultiplier) {
-          effects.push(`Multiplies writing max clicks by ${upgrade.maxWritingMultiplier}`);
-        }
       } else if (upgrade.type === 'caffeine') {
-        if (upgrade.maxLengthAdder) {
-          effects.push(`Adds ${upgrade.maxLengthAdder}s to caffeine max length`);
+        if (upgrade.cooldownReduction) {
+          effects.push(`Subtracts ${upgrade.cooldownReduction}s from caffeine cooldown`);
         }
         if (upgrade.lengthMultiplier) {
           effects.push(`Multiplies caffeine duration by ${upgrade.lengthMultiplier}`);
@@ -144,6 +144,13 @@ export default {
         }
       } else if (upgrade.type === 'wordValue') {
         effects.push(`Multiplies word value effect by ${upgrade.multiplier}`);
+      } else if (upgrade.type === 'jobs') {
+        if (upgrade.cooldownReduction) {
+          effects.push(`Reduces job cooldown by ${upgrade.cooldownReduction}`);
+        }
+        if (upgrade.rewardMultiplier) {
+          effects.push(`Multiplies job reward by ${upgrade.rewardMultiplier}`);
+        }
       }
 
       return effects.join('<br>');
@@ -154,8 +161,8 @@ export default {
         Object.keys(upgrade.requirements).forEach((workerId) => {
           requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
         });
-      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine' || upgrade.type === 'wordValue') {
-        // requirement is money only
+      } else {
+        // requirement is cost only
       }
 
       return requirements.join('<br>');
@@ -176,8 +183,8 @@ export default {
           }
           return true;
         });
-      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine' || upgrade.type === 'wordValue') {
-        // clicking upgrades just require money
+      } else {
+        // requirement is cost only
       }
       if (!metRequirements) {
         return false;
@@ -198,7 +205,7 @@ export default {
           }
           return true;
         });
-      } else if (upgrade.type === 'clicking' || upgrade.type === 'caffeine' || upgrade.type === 'wordValue') {
+      } else {
         // show upgrade when player has 1/2 money
         metRequirements = this.money.gte(upgrade.cost.div(2));
       }

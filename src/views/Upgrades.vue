@@ -1,7 +1,6 @@
 <template>
   <div>
     <UpgradePanel
-      :show-upgrades="showUpgrades"
       :upgrades="upgrades"
       :workers="workers"
       :money="money"
@@ -10,7 +9,7 @@
 </template>
 
 <script>
-import UpgradePanel from '../components/UpgradePanel.vue';
+import UpgradePanel from '@/components/UpgradePanel.vue';
 
 export default {
   name: 'Upgrades',
@@ -18,7 +17,6 @@ export default {
     UpgradePanel,
   },
   props: {
-    showUpgrades: Boolean,
     workers: {
       type: Object,
       required: true,

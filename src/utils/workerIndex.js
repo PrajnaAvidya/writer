@@ -1,6 +1,6 @@
 // generate an object of workerId:value for various purposes
 
-import workers from '../data/workers';
+import workers from '@/data/workers';
 
 export default function (value) {
   const object = {};

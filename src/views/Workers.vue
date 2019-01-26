@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <ProductionGrid
-      :show-production="showProduction"
       :workers="workers"
       :assignments="assignments"
       :money="money"
@@ -10,7 +9,7 @@
 </template>
 
 <script>
-import ProductionGrid from '../components/ProductionGrid.vue';
+import ProductionGrid from '@/components/ProductionGrid.vue';
 
 export default {
   name: 'Workers',
@@ -18,7 +17,6 @@ export default {
     ProductionGrid,
   },
   props: {
-    showProduction: Boolean,
     workers: {
       type: Object,
       required: true,

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Big from 'big.js';
-import unixTimestamp from './utils/unixTimestamp';
+import unixTimestamp from '@/utils/unixTimestamp';
 
 Vue.use(Vuex);
 

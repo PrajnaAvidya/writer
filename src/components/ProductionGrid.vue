@@ -1,11 +1,12 @@
 <template>
-  <div :hidden="!showProduction">
+  <div>
     <BuyAmounts />
 
     <div
       v-for="worker in workers"
       :key="worker.id"
       class="production"
+      :class="{ 'is-hidden': !showWorker(worker) }"
     >
       <div
         slot="title"
@@ -62,7 +63,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import BuyAmounts from './BuyAmounts.vue';
+import BuyAmounts from '@/components/BuyAmounts.vue';
 
 export default {
   name: 'ProductionGrid',
@@ -70,7 +71,6 @@ export default {
     BuyAmounts,
   },
   props: {
-    showProduction: Boolean,
     workers: {
       type: Object,
       required: true,
@@ -122,6 +122,11 @@ export default {
   },
   mounted() {
     this.previousAssignments = Object.assign({}, this.assignments);
+  },
+  methods: {
+    showWorker(worker) {
+      return worker.id === 'child' || this.workers[worker.previousId].quantity.gte(5);
+    },
   },
 };
 </script>

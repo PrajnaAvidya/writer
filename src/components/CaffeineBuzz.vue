@@ -1,20 +1,23 @@
 <template>
-  <div
-    class="caffeine"
-    :hidden="!showCaffeine"
-  >
+  <div class="caffeine">
     <div class="columns">
       <div class="column is-half">
         <a
           class="button"
+          :disabled="buzzActive || coffeeAvailableTimer > 0"
           @click="$root.$emit('coffee')"
         >
-          Drink Coffee ({{ coffeeCost | moneyCents }})
+          Drink Coffee
         </a>
       </div>
       <div class="column is-half">
         <span v-if="buzzActive">
           Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
+        </span>
+        <span v-else>
+          <span v-if="coffeeAvailableTimer > 0">
+            Coffee available in {{ coffeeAvailableTimer }} seconds
+          </span>
         </span>
       </div>
     </div>
@@ -22,18 +25,30 @@
 </template>
 
 <script>
+import unixTimestamp from '@/utils/unixTimestamp';
+
 export default {
   name: 'CaffeineBuzz',
   props: {
-    showCaffeine: Boolean,
-    coffeeCost: {
-      type: Object,
-      required: true,
-    },
     buzzActive: Boolean,
     buzzRemaining: {
       type: Number,
       required: true,
+    },
+    caffeineNextAvailable: {
+      type: Number,
+      required: true,
+    },
+  },
+  data: () => ({
+    coffeeAvailableTimer: -1,
+  }),
+  mounted() {
+    setInterval(() => this.updateTimer(), 1000);
+  },
+  methods: {
+    updateTimer() {
+      this.coffeeAvailableTimer = parseInt(this.caffeineNextAvailable - unixTimestamp(), 10);
     },
   },
 };

@@ -1,8 +1,8 @@
 // generate upgrade objects from data file
 
 import Big from 'big.js';
-import upgradeData from '../data/upgrades';
-import workers from '../data/workers';
+import upgradeData from '@/data/upgrades';
+import workers from '@/data/workers';
 
 export default function () {
   const upgrades = {};
@@ -19,8 +19,8 @@ export default function () {
       cost: Big(caffeineUpgrade.cost),
     };
 
-    if (caffeineUpgrade.maxLengthAdder) {
-      upgrade.maxLengthAdder = caffeineUpgrade.maxLengthAdder;
+    if (caffeineUpgrade.cooldownReduction) {
+      upgrade.cooldownReduction = caffeineUpgrade.cooldownReduction;
     }
     if (caffeineUpgrade.lengthMultiplier) {
       upgrade.lengthMultiplier = caffeineUpgrade.lengthMultiplier;
@@ -80,6 +80,26 @@ export default function () {
 
       upgrades[id] = upgrade;
     });
+  });
+
+  // jobs
+  upgradeData.jobs.forEach((jobUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'jobs',
+      name: 'Jobs Upgrade',
+      cost: Big(jobUpgrade.cost),
+    };
+    if (jobUpgrade.cooldownReduction) {
+      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
+    }
+    if (jobUpgrade.rewardMultiplier) {
+      upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
+    }
+
+    upgrades[id] = upgrade;
   });
 
   // word value

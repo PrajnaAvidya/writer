@@ -9,6 +9,7 @@ consider ditching bulma once i start working on art/design
 click animations
 
 FUTURE IDEAS/TODO:
+make it possible to get going with <20 clicks
 more requirements for non-worker upgrades
 use tabs for nav
 increase word value with exponential word count -- could be an upgrade
@@ -28,3 +29,4 @@ sell % of words instead of all
 WRITING/LORE TODO:
 upgrade names/flavor texts
 worker flavor texts
+intro modal story
