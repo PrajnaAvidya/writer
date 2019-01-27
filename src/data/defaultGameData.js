@@ -5,8 +5,8 @@ export default {
   // currencies
   currency: {
     words: Big(0),
-    money: Big(1E100),
-    wordValue: Big(0.01),
+    money: Big(0),
+    wordValue: Big(0.10),
   },
 
   // player words
@@ -21,7 +21,7 @@ export default {
 
   // jobs
   jobs: {},
-  jobCooldown: 3,
+  jobCooldown: 300,
   jobRewardMultiplier: Big(1),
   nextJobTime: 0,
   jobsGenerated: false,

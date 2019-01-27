@@ -1,6 +1,8 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
+currently player should always sell the highest word count job because words have no other use
+- need another choice/output for words
 
 CORE TODO:
 rework unfolding/progression
@@ -23,7 +25,8 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 tutorial/tooltips
 
-WRITING/LORE TODO:
+WRITING/LORE/INTRO TODO:
 upgrade names/flavor texts
 worker flavor texts
 intro modal story
+"tutorial job" with a low word count/higher payout
