@@ -1,10 +1,6 @@
 <template>
   <div>
-    <UpgradePanel
-      :upgrades="upgrades"
-      :workers="workers"
-      :money="money"
-    />
+    <UpgradePanel />
   </div>
 </template>
 
@@ -15,20 +11,6 @@ export default {
   name: 'Upgrades',
   components: {
     UpgradePanel,
-  },
-  props: {
-    workers: {
-      type: Object,
-      required: true,
-    },
-    upgrades: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
   },
 };
 </script>

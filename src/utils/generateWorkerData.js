@@ -2,6 +2,7 @@
 
 import Big from 'big.js';
 import workerData from '@/data/workers';
+import workerCost from '@/utils/workerCost';
 
 export default function () {
   const workers = {};
@@ -14,14 +15,16 @@ export default function () {
       nextId: null,
       name: worker.name,
       pluralName: worker.plural,
-      quantity: Big(0),
-      cost: worker.baseCost,
+      quantity: 0,
+      costs: {
+        0: workerCost(worker.baseCost, 0, worker.costMultiplier, 1),
+        1: workerCost(worker.baseCost, 0, worker.costMultiplier, 10),
+        2: workerCost(worker.baseCost, 0, worker.costMultiplier, 100),
+      },
       baseCost: worker.baseCost,
       costMultiplier: worker.costMultiplier,
       baseProductivity: worker.productivity,
       productivityMultiplier: Big(1),
-      baseEfficiency: worker.efficiency,
-      efficiencyMultiplier: Big(1),
     };
     if (workers[previousId]) {
       workers[previousId].nextId = worker.id;

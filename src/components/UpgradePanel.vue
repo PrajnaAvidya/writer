@@ -1,7 +1,7 @@
 <template>
   <div class="upgrades">
     <div
-      v-for="upgrade in orderedUpgrades(upgrades)"
+      v-for="upgrade in orderedUpgrades()"
       :key="upgrade.id"
       class="columns"
       :class="{ 'is-hidden': !revealedUpgrades[upgrade.id] && !canSeeUpgrade(upgrade) }"
@@ -28,28 +28,19 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
   name: 'UpgradePanel',
-  props: {
-    upgrades: {
-      type: Object,
-      required: true,
-    },
-    workers: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    // TODO save to vuex
-    revealedUpgrades: {},
-  }),
-  mounted() {
-    // console.log(this.upgrades);
+  computed: {
+    ...mapState([
+      'workers',
+      'upgrades',
+      'revealedUpgrades',
+    ]),
+    ...mapGetters([
+      'money',
+    ]),
   },
   methods: {
     buyUpgrade(upgrade) {
@@ -71,14 +62,9 @@ export default {
     },
     applyUpgrade(upgrade) {
       if (upgrade.type === 'worker') {
-        if (upgrade.productivityMultipliers) {
-          Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
-            this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.productivityMultipliers[workerId] });
-          });
-        }
-        if (upgrade.efficiencyMultipliers) {
-          Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
-            this.$root.$emit('multiplyEfficiency', { worker: workerId, amount: upgrade.efficiencyMultipliers[workerId] });
+        if (upgrade.multipliers) {
+          Object.keys(upgrade.multipliers).forEach((workerId) => {
+            this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.multipliers[workerId] });
           });
         }
       } else if (upgrade.type === 'clicking') {
@@ -106,20 +92,15 @@ export default {
         }
       }
     },
-    orderedUpgrades(list) {
-      return this.$options.filters.orderCost(list);
+    orderedUpgrades() {
+      return this.$options.filters.orderCost(this.upgrades);
     },
     descriptionText(upgrade) {
       const effects = [];
       if (upgrade.type === 'worker') {
-        if (upgrade.productivityMultipliers) {
-          Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
-            effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.productivityMultipliers[workerId]}x`);
-          });
-        }
-        if (upgrade.efficiencyMultipliers) {
-          Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
-            effects.push(`Multiplies ${this.workers[workerId].name} efficiency by ${upgrade.efficiencyMultipliers[workerId]}x`);
+        if (upgrade.multipliers) {
+          Object.keys(upgrade.multipliers).forEach((workerId) => {
+            effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.multipliers[workerId]}x`);
           });
         }
       } else if (upgrade.type === 'clicking') {
@@ -137,7 +118,7 @@ export default {
           effects.push(`Multiplies caffeine effect by ${upgrade.powerMultiplier}`);
         }
       } else if (upgrade.type === 'wordValue') {
-        effects.push(`Multiplies word value effect by ${upgrade.multiplier}`);
+        effects.push(`Multiplies base word value by ${upgrade.multiplier}`);
       } else if (upgrade.type === 'jobs') {
         if (upgrade.cooldownReduction) {
           effects.push(`Reduces job cooldown by ${upgrade.cooldownReduction}`);
@@ -171,7 +152,7 @@ export default {
       if (upgrade.type === 'worker') {
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required)) {
+          if (this.workers[workerId].quantity < required) {
             metRequirements = false;
             return false;
           }
@@ -193,7 +174,7 @@ export default {
         // show upgrade when player has 1/2 workers
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required.div(2))) {
+          if (this.workers[workerId].quantity < required / 2) {
             metRequirements = false;
             return false;
           }

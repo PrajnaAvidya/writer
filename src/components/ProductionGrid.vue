@@ -1,7 +1,5 @@
 <template>
   <div>
-    <BuyAmounts />
-
     <div
       v-for="worker in workers"
       :key="worker.id"
@@ -14,7 +12,7 @@
       >
         <div class="column">
           <a
-            :disabled="worker.cost.gt(money)"
+            :disabled="worker.costs[buyAmountIndex].gt(money)"
             class="button"
             @click="$root.$emit('hireWorker', worker.id)"
           >
@@ -27,10 +25,10 @@
           </a>
         </div>
         <div class="column">
-          Cost {{ worker.cost | money }} for {{ buyAmount }}
+          Cost {{ worker.costs[buyAmountIndex] | money }} for {{ buyAmount }}
         </div>
         <div class="column">
-          <span v-if="worker.quantity.gt(0)">
+          <span v-if="worker.quantity > 0">
             {{ worker.pluralName }}: {{ worker.quantity | round }}
           </span>
         </div>
@@ -41,28 +39,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import BuyAmounts from '@/components/BuyAmounts.vue';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'ProductionGrid',
-  components: {
-    BuyAmounts,
-  },
-  props: {
-    workers: {
-      type: Object,
-      required: true,
-    },
-    assignments: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
     previousAssignments: {},
     slider: {
@@ -80,6 +60,12 @@ export default {
   computed: {
     ...mapState([
       'buyAmount',
+      'buyAmountIndex',
+      'workers',
+      'assignments',
+    ]),
+    ...mapGetters([
+      'money',
     ]),
   },
   watch: {
@@ -104,7 +90,7 @@ export default {
   },
   methods: {
     showWorker(worker) {
-      return worker.id === 'child' || this.workers[worker.previousId].quantity.gte(5);
+      return worker.id === 'child' || this.workers[worker.previousId].quantity >= 5;
     },
   },
 };

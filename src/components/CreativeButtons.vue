@@ -13,13 +13,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'CreativeButtons',
-  props: {
-    playerWords: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapState([
+      'playerWords',
+    ]),
   },
   methods: {
     writeTooltip() {

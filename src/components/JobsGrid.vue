@@ -1,5 +1,11 @@
 <template>
   <div class="jobs">
+    <a
+      class="button is-small is-primary"
+      @click="newJobs()"
+    >
+      New Jobs
+    </a>
     <article
       class="message is-success"
       :class="{ 'is-hidden': !showMessage }"
@@ -22,12 +28,12 @@
       class="jobs-table"
     >
       <div class="jobs-header">
-        Available Jobs
+        Sell Your Writing
       </div>
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 120px">
+            <th style="width: 140px">
               Word Count
             </th>
             <th style="width: 400px">
@@ -36,26 +42,26 @@
             <th style="width: 120px">
               Payment
             </th>
-            <th style="width: 200px">
-              Complete
+            <th style="width: 180px">
+              Sell
             </th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="job in exampleJobs"
-            :key="job.index"
+            v-for="job in jobs"
+            :key="job.id"
           >
-            <td>{{ job.wordCount | round }}</td>
+            <td>{{ job.words | round }}</td>
             <td>{{ job.name }}</td>
             <td>{{ job.payment | money }}</td>
             <td>
               <a
                 class="button is-small is-primary"
-                :disabled="job.wordCount.gt(words)"
-                @click="completeJob(job.index)"
+                :disabled="job.words.gt(words)"
+                @click="completeJob(job.id)"
               >
-                Complete Job
+                Sell Words
               </a>
             </td>
           </tr>
@@ -73,52 +79,52 @@
 
 <script>
 import Big from 'big.js';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import generateJobs from '@/utils/generateJobs';
 import unixTimestamp from '@/utils/unixTimestamp';
 
 export default {
   name: 'JobsGrid',
-  props: {
-    words: {
-      type: Object,
-      required: true,
-    },
-    jobCooldown: {
-      type: Number,
-      required: true,
-    },
-    jobRewardMultiplier: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
     showMessage: false,
     jobAvailableTimer: -1,
     messageTitle: '',
     currentMessage: '',
-    exampleJobs: [
-      { index: 0, wordCount: Big(200), name: 'Blurb', payment: Big(5) },
-      { index: 1, wordCount: Big(500), name: 'Op-Ed', payment: Big(15) },
-      { index: 2, wordCount: Big(1000), name: 'Editorial', payment: Big(32) },
-    ],
+    jobs: {
+      /*
+      1: { id: 1, words: Big(200), name: 'Blurb', payment: Big(5) },
+      2: { id: 2, words: Big(500), name: 'Op-Ed', payment: Big(15) },
+      3: { id: 3, words: Big(1000), name: 'Editorial', payment: Big(32) },
+      */
+    },
   }),
   computed: {
     ...mapState([
+      'jobCooldown',
+      'jobRewardMultiplier',
       'nextJobTime',
+      'workerWps',
+    ]),
+    ...mapGetters([
+      'words',
+      'wordValue',
     ]),
   },
   mounted() {
+    this.newJobs();
     setInterval(() => this.updateTimer(), 250);
   },
   methods: {
+    newJobs() {
+      this.jobs = generateJobs(this.wordValue, this.workerWps);
+    },
     updateTimer() {
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
     },
-    completeJob(index) {
-      const job = this.exampleJobs[index];
+    completeJob(id) {
+      const job = this.jobs[id];
 
-      if (this.words.lt(job.wordCount)) {
+      if (this.words.lt(job.words)) {
         return;
       }
 
@@ -129,7 +135,7 @@ export default {
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
 
       // subtract words
-      this.$root.$emit('subtractWords', job.wordCount);
+      this.$root.$emit('subtractWords', job.words);
 
       // start jobs cooldown
       this.resetJobTimer(this.jobCooldown);

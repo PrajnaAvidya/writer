@@ -3,34 +3,49 @@ import workerIndex from '@/utils/workerIndex';
 
 export default {
   // currencies
-  words: Big(0),
-  wordValue: Big(0.01),
-  money: Big(1000000),
+  currency: {
+    words: Big(0),
+    money: Big(1E100),
+    wordValue: Big(0.01),
+  },
 
-  // player ranges
+  // player words
   playerWords: Big(1),
 
   // caffeine
   caffeineTime: 30,
   caffeineCooldown: 600,
   caffeineClickMultiplier: Big(2),
+  nextCaffeineTime: 0,
+  endCaffeineTime: 0,
 
   // jobs
   jobCooldown: 300,
   jobRewardMultiplier: Big(1),
+  nextJobTime: 0,
 
-  // workers (generated)
+  // workers
+  buyAmount: 1,
+  buyAmountIndex: 0,
   workers: {},
+  workerQuantities: workerIndex(0),
   assignments: workerIndex(0),
+  workerWps: Big(0),
+  workerMps: Big(0),
 
-  // upgrades (generated)
+  // upgrades
   upgrades: {},
+  revealedUpgrades: {},
 
   // stats
-  newWords: Big(0),
-  newClickWords: Big(0),
-
-  // used for tick function
-  lastFrame: 0,
-  nextStatUpdate: 0,
+  statistics: {
+    words: Big(0),
+    clickWords: Big(0),
+    money: Big(0),
+    moneySpent: Big(0),
+    caffeines: Big(0),
+    jobs: Big(0),
+    upgrades: Big(0),
+    totalUpgrades: Big(0),
+  },
 };

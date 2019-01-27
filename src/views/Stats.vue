@@ -4,31 +4,31 @@
       <tbody>
         <tr>
           <th>Words Written</th>
-          <td>{{ stats.words | round }}</td>
+          <td>{{ statistics.words | round }}</td>
         </tr>
         <tr>
           <th>Words Written from Clicks</th>
-          <td>{{ stats.clickWords | round }}</td>
+          <td>{{ statistics.clickWords | round }}</td>
         </tr>
         <tr>
           <th>Money Made</th>
-          <td>{{ stats.money | moneyCents }}</td>
+          <td>{{ statistics.money | moneyCents }}</td>
         </tr>
         <tr>
           <th>Money Spent</th>
-          <td>{{ stats.moneySpent | moneyCents }}</td>
+          <td>{{ statistics.moneySpent | moneyCents }}</td>
         </tr>
         <tr>
           <th>Coffees Drank</th>
-          <td>{{ stats.caffeines | round }}</td>
+          <td>{{ statistics.caffeines | round }}</td>
         </tr>
         <tr>
           <th>Jobs Completed</th>
-          <td>{{ stats.jobs | round }}</td>
+          <td>{{ statistics.jobs | round }}</td>
         </tr>
         <tr>
           <th>Upgrades Bought</th>
-          <td>{{ stats.upgrades | round }} ({{ upgradePercent }}%)</td>
+          <td>{{ statistics.upgrades | round }} ({{ upgradePercent }}%)</td>
         </tr>
       </tbody>
     </table>
@@ -42,10 +42,10 @@ export default {
   name: 'Stats',
   computed: {
     upgradePercent() {
-      return this.stats.upgrades.div(this.stats.totalUpgrades).times(100).toFixed(0);
+      return this.statistics.upgrades.div(this.statistics.totalUpgrades).times(100).toFixed(0);
     },
     ...mapState([
-      'stats',
+      'statistics',
     ]),
   },
 };

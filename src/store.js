@@ -2,37 +2,17 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import Big from 'big.js';
 import unixTimestamp from '@/utils/unixTimestamp';
+import defaultData from '@/data/defaultGameData';
 
 Vue.use(Vuex);
 
-function initialState() {
-  return {
-    buyAmount: 1,
-    buyAmountIndex: 0,
-
-    nextJobTime: null,
-
-    nextCaffeineTime: -1,
-    endCaffeineTime: -1,
-
-    stats: {
-      words: Big(0),
-      clickWords: Big(0),
-      money: Big(0),
-      moneySpent: Big(0),
-      caffeines: Big(0),
-      jobs: Big(0),
-      upgrades: Big(0),
-      totalUpgrades: Big(0),
-    },
-  };
-}
-
 export default new Vuex.Store({
-  state: initialState(),
+  state: defaultData,
 
   getters: {
-
+    words: state => state.currency.words,
+    money: state => state.currency.money,
+    wordValue: state => state.currency.wordValue,
   },
 
   mutations: {
@@ -41,24 +21,35 @@ export default new Vuex.Store({
       state.buyAmount = 10 ** index;
     },
     resetJobTimer(state, timer) {
-      state.stats.jobs = state.stats.jobs.plus(1);
+      state.statistics.jobs = state.statistics.jobs.plus(1);
       state.nextJobTime = unixTimestamp() + timer;
     },
     adjustJobTimer(state, amount) {
+      state.jobCooldown += amount;
       state.nextJobTime += amount;
     },
-    activateCaffeine(state, { timer, cooldown }) {
-      state.endCaffeineTime = unixTimestamp() + timer;
-      state.nextCaffeineTime = state.endCaffeineTime + cooldown;
-      state.stats.caffeines = state.stats.caffeines.plus(1);
+    activateCaffeine(state) {
+      state.endCaffeineTime = unixTimestamp() + state.caffeineTime;
+      state.nextCaffeineTime = state.endCaffeineTime + state.caffeineCooldown;
+      state.statistics.caffeines = state.statistics.caffeines.plus(1);
     },
     adjustCaffeineTimer(state, amount) {
+      state.caffeineCooldown += amount;
       state.nextCaffeineTime += amount;
     },
     addToStat(state, { stat, amount }) {
       if (Big(amount).gt(0)) {
-        state.stats[stat] = state.stats[stat].plus(amount);
+        state.statistics[stat] = state.statistics[stat].plus(amount);
       }
+    },
+    setUpgrades(state, upgrades) {
+      state.upgrades = Object.assign({}, upgrades);
+    },
+    setWorkers(state, workers) {
+      state.workers = Object.assign({}, workers);
+    },
+    updateData(state, { index, value }) {
+      state[index] = value;
     },
   },
 

@@ -32,17 +32,15 @@ export default {
   name: 'CaffeineBuzz',
   props: {
     buzzActive: Boolean,
-    buzzRemaining: {
-      type: Number,
-      required: true,
-    },
   },
   data: () => ({
-    coffeeAvailableTimer: -1,
+    coffeeAvailableTimer: 0,
+    buzzRemaining: 0,
   }),
   computed: {
     ...mapState([
       'nextCaffeineTime',
+      'endCaffeineTime',
     ]),
   },
   mounted() {
@@ -50,7 +48,13 @@ export default {
   },
   methods: {
     updateTimer() {
-      this.coffeeAvailableTimer = parseInt(this.nextCaffeineTime - unixTimestamp(), 10);
+      if (this.buzzActive) {
+        this.buzzRemaining = parseInt(this.endCaffeineTime - unixTimestamp(), 10);
+        this.coffeeAvailableTimer = 0;
+      } else {
+        this.buzzRemaining = 0;
+        this.coffeeAvailableTimer = parseInt(this.nextCaffeineTime - unixTimestamp(), 10);
+      }
     },
   },
 };

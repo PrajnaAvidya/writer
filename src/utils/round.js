@@ -54,17 +54,19 @@ export default function (inputValue, userOptions = {}) {
   // show double suffix for under 1E303
   if (value.lt('1E303')) {
     const bigSuffixes = ['Dec', 'Vig', 'Tri', 'Qua', 'Qui', 'Sex', 'Sep', 'Oct', 'Non'];
-    const littleSuffixes = ['U', 'D', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', ''];
+    const littleSuffixes = ['U-', 'D-', 'T-', 'Qa-', 'Qi-', 'Sx-', 'Sp-', 'Oc-', 'No-', ''];
 
     const bigIndex = Math.floor((value.e - 33) / 30);
     const littleIndex = (Math.floor((value.e - 33) / 3) - 1) % 10;
-    const suffix = `${littleSuffixes[littleIndex]}-${bigSuffixes[bigIndex]}`;
+    const suffix = `${littleSuffixes[littleIndex]}${bigSuffixes[bigIndex]}`;
 
     const sigFig = value.e % 3;
     value.e = 3 + sigFig;
 
     return `${value.div(1000).toPrecision(4 + sigFig)} ${suffix}`;
   }
+
+  // TODO suffix for over 1E303
 
   // number is basically infinity at this point
   return '∞';
