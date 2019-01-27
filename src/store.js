@@ -28,9 +28,9 @@ export default new Vuex.Store({
       state.jobCooldown += amount;
       state.nextJobTime += amount;
     },
-    activateCaffeine(state, { timer, cooldown }) {
-      state.endCaffeineTime = unixTimestamp() + timer;
-      state.nextCaffeineTime = state.endCaffeineTime + cooldown;
+    activateCaffeine(state) {
+      state.endCaffeineTime = unixTimestamp() + state.caffeineTime;
+      state.nextCaffeineTime = state.endCaffeineTime + state.caffeineCooldown;
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
     },
     adjustCaffeineTimer(state, amount) {

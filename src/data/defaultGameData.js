@@ -16,13 +16,13 @@ export default {
   caffeineTime: 30,
   caffeineCooldown: 600,
   caffeineClickMultiplier: Big(2),
-  nextCaffeineTime: -1,
-  endCaffeineTime: -1,
+  nextCaffeineTime: 0,
+  endCaffeineTime: 0,
 
   // jobs
   jobCooldown: 300,
   jobRewardMultiplier: Big(1),
-  nextJobTime: -1,
+  nextJobTime: 0,
 
   // workers
   buyAmount: 1,

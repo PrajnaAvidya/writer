@@ -15,7 +15,7 @@ export default function () {
       name: worker.name,
       pluralName: worker.plural,
       quantity: 0,
-      cost: worker.baseCost,
+      cost: Big(worker.baseCost),
       baseCost: worker.baseCost,
       costMultiplier: worker.costMultiplier,
       baseProductivity: worker.productivity,

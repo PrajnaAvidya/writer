@@ -7,7 +7,6 @@
 
       <CaffeineBuzz
         :buzz-active="buzzActive()"
-        :buzz-remaining="buzzRemaining()"
         class="caffeine-section"
       />
     </section>
@@ -83,6 +82,7 @@ export default {
       'workerQuantities',
       'workerWps',
       'playerWords',
+      'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'jobRewardMultiplier',
@@ -178,14 +178,11 @@ export default {
     // caffeine
     coffee() {
       if (unixTimestamp() >= this.nextCaffeineTime) {
-        this.activateCaffeine({ timer: this.caffeineTime, cooldown: this.caffeineCooldown });
+        this.activateCaffeine();
       }
     },
     buzzActive() {
       return this.endCaffeineTime > unixTimestamp();
-    },
-    buzzRemaining() {
-      return this.endCaffeineTime - unixTimestamp();
     },
     reduceCaffeineCooldown(amount) {
       if (amount < 1) {
@@ -215,8 +212,6 @@ export default {
       // buy & increment
       this.subtractMoney(this.workers[id].cost);
       this.workers[id].quantity += this.buyAmount;
-      this.workerQuantities[id] = this.workers[id].quantity;
-      console.log(this.workerQuantities);
 
       // recalculate stuff
       this.calculateWorkerCosts();
@@ -225,8 +220,10 @@ export default {
     calculateWorkerCosts() {
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
-        // TODO check quantity cache
-        workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier);
+        if (this.workerQuantities[id] !== workers[id].quantity) {
+          workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier);
+          this.workerQuantities[id] = workers[id].quantity;
+        }
       });
       // have to re-assign whole workers object to trigger reactivity
       this.setWorkers(workers);
