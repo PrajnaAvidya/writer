@@ -96,6 +96,7 @@ export default {
       'jobs',
       'jobCooldown',
       'jobRewardMultiplier',
+      'jobsGenerated',
       'nextJobTime',
       'workerWps',
     ]),
@@ -116,9 +117,10 @@ export default {
     },
     updateTimer() {
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
-      /*if (this.jobAvailableTimer <= 0) {
+      if (this.jobAvailableTimer <= 0 && !this.jobsGenerated) {
         this.newJobs();
-      }*/
+        this.setJobsGenerated(true);
+      }
     },
     completeJob(id) {
       const job = this.jobs[id];
@@ -139,10 +141,12 @@ export default {
       // start jobs cooldown
       this.resetJobTimer(this.jobCooldown);
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
+      this.setJobsGenerated(false);
     },
     ...mapMutations([
       'resetJobTimer',
       'updateData',
+      'setJobsGenerated',
     ]),
   },
 };

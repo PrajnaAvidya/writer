@@ -21,9 +21,10 @@ export default {
 
   // jobs
   jobs: {},
-  jobCooldown: 300,
+  jobCooldown: 3,
   jobRewardMultiplier: Big(1),
   nextJobTime: 0,
+  jobsGenerated: false,
 
   // workers
   buyAmount: 1,

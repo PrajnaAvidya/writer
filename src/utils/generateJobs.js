@@ -7,8 +7,10 @@ export default function (wordValue, wps) {
   const jobs = {};
 
   // low
-  let jobWordValue = wordValue.times(randomInt(15, 25) / 10);
-  let words = wps.times(randomInt(60, 120));
+  let rewardRange = [125, 200]; // % of word value
+  let wordRange = [30, 90]; // * current wps
+  let jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
+  let words = wps.times(randomInt(wordRange[0], wordRange[1]));
   if (words.lt(200)) {
     words = Big(200);
   }
@@ -20,8 +22,10 @@ export default function (wordValue, wps) {
   };
 
   // medium
-  jobWordValue = wordValue.times(randomInt(25, 35) / 10);
-  words = wps.times(randomInt(240, 900));
+  rewardRange = [225, 300];
+  wordRange = [180, 600];
+  jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
+  words = wps.times(randomInt(wordRange[0], wordRange[1]));
   if (words.lt(1000)) {
     words = Big(1000);
   }
@@ -33,8 +37,10 @@ export default function (wordValue, wps) {
   };
 
   // high
-  jobWordValue = wordValue.times(randomInt(35, 45) / 10);
-  words = wps.times(randomInt(1200, 3000));
+  rewardRange = [325, 400];
+  wordRange = [900, 2400];
+  jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
+  words = wps.times(randomInt(wordRange[0], wordRange[1]));
   if (words.lt(2000)) {
     words = Big(2000);
   }

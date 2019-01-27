@@ -51,6 +51,9 @@ export default new Vuex.Store({
     updateData(state, { index, value }) {
       state[index] = value;
     },
+    setJobsGenerated(state, value) {
+      state.jobsGenerated = value;
+    },
   },
 
   actions: {
