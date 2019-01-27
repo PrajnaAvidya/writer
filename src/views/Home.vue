@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-    <CreativeButtons
-      :player-words="playerWords"
-    />
+    <CreativeButtons />
   </div>
 </template>
 
@@ -13,12 +11,6 @@ export default {
   name: 'Home',
   components: {
     CreativeButtons,
-  },
-  props: {
-    playerWords: {
-      type: Object,
-      required: true,
-    },
   },
 };
 </script>

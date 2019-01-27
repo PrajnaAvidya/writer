@@ -2,11 +2,7 @@
   <div class="home">
     <BuyAmounts />
 
-    <ProductionGrid
-      :workers="workers"
-      :assignments="assignments"
-      :money="money"
-    />
+    <ProductionGrid />
   </div>
 </template>
 
@@ -19,20 +15,6 @@ export default {
   components: {
     BuyAmounts,
     ProductionGrid,
-  },
-  props: {
-    workers: {
-      type: Object,
-      required: true,
-    },
-    assignments: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
   },
 };
 </script>

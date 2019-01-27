@@ -1,7 +1,7 @@
 <template>
   <div class="upgrades">
     <div
-      v-for="upgrade in orderedUpgrades(upgrades)"
+      v-for="upgrade in orderedUpgrades()"
       :key="upgrade.id"
       class="columns"
       :class="{ 'is-hidden': !revealedUpgrades[upgrade.id] && !canSeeUpgrade(upgrade) }"
@@ -28,28 +28,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'UpgradePanel',
-  props: {
-    upgrades: {
-      type: Object,
-      required: true,
-    },
-    workers: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
     // TODO save to vuex
     revealedUpgrades: {},
   }),
-  mounted() {
-    // console.log(this.upgrades);
+  computed: {
+    ...mapState([
+      'workers',
+      'upgrades',
+      'money',
+    ]),
   },
   methods: {
     buyUpgrade(upgrade) {
@@ -101,8 +93,8 @@ export default {
         }
       }
     },
-    orderedUpgrades(list) {
-      return this.$options.filters.orderCost(list);
+    orderedUpgrades() {
+      return this.$options.filters.orderCost(this.upgrades);
     },
     descriptionText(upgrade) {
       const effects = [];

@@ -43,20 +43,6 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'ProductionGrid',
-  props: {
-    workers: {
-      type: Object,
-      required: true,
-    },
-    assignments: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
     previousAssignments: {},
     slider: {
@@ -74,6 +60,9 @@ export default {
   computed: {
     ...mapState([
       'buyAmount',
+      'workers',
+      'assignments',
+      'money',
     ]),
   },
   watch: {

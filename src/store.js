@@ -15,28 +15,39 @@ export default new Vuex.Store({
 
   mutations: {
     setBuyAmountIndex(state, index) {
-      state.data.buyAmountIndex = index;
-      state.data.buyAmount = 10 ** index;
+      state.buyAmountIndex = index;
+      state.buyAmount = 10 ** index;
     },
     resetJobTimer(state, timer) {
       state.statistics.jobs = state.statistics.jobs.plus(1);
-      state.data.nextJobTime = unixTimestamp() + timer;
+      state.nextJobTime = unixTimestamp() + timer;
     },
     adjustJobTimer(state, amount) {
-      state.data.nextJobTime += amount;
+      state.jobCooldown += amount;
+      state.nextJobTime += amount;
     },
     activateCaffeine(state, { timer, cooldown }) {
-      state.data.endCaffeineTime = unixTimestamp() + timer;
-      state.data.nextCaffeineTime = state.data.endCaffeineTime + cooldown;
+      state.endCaffeineTime = unixTimestamp() + timer;
+      state.nextCaffeineTime = state.endCaffeineTime + cooldown;
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
     },
     adjustCaffeineTimer(state, amount) {
-      state.data.nextCaffeineTime += amount;
+      state.caffeineCooldown += amount;
+      state.nextCaffeineTime += amount;
     },
     addToStat(state, { stat, amount }) {
       if (Big(amount).gt(0)) {
         state.statistics[stat] = state.statistics[stat].plus(amount);
       }
+    },
+    setUpgrades(state, upgrades) {
+      state.upgrades = Object.assign({}, upgrades);
+    },
+    setWorkers(state, workers) {
+      state.workers = Object.assign({}, workers);
+    },
+    updateData(state, { index, value }) {
+      state[index] = value;
     },
   },
 

@@ -39,16 +39,7 @@
     </section>
 
     <section class="section main">
-      <RouterView
-        :player-words="playerWords"
-        :words="words"
-        :money="money"
-        :workers="workers"
-        :upgrades="upgrades"
-        :assignments="assignments"
-        :job-cooldown="jobCooldown"
-        :job-reward-multiplier="jobRewardMultiplier"
-      />
+      <RouterView />
     </section>
   </div>
 </template>
@@ -65,7 +56,6 @@ import unixTimestamp from '@/utils/unixTimestamp';
 // components
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
-import SellWriting from '@/components/SellWriting.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 
 export default {
@@ -86,7 +76,17 @@ export default {
   }),
   computed: {
     ...mapState([
+      'money',
+      'words',
       'buyAmount',
+      'upgrades',
+      'workers',
+      'workerWps',
+      'playerWords',
+      'endCaffeineTime',
+      'caffeineClickMultiplier',
+      'jobRewardMultiplier',
+      'baseWordValue',
     ]),
   },
   created() {
@@ -108,9 +108,8 @@ export default {
   methods: {
     // generate all the initial data
     setupData() {
-      // TODO update
-      this.workers = generateWorkerData();
-      this.upgrades = generateUpgrades();
+      this.setWorkers(generateWorkerData());
+      this.setUpgrades(generateUpgrades());
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
       this.calculateWorkerCosts();
     },
@@ -156,17 +155,6 @@ export default {
       // add worker words
       this.addWords(this.workerWps.times(frameIncrement));
 
-      // update stats periodically
-      if (unixTimestamp() > this.nextStatUpdate) {
-        // console.log('updating stats');
-        this.addToStat({ stat: 'words', amount: this.newWords });
-        this.addToStat({ stat: 'clickWords', amount: this.newClickWords });
-        this.newWords = Big(0);
-        this.newClickWords = Big(0);
-
-        this.nextStatUpdate = unixTimestamp() + 3;
-      }
-
       // get next frame
       window.requestAnimationFrame(this.tick);
     },
@@ -179,14 +167,14 @@ export default {
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
       }
-      this.newClickWords = this.newClickWords.plus(words);
+      this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words);
     },
     multiplyClickingWords(amount) {
       if (amount <= 1) {
         return;
       }
-      this.playerWords = this.playerWords.times(amount);
+      this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
     },
     // caffeine
     coffee() {
@@ -204,20 +192,19 @@ export default {
       if (amount < 1) {
         return;
       }
-      this.caffeineCooldown -= amount;
       this.adjustCaffeineTimer(-amount);
     },
     multiplyCaffeineLength(amount) {
       if (amount <= 1) {
         return;
       }
-      this.caffeineTime *= amount;
+      this.updateData({ index: 'caffeineTime', value: amount });
     },
     multiplyCaffeinePower(amount) {
       if (amount <= 1) {
         return;
       }
-      this.caffeineClickMultiplier = this.caffeineClickMultiplier.times(amount);
+      this.updateData({ index: 'caffeineClickMultiplier', value: this.caffeineClickMultiplier.times(amount) });
     },
     // workers/upgrades
     hireWorker(id) {
@@ -232,7 +219,7 @@ export default {
 
       // recalculate stuff
       this.calculateWorkerCosts();
-      this.workerWps = calculateWorkerWps(this.workers);
+      this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
     },
     calculateWorkerCosts() {
       const { workers } = this;
@@ -240,7 +227,7 @@ export default {
         workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier);
       });
       // have to re-assign whole workers object to trigger reactivity
-      this.workers = Object.assign({}, workers);
+      this.setWorkers(workers);
     },
     workerCost(baseCost, owned, costMultiplier) {
       return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
@@ -249,12 +236,15 @@ export default {
       if (data.amount <= 1) {
         return;
       }
+
       this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
-      this.workerWps = calculateWorkerWps(this.workers);
+      this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
     },
     removeUpgrade(upgradeId) {
       this.addToStat({ stat: 'upgrades', amount: 1 });
-      this.$delete(this.upgrades, upgradeId);
+      const newUpgrades = this.upgrades;
+      this.$delete(newUpgrades, upgradeId);
+      this.setUpgrades(newUpgrades);
     },
     // jobs
     reduceJobCooldown(amount) {
@@ -262,7 +252,6 @@ export default {
         return;
       }
 
-      this.jobCooldown -= amount;
       this.adjustJobTimer(-amount);
     },
     multiplyJobReward(amount) {
@@ -270,18 +259,18 @@ export default {
         return;
       }
 
-      this.jobRewardMultiplier = this.jobRewardMultiplier.times(amount);
+      this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
     },
     // economy
     addMoney(money) {
       if (money.gt(0)) {
-        this.money = this.money.plus(money);
+        this.updateData({ index: 'money', value: this.money.plus(money) });
         this.addToStat({ stat: 'money', amount: money });
       }
     },
     subtractMoney(money) {
       if (money.gt(0)) {
-        this.money = this.money.minus(money);
+        this.updateData({ index: 'money', value: this.money.minus(money) });
         this.addToStat({ stat: 'moneySpent', amount: money });
         if (this.money.lt(0)) {
           this.money = Big(0);
@@ -290,22 +279,23 @@ export default {
     },
     addWords(words) {
       if (words.gt(0)) {
-        this.newWords = this.newWords.plus(words);
-        this.words = this.words.plus(words);
+        this.updateData({ index: 'words', value: this.words.plus(words) });
+        this.addToStat({ stat: 'words', amount: this.newWords });
       }
     },
     subtractWords(words) {
       if (words.gt(0)) {
-        this.words = this.words.minus(words);
-        if (this.words.lt(0)) {
-          this.words = Big(0);
+        let newWords = this.words.minus(words);
+        if (newWords.lt(0)) {
+          newWords = Big(0);
+          this.updateData({ index: 'words', value: newWords });
         }
       }
     },
     multiplyWordValue(amount) {
       if (amount > 1) {
-        this.baseWordValue = this.baseWordValue.times(amount);
-        this.workerWps = calculateWorkerWps(this.workers);
+        this.updateData({ index: 'baseWordValue', value: this.baseWordValue.times(amount) });
+        this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
       }
     },
     // === end methods ===
@@ -314,6 +304,9 @@ export default {
       'adjustJobTimer',
       'activateCaffeine',
       'adjustCaffeineTimer',
+      'setWorkers',
+      'setUpgrades',
+      'updateData',
     ]),
   },
 };

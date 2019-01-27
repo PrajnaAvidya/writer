@@ -78,20 +78,6 @@ import unixTimestamp from '@/utils/unixTimestamp';
 
 export default {
   name: 'JobsGrid',
-  props: {
-    words: {
-      type: Object,
-      required: true,
-    },
-    jobCooldown: {
-      type: Number,
-      required: true,
-    },
-    jobRewardMultiplier: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
     showMessage: false,
     jobAvailableTimer: -1,
@@ -105,6 +91,9 @@ export default {
   }),
   computed: {
     ...mapState([
+      'words',
+      'jobCooldown',
+      'jobRewardMultiplier',
       'nextJobTime',
     ]),
   },

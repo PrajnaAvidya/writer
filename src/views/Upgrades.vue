@@ -16,20 +16,6 @@ export default {
   components: {
     UpgradePanel,
   },
-  props: {
-    workers: {
-      type: Object,
-      required: true,
-    },
-    upgrades: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
-  },
 };
 </script>
 
