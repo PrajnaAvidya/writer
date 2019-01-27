@@ -10,6 +10,9 @@
       Base $ per Second (DEBUG): {{ workerMps | moneyCents }}
     </div>
     <div>
+      Base Word Value (DEBUG): {{ words.times(wordValue) | moneyCents }}
+    </div>
+    <div>
       Money: {{ money | moneyCents }}
     </div>
   </div>
@@ -28,6 +31,7 @@ export default {
     ...mapGetters([
       'words',
       'money',
+      'wordValue',
     ]),
   },
 };

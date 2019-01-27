@@ -7,8 +7,8 @@ export default function (wordValue, wps) {
   const jobs = {};
 
   // low
-  let jobWordValue = wordValue.times(randomInt(2, 3));
-  let words = wps.times(randomInt(60, 240));
+  let jobWordValue = wordValue.times(randomInt(15, 25) / 10);
+  let words = wps.times(randomInt(60, 120));
   if (words.lt(200)) {
     words = Big(200);
   }
@@ -20,8 +20,8 @@ export default function (wordValue, wps) {
   };
 
   // medium
-  jobWordValue = wordValue.times(randomInt(3, 4));
-  words = wps.times(randomInt(300, 1000));
+  jobWordValue = wordValue.times(randomInt(25, 35) / 10);
+  words = wps.times(randomInt(240, 900));
   if (words.lt(1000)) {
     words = Big(1000);
   }
@@ -33,8 +33,8 @@ export default function (wordValue, wps) {
   };
 
   // high
-  jobWordValue = wordValue.times(randomInt(4, 5));
-  words = wps.times(randomInt(1200, 3600));
+  jobWordValue = wordValue.times(randomInt(35, 45) / 10);
+  words = wps.times(randomInt(1200, 3000));
   if (words.lt(2000)) {
     words = Big(2000);
   }

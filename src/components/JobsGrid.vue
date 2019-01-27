@@ -116,6 +116,9 @@ export default {
     },
     updateTimer() {
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
+      /*if (this.jobAvailableTimer <= 0) {
+        this.newJobs();
+      }*/
     },
     completeJob(id) {
       const job = this.jobs[id];
