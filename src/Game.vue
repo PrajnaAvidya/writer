@@ -57,6 +57,8 @@ import workerCost from '@/utils/workerCost';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
+// TODO test
+import Noty from 'noty';
 
 export default {
   name: 'Game',
@@ -108,6 +110,20 @@ export default {
 
     // start game
     window.requestAnimationFrame(this.tick);
+
+    const notify = new Noty({
+      text: this.lastFrame,
+      type: 'info',
+      timeout: 50000,
+      closeWith: 'button',
+      buttons: [
+        Noty.button('Test', 'button is-warning', () => {
+          console.log('button clicked');
+        }, { id: 'button1', 'data-status': 'ok' }),
+      ],
+    }).show();
+
+    notify.setText('asdf');
   },
   methods: {
     // generate all the initial data

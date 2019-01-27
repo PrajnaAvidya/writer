@@ -1,6 +1,8 @@
 import 'bulma/css/bulma.min.css';
 import 'bulma-tooltip/dist/css/bulma-tooltip.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'noty/lib/noty.css';
+import 'noty/lib/themes/mint.css';
 
 import Vue from 'vue';
 
