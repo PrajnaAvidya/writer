@@ -137,7 +137,7 @@ export default {
           effects.push(`Multiplies caffeine effect by ${upgrade.powerMultiplier}`);
         }
       } else if (upgrade.type === 'wordValue') {
-        effects.push(`Multiplies word value effect by ${upgrade.multiplier}`);
+        effects.push(`Multiplies base word value by ${upgrade.multiplier}`);
       } else if (upgrade.type === 'jobs') {
         if (upgrade.cooldownReduction) {
           effects.push(`Reduces job cooldown by ${upgrade.cooldownReduction}`);

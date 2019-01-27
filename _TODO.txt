@@ -1,5 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-idea: replace word value/sell words with jobs system
+replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
 not currently using vue slide bar
 

@@ -81,9 +81,6 @@ export default {
   },
   data: () => defaultData,
   computed: {
-    writingValue() {
-      return this.words.times(this.wordValue);
-    },
     ...mapState([
       'buyAmount',
       'nextJobTime',
@@ -168,8 +165,7 @@ export default {
       });
 
       // add to word total
-      this.words = this.words.plus(words);
-      this.newWords = this.newWords.plus(words);
+      this.addWords(words);
 
       // update stats periodically
       if (unixTimestamp() > this.nextStatUpdate) {
@@ -194,9 +190,8 @@ export default {
       if (this.buzzActive()) {
         words = words.times(this.caffeineClickMultiplier);
       }
-      this.newWords = this.newWords.plus(words);
       this.newClickWords = this.newClickWords.plus(words);
-      this.words = this.words.plus(words);
+      this.addWords(words);
     },
     multiplyClickingWords(amount) {
       if (amount <= 1) {
@@ -310,6 +305,7 @@ export default {
     },
     addWords(words) {
       if (words.gt(0)) {
+        this.newWords = this.newWords.plus(words);
         this.words = this.words.plus(words);
       }
     },
@@ -321,15 +317,9 @@ export default {
         }
       }
     },
-    sellWords() {
-      if (this.words.gt(0)) {
-        this.addMoney(this.words.times(this.wordValue));
-        this.words = Big(0);
-      }
-    },
     multiplyWordValue(amount) {
       if (amount > 1) {
-        this.wordValue = this.wordValue.times(amount);
+        this.baseWordValue = this.wordValue.times(amount);
       }
     },
     // === end methods ===

@@ -22,7 +22,7 @@
       class="jobs-table"
     >
       <div class="jobs-header">
-        Available Jobs
+        Sell Your Writing
       </div>
       <table class="table">
         <thead>
@@ -37,7 +37,7 @@
               Payment
             </th>
             <th style="width: 200px">
-              Complete
+              Sell
             </th>
           </tr>
         </thead>
@@ -55,7 +55,7 @@
                 :disabled="job.wordCount.gt(words)"
                 @click="completeJob(job.index)"
               >
-                Complete Job
+                Sell Words
               </a>
             </td>
           </tr>
