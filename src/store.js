@@ -12,7 +12,7 @@ export default new Vuex.Store({
   getters: {
     words: state => state.currency.words,
     money: state => state.currency.money,
-    baseWordValue: state => state.currency.baseWordValue,
+    wordValue: state => state.currency.wordValue,
   },
 
   mutations: {

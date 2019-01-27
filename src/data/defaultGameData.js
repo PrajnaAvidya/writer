@@ -6,7 +6,7 @@ export default {
   currency: {
     words: Big(0),
     money: Big(1E100),
-    baseWordValue: Big(0.01),
+    wordValue: Big(0.01),
   },
 
   // player words
@@ -31,6 +31,7 @@ export default {
   workerQuantities: workerIndex(0),
   assignments: workerIndex(0),
   workerWps: Big(0),
+  workerMps: Big(0),
 
   // upgrades
   upgrades: {},

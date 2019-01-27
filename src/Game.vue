@@ -217,7 +217,7 @@ export default {
 
       // recalculate stuff
       this.calculateWorkerCosts();
-      this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
+      this.updateWpsMps();
     },
     calculateWorkerCosts() {
       const { workers } = this;
@@ -238,13 +238,17 @@ export default {
       }
 
       this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
-      this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
+      this.updateWpsMps();
     },
     removeUpgrade(upgradeId) {
       this.addToStat({ stat: 'upgrades', amount: 1 });
       const newUpgrades = this.upgrades;
       this.$delete(newUpgrades, upgradeId);
       this.setUpgrades(newUpgrades);
+    },
+    updateWpsMps() {
+      this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
+      this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },
     // jobs
     reduceJobCooldown(amount) {
@@ -293,8 +297,8 @@ export default {
     },
     multiplyWordValue(amount) {
       if (amount > 1) {
-        this.currency.baseWordValue = this.currency.baseWordValue.times(amount);
-        this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
+        this.currency.wordValue = this.currency.wordValue.times(amount);
+        this.updateWpsMps();
       }
     },
     // === end methods ===

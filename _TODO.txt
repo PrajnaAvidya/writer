@@ -1,6 +1,7 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
+store jobs in vuex
 
 CORE TODO:
 rework unfolding/progression
@@ -13,7 +14,6 @@ click animations
 FUTURE IDEAS/TODO:
 make it possible to get going with <20 clicks
 more requirements for non-worker upgrades
-use tabs for nav
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - make it unlock different things than money

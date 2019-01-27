@@ -7,6 +7,9 @@
       Words per Second: {{ workerWps | round }}
     </div>
     <div>
+      $ per Second (DEBUG): {{ workerMps | moneyCents }}
+    </div>
+    <div>
       Money: {{ money | moneyCents }}
     </div>
   </div>
@@ -20,6 +23,7 @@ export default {
   computed: {
     ...mapState([
       'workerWps',
+      'workerMps',
     ]),
     ...mapGetters([
       'words',
