@@ -38,9 +38,9 @@ export default {
   }),
   computed: {
     ...mapState([
-      'workers',
-      'upgrades',
       'money',
+      'upgrades',
+      'workers',
     ]),
   },
   methods: {

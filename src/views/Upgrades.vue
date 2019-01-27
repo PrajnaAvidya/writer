@@ -1,10 +1,6 @@
 <template>
   <div>
-    <UpgradePanel
-      :upgrades="upgrades"
-      :workers="workers"
-      :money="money"
-    />
+    <UpgradePanel />
   </div>
 </template>
 
