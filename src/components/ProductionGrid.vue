@@ -28,7 +28,7 @@
           Cost {{ worker.cost | money }} for {{ buyAmount }}
         </div>
         <div class="column">
-          <span v-if="worker.quantity.gt(0)">
+          <span v-if="worker.quantity > 0">
             {{ worker.pluralName }}: {{ worker.quantity | round }}
           </span>
         </div>
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     showWorker(worker) {
-      return worker.id === 'child' || this.workers[worker.previousId].quantity.gte(5);
+      return worker.id === 'child' || this.workers[worker.previousId].quantity >= 5;
     },
   },
 };

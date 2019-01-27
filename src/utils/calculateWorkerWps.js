@@ -7,7 +7,7 @@ export default function (workers) {
   Object.keys(workers).forEach((workerId) => {
     const worker = workers[workerId];
 
-    const wordContribution = worker.quantity.times(worker.productivityMultiplier.times(worker.baseProductivity));
+    const wordContribution = worker.productivityMultiplier.times(worker.baseProductivity).times(worker.quantity);
 
     if (wordContribution.gt(0)) {
       words = words.plus(wordContribution);

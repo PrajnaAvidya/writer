@@ -28,6 +28,7 @@ export default {
   buyAmount: 1,
   buyAmountIndex: 0,
   workers: {},
+  workerQuantities: workerIndex(0),
   assignments: workerIndex(0),
   workerWps: Big(0),
 

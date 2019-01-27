@@ -80,6 +80,7 @@ export default {
       'buyAmount',
       'upgrades',
       'workers',
+      'workerQuantities',
       'workerWps',
       'playerWords',
       'endCaffeineTime',
@@ -213,7 +214,9 @@ export default {
 
       // buy & increment
       this.subtractMoney(this.workers[id].cost);
-      this.workers[id].quantity = this.workers[id].quantity.plus(this.buyAmount);
+      this.workers[id].quantity += this.buyAmount;
+      this.workerQuantities[id] = this.workers[id].quantity;
+      console.log(this.workerQuantities);
 
       // recalculate stuff
       this.calculateWorkerCosts();
@@ -222,13 +225,14 @@ export default {
     calculateWorkerCosts() {
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
+        // TODO check quantity cache
         workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier);
       });
       // have to re-assign whole workers object to trigger reactivity
       this.setWorkers(workers);
     },
     workerCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
+      return Big(baseCost).times(Big(1 + costMultiplier).pow(owned + this.buyAmount).minus(Big(1 + costMultiplier).pow(owned))).div(costMultiplier).round();
     },
     multiplyProductivity(data) {
       if (data.amount <= 1) {

@@ -121,10 +121,16 @@ export default {
   ],
 
   // costs are multiples of worker base cost
+  // TODO balance
   genericWorker: [
     {
       cost: 5,
       requirement: 1,
+      productivityMultiplier: 2,
+    },
+    {
+      cost: 25,
+      requirement: 5,
       productivityMultiplier: 2,
     },
     {
@@ -133,8 +139,18 @@ export default {
       productivityMultiplier: 2,
     },
     {
+      cost: 250,
+      requirement: 15,
+      productivityMultiplier: 2,
+    },
+    {
       cost: 500,
       requirement: 25,
+      productivityMultiplier: 2,
+    },
+    {
+      cost: 2500,
+      requirement: 35,
       productivityMultiplier: 2,
     },
     {
@@ -145,6 +161,11 @@ export default {
     {
       cost: 10000,
       requirement: 50,
+      productivityMultiplier: 2,
+    },
+    {
+      cost: 50000,
+      requirement: 60,
       productivityMultiplier: 2,
     },
   ],

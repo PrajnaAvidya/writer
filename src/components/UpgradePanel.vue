@@ -152,7 +152,7 @@ export default {
       if (upgrade.type === 'worker') {
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required)) {
+          if (this.workers[workerId].quantity < required) {
             metRequirements = false;
             return false;
           }
@@ -174,7 +174,7 @@ export default {
         // show upgrade when player has 1/2 workers
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity.lt(required.div(2))) {
+          if (this.workers[workerId].quantity < required / 2) {
             metRequirements = false;
             return false;
           }

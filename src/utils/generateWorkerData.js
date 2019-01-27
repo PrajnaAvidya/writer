@@ -14,7 +14,7 @@ export default function () {
       nextId: null,
       name: worker.name,
       pluralName: worker.plural,
-      quantity: Big(0),
+      quantity: 0,
       cost: worker.baseCost,
       baseCost: worker.baseCost,
       costMultiplier: worker.costMultiplier,
