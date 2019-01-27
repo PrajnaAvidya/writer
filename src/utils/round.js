@@ -58,7 +58,12 @@ export default function (inputValue, userOptions = {}) {
 
     const bigIndex = Math.floor((value.e - 33) / 30);
     const littleIndex = (Math.floor((value.e - 33) / 3) - 1) % 10;
-    const suffix = `${littleSuffixes[littleIndex]}-${bigSuffixes[bigIndex]}`;
+    let suffix;
+    if (littleSuffixes[littleIndex] === '') {
+      suffix = `${bigSuffixes[bigIndex]}`;
+    } else {
+      suffix = `${littleSuffixes[littleIndex]}-${bigSuffixes[bigIndex]}`;
+    }
 
     const sigFig = value.e % 3;
     value.e = 3 + sigFig;

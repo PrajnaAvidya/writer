@@ -76,8 +76,7 @@ export default {
   }),
   computed: {
     ...mapState([
-      'money',
-      'words',
+      'currency',
       'buyAmount',
       'upgrades',
       'workers',
@@ -86,7 +85,6 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'jobRewardMultiplier',
-      'baseWordValue',
     ]),
   },
   created() {
@@ -209,7 +207,7 @@ export default {
     // workers/upgrades
     hireWorker(id) {
       // check if can afford
-      if (this.money.lt(this.workers[id].cost)) {
+      if (this.currency.money.lt(this.workers[id].cost)) {
         return;
       }
 
@@ -264,37 +262,36 @@ export default {
     // economy
     addMoney(money) {
       if (money.gt(0)) {
-        this.updateData({ index: 'money', value: this.money.plus(money) });
+        this.currency.money = this.currency.money.plus(money);
         this.addToStat({ stat: 'money', amount: money });
       }
     },
     subtractMoney(money) {
       if (money.gt(0)) {
-        this.updateData({ index: 'money', value: this.money.minus(money) });
+        this.currency.money = this.currency.money.minus(money);
         this.addToStat({ stat: 'moneySpent', amount: money });
-        if (this.money.lt(0)) {
-          this.money = Big(0);
+        if (this.currency.money.lt(0)) {
+          this.currency.money = Big(0);
         }
       }
     },
     addWords(words) {
       if (words.gt(0)) {
-        this.updateData({ index: 'words', value: this.words.plus(words) });
+        this.currency.words = this.currency.words.plus(words);
         this.addToStat({ stat: 'words', amount: this.newWords });
       }
     },
     subtractWords(words) {
       if (words.gt(0)) {
-        let newWords = this.words.minus(words);
-        if (newWords.lt(0)) {
-          newWords = Big(0);
-          this.updateData({ index: 'words', value: newWords });
+        this.currency.words = this.currency.words.minus(words);
+        if (this.currency.words.lt(0)) {
+          this.currency.words = Big(0);
         }
       }
     },
     multiplyWordValue(amount) {
       if (amount > 1) {
-        this.updateData({ index: 'baseWordValue', value: this.baseWordValue.times(amount) });
+        this.currency.baseWordValue = this.currency.baseWordValue.times(amount);
         this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
       }
     },

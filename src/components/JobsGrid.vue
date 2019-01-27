@@ -73,7 +73,7 @@
 
 <script>
 import Big from 'big.js';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import unixTimestamp from '@/utils/unixTimestamp';
 
 export default {
@@ -91,10 +91,12 @@ export default {
   }),
   computed: {
     ...mapState([
-      'words',
       'jobCooldown',
       'jobRewardMultiplier',
       'nextJobTime',
+    ]),
+    ...mapGetters([
+      'words',
     ]),
   },
   mounted() {

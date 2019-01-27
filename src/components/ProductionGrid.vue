@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'ProductionGrid',
@@ -62,6 +62,8 @@ export default {
       'buyAmount',
       'workers',
       'assignments',
+    ]),
+    ...mapGetters([
       'money',
     ]),
   },

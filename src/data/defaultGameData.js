@@ -3,9 +3,11 @@ import workerIndex from '@/utils/workerIndex';
 
 export default {
   // currencies
-  words: Big(0),
-  money: Big(1E100),
-  baseWordValue: Big(0.01),
+  currency: {
+    words: Big(0),
+    money: Big(1E100),
+    baseWordValue: Big(0.01),
+  },
 
   // player words
   playerWords: Big(1),
