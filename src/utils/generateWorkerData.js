@@ -20,8 +20,6 @@ export default function () {
       costMultiplier: worker.costMultiplier,
       baseProductivity: worker.productivity,
       productivityMultiplier: Big(1),
-      baseEfficiency: worker.efficiency,
-      efficiencyMultiplier: Big(1),
     };
     if (workers[previousId]) {
       workers[previousId].nextId = worker.id;

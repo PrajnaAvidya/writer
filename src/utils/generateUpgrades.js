@@ -64,14 +64,10 @@ export default function () {
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
         productivityMultipliers: {},
-        efficiencyMultipliers: {},
       };
       upgrade.requirements[worker.id] = Big(genericUpgrade.requirement);
       if (genericUpgrade.productivityMultiplier) {
         upgrade.productivityMultipliers[worker.id] = genericUpgrade.productivityMultiplier;
-      }
-      if (genericUpgrade.efficiencyMultiplier) {
-        upgrade.efficiencyMultipliers[worker.id] = genericUpgrade.efficiencyMultiplier;
       }
 
       upgrades[id] = upgrade;

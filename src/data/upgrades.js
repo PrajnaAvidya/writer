@@ -128,19 +128,9 @@ export default {
       productivityMultiplier: 2,
     },
     {
-      cost: 20,
-      requirement: 5,
-      efficiencyMultiplier: 2,
-    },
-    {
       cost: 50,
       requirement: 10,
       productivityMultiplier: 2,
-    },
-    {
-      cost: 250,
-      requirement: 15,
-      efficiencyMultiplier: 2,
     },
     {
       cost: 500,
@@ -148,13 +138,13 @@ export default {
       productivityMultiplier: 2,
     },
     {
-      cost: 2000,
-      requirement: 35,
-      efficiencyMultiplier: 2,
-    },
-    {
       cost: 5000,
       requirement: 40,
+      productivityMultiplier: 2,
+    },
+    {
+      cost: 10000,
+      requirement: 50,
       productivityMultiplier: 2,
     },
   ],

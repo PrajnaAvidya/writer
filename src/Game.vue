@@ -123,7 +123,6 @@ export default {
       this.$root.$on('addWords', this.addWords);
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
-      this.$root.$on('multiplyEfficiency', this.multiplyEfficiency);
       this.$root.$on('multiplyProductivity', this.multiplyProductivity);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
@@ -245,13 +244,6 @@ export default {
     },
     workerCost(baseCost, owned, costMultiplier) {
       return Big(baseCost).times(Big(1 + costMultiplier).pow(parseInt(owned.plus(this.buyAmount), 10)).minus(Big(1 + costMultiplier).pow(parseInt(owned, 10)))).div(costMultiplier).round();
-    },
-    multiplyEfficiency(data) {
-      if (data.amount <= 1) {
-        return;
-      }
-      this.workers[data.worker].efficiencyMultiplier = this.workers[data.worker].efficiencyMultiplier.times(data.amount);
-      this.workerWps = calculateWorkerWps(this.workers);
     },
     multiplyProductivity(data) {
       if (data.amount <= 1) {

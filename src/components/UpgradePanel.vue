@@ -76,11 +76,6 @@ export default {
             this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.productivityMultipliers[workerId] });
           });
         }
-        if (upgrade.efficiencyMultipliers) {
-          Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
-            this.$root.$emit('multiplyEfficiency', { worker: workerId, amount: upgrade.efficiencyMultipliers[workerId] });
-          });
-        }
       } else if (upgrade.type === 'clicking') {
         if (upgrade.writingMultiplier) {
           this.$root.$emit('multiplyClickingWords', upgrade.writingMultiplier);
@@ -115,11 +110,6 @@ export default {
         if (upgrade.productivityMultipliers) {
           Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
             effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.productivityMultipliers[workerId]}x`);
-          });
-        }
-        if (upgrade.efficiencyMultipliers) {
-          Object.keys(upgrade.efficiencyMultipliers).forEach((workerId) => {
-            effects.push(`Multiplies ${this.workers[workerId].name} efficiency by ${upgrade.efficiencyMultipliers[workerId]}x`);
           });
         }
       } else if (upgrade.type === 'clicking') {
