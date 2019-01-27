@@ -1,6 +1,7 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
+refactor productivity vs efficiency -- remove one (thats why workers are currently OP)
 
 CORE TODO:
 rework unfolding/progression

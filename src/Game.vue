@@ -5,6 +5,7 @@
     <section class="section stats">
       <CurrencyDisplay
         :words="words"
+        :worker-wps="workerWps"
         :money="money"
       />
 
@@ -60,6 +61,7 @@
 // libraries/utils
 import Big from 'big.js';
 import { mapState, mapMutations } from 'vuex';
+import calculateWorkerWps from '@/utils/calculateWorkerWps';
 import generateWorkerData from '@/utils/generateWorkerData';
 import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
@@ -152,20 +154,8 @@ export default {
 
       // start actual frame updates
 
-      // calculate worker words
-      let words = Big(0);
-      Object.keys(this.workers).forEach((workerId) => {
-        const worker = this.workers[workerId];
-
-        const wordContribution = worker.quantity.times(frameIncrement).times(worker.productivityMultiplier.times(worker.baseProductivity));
-
-        if (wordContribution.gt(0)) {
-          words = words.plus(wordContribution).times(worker.efficiencyMultiplier.times(worker.baseEfficiency));
-        }
-      });
-
-      // add to word total
-      this.addWords(words);
+      // add worker words
+      this.addWords(this.workerWps.times(frameIncrement));
 
       // update stats periodically
       if (unixTimestamp() > this.nextStatUpdate) {
@@ -241,8 +231,9 @@ export default {
       this.subtractMoney(this.workers[id].cost);
       this.workers[id].quantity = this.workers[id].quantity.plus(this.buyAmount);
 
-      // recalculate costs
+      // recalculate stuff
       this.calculateWorkerCosts();
+      this.workerWps = calculateWorkerWps(this.workers);
     },
     calculateWorkerCosts() {
       const { workers } = this;
@@ -260,12 +251,14 @@ export default {
         return;
       }
       this.workers[data.worker].efficiencyMultiplier = this.workers[data.worker].efficiencyMultiplier.times(data.amount);
+      this.workerWps = calculateWorkerWps(this.workers);
     },
     multiplyProductivity(data) {
       if (data.amount <= 1) {
         return;
       }
       this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
+      this.workerWps = calculateWorkerWps(this.workers);
     },
     removeUpgrade(upgradeId) {
       this.addToStat({ stat: 'upgrades', amount: 1 });
@@ -319,7 +312,8 @@ export default {
     },
     multiplyWordValue(amount) {
       if (amount > 1) {
-        this.baseWordValue = this.wordValue.times(amount);
+        this.baseWordValue = this.baseWordValue.times(amount);
+        this.workerWps = calculateWorkerWps(this.workers);
       }
     },
     // === end methods ===

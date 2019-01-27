@@ -4,7 +4,7 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // currencies
   words: Big(0),
-  money: Big(1000000),
+  money: Big(1E100),
   baseWordValue: Big(0.01),
 
   // player ranges
@@ -22,6 +22,7 @@ export default {
   // workers (generated)
   workers: {},
   assignments: workerIndex(0),
+  workerWps: Big(0),
 
   // upgrades (generated)
   upgrades: {},

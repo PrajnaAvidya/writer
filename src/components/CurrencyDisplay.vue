@@ -4,6 +4,9 @@
       Words: {{ words | round }}
     </div>
     <div>
+      Words per Second: {{ workerWps | round }}
+    </div>
+    <div>
       Money: {{ money | moneyCents }}
     </div>
   </div>
@@ -14,6 +17,10 @@ export default {
   name: 'CurrencyDisplay',
   props: {
     words: {
+      type: Object,
+      required: true,
+    },
+    workerWps: {
       type: Object,
       required: true,
     },
