@@ -7,31 +7,40 @@ export default {
   money: Big(1E100),
   baseWordValue: Big(0.01),
 
-  // player ranges
+  // player words
   playerWords: Big(1),
 
   // caffeine
   caffeineTime: 30,
   caffeineCooldown: 600,
   caffeineClickMultiplier: Big(2),
+  nextCaffeineTime: -1,
+  endCaffeineTime: -1,
 
   // jobs
   jobCooldown: 300,
   jobRewardMultiplier: Big(1),
+  nextJobTime: -1,
 
-  // workers (generated)
+  // workers
+  buyAmount: 1,
+  buyAmountIndex: 0,
   workers: {},
   assignments: workerIndex(0),
   workerWps: Big(0),
 
-  // upgrades (generated)
+  // upgrades
   upgrades: {},
 
   // stats
-  newWords: Big(0),
-  newClickWords: Big(0),
-
-  // used for tick function
-  lastFrame: 0,
-  nextStatUpdate: 0,
+  statistics: {
+    words: Big(0),
+    clickWords: Big(0),
+    money: Big(0),
+    moneySpent: Big(0),
+    caffeines: Big(0),
+    jobs: Big(0),
+    upgrades: Big(0),
+    totalUpgrades: Big(0),
+  },
 };

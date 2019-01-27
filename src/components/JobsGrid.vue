@@ -44,7 +44,7 @@
         <tbody>
           <tr
             v-for="job in exampleJobs"
-            :key="job.index"
+            :key="job.id"
           >
             <td>{{ job.wordCount | round }}</td>
             <td>{{ job.name }}</td>
@@ -53,7 +53,7 @@
               <a
                 class="button is-small is-primary"
                 :disabled="job.wordCount.gt(words)"
-                @click="completeJob(job.index)"
+                @click="completeJob(job.id)"
               >
                 Sell Words
               </a>
@@ -97,11 +97,11 @@ export default {
     jobAvailableTimer: -1,
     messageTitle: '',
     currentMessage: '',
-    exampleJobs: [
-      { index: 0, wordCount: Big(200), name: 'Blurb', payment: Big(5) },
-      { index: 1, wordCount: Big(500), name: 'Op-Ed', payment: Big(15) },
-      { index: 2, wordCount: Big(1000), name: 'Editorial', payment: Big(32) },
-    ],
+    exampleJobs: {
+      1: { id: 1, wordCount: Big(200), name: 'Blurb', payment: Big(5) },
+      2: { id: 2, wordCount: Big(500), name: 'Op-Ed', payment: Big(15) },
+      3: { id: 3, wordCount: Big(1000), name: 'Editorial', payment: Big(32) },
+    },
   }),
   computed: {
     ...mapState([
@@ -109,14 +109,15 @@ export default {
     ]),
   },
   mounted() {
+    // this.exampleJobs = generateJobs();
     setInterval(() => this.updateTimer(), 250);
   },
   methods: {
     updateTimer() {
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
     },
-    completeJob(index) {
-      const job = this.exampleJobs[index];
+    completeJob(id) {
+      const job = this.exampleJobs[id];
 
       if (this.words.lt(job.wordCount)) {
         return;

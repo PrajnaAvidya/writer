@@ -13,21 +13,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'CurrencyDisplay',
-  props: {
-    words: {
-      type: Object,
-      required: true,
-    },
-    workerWps: {
-      type: Object,
-      required: true,
-    },
-    money: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapState([
+      'words',
+      'workerWps',
+      'money',
+    ]),
   },
 };
 </script>

@@ -3,11 +3,7 @@
     <IntroModal />
 
     <section class="section stats">
-      <CurrencyDisplay
-        :words="words"
-        :worker-wps="workerWps"
-        :money="money"
-      />
+      <CurrencyDisplay />
 
       <CaffeineBuzz
         :buzz-active="buzzActive()"
@@ -71,8 +67,6 @@ import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
 import SellWriting from '@/components/SellWriting.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
-// data
-import defaultData from '@/data/defaultGameData';
 
 export default {
   name: 'Game',
@@ -81,13 +75,18 @@ export default {
     IntroModal,
     CurrencyDisplay,
   },
-  data: () => defaultData,
+  data: () => ({
+    // stats tracking
+    newWords: Big(0),
+    newClickWords: Big(0),
+
+    // used for tick function
+    lastFrame: 0,
+    nextStatUpdate: 0,
+  }),
   computed: {
     ...mapState([
       'buyAmount',
-      'nextJobTime',
-      'nextCaffeineTime',
-      'endCaffeineTime',
     ]),
   },
   created() {
@@ -109,6 +108,7 @@ export default {
   methods: {
     // generate all the initial data
     setupData() {
+      // TODO update
       this.workers = generateWorkerData();
       this.upgrades = generateUpgrades();
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
