@@ -1,32 +1,28 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
-not currently using vue slide bar
 
 CORE TODO:
 rework unfolding/progression
 find more stats to track
 art direction/color scheme
+- consider ditching bulma
 google analytics/event tracking
-consider ditching bulma once i start working on art/design
 click animations
 
 FUTURE IDEAS/TODO:
 make it possible to get going with <20 clicks
 more requirements for non-worker upgrades
 use tabs for nav
-increase word value with exponential word count -- could be an upgrade
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - make it unlock different things than money
-intro/modal
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
 some sort of quality/creativity average for words written
 - minimum quality for job completion
 - player + workers (and upgradeable for both)
 - job reward % based on quality level (reputation, not money)
 tutorial/tooltips
-sell % of words instead of all
 
 WRITING/LORE TODO:
 upgrade names/flavor texts
