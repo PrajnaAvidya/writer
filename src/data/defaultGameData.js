@@ -5,17 +5,20 @@ export default {
   // currencies
   currency: {
     words: Big(0),
-    money: Big(0),
+    money: Big(1),
     wordValue: Big(0.10),
   },
 
-  // player words
+  // player words (clicking)
   playerWords: Big(1),
 
   // caffeine
-  caffeineTime: 30,
+  // TODO object
+  buzzActive: false,
+  caffeineTime: 45,
   caffeineCooldown: 600,
   caffeineClickMultiplier: Big(2),
+  caffeineWordGeneration: Big(2),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
 

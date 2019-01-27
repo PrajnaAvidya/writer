@@ -6,7 +6,7 @@
       <CurrencyDisplay />
 
       <CaffeineBuzz
-        :buzz-active="buzzActive()"
+        :buzz-active="buzzActive"
         class="caffeine-section"
       />
     </section>
@@ -73,6 +73,8 @@ export default {
     // used for tick function
     lastFrame: 0,
     nextStatUpdate: 0,
+
+    buzzActive: false,
   }),
   computed: {
     ...mapState([
@@ -88,6 +90,7 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'jobRewardMultiplier',
+      'caffeineWordGeneration',
     ]),
   },
   created() {
@@ -148,13 +151,31 @@ export default {
       // set current frame
       this.lastFrame = timestamp;
 
+      // check caffeine
+      if (!this.buzzActive && this.endCaffeineTime > unixTimestamp()) {
+        this.buzzActive = true;
+        this.updateData({ index: 'buzzActive', value: true });
+      } else if (this.buzzActive && this.endCaffeineTime <= unixTimestamp()) {
+        this.buzzActive = false;
+        this.updateData({ index: 'buzzActive', value: false });
+      }
+
       // how much to divide progress for current tick
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // start actual frame updates
+      let words = Big(0);
+
+      // add caffeine words
+      if (this.buzzActive) {
+        words = words.plus(this.caffeineWordGeneration);
+      }
 
       // add worker words
-      this.addWords(this.workerWps.times(frameIncrement));
+      words = words.plus(this.workerWps);
+
+      // add frame grand total
+      this.addWords(words.times(frameIncrement));
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -165,7 +186,7 @@ export default {
     // player input
     write() {
       let words = this.playerWords;
-      if (this.buzzActive()) {
+      if (this.buzzActive) {
         words = words.times(this.caffeineClickMultiplier);
       }
       this.addToStat({ stat: 'clickWords', amount: words });
@@ -182,9 +203,6 @@ export default {
       if (unixTimestamp() >= this.nextCaffeineTime) {
         this.activateCaffeine();
       }
-    },
-    buzzActive() {
-      return this.endCaffeineTime > unixTimestamp();
     },
     reduceCaffeineCooldown(amount) {
       if (amount < 1) {

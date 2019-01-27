@@ -30,17 +30,17 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'CaffeineBuzz',
-  props: {
-    buzzActive: Boolean,
-  },
   data: () => ({
     coffeeAvailableTimer: 0,
     buzzRemaining: 0,
   }),
   computed: {
     ...mapState([
+      'buzzActive',
       'nextCaffeineTime',
       'endCaffeineTime',
+      'caffeineTime',
+      'caffeineCooldown',
     ]),
   },
   mounted() {
@@ -50,9 +50,9 @@ export default {
     updateTimer() {
       if (this.buzzActive) {
         this.buzzRemaining = parseInt(this.endCaffeineTime - unixTimestamp(), 10);
-        this.coffeeAvailableTimer = 0;
+        this.coffeeAvailableTimer = this.caffeineCooldown;
       } else {
-        this.buzzRemaining = 0;
+        this.buzzRemaining = this.caffeineTime;
         this.coffeeAvailableTimer = parseInt(this.nextCaffeineTime - unixTimestamp(), 10);
       }
     },

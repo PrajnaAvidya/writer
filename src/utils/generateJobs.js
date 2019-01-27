@@ -6,6 +6,14 @@ import randomInt from '@/utils/randomInt';
 export default function (wordValue, wps) {
   const jobs = {};
 
+  // tutorial
+  jobs[0] = {
+    id: 0,
+    name: 'Tutorial Job',
+    words: Big(100),
+    payment: Big(20),
+  };
+
   // low
   let rewardRange = [125, 200]; // % of word value
   let wordRange = [30, 90]; // * current wps
