@@ -52,6 +52,7 @@ import generateWorkerData from '@/utils/generateWorkerData';
 import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
+import workerCost from '@/utils/workerCost';
 // components
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
@@ -77,6 +78,7 @@ export default {
     ...mapState([
       'currency',
       'buyAmount',
+      'buyAmountIndex',
       'upgrades',
       'workers',
       'workerQuantities',
@@ -205,12 +207,12 @@ export default {
     // workers/upgrades
     hireWorker(id) {
       // check if can afford
-      if (this.currency.money.lt(this.workers[id].cost)) {
+      if (this.currency.money.lt(this.workers[id].costs[this.buyAmountIndex])) {
         return;
       }
 
       // buy & increment
-      this.subtractMoney(this.workers[id].cost);
+      this.subtractMoney(this.workers[id].costs[this.buyAmountIndex]);
       this.workers[id].quantity += this.buyAmount;
 
       // recalculate stuff
@@ -221,15 +223,14 @@ export default {
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
         if (this.workerQuantities[id] !== workers[id].quantity) {
-          workers[id].cost = this.workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier);
+          workers[id].costs[0] = workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier, 1);
+          workers[id].costs[1] = workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier, 10);
+          workers[id].costs[2] = workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier, 100);
           this.workerQuantities[id] = workers[id].quantity;
         }
       });
       // have to re-assign whole workers object to trigger reactivity
       this.setWorkers(workers);
-    },
-    workerCost(baseCost, owned, costMultiplier) {
-      return Big(baseCost).times(Big(1 + costMultiplier).pow(owned + this.buyAmount).minus(Big(1 + costMultiplier).pow(owned))).div(costMultiplier).round();
     },
     multiplyProductivity(data) {
       if (data.amount <= 1) {

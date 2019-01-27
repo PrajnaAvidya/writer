@@ -12,7 +12,7 @@
       >
         <div class="column">
           <a
-            :disabled="worker.cost.gt(money)"
+            :disabled="worker.costs[buyAmountIndex].gt(money)"
             class="button"
             @click="$root.$emit('hireWorker', worker.id)"
           >
@@ -25,7 +25,7 @@
           </a>
         </div>
         <div class="column">
-          Cost {{ worker.cost | money }} for {{ buyAmount }}
+          Cost {{ worker.costs[buyAmountIndex] | money }} for {{ buyAmount }}
         </div>
         <div class="column">
           <span v-if="worker.quantity > 0">
@@ -60,6 +60,7 @@ export default {
   computed: {
     ...mapState([
       'buyAmount',
+      'buyAmountIndex',
       'workers',
       'assignments',
     ]),
