@@ -63,11 +63,11 @@ export default function () {
         name: `${worker.name} Upgrade`,
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
-        productivityMultipliers: {},
+        multipliers: {},
       };
       upgrade.requirements[worker.id] = genericUpgrade.requirement;
-      if (genericUpgrade.productivityMultiplier) {
-        upgrade.productivityMultipliers[worker.id] = genericUpgrade.productivityMultiplier;
+      if (genericUpgrade.multiplier) {
+        upgrade.multipliers[worker.id] = genericUpgrade.multiplier;
       }
 
       upgrades[id] = upgrade;

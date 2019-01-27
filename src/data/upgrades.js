@@ -126,47 +126,47 @@ export default {
     {
       cost: 5,
       requirement: 1,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 25,
       requirement: 5,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 50,
       requirement: 10,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 250,
       requirement: 15,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 500,
       requirement: 25,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 2500,
       requirement: 35,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 5000,
       requirement: 40,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 10000,
       requirement: 50,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
     {
       cost: 50000,
       requirement: 60,
-      productivityMultiplier: 2,
+      multiplier: 2,
     },
   ],
 
@@ -247,7 +247,15 @@ export default {
       multiplier: 2,
     },
     {
+      cost: 5E2,
+      multiplier: 2,
+    },
+    {
       cost: 1E3,
+      multiplier: 2,
+    },
+    {
+      cost: 5E3,
       multiplier: 2,
     },
     {
@@ -255,7 +263,15 @@ export default {
       multiplier: 2,
     },
     {
+      cost: 5E4,
+      multiplier: 2,
+    },
+    {
       cost: 1E5,
+      multiplier: 2,
+    },
+    {
+      cost: 5E5,
       multiplier: 2,
     },
     {
@@ -263,7 +279,15 @@ export default {
       multiplier: 2,
     },
     {
+      cost: 5E6,
+      multiplier: 2,
+    },
+    {
       cost: 1E7,
+      multiplier: 2,
+    },
+    {
+      cost: 5E7,
       multiplier: 2,
     },
     {
@@ -271,11 +295,27 @@ export default {
       multiplier: 2,
     },
     {
+      cost: 5E8,
+      multiplier: 2,
+    },
+    {
       cost: 1E9,
       multiplier: 2,
     },
     {
+      cost: 5E9,
+      multiplier: 2,
+    },
+    {
       cost: 1E10,
+      multiplier: 2,
+    },
+    {
+      cost: 5E10,
+      multiplier: 2,
+    },
+    {
+      cost: 1E11,
       multiplier: 2,
     },
   ],

@@ -62,9 +62,9 @@ export default {
     },
     applyUpgrade(upgrade) {
       if (upgrade.type === 'worker') {
-        if (upgrade.productivityMultipliers) {
-          Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
-            this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.productivityMultipliers[workerId] });
+        if (upgrade.multipliers) {
+          Object.keys(upgrade.multipliers).forEach((workerId) => {
+            this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.multipliers[workerId] });
           });
         }
       } else if (upgrade.type === 'clicking') {
@@ -98,9 +98,9 @@ export default {
     descriptionText(upgrade) {
       const effects = [];
       if (upgrade.type === 'worker') {
-        if (upgrade.productivityMultipliers) {
-          Object.keys(upgrade.productivityMultipliers).forEach((workerId) => {
-            effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.productivityMultipliers[workerId]}x`);
+        if (upgrade.multipliers) {
+          Object.keys(upgrade.multipliers).forEach((workerId) => {
+            effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.multipliers[workerId]}x`);
           });
         }
       } else if (upgrade.type === 'clicking') {

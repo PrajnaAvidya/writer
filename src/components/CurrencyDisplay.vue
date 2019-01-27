@@ -7,7 +7,7 @@
       Words per Second: {{ workerWps | round }}
     </div>
     <div>
-      $ per Second (DEBUG): {{ workerMps | moneyCents }}
+      Base $ per Second (DEBUG): {{ workerMps | moneyCents }}
     </div>
     <div>
       Money: {{ money | moneyCents }}
