@@ -90,16 +90,10 @@ export default {
     jobAvailableTimer: -1,
     messageTitle: '',
     currentMessage: '',
-    jobs: {
-      /*
-      1: { id: 1, words: Big(200), name: 'Blurb', payment: Big(5) },
-      2: { id: 2, words: Big(500), name: 'Op-Ed', payment: Big(15) },
-      3: { id: 3, words: Big(1000), name: 'Editorial', payment: Big(32) },
-      */
-    },
   }),
   computed: {
     ...mapState([
+      'jobs',
       'jobCooldown',
       'jobRewardMultiplier',
       'nextJobTime',
@@ -111,12 +105,14 @@ export default {
     ]),
   },
   mounted() {
-    this.newJobs();
+    if (Object.keys(this.jobs).length === 0) {
+      this.newJobs();
+    }
     setInterval(() => this.updateTimer(), 250);
   },
   methods: {
     newJobs() {
-      this.jobs = generateJobs(this.wordValue, this.workerWps);
+      this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
     },
     updateTimer() {
       this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
@@ -143,6 +139,7 @@ export default {
     },
     ...mapMutations([
       'resetJobTimer',
+      'updateData',
     ]),
   },
 };

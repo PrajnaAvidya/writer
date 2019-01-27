@@ -20,6 +20,7 @@ export default {
   endCaffeineTime: 0,
 
   // jobs
+  jobs: {},
   jobCooldown: 300,
   jobRewardMultiplier: Big(1),
   nextJobTime: 0,
