@@ -32,15 +32,12 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'UpgradePanel',
-  data: () => ({
-    // TODO save to vuex
-    revealedUpgrades: {},
-  }),
   computed: {
     ...mapState([
       'money',
-      'upgrades',
       'workers',
+      'upgrades',
+      'revealedUpgrades',
     ]),
   },
   methods: {

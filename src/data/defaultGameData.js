@@ -31,6 +31,7 @@ export default {
 
   // upgrades
   upgrades: {},
+  revealedUpgrades: {},
 
   // stats
   statistics: {
