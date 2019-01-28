@@ -6,23 +6,6 @@
     >
       New Jobs
     </a>
-    <article
-      class="message is-success"
-      :class="{ 'is-hidden': !showMessage }"
-    >
-      <div class="message-header">
-        <p>{{ messageTitle }}</p>
-        <button
-          class="delete"
-          aria-label="delete"
-          @click="showMessage = false"
-        />
-      </div>
-      <div class="message-body">
-        {{ currentMessage }}
-      </div>
-    </article>
-
     <div
       v-if="jobAvailableTimer <= 0"
       class="jobs-table"
@@ -79,6 +62,7 @@
 
 <script>
 import Big from 'big.js';
+import Noty from 'noty';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import generateJobs from '@/utils/generateJobs';
 import unixTimestamp from '@/utils/unixTimestamp';
@@ -86,10 +70,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 export default {
   name: 'JobsGrid',
   data: () => ({
-    showMessage: false,
     jobAvailableTimer: -1,
-    messageTitle: '',
-    currentMessage: '',
   }),
   computed: {
     ...mapState([
@@ -116,7 +97,7 @@ export default {
       this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
     },
     updateTimer() {
-      this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
+      this.jobAvailableTimer = parseInt((this.nextJobTime - unixTimestamp()) / 1000, 10);
       if (this.jobAvailableTimer <= 0 && !this.jobsGenerated) {
         this.newJobs();
         this.setJobsGenerated(true);
@@ -129,18 +110,28 @@ export default {
         return;
       }
 
-      this.messageTitle = 'Success';
-      this.currentMessage = 'Job Finished';
-      this.showMessage = true;
-
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
-
-      // subtract words
       this.$root.$emit('subtractWords', job.words);
 
-      // start jobs cooldown
+      // show message
+      new Noty({
+        text: 'Words Sold',
+        type: 'success',
+        timeout: 5000,
+        /*
+        closeWith: 'button',
+        buttons: [
+          Noty.button('Test', 'button is-warning', () => {
+            console.log('button clicked');
+            this.$router.push('/agency');
+          }, { id: 'button1', 'data-status': 'ok' }),
+        ],
+        */
+      }).show();
+
+      // start cooldown
       this.resetJobTimer(this.jobCooldown);
-      this.jobAvailableTimer = parseInt(this.nextJobTime - unixTimestamp(), 10);
+      this.jobAvailableTimer = parseInt((this.nextJobTime - unixTimestamp()) / 1000, 10);
       this.setJobsGenerated(false);
     },
     ...mapMutations([

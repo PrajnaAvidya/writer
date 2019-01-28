@@ -22,15 +22,15 @@ export default new Vuex.Store({
     },
     resetJobTimer(state, timer) {
       state.statistics.jobs = state.statistics.jobs.plus(1);
-      state.nextJobTime = unixTimestamp() + timer;
+      state.nextJobTime = unixTimestamp(timer);
     },
     adjustJobTimer(state, amount) {
       state.jobCooldown += amount;
       state.nextJobTime += amount;
     },
     activateCaffeine(state) {
-      state.endCaffeineTime = unixTimestamp() + state.caffeineTime;
-      state.nextCaffeineTime = state.endCaffeineTime + state.caffeineCooldown;
+      state.endCaffeineTime = unixTimestamp(state.caffeineTime);
+      state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
     },
     adjustCaffeineTimer(state, amount) {

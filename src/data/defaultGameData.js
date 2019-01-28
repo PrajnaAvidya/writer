@@ -13,7 +13,6 @@ export default {
   playerWords: Big(1),
 
   // caffeine
-  // TODO object
   buzzActive: false,
   caffeineTime: 45,
   caffeineCooldown: 600,

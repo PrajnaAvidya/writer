@@ -1,5 +1,3 @@
-// clean integer unix timestamp for timers & save files and stuff
-
-export default function () {
-  return Math.round((new Date()).getTime() / 1000);
+export default function (increment = null) {
+  return increment ? 1000 * increment + new Date().getTime() : new Date().getTime();
 }

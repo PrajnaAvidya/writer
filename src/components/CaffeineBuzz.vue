@@ -49,11 +49,11 @@ export default {
   methods: {
     updateTimer() {
       if (this.buzzActive) {
-        this.buzzRemaining = parseInt(this.endCaffeineTime - unixTimestamp(), 10);
+        this.buzzRemaining = parseInt((this.endCaffeineTime - unixTimestamp()) / 1000, 10);
         this.coffeeAvailableTimer = this.caffeineCooldown;
       } else {
         this.buzzRemaining = this.caffeineTime;
-        this.coffeeAvailableTimer = parseInt(this.nextCaffeineTime - unixTimestamp(), 10);
+        this.coffeeAvailableTimer = parseInt((this.nextCaffeineTime - unixTimestamp()) / 1000, 10);
       }
     },
   },
