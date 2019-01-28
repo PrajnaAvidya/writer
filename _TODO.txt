@@ -3,9 +3,11 @@ replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
 currently player should always sell the highest word count job because words have no other use
 - need an interesting way to exchange words for money between jobs or else it will just be the player waiting 10 minutes for the next job so they can buy stuff (super boring)
--- or eliminate/reduce job cooldown
---- or make regular jobs not have a cooldown but have a "special job" that randomly spawns and has limited time to finish
--- or have repeatable vs cooldown (better) jobs
+-- short cooldowns for regular jobs (like 15-30 seconds to prevent spamming)
+--- job-specific cooldowns
+--- regenerate jobs if idle for cooldown length
+--- show a progress bar/ui for cooldowns
+-- urgent/special jobs that appear randomly & have a timer & better rewards
 
 CORE TODO:
 rework unfolding/progression
