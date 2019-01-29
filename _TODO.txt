@@ -3,7 +3,6 @@ replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
 urgent/special jobs with time limit
 redo job timer upgrades
-regenerate jobs if not accepted after cooldown time
 
 CORE TODO:
 rework unfolding/progression

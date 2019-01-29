@@ -95,6 +95,7 @@ export default {
       3: 0,
       4: 0,
     },
+    interval: null,
   }),
   computed: {
     ...mapState([
@@ -115,18 +116,32 @@ export default {
     if (Object.keys(this.jobs).length === 0) {
       this.newJobs();
     }
-    setInterval(() => this.updateJobs(), 100);
+    // only run once
+    this.interval = setInterval(() => this.updateJobs(), 100);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     newJobs() {
       this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
+      this.jobsAvailableTimestamps[1] = unixTimestamp();
+      this.jobsAvailableTimestamps[2] = unixTimestamp();
+      this.jobsAvailableTimestamps[3] = unixTimestamp();
+      this.jobsAvailableTimestamps[4] = unixTimestamp();
     },
     updateJobs() {
       for (let jobId = 1; jobId <= 4; jobId += 1) {
         this.jobAvailable[jobId] = unixTimestamp() >= this.jobsAvailableTimestamps[jobId];
-        if (this.jobAvailable[jobId] && this.jobs[jobId].completed === true) {
-          // generate new job
-          this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
+        if (this.jobAvailable[jobId]) {
+          if (this.jobs[jobId].completed === true) {
+            // generate new job
+            this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
+          } else if (unixTimestamp() >= this.jobsAvailableTimestamps[jobId] + (this.jobCooldown * 1000)) {
+            // regenerate stale job
+            this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
+            this.jobsAvailableTimestamps[jobId] = unixTimestamp();
+          }
         } else if (!this.jobAvailable[jobId]) {
           // update progress bar
           this.jobTimer[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
