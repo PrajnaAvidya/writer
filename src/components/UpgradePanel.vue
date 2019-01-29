@@ -91,6 +91,13 @@ export default {
           this.$root.$emit('multiplyJobReward', upgrade.rewardMultiplier);
         }
       }
+
+      // show message
+      this.$root.$emit('notify', {
+        text: 'Upgrade Purchased',
+        type: 'success',
+        timeout: 5000,
+      });
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);

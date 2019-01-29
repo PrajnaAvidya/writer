@@ -6,7 +6,7 @@ currently player should always sell the highest word count job because words hav
 -- short cooldowns for regular jobs (like 15-30 seconds to prevent spamming)
 --- job-specific cooldowns
 --- regenerate jobs if idle for cooldown length
---- show a progress bar/ui for cooldowns
+--- show a progress bar or something for cooldowns
 -- urgent/special jobs that appear randomly & have a timer & better rewards
 
 CORE TODO:

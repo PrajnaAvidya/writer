@@ -62,7 +62,6 @@
 
 <script>
 import Big from 'big.js';
-import Noty from 'noty';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import generateJobs from '@/utils/generateJobs';
 import unixTimestamp from '@/utils/unixTimestamp';
@@ -104,30 +103,24 @@ export default {
       }
     },
     completeJob(id) {
+      // get job
       const job = this.jobs[id];
 
+      // check words
       if (this.words.lt(job.words)) {
         return;
       }
 
+      // complete job
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
       this.$root.$emit('subtractWords', job.words);
 
       // show message
-      new Noty({
+      this.$root.$emit('notify', {
         text: 'Words Sold',
         type: 'success',
         timeout: 5000,
-        /*
-        closeWith: 'button',
-        buttons: [
-          Noty.button('Test', 'button is-warning', () => {
-            console.log('button clicked');
-            this.$router.push('/agency');
-          }, { id: 'button1', 'data-status': 'ok' }),
-        ],
-        */
-      }).show();
+      });
 
       // start cooldown
       this.resetJobTimer(this.jobCooldown);

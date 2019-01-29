@@ -44,9 +44,11 @@
 </template>
 
 <script>
-// libraries/utils
+// external libs
 import Big from 'big.js';
+import Noty from 'noty';
 import { mapState, mapMutations } from 'vuex';
+// internal libs
 import calculateWorkerWps from '@/utils/calculateWorkerWps';
 import generateWorkerData from '@/utils/generateWorkerData';
 import generateUpgrades from '@/utils/generateUpgrades';
@@ -118,6 +120,7 @@ export default {
       this.calculateWorkerCosts();
     },
     registerEvents() {
+      this.$root.$on('notify', this.notify);
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
       this.$root.$on('hireWorker', this.hireWorker);
@@ -183,6 +186,19 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
+    // notifications
+    notify(config) {
+      new Noty(config).show();
+      /*
+      closeWith: 'button',
+      buttons: [
+        Noty.button('Test', 'button is-warning', () => {
+          console.log('button clicked');
+          this.$router.push('/agency');
+        }, { id: 'button1', 'data-status': 'ok' }),
+      ],
+      */
+    },
     // player input
     write() {
       let words = this.playerWords;
@@ -202,6 +218,12 @@ export default {
     coffee() {
       if (unixTimestamp() >= this.nextCaffeineTime) {
         this.activateCaffeine();
+        // show message
+        this.notify({
+          text: 'You feel buzzed',
+          type: 'warning',
+          timeout: 5000,
+        });
       }
     },
     reduceCaffeineCooldown(amount) {
