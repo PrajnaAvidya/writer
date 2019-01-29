@@ -24,18 +24,18 @@ export default {
   // jobs
   jobs: {},
   jobsCompletedTimestamps: {
-    0: 0,
     1: 0,
     2: 0,
     3: 0,
+    4: 0,
   },
   jobsAvailableTimestamps: {
-    0: 0,
     1: 0,
     2: 0,
     3: 0,
+    4: 0,
   },
-  jobCooldown: 60,
+  jobCooldown: 120,
   jobRewardMultiplier: Big(1),
 
   // workers

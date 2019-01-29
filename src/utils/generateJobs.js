@@ -1,67 +1,62 @@
-// generate jobs based on current stats
+// generate jobs
 
 import Big from 'big.js';
 import randomInt from '@/utils/randomInt';
 
-export default function (wordValue, wps) {
-  const jobs = {};
-
-  // tiny
-  jobs[0] = {
-    id: 0,
-    completed: false,
-    name: 'Tiny Job',
-    words: Big(100),
-    payment: Big(20),
-  };
-
-  // small
-  let rewardRange = [125, 200]; // % of word value
-  let wordRange = [30, 90]; // * current wps
-  let jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
+// rewardRange is % of word value (reward is that times job words)
+// wordrange is * current words per second
+function generateJob(id, name, wordValue, wps, rewardRange, wordRange, minimumWords) {
+  const jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
   let words = wps.times(randomInt(wordRange[0], wordRange[1]));
-  if (words.lt(200)) {
-    words = Big(200);
+  if (words.lt(minimumWords)) {
+    words = Big(minimumWords);
   }
-  jobs[1] = {
-    id: 1,
+
+  return {
+    id,
     completed: false,
+    name,
+    words,
+    payment: jobWordValue.times(words),
+  };
+}
+
+const jobData = {
+  1: {
+    name: 'Tiny Job',
+    rewardRange: [200, 200],
+    wordRange: [10, 30],
+    minimumWords: 100,
+  },
+  2: {
     name: 'Small Job',
-    words,
-    payment: jobWordValue.times(words),
-  };
-
-  // medium
-  rewardRange = [225, 300];
-  wordRange = [180, 600];
-  jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
-  words = wps.times(randomInt(wordRange[0], wordRange[1]));
-  if (words.lt(1000)) {
-    words = Big(1000);
-  }
-  jobs[2] = {
-    id: 2,
-    completed: false,
+    rewardRange: [150, 200],
+    wordRange: [30, 90],
+    minimumWords: 200,
+  },
+  3: {
     name: 'Medium Job',
-    words,
-    payment: jobWordValue.times(words),
-  };
-
-  // large
-  rewardRange = [325, 400];
-  wordRange = [900, 2400];
-  jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
-  words = wps.times(randomInt(wordRange[0], wordRange[1]));
-  if (words.lt(2000)) {
-    words = Big(2000);
-  }
-  jobs[3] = {
-    id: 3,
-    completed: false,
+    rewardRange: [225, 300],
+    wordRange: [180, 600],
+    minimumWords: 1000,
+  },
+  4: {
     name: 'Large Job',
-    words,
-    payment: jobWordValue.times(words),
-  };
+    rewardRange: [325, 400],
+    wordRange: [900, 2400],
+    minimumWords: 2000,
+  },
+};
+
+export default function (wordValue, wps, jobId = null) {
+  if (jobId) {
+    return generateJob(jobId, jobData[jobId].name, wordValue, wps, jobData[jobId].rewardRange, jobData[jobId].wordRange, jobData[jobId].minimumWords);
+  }
+
+  const jobs = {};
+  for (let id = 1; id <= 4; id += 1) {
+    jobs[id] = generateJob(id, jobData[id].name, wordValue, wps, jobData[id].rewardRange, jobData[id].wordRange, jobData[id].minimumWords);
+  }
 
   return jobs;
 }

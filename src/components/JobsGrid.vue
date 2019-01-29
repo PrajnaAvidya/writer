@@ -44,7 +44,7 @@
               {{ job.name }}
             </td>
             <td style="width: 120px">
-              {{ job.payment | money }}
+              {{ jobRewardMultiplier.times(job.payment) | money }}
             </td>
             <td style="width: 180px">
               <a
@@ -84,16 +84,16 @@ export default {
   name: 'JobsGrid',
   data: () => ({
     jobAvailable: {
-      0: true,
       1: true,
       2: true,
       3: true,
+      4: true,
     },
     jobTimer: {
-      0: 0,
       1: 0,
       2: 0,
       3: 0,
+      4: 0,
     },
   }),
   computed: {
@@ -122,10 +122,11 @@ export default {
       this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
     },
     updateJobs() {
-      for (let jobId = 0; jobId <= 3; jobId += 1) {
+      for (let jobId = 1; jobId <= 4; jobId += 1) {
         this.jobAvailable[jobId] = unixTimestamp() >= this.jobsAvailableTimestamps[jobId];
         if (this.jobAvailable[jobId] && this.jobs[jobId].completed === true) {
-          // TODO generate new job
+          // generate new job
+          this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
         } else if (!this.jobAvailable[jobId]) {
           // update progress bar
           this.jobTimer[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
