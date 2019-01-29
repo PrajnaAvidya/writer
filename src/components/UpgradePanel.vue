@@ -93,11 +93,7 @@ export default {
       }
 
       // show message
-      this.$root.$emit('notify', {
-        text: 'Upgrade Purchased',
-        type: 'success',
-        timeout: 5000,
-      });
+      this.$root.$emit('notify', 'Upgrade Purchased');
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);

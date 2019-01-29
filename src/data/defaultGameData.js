@@ -4,8 +4,8 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // currencies
   currency: {
-    words: Big(0),
-    money: Big(1),
+    words: Big(100000),
+    money: Big(100000),
     wordValue: Big(0.10),
   },
 
@@ -23,10 +23,20 @@ export default {
 
   // jobs
   jobs: {},
-  jobCooldown: 300,
+  jobsCompletedTimestamps: {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+  },
+  jobsAvailableTimestamps: {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+  },
+  jobCooldown: 60,
   jobRewardMultiplier: Big(1),
-  nextJobTime: 0,
-  jobsGenerated: false,
 
   // workers
   buyAmount: 1,

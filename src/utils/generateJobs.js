@@ -6,15 +6,16 @@ import randomInt from '@/utils/randomInt';
 export default function (wordValue, wps) {
   const jobs = {};
 
-  // tutorial
+  // tiny
   jobs[0] = {
     id: 0,
-    name: 'Tutorial Job',
+    completed: false,
+    name: 'Tiny Job',
     words: Big(100),
     payment: Big(20),
   };
 
-  // low
+  // small
   let rewardRange = [125, 200]; // % of word value
   let wordRange = [30, 90]; // * current wps
   let jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
@@ -24,6 +25,7 @@ export default function (wordValue, wps) {
   }
   jobs[1] = {
     id: 1,
+    completed: false,
     name: 'Small Job',
     words,
     payment: jobWordValue.times(words),
@@ -39,12 +41,13 @@ export default function (wordValue, wps) {
   }
   jobs[2] = {
     id: 2,
+    completed: false,
     name: 'Medium Job',
     words,
     payment: jobWordValue.times(words),
   };
 
-  // high
+  // large
   rewardRange = [325, 400];
   wordRange = [900, 2400];
   jobWordValue = wordValue.times(randomInt(rewardRange[0], rewardRange[1]) / 100);
@@ -54,6 +57,7 @@ export default function (wordValue, wps) {
   }
   jobs[3] = {
     id: 3,
+    completed: false,
     name: 'Large Job',
     words,
     payment: jobWordValue.times(words),

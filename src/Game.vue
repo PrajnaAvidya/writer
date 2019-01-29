@@ -187,8 +187,13 @@ export default {
 
     // === start methods ===
     // notifications
-    notify(config) {
-      new Noty(config).show();
+    notify(text, config = {}) {
+      const defaultConfig = {
+        text,
+        type: 'success',
+        timeout: 3000,
+      };
+      new Noty(Object.assign(defaultConfig, config)).show();
       /*
       closeWith: 'button',
       buttons: [
@@ -219,10 +224,8 @@ export default {
       if (unixTimestamp() >= this.nextCaffeineTime) {
         this.activateCaffeine();
         // show message
-        this.notify({
-          text: 'You feel buzzed',
+        this.notify('You feel buzzed', {
           type: 'warning',
-          timeout: 5000,
         });
       }
     },

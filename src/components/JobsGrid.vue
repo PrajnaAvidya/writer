@@ -4,41 +4,49 @@
       class="button is-small is-primary"
       @click="newJobs()"
     >
-      New Jobs
+      New Jobs (DEBUG)
     </a>
+    <div class="jobs-header">
+      Sell Your Writing
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 140px">
+            Word Count
+          </th>
+          <th style="width: 400px">
+            Job Name
+          </th>
+          <th style="width: 120px">
+            Payment
+          </th>
+          <th style="width: 180px">
+            Sell
+          </th>
+        </tr>
+      </thead>
+    </table>
     <div
-      v-if="jobAvailableTimer <= 0"
-      class="jobs-table"
+      v-for="job in jobs"
+      :key="job.id"
     >
-      <div class="jobs-header">
-        Sell Your Writing
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="width: 140px">
-              Word Count
-            </th>
-            <th style="width: 400px">
-              Job Name
-            </th>
-            <th style="width: 120px">
-              Payment
-            </th>
-            <th style="width: 180px">
-              Sell
-            </th>
-          </tr>
-        </thead>
+      <table
+        v-if="jobAvailable[job.id]"
+        class="table"
+      >
         <tbody>
-          <tr
-            v-for="job in jobs"
-            :key="job.id"
-          >
-            <td>{{ job.words | round }}</td>
-            <td>{{ job.name }}</td>
-            <td>{{ job.payment | money }}</td>
-            <td>
+          <tr>
+            <td style="width: 140px">
+              {{ job.words | round }}
+            </td>
+            <td style="width: 400px">
+              {{ job.name }}
+            </td>
+            <td style="width: 120px">
+              {{ job.payment | money }}
+            </td>
+            <td style="width: 180px">
               <a
                 class="button is-small is-primary"
                 :disabled="job.words.gt(words)"
@@ -50,12 +58,18 @@
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <div v-else>
-      <div class="jobs-header">
-        New job available in {{ jobAvailableTimer }} seconds
+      <div
+        v-else
+      >
+        <div class="job-cooldown">
+          <progress
+            class="progress is-info"
+            :value="jobTimer[job.id]"
+            :max="jobCooldown * 1000"
+          />
+        </div>
       </div>
+      <hr>
     </div>
   </div>
 </template>
@@ -69,14 +83,26 @@ import unixTimestamp from '@/utils/unixTimestamp';
 export default {
   name: 'JobsGrid',
   data: () => ({
-    jobAvailableTimer: -1,
+    jobAvailable: {
+      0: true,
+      1: true,
+      2: true,
+      3: true,
+    },
+    jobTimer: {
+      0: 0,
+      1: 0,
+      2: 0,
+      3: 0,
+    },
   }),
   computed: {
     ...mapState([
       'jobs',
       'jobCooldown',
       'jobRewardMultiplier',
-      'jobsGenerated',
+      'jobsAvailableTimestamps',
+      'jobsCompletedTimestamps',
       'nextJobTime',
       'workerWps',
     ]),
@@ -89,17 +115,21 @@ export default {
     if (Object.keys(this.jobs).length === 0) {
       this.newJobs();
     }
-    setInterval(() => this.updateTimer(), 250);
+    setInterval(() => this.updateJobs(), 100);
   },
   methods: {
     newJobs() {
       this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
     },
-    updateTimer() {
-      this.jobAvailableTimer = parseInt((this.nextJobTime - unixTimestamp()) / 1000, 10);
-      if (this.jobAvailableTimer <= 0 && !this.jobsGenerated) {
-        this.newJobs();
-        this.setJobsGenerated(true);
+    updateJobs() {
+      for (let jobId = 0; jobId <= 3; jobId += 1) {
+        this.jobAvailable[jobId] = unixTimestamp() >= this.jobsAvailableTimestamps[jobId];
+        if (this.jobAvailable[jobId] && this.jobs[jobId].completed === true) {
+          // TODO generate new job
+        } else if (!this.jobAvailable[jobId]) {
+          // update progress bar
+          this.jobTimer[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
+        }
       }
     },
     completeJob(id) {
@@ -116,21 +146,17 @@ export default {
       this.$root.$emit('subtractWords', job.words);
 
       // show message
-      this.$root.$emit('notify', {
-        text: 'Words Sold',
-        type: 'success',
-        timeout: 5000,
-      });
+      this.$root.$emit('notify', 'Words Sold');
 
       // start cooldown
-      this.resetJobTimer(this.jobCooldown);
-      this.jobAvailableTimer = parseInt((this.nextJobTime - unixTimestamp()) / 1000, 10);
-      this.setJobsGenerated(false);
+      this.resetJobTimer(job.id);
+
+      // set as completed
+      this.jobs[job.id].completed = true;
     },
     ...mapMutations([
       'resetJobTimer',
       'updateData',
-      'setJobsGenerated',
     ]),
   },
 };
@@ -143,5 +169,13 @@ export default {
 }
 .jobs-header {
   font-size: 150%;
+}
+.job-cooldown {
+  height: 43px;
+  display:flex;
+  align-items:center;
+}
+hr, .table, .progress {
+  margin: 0;
 }
 </style>

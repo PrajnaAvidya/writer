@@ -20,11 +20,13 @@ export default new Vuex.Store({
       state.buyAmountIndex = index;
       state.buyAmount = 10 ** index;
     },
-    resetJobTimer(state, timer) {
+    resetJobTimer(state, jobId) {
       state.statistics.jobs = state.statistics.jobs.plus(1);
-      state.nextJobTime = unixTimestamp(timer);
+      state.jobsCompletedTimestamps[jobId] = unixTimestamp();
+      state.jobsAvailableTimestamps[jobId] = unixTimestamp(state.jobCooldown);
     },
     adjustJobTimer(state, amount) {
+      // TODO refactor
       state.jobCooldown += amount;
       state.nextJobTime += amount;
     },
@@ -50,9 +52,6 @@ export default new Vuex.Store({
     },
     updateData(state, { index, value }) {
       state[index] = value;
-    },
-    setJobsGenerated(state, value) {
-      state.jobsGenerated = value;
     },
   },
 
