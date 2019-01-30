@@ -276,6 +276,46 @@ export default {
     },
   ],
 
+  // urgent jobs
+  urgentJobs: [
+    {
+      cost: 5E3,
+      cooldownMultiplier: 0.75,
+    },
+    {
+      cost: 5E6,
+      cooldownMultiplier: 0.75,
+    },
+    {
+      cost: 5E9,
+      cooldownMultiplier: 0.75,
+    },
+    {
+      cost: 5E4,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E7,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E10,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E5,
+      rewardMultiplier: 2,
+    },
+    {
+      cost: 5E8,
+      rewardMultiplier: 2,
+    },
+    {
+      cost: 5E11,
+      rewardMultiplier: 2,
+    },
+  ],
+
   // word value
   wordValue: [
     {

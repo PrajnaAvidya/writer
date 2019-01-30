@@ -93,6 +93,16 @@ export default {
         if (upgrade.rewardMultiplier) {
           this.$root.$emit('multiplyJobReward', upgrade.rewardMultiplier);
         }
+      } else if (upgrade.type === 'urgentJobs') {
+        if (upgrade.cooldownMultiplier) {
+          this.$root.$emit('multiplyUrgentJobCooldown', upgrade.cooldownMultiplier);
+        }
+        if (upgrade.timerMultiplier) {
+          this.$root.$emit('multiplyUrgentJobTimer', upgrade.timerMultiplier);
+        }
+        if (upgrade.rewardMultiplier) {
+          this.$root.$emit('multiplyUrgentJobReward', upgrade.rewardMultiplier);
+        }
       }
 
       // show message
@@ -109,31 +119,33 @@ export default {
             effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.multipliers[workerId]}x`);
           });
         }
-      } else if (upgrade.type === 'clicking') {
-        if (upgrade.writingMultiplier) {
-          effects.push(`Multiplies writing clicks by ${upgrade.writingMultiplier}`);
+      } else {
+        if (upgrade.type === 'wordValue') {
+          effects.push(`Increases base word value by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
         }
-      } else if (upgrade.type === 'caffeine') {
+        if (upgrade.writingMultiplier) {
+          effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
+        }
         if (upgrade.cooldownReduction) {
-          effects.push(`Subtracts ${upgrade.cooldownReduction}s from cooldown`);
+          effects.push(`Subtracts ${upgrade.cooldownReduction} seconds from cooldown`);
         }
         if (upgrade.lengthMultiplier) {
-          effects.push(`Multiplies duration by ${upgrade.lengthMultiplier}`);
+          effects.push(`Increases duration by ${parseInt((upgrade.lengthMultiplier - 1) * 100, 10)}%`);
         }
         if (upgrade.powerMultiplier) {
-          effects.push(`Multiplies effect by ${upgrade.powerMultiplier}`);
+          effects.push(`Increases effect by ${parseInt((upgrade.powerMultiplier - 1) * 100, 10)}%`);
         }
         if (upgrade.wordMultiplier) {
-          effects.push(`Multiplies word generation by ${upgrade.wordMultiplier}`);
+          effects.push(`Increases word generation by ${parseInt((upgrade.wordMultiplier - 1) * 100, 10)}%`);
         }
-      } else if (upgrade.type === 'wordValue') {
-        effects.push(`Multiplies base word value by ${upgrade.multiplier}`);
-      } else if (upgrade.type === 'jobs') {
         if (upgrade.cooldownMultiplier) {
           effects.push(`Reduces cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
         }
         if (upgrade.rewardMultiplier) {
-          effects.push(`Multiplies reward by ${upgrade.rewardMultiplier}`);
+          effects.push(`Increases reward by ${parseInt((upgrade.rewardMultiplier - 1) * 100, 10)}%`);
+        }
+        if (upgrade.timerMultiplier) {
+          effects.push(`Increases timer by ${parseInt((upgrade.timerMultiplier - 1) * 100, 10)}%`);
         }
       }
 

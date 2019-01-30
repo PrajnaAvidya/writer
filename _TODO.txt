@@ -1,9 +1,7 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 generate dynamic names/descriptions for jobs
-urgent job upgrades
-- cooldown
-- timer
-- separate multiplier from regular one
+don't show job upgrades until finished X jobs
+don't show urgent upgrades until finished X urgent
 
 CORE TODO:
 rework unfolding/progression
@@ -14,8 +12,9 @@ google analytics/event tracking
 click animations
 
 FUTURE IDEAS/TODO:
-prevent notification spam for buying tons of upgrades
+prevent notification spam when buying tons of upgrades
 job slots as upgrades
+reroll job as upgrade (with a cooldown)
 make it possible to get going with <20 clicks
 more requirements for non-worker upgrades
 reputation currency
@@ -28,7 +27,7 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 tutorial/tooltips
 turn words into better/edited words
-achievement currency
+achievement currency/upgrades
 - prestige once unlocking % of achievements & keep cheev currency
 
 WRITING/LORE/INTRO TODO:

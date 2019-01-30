@@ -97,6 +97,29 @@ export default function () {
     upgrades[id] = upgrade;
   });
 
+  // urgent jobs
+  upgradeData.urgentJobs.forEach((jobUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'urgentJobs',
+      name: 'Urgent Jobs Upgrade',
+      cost: Big(jobUpgrade.cost),
+    };
+    if (jobUpgrade.cooldownMultiplier) {
+      upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
+    }
+    if (jobUpgrade.timerMultiplier) {
+      upgrade.timerMultiplier = jobUpgrade.timerMultiplier;
+    }
+    if (jobUpgrade.rewardMultiplier) {
+      upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
+    }
+
+    upgrades[id] = upgrade;
+  });
+
   // word value
   upgradeData.wordValue.forEach((wordValueUpgrade) => {
     id += 1;

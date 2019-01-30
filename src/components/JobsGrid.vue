@@ -84,7 +84,7 @@
             {{ urgentJob.name }} ({{ urgentJobCountdown }} seconds remaining)
           </td>
           <td style="width: 120px">
-            {{ jobRewardMultiplier.times(urgentJob.payment) | money }}
+            {{ jobRewardMultiplier.times(urgentJobRewardMultiplier).times(urgentJob.payment) | money }}
           </td>
           <td style="width: 180px">
             <a
@@ -136,6 +136,7 @@ export default {
       'urgentJob',
       'urgentJobActive',
       'urgentJobCountdown',
+      'urgentJobRewardMultiplier',
     ]),
     ...mapGetters([
       'words',
@@ -210,7 +211,7 @@ export default {
       }
 
       // complete job
-      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
+      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(this.urgentJobRewardMultiplier).times(job.payment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
 

@@ -4,8 +4,8 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // currencies
   currency: {
-    words: Big(100000),
-    money: Big(100000),
+    words: Big(100000000),
+    money: Big(100000000),
     wordValue: Big(0.10),
   },
 
@@ -43,10 +43,11 @@ export default {
   urgentJobActive: false,
   urgentJobTimestamp: null,
   urgentJobExpiration: null,
-  urgentJobMinimumTime: 2,
-  urgentJobMaximumTime: 2,
-  urgentJobTimer: 5,
+  urgentJobMinimumTime: 10,
+  urgentJobMaximumTime: 10,
+  urgentJobTimer: 10,
   urgentJobCountdown: 0,
+  urgentJobRewardMultiplier: Big(1),
 
   // workers
   buyAmount: 1,

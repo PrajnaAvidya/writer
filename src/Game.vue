@@ -104,6 +104,9 @@ export default {
       'urgentJobTimer',
       'urgentJobExpires',
       'urgentJobCountdown',
+      'urgentJobMinimumTime',
+      'urgentJobMaximumTime',
+      'urgentJobRewardMultiplier',
     ]),
   },
   created() {
@@ -155,6 +158,9 @@ export default {
       this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
       this.$root.$on('multiplyJobReward', this.multiplyJobReward);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
+      this.$root.$on('multiplyUrgentJobCooldown', this.multiplyUrgentJobCooldown);
+      this.$root.$on('multiplyUrgentJobTimer', this.multiplyUrgentJobTimer);
+      this.$root.$on('multiplyUrgentJobReward', this.multiplyUrgentJobReward);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -252,9 +258,6 @@ export default {
       this.addWords(words);
     },
     multiplyClickingWords(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
     },
     // caffeine
@@ -268,27 +271,15 @@ export default {
       }
     },
     reduceCaffeineCooldown(amount) {
-      if (amount < 1) {
-        return;
-      }
       this.adjustCaffeineTimer(-amount);
     },
     multiplyCaffeineLength(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'caffeineTime', value: amount });
     },
     multiplyCaffeinePower(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'caffeineClickMultiplier', value: this.caffeineClickMultiplier.times(amount) });
     },
     multiplyCaffeineWords(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'caffeineWordGeneration', value: this.caffeineWordGeneration.times(amount) });
     },
     // workers/upgrades
@@ -339,19 +330,12 @@ export default {
     },
     // jobs
     multiplyJobCooldown(amount) {
-      if (amount <= 0) {
-        return;
-      }
-
       this.updateData({ index: 'jobCooldown', value: this.jobCooldown * amount });
     },
     multiplyJobReward(amount) {
-      if (amount <= 1) {
-        return;
-      }
-
       this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
     },
+    // urgent jobs
     setNextUrgentJob() {
       const time = randomInt(this.urgentJobMinimumTime, this.urgentJobMaximumTime);
       console.log(`next urgent job in ${time} seconds`);
@@ -362,6 +346,17 @@ export default {
       this.updateData({ index: 'urgentJobActive', value: false });
       this.updateData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
       this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
+    },
+    multiplyUrgentJobCooldown(amount) {
+      this.updateData({ index: 'urgentJobMinimumTime', value: amount * this.urgentJobMinimumTime });
+      this.updateData({ index: 'urgentJobMaximumTime', value: amount * this.urgentJobMaximumTime });
+    },
+    multiplyUrgentJobTimer(amount) {
+      this.updateData({ index: 'urgentJobTimer', value: amount * this.urgentJobTimer });
+      this.updateData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * this.urgentJobTimer) });
+    },
+    multiplyUrgentJobReward(amount) {
+      this.updateData({ index: 'urgentJobRewardMultiplier', value: this.urgentJobRewardMultiplier.times(amount) });
     },
     // economy
     addMoney(money) {
@@ -394,10 +389,8 @@ export default {
       }
     },
     multiplyWordValue(amount) {
-      if (amount > 1) {
-        this.currency.wordValue = this.currency.wordValue.times(amount);
-        this.updateWpsMps();
-      }
+      this.currency.wordValue = this.currency.wordValue.times(amount);
+      this.updateWpsMps();
     },
     // === end methods ===
     ...mapMutations([
