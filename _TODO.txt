@@ -12,6 +12,7 @@ google analytics/event tracking
 click animations
 
 FUTURE IDEAS/TODO:
+"motivate" workers by clicking them
 click job bar for faster progress (upgrade)
 prevent notification spam when buying tons of upgrades
 job slots as upgrades (randomize job lengths?)
