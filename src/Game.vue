@@ -92,6 +92,7 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'jobRewardMultiplier',
+      'jobCooldown',
       'caffeineWordGeneration',
     ]),
   },
@@ -135,6 +136,7 @@ export default {
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
+      this.$root.$on('multiplyCaffeineWords', this.multiplyCaffeineWords);
       this.$root.$on('reduceCaffeineCooldown', this.reduceCaffeineCooldown);
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
       this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
@@ -247,6 +249,12 @@ export default {
       }
       this.updateData({ index: 'caffeineClickMultiplier', value: this.caffeineClickMultiplier.times(amount) });
     },
+    multiplyCaffeineWords(amount) {
+      if (amount <= 1) {
+        return;
+      }
+      this.updateData({ index: 'caffeineWordGeneration', value: this.caffeineWordGeneration.times(amount) });
+    },
     // workers/upgrades
     hireWorker(id) {
       // check if can afford
@@ -299,7 +307,7 @@ export default {
         return;
       }
 
-      this.multiplyJobTimer(amount);
+      this.updateData({ index: 'jobCooldown', value: this.jobCooldown * amount });
     },
     multiplyJobReward(amount) {
       if (amount <= 1) {
@@ -347,7 +355,6 @@ export default {
     // === end methods ===
     ...mapMutations([
       'addToStat',
-      'multiplyJobTimer',
       'activateCaffeine',
       'adjustCaffeineTimer',
       'setWorkers',

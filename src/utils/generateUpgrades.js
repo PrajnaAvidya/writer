@@ -28,6 +28,9 @@ export default function () {
     if (caffeineUpgrade.powerMultiplier) {
       upgrade.powerMultiplier = caffeineUpgrade.powerMultiplier;
     }
+    if (caffeineUpgrade.wordMultiplier) {
+      upgrade.wordMultiplier = caffeineUpgrade.wordMultiplier;
+    }
 
     upgrades[id] = upgrade;
   });
@@ -108,21 +111,6 @@ export default function () {
 
     upgrades[id] = upgrade;
   });
-
-  // workers
-  /*
-  upgrades.workers = {};
-  Object.keys(upgradeData.workers).forEach((workerId) => {
-    let upgradeId = 1;
-    upgrades.workers[workerId] = {};
-    upgradeData.workers[workerId].forEach((upgrade) => {
-      upgrades.workers[workerId][upgradeId] = upgrade;
-      upgrades.workers[workerId][upgradeId].id = upgradeId;
-
-      upgradeId += 1;
-    });
-  });
-  */
 
   return upgrades;
 }

@@ -40,5 +40,6 @@ click a few times
 introduce caffeine
 introduce jobs
 introduce workers
+introduce urgent jobs
 introduce upgrades
 ?

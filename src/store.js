@@ -25,10 +25,6 @@ export default new Vuex.Store({
       state.jobsCompletedTimestamps[jobId] = unixTimestamp();
       state.jobsAvailableTimestamps[jobId] = unixTimestamp(state.jobCooldown);
     },
-    multiplyJobTimer(state, amount) {
-      state.jobCooldown *= amount;
-      console.log(state.jobCooldown);
-    },
     activateCaffeine(state) {
       state.endCaffeineTime = unixTimestamp(state.caffeineTime);
       state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);

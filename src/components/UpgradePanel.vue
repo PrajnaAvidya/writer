@@ -81,6 +81,9 @@ export default {
         if (upgrade.powerMultiplier) {
           this.$root.$emit('multiplyCaffeinePower', upgrade.powerMultiplier);
         }
+        if (upgrade.wordMultiplier) {
+          this.$root.$emit('multiplyCaffeineWords', upgrade.wordMultiplier);
+        }
       } else if (upgrade.type === 'wordValue') {
         this.$root.$emit('multiplyWordValue', upgrade.multiplier);
       } else if (upgrade.type === 'jobs') {
@@ -112,22 +115,25 @@ export default {
         }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
-          effects.push(`Subtracts ${upgrade.cooldownReduction}s from caffeine cooldown`);
+          effects.push(`Subtracts ${upgrade.cooldownReduction}s from cooldown`);
         }
         if (upgrade.lengthMultiplier) {
-          effects.push(`Multiplies caffeine duration by ${upgrade.lengthMultiplier}`);
+          effects.push(`Multiplies duration by ${upgrade.lengthMultiplier}`);
         }
         if (upgrade.powerMultiplier) {
-          effects.push(`Multiplies caffeine effect by ${upgrade.powerMultiplier}`);
+          effects.push(`Multiplies effect by ${upgrade.powerMultiplier}`);
+        }
+        if (upgrade.wordMultiplier) {
+          effects.push(`Multiplies word generation by ${upgrade.wordMultiplier}`);
         }
       } else if (upgrade.type === 'wordValue') {
         effects.push(`Multiplies base word value by ${upgrade.multiplier}`);
       } else if (upgrade.type === 'jobs') {
         if (upgrade.cooldownMultiplier) {
-          effects.push(`Reduces job cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
+          effects.push(`Reduces cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
         }
         if (upgrade.rewardMultiplier) {
-          effects.push(`Multiplies job reward by ${upgrade.rewardMultiplier}`);
+          effects.push(`Multiplies reward by ${upgrade.rewardMultiplier}`);
         }
       }
 
