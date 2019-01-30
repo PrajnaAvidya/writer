@@ -13,7 +13,7 @@ refactor stuff to watch property when better
 
 FUTURE IDEAS/TODO:
 "motivate" workers by clicking them
-click job bar for faster progress (upgrade)
+click job bar for faster progress (upgrade -- cheeve currency?)
 prevent notification spam when buying tons of upgrades
 job slots as upgrades (randomize job lengths?)
 reroll job as upgrade (with a cooldown)

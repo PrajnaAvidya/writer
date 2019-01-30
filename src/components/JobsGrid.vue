@@ -23,7 +23,7 @@
             Payment
           </th>
           <th style="width: 180px">
-            Sell
+            Actions
           </th>
         </tr>
       </thead>
@@ -49,13 +49,20 @@
             </td>
             <td style="width: 180px">
               <a
-                class="button is-small is-primary is-tooltip-right"
+                class="button is-small is-primary is-tooltip-top"
                 :class="{ 'tooltip': job.words.gt(words) }"
                 :disabled="job.words.gt(words)"
                 data-tooltip="Not enough words"
                 @click="completeJob(job.id)"
               >
-                Take Job
+                Complete
+              </a>
+              &nbsp;
+              <a
+                class="button is-small"
+                @click="resetJobTimer(job.id)"
+              >
+                Decline
               </a>
             </td>
           </tr>
@@ -210,11 +217,11 @@ export default {
       // show message
       this.$root.$emit('notify', `Job Complete: ${job.name}`);
 
-      // start cooldown
-      this.resetJobTimer(job.id);
-
       // set as completed
       this.jobs[job.id].completed = true;
+
+      // start cooldown
+      this.resetJobTimer(job.id);
     },
     completeUrgentJob(id) {
       // get job
