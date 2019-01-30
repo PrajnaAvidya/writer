@@ -43,8 +43,8 @@ export default {
   urgentJobActive: false,
   urgentJobTimestamp: null,
   urgentJobExpiration: null,
-  urgentJobMinimumTime: 10,
-  urgentJobMaximumTime: 10,
+  urgentJobMinimumTime: 1, // 300
+  urgentJobMaximumTime: 1, // 900
   urgentJobTimer: 10,
   urgentJobCountdown: 0,
   urgentJobRewardMultiplier: Big(1),

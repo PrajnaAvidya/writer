@@ -37,6 +37,7 @@ export default {
       'workers',
       'upgrades',
       'revealedUpgrades',
+      'statistics',
     ]),
     ...mapGetters([
       'money',
@@ -201,6 +202,10 @@ export default {
           }
           return true;
         });
+      } else if (upgrade.type === 'jobs') {
+        return this.statistics.jobs.gte(5);
+      } else if (upgrade.type === 'urgentJobs') {
+        return this.statistics.urgentJobs.gte(3);
       } else {
         // show upgrade when player has 1/2 money
         metRequirements = this.money.gte(upgrade.cost.div(2));

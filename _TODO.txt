@@ -1,7 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 generate dynamic names/descriptions for jobs
-don't show job upgrades until finished X jobs
-don't show urgent upgrades until finished X urgent
 
 CORE TODO:
 rework unfolding/progression
