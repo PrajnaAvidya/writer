@@ -1,5 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-generate dynamic names/descriptions for jobs
 
 CORE TODO:
 rework unfolding/progression

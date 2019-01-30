@@ -7,7 +7,7 @@
       New Jobs (DEBUG)
     </a>
     <div class="jobs-header">
-      Sell Your Writing
+      Writing Contracts
     </div>
     <table class="table">
       <thead>
@@ -52,7 +52,7 @@
                 :disabled="job.words.gt(words)"
                 @click="completeJob(job.id)"
               >
-                Sell Words
+                Take Job
               </a>
             </td>
           </tr>
@@ -193,7 +193,7 @@ export default {
       this.$root.$emit('subtractWords', job.words);
 
       // show message
-      this.$root.$emit('notify', 'Words Sold');
+      this.$root.$emit('notify', 'Job Complete');
 
       // start cooldown
       this.resetJobTimer(job.id);

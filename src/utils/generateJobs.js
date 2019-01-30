@@ -2,6 +2,7 @@
 
 import Big from 'big.js';
 import randomInt from '@/utils/randomInt';
+import jobData from '@/data/jobs';
 
 // rewardRange is % of word value (reward is that times job words)
 // wordrange is * current words per second
@@ -15,39 +16,39 @@ function generateJob(id, name, wordValue, wps, rewardRange, wordRange, minimumWo
   return {
     id,
     completed: false,
-    name,
+    name: `${name} ${jobData.names[randomInt(0, jobData.names.length - 1)]}`,
     words,
     payment: jobWordValue.times(words),
   };
 }
 
-const jobData = {
+const jobTypes = {
   1: {
-    name: 'Tiny Job',
+    name: 'Tiny',
     rewardRange: [200, 200],
     wordRange: [10, 30],
     minimumWords: 100,
   },
   2: {
-    name: 'Small Job',
+    name: 'Short',
     rewardRange: [150, 200],
     wordRange: [30, 90],
     minimumWords: 200,
   },
   3: {
-    name: 'Medium Job',
+    name: 'Medium',
     rewardRange: [225, 300],
     wordRange: [180, 600],
     minimumWords: 1000,
   },
   4: {
-    name: 'Large Job',
+    name: 'Long',
     rewardRange: [325, 400],
     wordRange: [900, 2400],
     minimumWords: 2000,
   },
   5: {
-    name: 'Urgent Job',
+    name: 'Urgent',
     rewardRange: [750, 1000],
     wordRange: [180, 900],
     minimumWords: 1000,
@@ -56,12 +57,12 @@ const jobData = {
 
 export default function (wordValue, wps, jobId = null) {
   if (jobId) {
-    return generateJob(jobId, jobData[jobId].name, wordValue, wps, jobData[jobId].rewardRange, jobData[jobId].wordRange, jobData[jobId].minimumWords);
+    return generateJob(jobId, jobTypes[jobId].name, wordValue, wps, jobTypes[jobId].rewardRange, jobTypes[jobId].wordRange, jobTypes[jobId].minimumWords);
   }
 
   const jobs = {};
   for (let id = 1; id <= 4; id += 1) {
-    jobs[id] = generateJob(id, jobData[id].name, wordValue, wps, jobData[id].rewardRange, jobData[id].wordRange, jobData[id].minimumWords);
+    jobs[id] = generateJob(id, jobTypes[id].name, wordValue, wps, jobTypes[id].rewardRange, jobTypes[id].wordRange, jobTypes[id].minimumWords);
   }
 
   return jobs;
