@@ -10,6 +10,7 @@ art direction/color scheme
 - consider ditching bulma
 google analytics/event tracking
 click animations
+refactor stuff to watch property when better
 
 FUTURE IDEAS/TODO:
 "motivate" workers by clicking them
