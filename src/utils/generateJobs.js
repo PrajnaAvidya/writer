@@ -46,6 +46,12 @@ const jobData = {
     wordRange: [900, 2400],
     minimumWords: 2000,
   },
+  5: {
+    name: 'Urgent Job',
+    rewardRange: [750, 1000],
+    wordRange: [180, 900],
+    minimumWords: 1000,
+  },
 };
 
 export default function (wordValue, wps, jobId = null) {

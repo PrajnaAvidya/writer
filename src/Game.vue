@@ -55,6 +55,7 @@ import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
+import generateJobs from '@/utils/generateJobs';
 // components
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
@@ -77,6 +78,7 @@ export default {
     nextStatUpdate: 0,
 
     buzzActive: false,
+    urgentJobNotification: null,
   }),
   computed: {
     ...mapState([
@@ -91,9 +93,16 @@ export default {
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
+      'caffeineWordGeneration',
       'jobRewardMultiplier',
       'jobCooldown',
-      'caffeineWordGeneration',
+      'urgentJobActive',
+      'urgentJobExpiration',
+      'urgentJobMinimumTime',
+      'urgentJobMaximumTime',
+      'urgentJobTimestamp',
+      'urgentJobTimer',
+      'urgentJobExpires',
     ]),
   },
   created() {
@@ -101,6 +110,9 @@ export default {
   },
   mounted() {
     this.registerEvents();
+
+    // set time for next urgent job
+    this.setNextUrgentJob();
 
     // subscribe to mutations
     this.$store.subscribe((mutation, state) => {
@@ -141,6 +153,7 @@ export default {
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
       this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
       this.$root.$on('multiplyJobReward', this.multiplyJobReward);
+      this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -163,6 +176,32 @@ export default {
       } else if (this.buzzActive && this.endCaffeineTime <= unixTimestamp()) {
         this.buzzActive = false;
         this.updateData({ index: 'buzzActive', value: false });
+      }
+
+      // check urgent job
+      if (unixTimestamp() >= this.urgentJobTimestamp) {
+        if (!this.urgentJobActive) {
+          // generate job
+          this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
+          // TODO show countdown
+          console.log('urgent job!');
+          this.urgentJobNotification = this.notify('Urgent Job', {
+            type: 'error',
+            timeout: (this.urgentJobTimer - 0.75) * 1000,
+            closeWith: 'button',
+            buttons: [
+              Noty.button('Go to Agency', 'button is-link', () => {
+                this.$router.push('/agency');
+              }, { id: 'button1', 'data-status': 'ok' }),
+            ],
+          });
+          this.updateData({ index: 'urgentJobActive', value: true });
+        } else if (unixTimestamp() >= this.urgentJobExpiration) {
+          console.log('urgent job expired');
+          this.urgentJobNotification.close();
+          this.updateData({ index: 'urgentJobActive', value: false });
+          this.setNextUrgentJob();
+        }
       }
 
       // how much to divide progress for current tick
@@ -195,16 +234,7 @@ export default {
         type: 'success',
         timeout: 3000,
       };
-      new Noty(Object.assign(defaultConfig, config)).show();
-      /*
-      closeWith: 'button',
-      buttons: [
-        Noty.button('Test', 'button is-warning', () => {
-          console.log('button clicked');
-          this.$router.push('/agency');
-        }, { id: 'button1', 'data-status': 'ok' }),
-      ],
-      */
+      return new Noty(Object.assign(defaultConfig, config)).show();
     },
     // player input
     write() {
@@ -315,6 +345,17 @@ export default {
       }
 
       this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
+    },
+    setNextUrgentJob() {
+      const time = randomInt(this.urgentJobMinimumTime, this.urgentJobMaximumTime);
+      console.log(`next urgent job in ${time} seconds`);
+      if (this.urgentJobNotification) {
+        this.urgentJobNotification.close();
+      }
+
+      this.updateData({ index: 'urgentJobActive', value: false });
+      this.updateData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
+      this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
     },
     // economy
     addMoney(money) {

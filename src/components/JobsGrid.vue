@@ -71,6 +71,33 @@
       </div>
       <hr>
     </div>
+    <table
+      v-if="urgentJobActive"
+      class="table"
+    >
+      <tbody>
+        <tr class="urgent">
+          <td style="width: 140px">
+            {{ urgentJob.words | round }}
+          </td>
+          <td style="width: 400px">
+            {{ urgentJob.name }}
+          </td>
+          <td style="width: 120px">
+            {{ jobRewardMultiplier.times(urgentJob.payment) | money }}
+          </td>
+          <td style="width: 180px">
+            <a
+              class="button is-small is-primary"
+              :disabled="urgentJob.words.gt(words)"
+              @click="completeUrgentJob()"
+            >
+              Sell Words
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -106,6 +133,8 @@ export default {
       'jobsCompletedTimestamps',
       'nextJobTime',
       'workerWps',
+      'urgentJob',
+      'urgentJobActive',
     ]),
     ...mapGetters([
       'words',
@@ -170,6 +199,25 @@ export default {
       // set as completed
       this.jobs[job.id].completed = true;
     },
+    completeUrgentJob(id) {
+      // get job
+      const job = this.urgentJob;
+
+      // check words
+      if (this.words.lt(job.words)) {
+        return;
+      }
+
+      // complete job
+      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
+      this.$root.$emit('subtractWords', job.words);
+
+      // show message
+      this.$root.$emit('notify', 'Urgent Job Complete');
+
+      // reset urgent job
+      this.$root.$emit('setNextUrgentJob');
+    },
     ...mapMutations([
       'resetJobTimer',
       'updateData',
@@ -193,5 +241,8 @@ export default {
 }
 hr, .table, .progress {
   margin: 0;
+}
+.urgent {
+  background-color: #DE636F;
 }
 </style>

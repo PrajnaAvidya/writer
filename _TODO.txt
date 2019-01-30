@@ -1,7 +1,11 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 replace word value/sell words with jobs system
 - thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
-urgent/special jobs with time limit
+urgent job countdown in notification
+urgent job upgrades
+- cooldown
+- timer
+- separate multiplier from regular one
 
 CORE TODO:
 rework unfolding/progression

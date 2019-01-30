@@ -38,6 +38,15 @@ export default {
   jobCooldown: 120,
   jobRewardMultiplier: Big(1),
 
+  // urgent jobs
+  urgentJob: null,
+  urgentJobActive: false,
+  urgentJobTimestamp: null,
+  urgentJobExpiration: null,
+  urgentJobMinimumTime: 300,
+  urgentJobMaximumTime: 900,
+  urgentJobTimer: 30,
+
   // workers
   buyAmount: 1,
   buyAmountIndex: 0,
