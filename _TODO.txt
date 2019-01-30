@@ -1,6 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 change icon with writing upgrade
-caffeine click bug?
 upgrade names & design to distinguish type by more than text
 
 CORE TODO:
