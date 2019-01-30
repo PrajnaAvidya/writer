@@ -211,6 +211,7 @@ export default {
       // complete job
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
       this.$root.$emit('subtractWords', job.words);
+      this.addToStat({ stat: 'urgentJobs', amount: 1 });
 
       // show message
       this.$root.$emit('notify', 'Urgent Job Complete');
@@ -221,6 +222,7 @@ export default {
     ...mapMutations([
       'resetJobTimer',
       'updateData',
+      'addToStat',
     ]),
   },
 };

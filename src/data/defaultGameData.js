@@ -68,6 +68,7 @@ export default {
     moneySpent: Big(0),
     caffeines: Big(0),
     jobs: Big(0),
+    urgentJobs: Big(0),
     upgrades: Big(0),
     totalUpgrades: Big(0),
   },
