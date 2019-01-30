@@ -1,4 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
+change icon with writing upgrade
 
 CORE TODO:
 rework unfolding/progression

@@ -6,7 +6,7 @@
         :data-tooltip="writeTooltip()"
         @click="$root.$emit('write')"
       >
-        <i class="fas fa-pen fa-lg" />
+        <i class="fas fa-pen fa-4x" />
       </a>
     </div>
   </div>
@@ -35,6 +35,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.button {
+  height: 150px;
+  width: 150px;
+}
 .buttons {
   margin: 0 auto;
   width: 200px;

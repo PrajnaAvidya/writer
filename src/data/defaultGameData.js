@@ -47,7 +47,7 @@ export default {
   urgentJobExpiration: null,
   urgentJobMinimumTime: 300,
   urgentJobMaximumTime: 900,
-  urgentJobTimer: 10,
+  urgentJobTimer: 60,
   urgentJobCountdown: 0,
   urgentJobRewardMultiplier: Big(1),
 

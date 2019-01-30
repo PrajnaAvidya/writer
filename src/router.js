@@ -18,9 +18,9 @@ export default new Router({
       component: () => import('@/views/Workers.vue'),
     },
     {
-      path: '/agency',
-      name: 'Agency',
-      component: () => import('@/views/Agency.vue'),
+      path: '/jobs',
+      name: 'Jobs',
+      component: () => import('@/views/Jobs.vue'),
     },
     {
       path: '/upgrades',

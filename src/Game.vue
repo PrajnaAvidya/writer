@@ -9,21 +9,19 @@
         :buzz-active="buzzActive"
         class="caffeine-section"
       />
+
+      <CreativeButtons />
     </section>
 
     <section class="section nav">
       <div id="nav">
         <hr>
-        <RouterLink to="/">
-          Home
-        </RouterLink>
-        |
         <RouterLink to="/workers">
           Workers
         </RouterLink>
         |
-        <RouterLink to="/agency">
-          Agency
+        <RouterLink to="/jobs">
+          Jobs
         </RouterLink>
         |
         <RouterLink to="/upgrades">
@@ -57,6 +55,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
 import generateJobs from '@/utils/generateJobs';
 // components
+import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
@@ -64,6 +63,7 @@ import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 export default {
   name: 'Game',
   components: {
+    CreativeButtons,
     CaffeineBuzz,
     IntroModal,
     CurrencyDisplay,
@@ -377,7 +377,7 @@ export default {
     addWords(words) {
       if (words.gt(0)) {
         this.currency.words = this.currency.words.plus(words);
-        this.addToStat({ stat: 'words', amount: this.newWords });
+        this.addToStat({ stat: 'words', amount: words });
       }
     },
     subtractWords(words) {
@@ -408,5 +408,9 @@ export default {
 <style lang="scss" scoped>
 #game {
   text-align: center;
+}
+.nav {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 </style>

@@ -1,16 +1,9 @@
 <template>
-  <div class="home">
-    <CreativeButtons />
-  </div>
+  <div class="home" />
 </template>
 
 <script>
-import CreativeButtons from '@/components/CreativeButtons.vue';
-
 export default {
   name: 'Home',
-  components: {
-    CreativeButtons,
-  },
 };
 </script>

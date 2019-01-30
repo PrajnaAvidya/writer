@@ -49,8 +49,10 @@
             </td>
             <td style="width: 180px">
               <a
-                class="button is-small is-primary"
+                class="button is-small is-primary is-tooltip-right"
+                :class="{ 'tooltip': job.words.gt(words) }"
                 :disabled="job.words.gt(words)"
+                data-tooltip="Not enough words"
                 @click="completeJob(job.id)"
               >
                 Take Job
@@ -62,7 +64,9 @@
       <div
         v-else
       >
-        <div class="job-cooldown">
+        <div
+          class="job-cooldown"
+        >
           <progress
             class="progress is-info"
             :value="jobTimer[job.id]"
