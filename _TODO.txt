@@ -1,11 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-replace word value/sell words with jobs system
-- thresholds to various writing types ie novella vs novel vs epic & increase multiplier for longer
-currently player should always sell the highest word count job because words have no other use
-- need an interesting way to exchange words for money between jobs or else it will just be the player waiting 10 minutes for the next job so they can buy stuff (super boring)
--- or eliminate/reduce job cooldown
---- or make regular jobs not have a cooldown but have a "special job" that randomly spawns and has limited time to finish
--- or have repeatable vs cooldown (better) jobs
 
 CORE TODO:
 rework unfolding/progression
@@ -16,7 +9,9 @@ google analytics/event tracking
 click animations
 
 FUTURE IDEAS/TODO:
-make it possible to get going with <20 clicks
+prevent notification spam when buying tons of upgrades
+job slots as upgrades (randomize job lengths?)
+reroll job as upgrade (with a cooldown)
 more requirements for non-worker upgrades
 reputation currency
 - get from finishing jobs -- more quality = more reputation
@@ -28,8 +23,11 @@ some sort of quality/creativity average for words written
 - job reward % based on quality level (reputation, not money)
 tutorial/tooltips
 turn words into better/edited words
-achievement currency
+achievement currency/upgrades
 - prestige once unlocking % of achievements & keep cheev currency
+independent releases (later game after contracts)
+- based on reputation maybe?
+- do we introduce another fans/readers currency? TBD
 
 WRITING/LORE/INTRO TODO:
 upgrade names/flavor texts
@@ -42,5 +40,6 @@ click a few times
 introduce caffeine
 introduce jobs
 introduce workers
+introduce urgent jobs
 introduce upgrades
 ?

@@ -23,10 +23,31 @@ export default {
 
   // jobs
   jobs: {},
-  jobCooldown: 300,
+  jobsCompletedTimestamps: {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+  },
+  jobsAvailableTimestamps: {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+  },
+  jobCooldown: 120,
   jobRewardMultiplier: Big(1),
-  nextJobTime: 0,
-  jobsGenerated: false,
+
+  // urgent jobs
+  urgentJob: null,
+  urgentJobActive: false,
+  urgentJobTimestamp: null,
+  urgentJobExpiration: null,
+  urgentJobMinimumTime: 300,
+  urgentJobMaximumTime: 900,
+  urgentJobTimer: 10,
+  urgentJobCountdown: 0,
+  urgentJobRewardMultiplier: Big(1),
 
   // workers
   buyAmount: 1,
@@ -49,6 +70,7 @@ export default {
     moneySpent: Big(0),
     caffeines: Big(0),
     jobs: Big(0),
+    urgentJobs: Big(0),
     upgrades: Big(0),
     totalUpgrades: Big(0),
   },

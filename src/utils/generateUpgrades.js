@@ -28,6 +28,9 @@ export default function () {
     if (caffeineUpgrade.powerMultiplier) {
       upgrade.powerMultiplier = caffeineUpgrade.powerMultiplier;
     }
+    if (caffeineUpgrade.wordMultiplier) {
+      upgrade.wordMultiplier = caffeineUpgrade.wordMultiplier;
+    }
 
     upgrades[id] = upgrade;
   });
@@ -84,8 +87,31 @@ export default function () {
       name: 'Jobs Upgrade',
       cost: Big(jobUpgrade.cost),
     };
-    if (jobUpgrade.cooldownReduction) {
-      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
+    if (jobUpgrade.cooldownMultiplier) {
+      upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
+    }
+    if (jobUpgrade.rewardMultiplier) {
+      upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
+    }
+
+    upgrades[id] = upgrade;
+  });
+
+  // urgent jobs
+  upgradeData.urgentJobs.forEach((jobUpgrade) => {
+    id += 1;
+
+    const upgrade = {
+      id,
+      type: 'urgentJobs',
+      name: 'Urgent Jobs Upgrade',
+      cost: Big(jobUpgrade.cost),
+    };
+    if (jobUpgrade.cooldownMultiplier) {
+      upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
+    }
+    if (jobUpgrade.timerMultiplier) {
+      upgrade.timerMultiplier = jobUpgrade.timerMultiplier;
     }
     if (jobUpgrade.rewardMultiplier) {
       upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
@@ -108,21 +134,6 @@ export default function () {
 
     upgrades[id] = upgrade;
   });
-
-  // workers
-  /*
-  upgrades.workers = {};
-  Object.keys(upgradeData.workers).forEach((workerId) => {
-    let upgradeId = 1;
-    upgrades.workers[workerId] = {};
-    upgradeData.workers[workerId].forEach((upgrade) => {
-      upgrades.workers[workerId][upgradeId] = upgrade;
-      upgrades.workers[workerId][upgradeId].id = upgradeId;
-
-      upgradeId += 1;
-    });
-  });
-  */
 
   return upgrades;
 }

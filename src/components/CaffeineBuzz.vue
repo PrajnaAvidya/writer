@@ -33,6 +33,7 @@ export default {
   data: () => ({
     coffeeAvailableTimer: 0,
     buzzRemaining: 0,
+    interval: null,
   }),
   computed: {
     ...mapState([
@@ -44,7 +45,10 @@ export default {
     ]),
   },
   mounted() {
-    setInterval(() => this.updateTimer(), 250);
+    this.interval = setInterval(() => this.updateTimer(), 250);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     updateTimer() {

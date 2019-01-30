@@ -37,6 +37,7 @@ export default {
       'workers',
       'upgrades',
       'revealedUpgrades',
+      'statistics',
     ]),
     ...mapGetters([
       'money',
@@ -81,16 +82,32 @@ export default {
         if (upgrade.powerMultiplier) {
           this.$root.$emit('multiplyCaffeinePower', upgrade.powerMultiplier);
         }
+        if (upgrade.wordMultiplier) {
+          this.$root.$emit('multiplyCaffeineWords', upgrade.wordMultiplier);
+        }
       } else if (upgrade.type === 'wordValue') {
         this.$root.$emit('multiplyWordValue', upgrade.multiplier);
       } else if (upgrade.type === 'jobs') {
-        if (upgrade.cooldownReduction) {
-          this.$root.$emit('reduceJobCooldown', upgrade.cooldownReduction);
+        if (upgrade.cooldownMultiplier) {
+          this.$root.$emit('multiplyJobCooldown', upgrade.cooldownMultiplier);
         }
         if (upgrade.rewardMultiplier) {
           this.$root.$emit('multiplyJobReward', upgrade.rewardMultiplier);
         }
+      } else if (upgrade.type === 'urgentJobs') {
+        if (upgrade.cooldownMultiplier) {
+          this.$root.$emit('multiplyUrgentJobCooldown', upgrade.cooldownMultiplier);
+        }
+        if (upgrade.timerMultiplier) {
+          this.$root.$emit('multiplyUrgentJobTimer', upgrade.timerMultiplier);
+        }
+        if (upgrade.rewardMultiplier) {
+          this.$root.$emit('multiplyUrgentJobReward', upgrade.rewardMultiplier);
+        }
       }
+
+      // show message
+      this.$root.$emit('notify', 'Upgrade Purchased');
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);
@@ -103,28 +120,33 @@ export default {
             effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.multipliers[workerId]}x`);
           });
         }
-      } else if (upgrade.type === 'clicking') {
-        if (upgrade.writingMultiplier) {
-          effects.push(`Multiplies writing clicks by ${upgrade.writingMultiplier}`);
+      } else {
+        if (upgrade.type === 'wordValue') {
+          effects.push(`Increases base word value by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
         }
-      } else if (upgrade.type === 'caffeine') {
+        if (upgrade.writingMultiplier) {
+          effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
+        }
         if (upgrade.cooldownReduction) {
-          effects.push(`Subtracts ${upgrade.cooldownReduction}s from caffeine cooldown`);
+          effects.push(`Subtracts ${upgrade.cooldownReduction} seconds from cooldown`);
         }
         if (upgrade.lengthMultiplier) {
-          effects.push(`Multiplies caffeine duration by ${upgrade.lengthMultiplier}`);
+          effects.push(`Increases duration by ${parseInt((upgrade.lengthMultiplier - 1) * 100, 10)}%`);
         }
         if (upgrade.powerMultiplier) {
-          effects.push(`Multiplies caffeine effect by ${upgrade.powerMultiplier}`);
+          effects.push(`Increases effect by ${parseInt((upgrade.powerMultiplier - 1) * 100, 10)}%`);
         }
-      } else if (upgrade.type === 'wordValue') {
-        effects.push(`Multiplies base word value by ${upgrade.multiplier}`);
-      } else if (upgrade.type === 'jobs') {
-        if (upgrade.cooldownReduction) {
-          effects.push(`Reduces job cooldown by ${upgrade.cooldownReduction}`);
+        if (upgrade.wordMultiplier) {
+          effects.push(`Increases word generation by ${parseInt((upgrade.wordMultiplier - 1) * 100, 10)}%`);
+        }
+        if (upgrade.cooldownMultiplier) {
+          effects.push(`Reduces cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
         }
         if (upgrade.rewardMultiplier) {
-          effects.push(`Multiplies job reward by ${upgrade.rewardMultiplier}`);
+          effects.push(`Increases reward by ${parseInt((upgrade.rewardMultiplier - 1) * 100, 10)}%`);
+        }
+        if (upgrade.timerMultiplier) {
+          effects.push(`Increases timer by ${parseInt((upgrade.timerMultiplier - 1) * 100, 10)}%`);
         }
       }
 
@@ -180,6 +202,10 @@ export default {
           }
           return true;
         });
+      } else if (upgrade.type === 'jobs') {
+        return this.statistics.jobs.gte(5);
+      } else if (upgrade.type === 'urgentJobs') {
+        return this.statistics.urgentJobs.gte(3);
       } else {
         // show upgrade when player has 1/2 money
         metRequirements = this.money.gte(upgrade.cost.div(2));

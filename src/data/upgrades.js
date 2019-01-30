@@ -118,10 +118,46 @@ export default {
       cost: 1E8,
       powerMultiplier: 1.25,
     },
+    {
+      cost: 1E9,
+      powerMultiplier: 1.25,
+    },
+    // word generation
+    {
+      cost: 5E2,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E3,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E4,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E5,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E6,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E7,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E8,
+      wordMultiplier: 2,
+    },
+    {
+      cost: 5E9,
+      wordMultiplier: 2,
+    },
   ],
 
   // costs are multiples of worker base cost
-  // TODO balance
   genericWorker: [
     {
       cost: 5,
@@ -175,39 +211,39 @@ export default {
     // cooldown reduction
     {
       cost: 1E2,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E3,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E4,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E5,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E6,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E7,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E8,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E9,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E10,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     // reward multiplier
     {
@@ -237,6 +273,46 @@ export default {
     {
       cost: 1E8,
       rewardMultiplier: 1.5,
+    },
+  ],
+
+  // urgent jobs
+  urgentJobs: [
+    {
+      cost: 5E3,
+      cooldownMultiplier: 0.75,
+    },
+    {
+      cost: 5E6,
+      cooldownMultiplier: 0.75,
+    },
+    {
+      cost: 5E9,
+      cooldownMultiplier: 0.75,
+    },
+    {
+      cost: 5E4,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E7,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E10,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E5,
+      rewardMultiplier: 2,
+    },
+    {
+      cost: 5E8,
+      rewardMultiplier: 2,
+    },
+    {
+      cost: 5E11,
+      rewardMultiplier: 2,
     },
   ],
 

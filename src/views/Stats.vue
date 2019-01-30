@@ -27,6 +27,10 @@
           <td>{{ statistics.jobs | round }}</td>
         </tr>
         <tr>
+          <th>Urgent Jobs Completed</th>
+          <td>{{ statistics.urgentJobs | round }}</td>
+        </tr>
+        <tr>
           <th>Upgrades Bought</th>
           <td>{{ statistics.upgrades | round }} ({{ upgradePercent }}%)</td>
         </tr>

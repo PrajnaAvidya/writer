@@ -44,15 +44,18 @@
 </template>
 
 <script>
-// libraries/utils
+// external libs
 import Big from 'big.js';
+import Noty from 'noty';
 import { mapState, mapMutations } from 'vuex';
+// internal libs
 import calculateWorkerWps from '@/utils/calculateWorkerWps';
 import generateWorkerData from '@/utils/generateWorkerData';
 import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
+import generateJobs from '@/utils/generateJobs';
 // components
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
@@ -75,6 +78,7 @@ export default {
     nextStatUpdate: 0,
 
     buzzActive: false,
+    urgentJobNotification: null,
   }),
   computed: {
     ...mapState([
@@ -89,8 +93,20 @@ export default {
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
-      'jobRewardMultiplier',
       'caffeineWordGeneration',
+      'jobRewardMultiplier',
+      'jobCooldown',
+      'urgentJobActive',
+      'urgentJobExpiration',
+      'urgentJobMinimumTime',
+      'urgentJobMaximumTime',
+      'urgentJobTimestamp',
+      'urgentJobTimer',
+      'urgentJobExpires',
+      'urgentJobCountdown',
+      'urgentJobMinimumTime',
+      'urgentJobMaximumTime',
+      'urgentJobRewardMultiplier',
     ]),
   },
   created() {
@@ -98,6 +114,9 @@ export default {
   },
   mounted() {
     this.registerEvents();
+
+    // set time for next urgent job
+    this.setNextUrgentJob();
 
     // subscribe to mutations
     this.$store.subscribe((mutation, state) => {
@@ -118,6 +137,7 @@ export default {
       this.calculateWorkerCosts();
     },
     registerEvents() {
+      this.$root.$on('notify', this.notify);
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
       this.$root.$on('hireWorker', this.hireWorker);
@@ -132,10 +152,15 @@ export default {
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
+      this.$root.$on('multiplyCaffeineWords', this.multiplyCaffeineWords);
       this.$root.$on('reduceCaffeineCooldown', this.reduceCaffeineCooldown);
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
-      this.$root.$on('reduceJobCooldown', this.reduceJobCooldown);
+      this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
       this.$root.$on('multiplyJobReward', this.multiplyJobReward);
+      this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
+      this.$root.$on('multiplyUrgentJobCooldown', this.multiplyUrgentJobCooldown);
+      this.$root.$on('multiplyUrgentJobTimer', this.multiplyUrgentJobTimer);
+      this.$root.$on('multiplyUrgentJobReward', this.multiplyUrgentJobReward);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -158,6 +183,37 @@ export default {
       } else if (this.buzzActive && this.endCaffeineTime <= unixTimestamp()) {
         this.buzzActive = false;
         this.updateData({ index: 'buzzActive', value: false });
+      }
+
+      // check urgent job
+      if (unixTimestamp() >= this.urgentJobTimestamp) {
+        if (!this.urgentJobActive) {
+          console.log('urgent job!');
+          // generate job
+          this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
+          // show notification
+          this.urgentJobNotification = this.notify(`Urgent Job<br>${this.urgentJobTimer} seconds left to accept`, {
+            type: 'error',
+            timeout: (this.urgentJobTimer - 0.75) * 1000,
+            closeWith: 'button',
+            buttons: [
+              Noty.button('Go to Agency', 'button is-link', () => {
+                this.$router.push('/agency');
+              }, { id: 'button1', 'data-status': 'ok' }),
+            ],
+          });
+          this.updateData({ index: 'urgentJobActive', value: true });
+        } else if (unixTimestamp() >= this.urgentJobExpiration) {
+          console.log('urgent job expired');
+          this.updateData({ index: 'urgentJobActive', value: false });
+          this.urgentJobNotification.close();
+          this.setNextUrgentJob();
+        }
+      }
+      if (this.urgentJobActive) {
+        // update countdowns
+        this.updateData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - unixTimestamp()) / 1000, 10) });
+        this.urgentJobNotification.setText(`Urgent Job<br>${this.urgentJobCountdown} seconds left to accept`);
       }
 
       // how much to divide progress for current tick
@@ -183,6 +239,15 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
+    // notifications
+    notify(text, config = {}) {
+      const defaultConfig = {
+        text,
+        type: 'success',
+        timeout: 3000,
+      };
+      return new Noty(Object.assign(defaultConfig, config)).show();
+    },
     // player input
     write() {
       let words = this.playerWords;
@@ -193,34 +258,29 @@ export default {
       this.addWords(words);
     },
     multiplyClickingWords(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
     },
     // caffeine
     coffee() {
       if (unixTimestamp() >= this.nextCaffeineTime) {
         this.activateCaffeine();
+        // show message
+        this.notify('You feel buzzed', {
+          type: 'warning',
+        });
       }
     },
     reduceCaffeineCooldown(amount) {
-      if (amount < 1) {
-        return;
-      }
       this.adjustCaffeineTimer(-amount);
     },
     multiplyCaffeineLength(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'caffeineTime', value: amount });
     },
     multiplyCaffeinePower(amount) {
-      if (amount <= 1) {
-        return;
-      }
       this.updateData({ index: 'caffeineClickMultiplier', value: this.caffeineClickMultiplier.times(amount) });
+    },
+    multiplyCaffeineWords(amount) {
+      this.updateData({ index: 'caffeineWordGeneration', value: this.caffeineWordGeneration.times(amount) });
     },
     // workers/upgrades
     hireWorker(id) {
@@ -269,19 +329,34 @@ export default {
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },
     // jobs
-    reduceJobCooldown(amount) {
-      if (amount < 1) {
-        return;
-      }
-
-      this.adjustJobTimer(-amount);
+    multiplyJobCooldown(amount) {
+      this.updateData({ index: 'jobCooldown', value: this.jobCooldown * amount });
     },
     multiplyJobReward(amount) {
-      if (amount <= 1) {
-        return;
+      this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
+    },
+    // urgent jobs
+    setNextUrgentJob() {
+      const time = randomInt(this.urgentJobMinimumTime, this.urgentJobMaximumTime);
+      console.log(`next urgent job in ${time} seconds`);
+      if (this.urgentJobNotification) {
+        this.urgentJobNotification.close();
       }
 
-      this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
+      this.updateData({ index: 'urgentJobActive', value: false });
+      this.updateData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
+      this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
+    },
+    multiplyUrgentJobCooldown(amount) {
+      this.updateData({ index: 'urgentJobMinimumTime', value: amount * this.urgentJobMinimumTime });
+      this.updateData({ index: 'urgentJobMaximumTime', value: amount * this.urgentJobMaximumTime });
+    },
+    multiplyUrgentJobTimer(amount) {
+      this.updateData({ index: 'urgentJobTimer', value: amount * this.urgentJobTimer });
+      this.updateData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * this.urgentJobTimer) });
+    },
+    multiplyUrgentJobReward(amount) {
+      this.updateData({ index: 'urgentJobRewardMultiplier', value: this.urgentJobRewardMultiplier.times(amount) });
     },
     // economy
     addMoney(money) {
@@ -314,15 +389,12 @@ export default {
       }
     },
     multiplyWordValue(amount) {
-      if (amount > 1) {
-        this.currency.wordValue = this.currency.wordValue.times(amount);
-        this.updateWpsMps();
-      }
+      this.currency.wordValue = this.currency.wordValue.times(amount);
+      this.updateWpsMps();
     },
     // === end methods ===
     ...mapMutations([
       'addToStat',
-      'adjustJobTimer',
       'activateCaffeine',
       'adjustCaffeineTimer',
       'setWorkers',
