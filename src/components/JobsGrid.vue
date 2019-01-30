@@ -93,11 +93,12 @@
           </td>
           <td style="width: 180px">
             <a
-              class="button is-small is-primary"
+              class="button is-small is-primary is-tooltip-right"
+              :class="{ 'tooltip': job.words.gt(words) }"
               :disabled="urgentJob.words.gt(words)"
               @click="completeUrgentJob()"
             >
-              Sell Words
+              Take Job
             </a>
           </td>
         </tr>
