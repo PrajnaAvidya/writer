@@ -1,6 +1,7 @@
 <template>
   <div class="jobs">
     <a
+      v-if="debugMode"
       class="button is-small is-primary"
       @click="newJobs()"
     >
@@ -137,6 +138,7 @@ export default {
       'urgentJobActive',
       'urgentJobCountdown',
       'urgentJobRewardMultiplier',
+      'debugMode',
     ]),
     ...mapGetters([
       'words',

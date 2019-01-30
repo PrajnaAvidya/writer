@@ -6,11 +6,13 @@
     <div>
       Words per Second: {{ workerWps | round }}
     </div>
-    <div>
-      Base $ per Second (DEBUG): {{ workerMps | moneyCents }}
-    </div>
-    <div>
-      Base Word Value (DEBUG): {{ words.times(wordValue) | moneyCents }}
+    <div v-if="debugMode">
+      <div>
+        Base $ per Second (DEBUG): {{ workerMps | moneyCents }}
+      </div>
+      <div>
+        Base Word Value (DEBUG): {{ words.times(wordValue) | moneyCents }}
+      </div>
     </div>
     <div>
       Money: {{ money | moneyCents }}
@@ -27,6 +29,7 @@ export default {
     ...mapState([
       'workerWps',
       'workerMps',
+      'debugMode',
     ]),
     ...mapGetters([
       'words',

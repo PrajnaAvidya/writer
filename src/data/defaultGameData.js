@@ -2,6 +2,8 @@ import Big from 'big.js';
 import workerIndex from '@/utils/workerIndex';
 
 export default {
+  debugMode: false,
+
   // currencies
   currency: {
     words: Big(0),
