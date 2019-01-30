@@ -65,11 +65,12 @@
         v-else
       >
         <div
-          class="job-cooldown"
+          class="job-cooldown tooltip"
+          :data-tooltip="`${jobTimer[job.id]}`"
         >
           <progress
             class="progress is-info"
-            :value="jobTimer[job.id]"
+            :value="jobProgress[job.id]"
             :max="jobCooldown * 1000"
           />
         </div>
@@ -122,11 +123,17 @@ export default {
       3: true,
       4: true,
     },
-    jobTimer: {
+    jobProgress: {
       1: 0,
       2: 0,
       3: 0,
       4: 0,
+    },
+    jobTimer: {
+      1: null,
+      2: null,
+      3: null,
+      4: null,
     },
     interval: null,
   }),
@@ -182,7 +189,8 @@ export default {
           }
         } else if (!this.jobAvailable[jobId]) {
           // update progress bar
-          this.jobTimer[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
+          this.jobProgress[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
+          this.jobTimer[jobId] = `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`;
         }
       }
     },
@@ -200,7 +208,7 @@ export default {
       this.$root.$emit('subtractWords', job.words);
 
       // show message
-      this.$root.$emit('notify', 'Job Complete');
+      this.$root.$emit('notify', `Job Complete: ${job.name}`);
 
       // start cooldown
       this.resetJobTimer(job.id);

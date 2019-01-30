@@ -107,7 +107,7 @@ export default {
       }
 
       // show message
-      this.$root.$emit('notify', 'Upgrade Purchased');
+      this.$root.$emit('notify', `Upgrade Purchased: ${upgrade.name}`);
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);

@@ -1,5 +1,7 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 change icon with writing upgrade
+caffeine click bug?
+upgrade names & design to distinguish type by more than text
 
 CORE TODO:
 rework unfolding/progression
@@ -10,6 +12,7 @@ google analytics/event tracking
 click animations
 
 FUTURE IDEAS/TODO:
+click job bar for faster progress (upgrade)
 prevent notification spam when buying tons of upgrades
 job slots as upgrades (randomize job lengths?)
 reroll job as upgrade (with a cooldown)
