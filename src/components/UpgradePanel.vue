@@ -84,8 +84,8 @@ export default {
       } else if (upgrade.type === 'wordValue') {
         this.$root.$emit('multiplyWordValue', upgrade.multiplier);
       } else if (upgrade.type === 'jobs') {
-        if (upgrade.cooldownReduction) {
-          this.$root.$emit('reduceJobCooldown', upgrade.cooldownReduction);
+        if (upgrade.cooldownMultiplier) {
+          this.$root.$emit('multiplyJobCooldown', upgrade.cooldownMultiplier);
         }
         if (upgrade.rewardMultiplier) {
           this.$root.$emit('multiplyJobReward', upgrade.rewardMultiplier);
@@ -123,8 +123,8 @@ export default {
       } else if (upgrade.type === 'wordValue') {
         effects.push(`Multiplies base word value by ${upgrade.multiplier}`);
       } else if (upgrade.type === 'jobs') {
-        if (upgrade.cooldownReduction) {
-          effects.push(`Reduces job cooldown by ${upgrade.cooldownReduction}`);
+        if (upgrade.cooldownMultiplier) {
+          effects.push(`Reduces job cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
         }
         if (upgrade.rewardMultiplier) {
           effects.push(`Multiplies job reward by ${upgrade.rewardMultiplier}`);

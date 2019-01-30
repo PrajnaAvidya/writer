@@ -84,8 +84,8 @@ export default function () {
       name: 'Jobs Upgrade',
       cost: Big(jobUpgrade.cost),
     };
-    if (jobUpgrade.cooldownReduction) {
-      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
+    if (jobUpgrade.cooldownMultiplier) {
+      upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
     }
     if (jobUpgrade.rewardMultiplier) {
       upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;

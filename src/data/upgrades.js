@@ -121,7 +121,6 @@ export default {
   ],
 
   // costs are multiples of worker base cost
-  // TODO balance
   genericWorker: [
     {
       cost: 5,
@@ -175,39 +174,39 @@ export default {
     // cooldown reduction
     {
       cost: 1E2,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E3,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E4,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E5,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E6,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E7,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E8,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E9,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     {
       cost: 1E10,
-      cooldownReduction: 30,
+      cooldownMultiplier: 0.75,
     },
     // reward multiplier
     {

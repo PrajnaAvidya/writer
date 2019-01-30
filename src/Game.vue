@@ -137,7 +137,7 @@ export default {
       this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
       this.$root.$on('reduceCaffeineCooldown', this.reduceCaffeineCooldown);
       this.$root.$on('multiplyWordValue', this.multiplyWordValue);
-      this.$root.$on('reduceJobCooldown', this.reduceJobCooldown);
+      this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
       this.$root.$on('multiplyJobReward', this.multiplyJobReward);
     },
     // === start global update loop ===
@@ -294,12 +294,12 @@ export default {
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },
     // jobs
-    reduceJobCooldown(amount) {
-      if (amount < 1) {
+    multiplyJobCooldown(amount) {
+      if (amount <= 0) {
         return;
       }
 
-      this.adjustJobTimer(-amount);
+      this.multiplyJobTimer(amount);
     },
     multiplyJobReward(amount) {
       if (amount <= 1) {
@@ -347,7 +347,7 @@ export default {
     // === end methods ===
     ...mapMutations([
       'addToStat',
-      'adjustJobTimer',
+      'multiplyJobTimer',
       'activateCaffeine',
       'adjustCaffeineTimer',
       'setWorkers',
