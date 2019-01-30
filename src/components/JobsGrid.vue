@@ -81,7 +81,7 @@
             {{ urgentJob.words | round }}
           </td>
           <td style="width: 400px">
-            {{ urgentJob.name }}
+            {{ urgentJob.name }} ({{ urgentJobCountdown }} seconds remaining)
           </td>
           <td style="width: 120px">
             {{ jobRewardMultiplier.times(urgentJob.payment) | money }}
@@ -135,6 +135,7 @@ export default {
       'workerWps',
       'urgentJob',
       'urgentJobActive',
+      'urgentJobCountdown',
     ]),
     ...mapGetters([
       'words',

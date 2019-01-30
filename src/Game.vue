@@ -103,6 +103,7 @@ export default {
       'urgentJobTimestamp',
       'urgentJobTimer',
       'urgentJobExpires',
+      'urgentJobCountdown',
     ]),
   },
   created() {
@@ -181,11 +182,11 @@ export default {
       // check urgent job
       if (unixTimestamp() >= this.urgentJobTimestamp) {
         if (!this.urgentJobActive) {
+          console.log('urgent job!');
           // generate job
           this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
-          // TODO show countdown
-          console.log('urgent job!');
-          this.urgentJobNotification = this.notify('Urgent Job', {
+          // show notification
+          this.urgentJobNotification = this.notify(`Urgent Job<br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
             timeout: (this.urgentJobTimer - 0.75) * 1000,
             closeWith: 'button',
@@ -198,10 +199,15 @@ export default {
           this.updateData({ index: 'urgentJobActive', value: true });
         } else if (unixTimestamp() >= this.urgentJobExpiration) {
           console.log('urgent job expired');
-          this.urgentJobNotification.close();
           this.updateData({ index: 'urgentJobActive', value: false });
+          this.urgentJobNotification.close();
           this.setNextUrgentJob();
         }
+      }
+      if (this.urgentJobActive) {
+        // update countdowns
+        this.updateData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - unixTimestamp()) / 1000, 10) });
+        this.urgentJobNotification.setText(`Urgent Job<br>${this.urgentJobCountdown} seconds left to accept`);
       }
 
       // how much to divide progress for current tick

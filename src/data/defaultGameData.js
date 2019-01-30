@@ -43,9 +43,10 @@ export default {
   urgentJobActive: false,
   urgentJobTimestamp: null,
   urgentJobExpiration: null,
-  urgentJobMinimumTime: 300,
-  urgentJobMaximumTime: 900,
-  urgentJobTimer: 30,
+  urgentJobMinimumTime: 2,
+  urgentJobMaximumTime: 2,
+  urgentJobTimer: 5,
+  urgentJobCountdown: 0,
 
   // workers
   buyAmount: 1,
