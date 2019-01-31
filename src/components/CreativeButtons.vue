@@ -4,7 +4,7 @@
       <a
         class="button is-primary is-large tooltip is-tooltip-right"
         :data-tooltip="tooltip"
-        @click="$root.$emit('write')"
+        @click="$root.$emit('write', $event)"
       >
         <i
           class="fas fa-4x"

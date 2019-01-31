@@ -62,6 +62,7 @@ import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
+import animatePlus from '@/utils/animatePlus';
 
 export default {
   name: 'Game',
@@ -250,6 +251,10 @@ export default {
     // === start methods ===
     // effects
     loopEffect(data, amount, ms = 333) {
+      if (amount.eq(0)) {
+        return;
+      }
+
       const vm = this;
       let loopAmount = 10;
       if (amount.abs().lt(10)) {
@@ -272,13 +277,23 @@ export default {
       return new Noty(Object.assign(defaultConfig, config)).show();
     },
     // player input
-    write() {
+    write(event) {
       let words = this.playerWords;
       if (this.buzzActive) {
         words = words.times(this.caffeineClickMultiplier);
       }
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
+
+      // show floating + animation
+      animatePlus({
+        x: event.clientX,
+        y: event.clientY,
+        value: words,
+        time: 500,
+        height: 150,
+        disappearFrom: 0.25,
+      });
     },
     multiplyClickingWords(amount) {
       this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
@@ -452,12 +467,17 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #game {
   text-align: center;
 }
 .nav {
   padding-top: 0px;
   padding-bottom: 0px;
+}
+.floating-plus {
+  font-weight: bold;
+  position : absolute;
+  color: #DE636F;
 }
 </style>

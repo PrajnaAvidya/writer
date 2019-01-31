@@ -1,5 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-change icon with writing upgrade
 upgrade names & design to distinguish type by more than text
 
 CORE TODO:
@@ -12,9 +11,7 @@ click animations
 refactor stuff to watch property when better
 
 FUTURE IDEAS/TODO:
-salvage some random clicker features
-- particle/webgl effects
-- anything else? the subreddit sim gimmick for flavor texts?
+steal whatever good stuff is left from random clicker (subreddit sim gimmick?)
 "motivate" workers by clicking them
 click job bar for faster progress (upgrade -- cheeve currency?)
 prevent notification spam when buying tons of upgrades
