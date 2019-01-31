@@ -293,8 +293,8 @@ export default {
 
       // show floating + animation
       animatePlus({
-        x: event.clientX - 5,
-        y: event.clientY - 20,
+        x: event.pageX - 5,
+        y: event.pageY - 20,
         value: words,
         time: 500,
         height: 150,

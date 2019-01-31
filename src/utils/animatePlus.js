@@ -5,7 +5,7 @@ export default function ({ x, y, value, time = 500, height = 100, disappearFrom 
   const dvPlus = document.createElement('div');
   dvPlus.className = 'floating-plus';
   dvPlus.innerHTML = `+${round(value)}`;
-  dvPlus.style.left = `${x - (dvPlus.offsetWidth >> 1)}px`;
+  dvPlus.style.left = `${x}px`;
   document.body.appendChild(dvPlus);
 
   // actually animate it
@@ -14,7 +14,7 @@ export default function ({ x, y, value, time = 500, height = 100, disappearFrom 
     opacity: 1,
   },
   {
-    top: `${y - ~~(height * disappearFrom)}px`,
+    top: `${y - (height * disappearFrom)}px`,
     opacity: 1,
     offset: disappearFrom,
   },
