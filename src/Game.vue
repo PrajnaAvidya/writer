@@ -336,6 +336,7 @@ export default {
       // buy & increment
       this.subtractMoney(this.workers[id].costs[this.buyAmountIndex]);
       this.workers[id].quantity += this.buyAmount;
+      this.addToStat({ stat: 'workers', amount: this.buyAmount });
 
       // recalculate stuff
       this.calculateWorkerCosts();
@@ -369,7 +370,9 @@ export default {
       this.setUpgrades(newUpgrades);
     },
     updateWpsMps() {
-      this.updateData({ index: 'workerWps', value: calculateWorkerWps(this.workers) });
+      const workerWps = calculateWorkerWps(this.workers);
+      this.updateData({ index: 'workerWps', value: workerWps.total });
+      this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },
     // jobs

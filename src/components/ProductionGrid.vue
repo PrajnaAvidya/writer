@@ -17,10 +17,10 @@
             @click="$root.$emit('hireWorker', worker.id)"
           >
             <span v-if="buyAmount === 1">
-              Hire {{ worker.name }}
+              <strong>Hire {{ worker.name }}</strong>
             </span>
             <span v-else>
-              Hire {{ buyAmount }} {{ worker.pluralName }}
+              <strong>Hire {{ buyAmount }} {{ worker.pluralName }}</strong>
             </span>
           </a>
         </div>
@@ -29,7 +29,9 @@
         </div>
         <div class="column">
           <span v-if="worker.quantity > 0">
-            {{ worker.pluralName }}: {{ worker.quantity | round }}
+            <strong>{{ worker.pluralName }}: {{ worker.quantity | round }}</strong>
+            <br>
+            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ individualWorkerWps[worker.id].div(workerWps).times(100) | roundDecimal }}%)
           </span>
         </div>
       </div>
@@ -63,6 +65,8 @@ export default {
       'buyAmountIndex',
       'workers',
       'assignments',
+      'workerWps',
+      'individualWorkerWps',
     ]),
     ...mapGetters([
       'money',

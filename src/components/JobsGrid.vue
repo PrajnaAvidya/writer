@@ -16,13 +16,13 @@
           <th style="width: 140px">
             Word Count
           </th>
-          <th style="width: 400px">
+          <th style="width: 380px">
             Job Name
           </th>
           <th style="width: 120px">
             Payment
           </th>
-          <th style="width: 180px">
+          <th style="width: 200px">
             Actions
           </th>
         </tr>

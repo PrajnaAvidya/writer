@@ -3,15 +3,19 @@
 import Big from 'big.js';
 
 export default function (workers) {
-  let words = Big(0);
+  let total = Big(0);
+  const worker = {};
   Object.keys(workers).forEach((workerId) => {
-    const worker = workers[workerId];
-
-    const wordContribution = worker.productivityMultiplier.times(worker.baseProductivity).times(worker.quantity);
+    const wordContribution = workers[workerId].productivityMultiplier.times(workers[workerId].baseProductivity).times(workers[workerId].quantity);
 
     if (wordContribution.gt(0)) {
-      words = words.plus(wordContribution);
+      total = total.plus(wordContribution);
     }
+    worker[workerId] = wordContribution;
   });
-  return words;
+
+  return {
+    total,
+    worker,
+  };
 }

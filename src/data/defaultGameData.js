@@ -61,6 +61,7 @@ export default {
   assignments: workerIndex(0),
   workerWps: Big(0),
   workerMps: Big(0),
+  individualWorkerWps: {},
 
   // upgrades
   upgrades: {},
@@ -76,6 +77,7 @@ export default {
     money: Big(0),
     moneySpent: Big(0),
     caffeines: Big(0),
+    workers: Big(0),
     jobs: Big(0),
     urgentJobs: Big(0),
     upgrades: Big(0),

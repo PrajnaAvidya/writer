@@ -23,6 +23,10 @@
           <td>{{ statistics.caffeines | round }}</td>
         </tr>
         <tr>
+          <th>Workers Bought</th>
+          <td>{{ statistics.workers | round }}</td>
+        </tr>
+        <tr>
           <th>Jobs Completed</th>
           <td>{{ statistics.jobs | round }}</td>
         </tr>
