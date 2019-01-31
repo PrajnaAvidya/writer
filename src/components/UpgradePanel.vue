@@ -7,6 +7,11 @@
       :class="{ 'is-hidden': !revealedUpgrades[upgrade.id] && !canSeeUpgrade(upgrade) }"
     >
       <div class="column">
+        <i
+          v-if="upgrade.icon"
+          class="fas fa-lg worker-icon"
+          :class="upgrade.icon"
+        />
         <strong>{{ upgrade.name }}</strong>
       </div>
       <div class="column">

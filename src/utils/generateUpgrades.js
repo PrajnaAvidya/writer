@@ -68,6 +68,7 @@ export default function () {
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
         multipliers: {},
+        icon: worker.icon,
       };
       upgrade.requirements[worker.id] = genericUpgrade.requirement;
       if (genericUpgrade.multiplier) {

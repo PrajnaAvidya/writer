@@ -1,6 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-show worker icons on worker/upgrade page
-icon for caffeine/achievements
+icon for caffeine button/upgrade/achievements
 icons for job/words/money/wps/mps achievements
 name for achievement currency
 show locked cheeves with ? on screen (and maybe a hint)
