@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Big from 'big.js';
+import shuffle from 'lodash/shuffle';
 import unixTimestamp from '@/utils/unixTimestamp';
 import defaultData from '@/data/defaultGameData';
+import adjectives from '@/data/adjectives';
 
 Vue.use(Vuex);
 
@@ -47,6 +49,9 @@ export default new Vuex.Store({
     },
     updateData(state, { index, value }) {
       state[index] = value;
+    },
+    loadAdjectives(state) {
+      state.adjectives = shuffle(adjectives);
     },
   },
 

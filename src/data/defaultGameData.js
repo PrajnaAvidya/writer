@@ -64,6 +64,9 @@ export default {
   upgrades: {},
   revealedUpgrades: {},
 
+  // words
+  adjectives: {},
+
   // stats
   statistics: {
     words: Big(0),

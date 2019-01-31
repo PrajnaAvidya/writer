@@ -3,6 +3,7 @@
 import Big from 'big.js';
 import upgradeData from '@/data/upgrades';
 import workers from '@/data/workers';
+import store from '@/store';
 
 export default function () {
   const upgrades = {};
@@ -15,7 +16,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'caffeine',
-      name: 'Caffeine Upgrade',
+      name: `${store.state.adjectives.pop()} Caffeine`,
       cost: Big(caffeineUpgrade.cost),
     };
 
@@ -42,7 +43,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'clicking',
-      name: 'Clicking Upgrade',
+      name: `${store.state.adjectives.pop()} Clicking`,
       cost: Big(clickingUpgrade.cost),
     };
     if (clickingUpgrade.writingMultiplier) {
@@ -63,7 +64,7 @@ export default function () {
       const upgrade = {
         id,
         type: 'worker',
-        name: `${worker.name} Upgrade`,
+        name: `${store.state.adjectives.pop()} ${worker.plural}`,
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
         multipliers: {},
@@ -84,7 +85,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'jobs',
-      name: 'Jobs Upgrade',
+      name: `${store.state.adjectives.pop()} Jobs`,
       cost: Big(jobUpgrade.cost),
     };
     if (jobUpgrade.cooldownMultiplier) {
@@ -104,7 +105,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'urgentJobs',
-      name: 'Urgent Jobs Upgrade',
+      name: `${store.state.adjectives.pop()} Urgent Jobs`,
       cost: Big(jobUpgrade.cost),
     };
     if (jobUpgrade.cooldownMultiplier) {
@@ -127,7 +128,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'wordValue',
-      name: 'Word Value Upgrade',
+      name: `${store.state.adjectives.pop()} Word Value`,
       cost: Big(wordValueUpgrade.cost),
       multiplier: wordValueUpgrade.multiplier,
     };

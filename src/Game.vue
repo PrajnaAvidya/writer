@@ -113,8 +113,6 @@ export default {
     this.setupData();
   },
   mounted() {
-    this.registerEvents();
-
     // set time for next urgent job
     this.setNextUrgentJob();
 
@@ -126,11 +124,13 @@ export default {
     });
 
     // start game
+    this.registerEvents();
     window.requestAnimationFrame(this.tick);
   },
   methods: {
     // generate all the initial data
     setupData() {
+      this.loadAdjectives();
       this.setWorkers(generateWorkerData());
       this.setUpgrades(generateUpgrades());
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
@@ -400,6 +400,7 @@ export default {
       'setWorkers',
       'setUpgrades',
       'updateData',
+      'loadAdjectives',
     ]),
   },
 };
