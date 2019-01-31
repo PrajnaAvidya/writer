@@ -13,6 +13,8 @@ export default {
 
   // player words (clicking)
   playerWords: Big(1),
+  playerIcon: '',
+  playerIcons: [],
 
   // caffeine
   buzzActive: false,
@@ -65,7 +67,7 @@ export default {
   revealedUpgrades: {},
 
   // words
-  adjectives: {},
+  adjectives: [],
 
   // stats
   statistics: {

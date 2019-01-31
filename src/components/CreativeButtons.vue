@@ -6,7 +6,10 @@
         :data-tooltip="tooltip"
         @click="$root.$emit('write')"
       >
-        <i class="fas fa-pen fa-4x" />
+        <i
+          class="fas fa-4x"
+          :class="playerIcon"
+        />
       </a>
     </div>
   </div>
@@ -24,6 +27,7 @@ export default {
     ...mapState([
       'playerWords',
       'buzzActive',
+      'playerIcon',
     ]),
   },
   watch: {

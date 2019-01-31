@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'UpgradePanel',
@@ -38,6 +38,7 @@ export default {
       'upgrades',
       'revealedUpgrades',
       'statistics',
+      'playerIcons',
     ]),
     ...mapGetters([
       'money',
@@ -71,6 +72,11 @@ export default {
       } else if (upgrade.type === 'clicking') {
         if (upgrade.writingMultiplier) {
           this.$root.$emit('multiplyClickingWords', upgrade.writingMultiplier);
+          // upgrade icon
+          const icon = this.playerIcons.pop();
+          if (icon !== undefined) {
+            this.updateData({ index: 'playerIcon', value: icon });
+          }
         }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
@@ -217,6 +223,9 @@ export default {
       this.revealedUpgrades[upgrade.id] = true;
       return true;
     },
+    ...mapMutations([
+      'updateData',
+    ]),
   },
 };
 </script>

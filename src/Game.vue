@@ -139,6 +139,7 @@ export default {
     // generate all the initial data
     setupData() {
       this.loadAdjectives();
+      this.loadPlayerIcons();
       this.setWorkers(generateWorkerData());
       this.setUpgrades(generateUpgrades());
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
@@ -445,6 +446,7 @@ export default {
       'setUpgrades',
       'updateData',
       'loadAdjectives',
+      'loadPlayerIcons',
     ]),
   },
 };

@@ -5,6 +5,7 @@ import shuffle from 'lodash/shuffle';
 import unixTimestamp from '@/utils/unixTimestamp';
 import defaultData from '@/data/defaultGameData';
 import adjectives from '@/data/adjectives';
+import playerIcons from '@/data/playerIcons';
 
 Vue.use(Vuex);
 
@@ -52,6 +53,10 @@ export default new Vuex.Store({
     },
     loadAdjectives(state) {
       state.adjectives = shuffle(adjectives);
+    },
+    loadPlayerIcons(state) {
+      state.playerIcons = playerIcons.reverse();
+      state.playerIcon = state.playerIcons.pop();
     },
   },
 
