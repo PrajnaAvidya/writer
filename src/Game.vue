@@ -87,6 +87,7 @@ export default {
   }),
   computed: {
     ...mapState([
+      'debugMode',
       'currency',
       'buyAmount',
       'buyAmountIndex',
@@ -127,6 +128,11 @@ export default {
         this.calculateWorkerCosts();
       }
     });
+
+    if (this.debugMode) {
+      this.currency.words = Big(1E9);
+      this.currency.money = Big(1E9);
+    }
 
     // loop currency
     this.loopEffect('displayedWords', this.currency.words);
@@ -287,8 +293,8 @@ export default {
 
       // show floating + animation
       animatePlus({
-        x: event.clientX,
-        y: event.clientY,
+        x: event.clientX - 5,
+        y: event.clientY - 20,
         value: words,
         time: 500,
         height: 150,
@@ -479,5 +485,10 @@ export default {
   font-weight: bold;
   position : absolute;
   color: #DE636F;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
 }
 </style>

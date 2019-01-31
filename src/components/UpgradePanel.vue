@@ -128,7 +128,7 @@ export default {
         }
       } else {
         if (upgrade.type === 'wordValue') {
-          effects.push(`Increases base word value by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+          effects.push(`Increases base word value (& job payments) by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
         }
         if (upgrade.writingMultiplier) {
           effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
