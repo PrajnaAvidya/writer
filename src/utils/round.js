@@ -68,6 +68,6 @@ export default function (inputValue, userOptions = {}) {
 
   // TODO suffix for over 1E303
 
-  // number is basically infinity at this point
-  return '∞';
+  // return exponential because we've exhausted other options
+  return value.toExponential(3);
 }
