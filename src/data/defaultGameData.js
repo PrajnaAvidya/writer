@@ -18,10 +18,10 @@ export default {
 
   // caffeine
   buzzActive: false,
-  caffeineTime: 45,
+  caffeineTime: 30,
   caffeineCooldown: 600,
   caffeineClickMultiplier: Big(2),
-  caffeineWordGeneration: Big(2),
+  caffeineWordGeneration: Big(3),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
 

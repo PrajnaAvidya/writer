@@ -204,7 +204,6 @@ export default {
       // check urgent job
       if (unixTimestamp() >= this.urgentJobTimestamp) {
         if (!this.urgentJobActive) {
-          console.log('urgent job!');
           // generate job
           this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
           // show notification
@@ -220,7 +219,6 @@ export default {
           });
           this.updateData({ index: 'urgentJobActive', value: true });
         } else if (unixTimestamp() >= this.urgentJobExpiration) {
-          console.log('urgent job expired');
           this.updateData({ index: 'urgentJobActive', value: false });
           this.urgentJobNotification.close();
           this.setNextUrgentJob();
@@ -385,7 +383,6 @@ export default {
     // urgent jobs
     setNextUrgentJob() {
       const time = randomInt(this.urgentJobMinimumTime, this.urgentJobMaximumTime);
-      console.log(`next urgent job in ${time} seconds`);
       if (this.urgentJobNotification) {
         this.urgentJobNotification.close();
       }
