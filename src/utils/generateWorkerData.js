@@ -25,6 +25,7 @@ export default function () {
       costMultiplier: worker.costMultiplier,
       baseProductivity: worker.productivity,
       productivityMultiplier: Big(1),
+      icon: worker.icon,
     };
     if (workers[previousId]) {
       workers[previousId].nextId = worker.id;

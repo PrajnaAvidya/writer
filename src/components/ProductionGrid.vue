@@ -13,9 +13,13 @@
         <div class="column">
           <a
             :disabled="worker.costs[buyAmountIndex].gt(money)"
-            class="button"
+            class="button buy-button"
             @click="$root.$emit('hireWorker', worker.id)"
           >
+            <i
+              class="fas fa-2x worker-icon"
+              :class="worker.icon"
+            />
             <span v-if="buyAmount === 1">
               <strong>Hire {{ worker.name }}</strong>
             </span>
@@ -109,5 +113,11 @@ export default {
 .not-hired {
   margin-top: -5px;
   margin-bottom: -5px;
+}
+.worker-icon {
+  margin-right: 10px;
+}
+.buy-button {
+  padding: 25px 15px;
 }
 </style>

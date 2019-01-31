@@ -1,5 +1,9 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-upgrade ui rework to distinguish type by more than text
+show worker icons on worker/upgrade page
+icon for caffeine/achievements
+icons for job/words/money/wps/mps achievements
+name for achievement currency
+show locked cheeves with ? on screen (and maybe a hint)
 
 CORE TODO:
 rework unfolding/progression
