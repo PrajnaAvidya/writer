@@ -4,6 +4,7 @@
 
     <section class="section stats">
       <CurrencyDisplay
+        :words="displayedWords"
         :money="displayedMoney"
       />
 
@@ -71,6 +72,7 @@ export default {
     CurrencyDisplay,
   },
   data: () => ({
+    displayedWords: Big(0),
     displayedMoney: Big(0),
 
     newWords: Big(0),
@@ -126,7 +128,8 @@ export default {
     });
 
     // loop currency
-    this.loopMoney(this.currency.money);
+    this.loopEffect('displayedWords', this.currency.words);
+    this.loopEffect('displayedMoney', this.currency.money);
 
     // start game
     this.registerEvents();
@@ -244,7 +247,8 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
-    loopMoney(amount, ms = 333) {
+    // effects
+    loopEffect(data, amount, ms = 333) {
       const vm = this;
       let loopAmount = 10;
       if (amount.abs().lt(10)) {
@@ -253,7 +257,7 @@ export default {
       const tickAmount = amount.div(loopAmount);
       for (let i = 0; i < loopAmount; i += 1) {
         setTimeout(() => {
-          vm.displayedMoney = vm.displayedMoney.plus(tickAmount);
+          vm[data] = vm[data].plus(tickAmount);
         }, i * ms / loopAmount);
       }
     },
@@ -273,7 +277,7 @@ export default {
         words = words.times(this.caffeineClickMultiplier);
       }
       this.addToStat({ stat: 'clickWords', amount: words });
-      this.addWords(words);
+      this.addWords(words, true);
     },
     multiplyClickingWords(amount) {
       this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
@@ -383,9 +387,8 @@ export default {
       this.addToStat({ stat: 'money', amount: money });
 
       // loop in effect
-      // TODO if there's ever money being added in tick(), determine if it should loop or not (money > 10% mps)
-      if (loop) {
-        this.loopMoney(money);
+      if (loop && money.gt(this.currency.money.div(1000))) {
+        this.loopEffect('displayedMoney', money);
       } else {
         this.displayedMoney = this.displayedMoney.plus(money);
       }
@@ -399,25 +402,34 @@ export default {
       }
 
       // loop in effect
-      // TODO if there's ever money being added in tick(), determine if it should loop or not (money > 10% mps)
-      if (loop) {
-        this.loopMoney(money.times(-1), 166);
+      if (loop && money.gt(this.currency.money.div(1000))) {
+        this.loopEffect('displayedMoney', money.times(-1), 166);
       } else {
         this.displayedMoney = this.displayedMoney.minus(money);
       }
     },
-    addWords(words) {
-      if (words.gt(0)) {
-        this.currency.words = this.currency.words.plus(words);
-        this.addToStat({ stat: 'words', amount: words });
+    addWords(words, loop = false) {
+      this.currency.words = this.currency.words.plus(words);
+      this.addToStat({ stat: 'words', amount: words });
+
+      // loop in effect
+      if (loop && words.gt(this.workerWps.div(10))) {
+        this.loopEffect('displayedWords', words);
+      } else {
+        this.displayedWords = this.displayedWords.plus(words);
       }
     },
-    subtractWords(words) {
-      if (words.gt(0)) {
-        this.currency.words = this.currency.words.minus(words);
-        if (this.currency.words.lt(0)) {
-          this.currency.words = Big(0);
-        }
+    subtractWords(words, loop = true) {
+      this.currency.words = this.currency.words.minus(words);
+      if (this.currency.words.lt(0)) {
+        this.currency.words = Big(0);
+      }
+
+      // loop in effect
+      if (loop && words.gt(this.workerWps.div(10))) {
+        this.loopEffect('displayedWords', words.times(-1), 166);
+      } else {
+        this.displayedWords = this.displayedWords.plus(words);
       }
     },
     multiplyWordValue(amount) {
