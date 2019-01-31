@@ -25,6 +25,12 @@ import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'CurrencyDisplay',
+  props: {
+    money: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     ...mapState([
       'workerWps',
@@ -33,7 +39,6 @@ export default {
     ]),
     ...mapGetters([
       'words',
-      'money',
       'wordValue',
     ]),
   },

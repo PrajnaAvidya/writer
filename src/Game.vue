@@ -3,7 +3,9 @@
     <IntroModal />
 
     <section class="section stats">
-      <CurrencyDisplay />
+      <CurrencyDisplay
+        :money="displayedMoney"
+      />
 
       <CaffeineBuzz
         :buzz-active="buzzActive"
@@ -69,11 +71,11 @@ export default {
     CurrencyDisplay,
   },
   data: () => ({
-    // stats tracking
+    displayedMoney: Big(0),
+
     newWords: Big(0),
     newClickWords: Big(0),
 
-    // used for tick function
     lastFrame: 0,
     nextStatUpdate: 0,
 
@@ -122,6 +124,9 @@ export default {
         this.calculateWorkerCosts();
       }
     });
+
+    // loop currency
+    this.loopMoney(this.currency.money);
 
     // start game
     this.registerEvents();
@@ -239,6 +244,19 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
+    loopMoney(amount, ms = 333) {
+      const vm = this;
+      let loopAmount = 10;
+      if (amount.abs().lt(10)) {
+        loopAmount = amount;
+      }
+      const tickAmount = amount.div(loopAmount);
+      for (let i = 0; i < loopAmount; i += 1) {
+        setTimeout(() => {
+          vm.displayedMoney = vm.displayedMoney.plus(tickAmount);
+        }, i * ms / loopAmount);
+      }
+    },
     // notifications
     notify(text, config = {}) {
       const defaultConfig = {
@@ -359,19 +377,33 @@ export default {
       this.updateData({ index: 'urgentJobRewardMultiplier', value: this.urgentJobRewardMultiplier.times(amount) });
     },
     // economy
-    addMoney(money) {
-      if (money.gt(0)) {
-        this.currency.money = this.currency.money.plus(money);
-        this.addToStat({ stat: 'money', amount: money });
+    addMoney(money, loop = true) {
+      // add money
+      this.currency.money = this.currency.money.plus(money);
+      this.addToStat({ stat: 'money', amount: money });
+
+      // loop in effect
+      // TODO if there's ever money being added in tick(), determine if it should loop or not (money > 10% mps)
+      if (loop) {
+        this.loopMoney(money);
+      } else {
+        this.displayedMoney = this.displayedMoney.plus(money);
       }
     },
-    subtractMoney(money) {
-      if (money.gt(0)) {
-        this.currency.money = this.currency.money.minus(money);
-        this.addToStat({ stat: 'moneySpent', amount: money });
-        if (this.currency.money.lt(0)) {
-          this.currency.money = Big(0);
-        }
+    subtractMoney(money, loop = true) {
+      // subtract money
+      this.currency.money = this.currency.money.minus(money);
+      this.addToStat({ stat: 'moneySpent', amount: money });
+      if (this.currency.money.lt(0)) {
+        this.currency.money = Big(0);
+      }
+
+      // loop in effect
+      // TODO if there's ever money being added in tick(), determine if it should loop or not (money > 10% mps)
+      if (loop) {
+        this.loopMoney(money.times(-1), 166);
+      } else {
+        this.displayedMoney = this.displayedMoney.minus(money);
       }
     },
     addWords(words) {
