@@ -1,4 +1,5 @@
 MOVE ACTION ITEMS TO HACKNPLAN
+make base job cooldown longer
 
 CORE TODO:
 rework unfolding/progression
@@ -7,6 +8,7 @@ art direction/design
 google analytics/event tracking
 
 FUTURE IDEAS/TODO:
+caffeine hurry mechanic similar to jobs
 subreddit sim flavor text gimmick?
 prevent notification spam when buying tons of upgrades
 more requirements for non-worker upgrades
@@ -36,7 +38,7 @@ POTENTIAL CHEEVE CURRENCY UPGRADES:
 job slots
 job cooldown
 "motivate" workers by clicking them
-click job bar for faster progress
+bar click multiplier
 auto drink caffeine
 caffeine affecting workers
 "crit" feature for clicking
@@ -51,7 +53,7 @@ EARLY PROGRESSION
 intro/story modal
 click a few times
 introduce caffeine
-introduce jobs
+introduce jobs (show click to hurry)
 introduce workers
 introduce urgent jobs
 introduce upgrades

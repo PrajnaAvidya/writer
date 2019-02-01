@@ -4,8 +4,8 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // debug
   debugMode: false,
-  debugStartingWords: Big(1E3),
-  debugStartingMoney: Big(1E3),
+  debugStartingWords: Big(10000),
+  debugStartingMoney: Big(10000),
   debugCaffeineCooldown: 5,
   debugJobCooldown: 5,
 

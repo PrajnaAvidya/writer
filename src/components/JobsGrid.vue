@@ -74,6 +74,7 @@
         <div
           class="job-cooldown tooltip"
           :data-tooltip="`${jobTimer[job.id]}`"
+          @click="hurryCooldown(job.id)"
         >
           <progress
             class="progress is-info"
@@ -245,10 +246,14 @@ export default {
       // reset urgent job
       this.$root.$emit('setNextUrgentJob');
     },
+    hurryCooldown(jobId) {
+      this.speedJobCooldown({ jobId, seconds: 1 });
+    },
     ...mapMutations([
       'resetJobTimer',
       'updateData',
       'addToStat',
+      'speedJobCooldown',
     ]),
   },
 };
