@@ -102,11 +102,12 @@
           <td style="width: 180px">
             <a
               class="button is-small is-primary is-tooltip-right"
+              data-tooltip="Not enough words"
               :class="{ 'tooltip': urgentJob.words.gt(words) }"
               :disabled="urgentJob.words.gt(words)"
               @click="completeUrgentJob()"
             >
-              Take Job
+              Complete
             </a>
           </td>
         </tr>
