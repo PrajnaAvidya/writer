@@ -1,9 +1,11 @@
 import Noty from 'noty';
+import notifyIconText from '@/utils/notifyIconText';
 
 export default function (text, config = {}) {
   if (config.icon) {
-    text = `<div style="float: left;margin-right:15px;"><i class="fas ${config.icon} fa-2x"></i></div><div style="float: left;margin-bottom:9px;">${text}</div>`;
+    text = notifyIconText(text, config.icon);
   }
+  console.log(text);
   const defaultConfig = {
     text,
     type: 'success',

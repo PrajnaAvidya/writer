@@ -39,6 +39,7 @@ import workerCost from '@/utils/workerCost';
 import generateJobs from '@/utils/generateJobs';
 import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
+import notifyIconText from '@/utils/notifyIconText';
 // components
 import IntroModal from '@/components/Modals/IntroModal.vue';
 import NavBar from '@/components/NavBar.vue';
@@ -357,6 +358,7 @@ export default {
           // show notification
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
+            icon: 'fa-bullhorn',
             timeout: (this.urgentJobTimer - 0.75) * 1000,
             closeWith: 'button',
             buttons: [
@@ -378,7 +380,7 @@ export default {
       if (this.urgentJobActive) {
         // update countdowns
         this.updateData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - unixTimestamp()) / 1000, 10) });
-        this.urgentJobNotification.setText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`);
+        this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
       }
     },
     setNextUrgentJob() {

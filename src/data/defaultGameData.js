@@ -6,8 +6,8 @@ export default {
   debugMode: true,
   debugStartingWords: Big(1E9),
   debugStartingMoney: Big(1E9),
-  debugCaffeineCooldown: 1,
-  debugJobCooldown: 1,
+  debugCaffeineCooldown: 5,
+  debugJobCooldown: 5,
 
   playerName: '',
 
