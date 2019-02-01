@@ -218,7 +218,7 @@ export default {
             closeWith: 'button',
             buttons: [
               Noty.button('Go to Agency', 'button is-link', () => {
-                this.$router.push('/agency');
+                this.$router.push('/jobs');
               }, { id: 'button1', 'data-status': 'ok' }),
             ],
           });
