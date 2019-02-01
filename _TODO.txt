@@ -1,9 +1,6 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-icon for caffeine button/achievements
-icon for job upgrades
-icons for job/words/money/wps/mps achievements
-name for achievement currency
-show locked cheeves with ? on screen (and maybe a hint)
+icon for caffeine button
+icons in nav?
 
 CORE TODO:
 rework unfolding/progression
@@ -30,6 +27,11 @@ achievement currency/upgrades
 independent releases (later game after contracts)
 - based on reputation maybe?
 - do we introduce another fans/readers currency? TBD
+
+ACHIEVEMENT TODO:
+currency name/values
+show locked cheeves with ? on screen (and maybe a hint)
+caffeine/job/words/money/wps/mps achievements
 
 POTENTIAL CHEEVE CURRENCY UPGRADES:
 job slots

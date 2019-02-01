@@ -90,7 +90,7 @@ export default function () {
       type: 'jobs',
       name: `${store.state.adjectives.pop()} Jobs`,
       cost: Big(jobUpgrade.cost),
-      // TODO icon
+      icon: 'fa-briefcase',
     };
     if (jobUpgrade.cooldownMultiplier) {
       upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
@@ -111,7 +111,7 @@ export default function () {
       type: 'urgentJobs',
       name: `${store.state.adjectives.pop()} Urgent Jobs`,
       cost: Big(jobUpgrade.cost),
-      // TODO icon
+      icon: 'fa-bullhorn',
     };
     if (jobUpgrade.cooldownMultiplier) {
       upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
