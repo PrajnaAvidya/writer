@@ -1,5 +1,19 @@
 <template>
   <div id="game">
+    <BaseModal
+      ref="modal"
+      :initial-state="true"
+    >
+      asdfasdfasdfasdf
+      <template slot="footer">
+        <button
+          class="button"
+          @click="$refs.modal.close()"
+        >
+          OK
+        </button>
+      </template>
+    </BaseModal>
     <IntroModal />
 
     <section class="section stats">
@@ -57,16 +71,18 @@ import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
 import generateJobs from '@/utils/generateJobs';
+import animatePlus from '@/utils/animatePlus';
 // components
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import IntroModal from '@/components/IntroModal.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
-import animatePlus from '@/utils/animatePlus';
+import BaseModal from '@/components/BaseModal.vue';
 
 export default {
   name: 'Game',
   components: {
+    BaseModal, // TODO testing
     CreativeButtons,
     CaffeineBuzz,
     IntroModal,

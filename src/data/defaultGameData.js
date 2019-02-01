@@ -2,7 +2,7 @@ import Big from 'big.js';
 import workerIndex from '@/utils/workerIndex';
 
 export default {
-  debugMode: false,
+  debugMode: true,
 
   // currencies
   currency: {
