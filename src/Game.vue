@@ -1,33 +1,6 @@
 <template>
   <div id="game">
-    <BaseModal
-      ref="introModal"
-      title="Writer Incremental"
-      :initial-state="false"
-    >
-      <div class="field is-grouped">
-        You are a struggling writer named &nbsp;
-        <p class="control">
-          <input
-            v-model="playerName"
-            class="input test1234"
-            type="text"
-          >
-        </p>
-        &nbsp; down to your very
-      </div>
-      <div>
-        last dollar. Some instructions will go here telling you what to do first.
-      </div>
-      <template slot="footer">
-        <button
-          class="button"
-          @click="closeIntro()"
-        >
-          OK
-        </button>
-      </template>
-    </BaseModal>
+    <IntroModal />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -66,25 +39,22 @@ import workerCost from '@/utils/workerCost';
 import generateJobs from '@/utils/generateJobs';
 import animatePlus from '@/utils/animatePlus';
 // components
-import BaseModal from '@/components/BaseModal.vue';
+import IntroModal from '@/components/Modals/IntroModal.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 
-
 export default {
   name: 'Game',
   components: {
-    BaseModal,
     NavBar,
+    IntroModal,
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
   },
   data: () => ({
-    playerName: 'Rafiq',
-
     displayedWords: Big(0),
     displayedMoney: Big(0),
 
@@ -242,10 +212,6 @@ export default {
 
     // === start methods ===
     // ui/effects
-    closeIntro() {
-      this.updateData({ index: 'playerName', value: this.playerName });
-      this.$refs.introModal.close();
-    },
     loopEffect(data, amount, ms = 333) {
       if (amount.eq(0)) {
         return;
