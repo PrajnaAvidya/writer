@@ -1,6 +1,7 @@
 MOVE ACTION ITEMS TO HACKNPLAN
 icon for caffeine button
 icons in nav?
+name feature
 
 CORE TODO:
 rework unfolding/progression
