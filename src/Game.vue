@@ -43,27 +43,7 @@
       <CreativeButtons />
     </section>
 
-    <section class="section nav">
-      <div id="nav">
-        <hr>
-        <RouterLink to="/workers">
-          Workers
-        </RouterLink>
-        |
-        <RouterLink to="/jobs">
-          Jobs
-        </RouterLink>
-        |
-        <RouterLink to="/upgrades">
-          Upgrades
-        </RouterLink>
-        |
-        <RouterLink to="/stats">
-          Stats
-        </RouterLink>
-        <hr>
-      </div>
-    </section>
+    <NavBar />
 
     <section class="section main">
       <RouterView />
@@ -87,6 +67,7 @@ import generateJobs from '@/utils/generateJobs';
 import animatePlus from '@/utils/animatePlus';
 // components
 import BaseModal from '@/components/BaseModal.vue';
+import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
@@ -95,7 +76,8 @@ import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 export default {
   name: 'Game',
   components: {
-    BaseModal, // TODO testing
+    BaseModal,
+    NavBar,
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
