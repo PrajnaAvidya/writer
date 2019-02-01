@@ -9,7 +9,7 @@
       <div class="column">
         <i
           v-if="upgrade.icon"
-          class="fas fa-lg worker-icon"
+          class="fas fa-lg upgrade-icon"
           :class="upgrade.icon"
         />
         <strong>{{ upgrade.name }}</strong>
@@ -236,5 +236,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.upgrade-icon {
+  margin-right: 5px;
+}
 </style>

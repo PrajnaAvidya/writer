@@ -18,6 +18,7 @@ export default function () {
       type: 'caffeine',
       name: `${store.state.adjectives.pop()} Caffeine`,
       cost: Big(caffeineUpgrade.cost),
+      icon: 'fa-coffee',
     };
 
     if (caffeineUpgrade.cooldownReduction) {
@@ -45,6 +46,7 @@ export default function () {
       type: 'clicking',
       name: `${store.state.adjectives.pop()} Clicking`,
       cost: Big(clickingUpgrade.cost),
+      icon: 'fa-mouse-pointer',
     };
     if (clickingUpgrade.writingMultiplier) {
       upgrade.writingMultiplier = clickingUpgrade.writingMultiplier;
@@ -88,6 +90,7 @@ export default function () {
       type: 'jobs',
       name: `${store.state.adjectives.pop()} Jobs`,
       cost: Big(jobUpgrade.cost),
+      // TODO icon
     };
     if (jobUpgrade.cooldownMultiplier) {
       upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
@@ -108,6 +111,7 @@ export default function () {
       type: 'urgentJobs',
       name: `${store.state.adjectives.pop()} Urgent Jobs`,
       cost: Big(jobUpgrade.cost),
+      // TODO icon
     };
     if (jobUpgrade.cooldownMultiplier) {
       upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
@@ -132,6 +136,7 @@ export default function () {
       name: `${store.state.adjectives.pop()} Word Value`,
       cost: Big(wordValueUpgrade.cost),
       multiplier: wordValueUpgrade.multiplier,
+      icon: 'fa-dollar-sign',
     };
 
     upgrades[id] = upgrade;
