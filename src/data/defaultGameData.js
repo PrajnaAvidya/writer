@@ -2,7 +2,11 @@ import Big from 'big.js';
 import workerIndex from '@/utils/workerIndex';
 
 export default {
+  // debug
   debugMode: true,
+  debugStartingWords: Big(1E9),
+  debugStartingMoney: Big(1E9),
+  debugCaffeineCooldown: 1,
 
   playerName: '',
 

@@ -3,6 +3,7 @@
     <div class="column">
       <a
         class="button is-primary is-large tooltip is-tooltip-right"
+        :class="{ pulse: buzzActive }"
         :data-tooltip="tooltip"
         @click="$root.$emit('write', $event)"
       >

@@ -38,6 +38,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
 import generateJobs from '@/utils/generateJobs';
 import animatePlus from '@/utils/animatePlus';
+import notify from '@/utils/notify';
 // components
 import IntroModal from '@/components/Modals/IntroModal.vue';
 import NavBar from '@/components/NavBar.vue';
@@ -78,6 +79,7 @@ export default {
       'workerQuantities',
       'workerWps',
       'playerWords',
+      'caffeineTime',
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
@@ -95,16 +97,20 @@ export default {
       'urgentJobMinimumTime',
       'urgentJobMaximumTime',
       'urgentJobRewardMultiplier',
+      'debugStartingWords',
+      'debugStartingMoney',
+      'debugCaffeineCooldown',
     ]),
   },
   created() {
     this.setupData();
   },
   mounted() {
-    // enable cheats if debug
+    // check for debug mode
     if (this.debugMode) {
-      this.currency.words = Big(1E9);
-      this.currency.money = Big(1E9);
+      this.currency.words = this.debugStartingWords;
+      this.currency.money = this.debugStartingMoney;
+      this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
       this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
       this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
     }
@@ -137,7 +143,6 @@ export default {
       if (this.debugMode) {
         console.log('registering events');
       }
-      this.$root.$on('notify', this.notify);
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
       this.$root.$on('hireWorker', this.hireWorker);
@@ -178,9 +183,15 @@ export default {
 
       // check caffeine
       if (!this.buzzActive && this.endCaffeineTime > unixTimestamp()) {
+        if (this.debugMode) {
+          console.log('buzz active');
+        }
         this.buzzActive = true;
         this.updateData({ index: 'buzzActive', value: true });
       } else if (this.buzzActive && this.endCaffeineTime <= unixTimestamp()) {
+        if (this.debugMode) {
+          console.log('buzz ending');
+        }
         this.buzzActive = false;
         this.updateData({ index: 'buzzActive', value: false });
       }
@@ -229,18 +240,6 @@ export default {
         }, i * ms / loopAmount);
       }
     },
-    // notifications
-    notify(text, config = {}) {
-      if (this.debugMode) {
-        console.log(`notification: ${text}`);
-      }
-      const defaultConfig = {
-        text,
-        type: 'success',
-        timeout: 5000,
-      };
-      return new Noty(Object.assign(defaultConfig, config)).show();
-    },
     // player input
     write(event) {
       let words = this.playerWords;
@@ -268,8 +267,9 @@ export default {
       if (unixTimestamp() >= this.nextCaffeineTime) {
         this.activateCaffeine();
         // show message
-        this.notify('You feel buzzed', {
+        notify('You feel buzzed', {
           type: 'warning',
+          timeout: this.caffeineTime * 1000,
         });
       }
     },
@@ -353,7 +353,7 @@ export default {
           // generate job
           this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
           // show notification
-          this.urgentJobNotification = this.notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
+          this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
             timeout: (this.urgentJobTimer - 0.75) * 1000,
             closeWith: 'button',

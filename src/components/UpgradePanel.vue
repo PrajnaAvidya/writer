@@ -36,6 +36,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
+import notify from '@/utils/notify';
 
 export default {
   name: 'UpgradePanel',
@@ -120,7 +121,7 @@ export default {
       }
 
       // show message
-      this.$root.$emit('notify', `Upgrade Purchased: ${upgrade.name}`);
+      notify(`Upgrade Purchased: ${upgrade.name}`);
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);

@@ -2,7 +2,7 @@
   <BaseModal
     ref="modal"
     title="Writer Incremental"
-    :initial-state="true"
+    :initial-state="false"
   >
     <div class="field is-grouped">
       You are a struggling writer named &nbsp;

@@ -120,6 +120,7 @@ import Big from 'big.js';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import generateJobs from '@/utils/generateJobs';
 import unixTimestamp from '@/utils/unixTimestamp';
+import notify from '@/utils/notify';
 
 export default {
   name: 'JobsGrid',
@@ -215,7 +216,7 @@ export default {
       this.$root.$emit('subtractWords', job.words);
 
       // show message
-      this.$root.$emit('notify', `Job Complete: ${job.name}`);
+      notify(`Job Complete: ${job.name}`);
 
       // set as completed
       this.jobs[job.id].completed = true;
@@ -238,7 +239,7 @@ export default {
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
 
       // show message
-      this.$root.$emit('notify', 'Urgent Job Complete');
+      notify(`Urgent Job Complete: ${job.name}`);
 
       // reset urgent job
       this.$root.$emit('setNextUrgentJob');

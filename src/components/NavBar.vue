@@ -3,27 +3,23 @@
     <div id="nav">
       <hr>
       <RouterLink to="/workers">
-        <span class="nav-link">
-          Workers
-        </span>
+        <i class="fas fa-building fa-lg" />
+        Workers
       </RouterLink>
       |
       <RouterLink to="/jobs">
-        <span class="nav-link">
-          Jobs
-        </span>
+        <i class="fas fa-briefcase fa-lg" />
+        Jobs
       </RouterLink>
       |
       <RouterLink to="/upgrades">
-        <span class="nav-link">
-          Upgrades
-        </span>
+        <i class="fas fa-arrow-up fa-lg" />
+        Upgrades
       </RouterLink>
       |
       <RouterLink to="/stats">
-        <span class="nav-link">
-          Stats
-        </span>
+        <i class="fas fa-chart-line fa-lg" />
+        Stats
       </RouterLink>
       <hr>
     </div>
@@ -37,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav-link {
+.nav {
   font-size: 16pt;
 }
 </style>

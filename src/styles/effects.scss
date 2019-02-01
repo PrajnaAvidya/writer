@@ -1,0 +1,18 @@
+.pulse {
+  -webkit-animation: pulsate 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+}
+@-webkit-keyframes pulsate {
+  0% {-webkit-transform: scale(1.0, 1.0);}
+  50% {-webkit-transform: scale(1.05, 1.05);}
+  100% {-webkit-transform: scale(1.0, 1.0);}
+}
+.frenzy {
+  -webkit-animation: frenzy 0.5s ease-out;
+  -webkit-animation-iteration-count: infinite;
+}
+@-webkit-keyframes frenzy {
+  0% {-webkit-transform: scale(1.0, 1.0);}
+  50% {-webkit-transform: scale(1.15, 1.15);}
+  100% {-webkit-transform: scale(1.0, 1.0);}
+}
