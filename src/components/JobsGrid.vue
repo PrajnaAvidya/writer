@@ -13,16 +13,16 @@
     <table class="table">
       <thead>
         <tr>
-          <th style="width: 140px">
+          <th style="width: 140px;">
             Word Count
           </th>
-          <th style="width: 380px">
+          <th style="width: 350px;">
             Job Name
           </th>
-          <th style="width: 120px">
+          <th style="width: 120px;">
             Payment
           </th>
-          <th style="width: 200px">
+          <th style="width: 230px;">
             Actions
           </th>
         </tr>
@@ -41,13 +41,13 @@
             <td style="width: 140px">
               {{ job.words | round }}
             </td>
-            <td style="width: 400px">
+            <td style="width: 350px">
               {{ job.name }}
             </td>
             <td style="width: 120px">
               {{ jobRewardMultiplier.times(job.payment) | money }}
             </td>
-            <td style="width: 180px">
+            <td style="width: 230px">
               <a
                 class="button is-small is-primary is-tooltip-top"
                 :class="{ 'tooltip': job.words.gt(words) }"
@@ -94,13 +94,13 @@
           <td style="width: 140px">
             {{ urgentJob.words | round }}
           </td>
-          <td style="width: 400px">
+          <td style="width: 350px">
             {{ urgentJob.name }} ({{ urgentJobCountdown }} seconds remaining)
           </td>
           <td style="width: 120px">
             {{ jobRewardMultiplier.times(urgentJobRewardMultiplier).times(urgentJob.payment) | money }}
           </td>
-          <td style="width: 180px">
+          <td style="width: 230px">
             <a
               class="button is-small is-primary is-tooltip-right"
               data-tooltip="Not enough words"
