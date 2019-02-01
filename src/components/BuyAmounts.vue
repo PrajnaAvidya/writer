@@ -60,6 +60,9 @@ export default {
   width: 200px;
   margin: 0 auto;
   padding-bottom: 20px;
+  a {
+    background-color: white;
+  }
 }
 .tab-content {
   padding: 0 !important;

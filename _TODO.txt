@@ -1,6 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-icon for caffeine button
-icons in nav?
 name feature
 
 CORE TODO:
@@ -10,6 +8,8 @@ art direction/color scheme
 google analytics/event tracking
 
 FUTURE IDEAS/TODO:
+icons in nav?
+icons in notifications
 steal whatever good stuff is left from random clicker (subreddit sim flavor texts?)
 prevent notification spam when buying tons of upgrades
 more requirements for non-worker upgrades
@@ -30,6 +30,7 @@ independent releases (later game after contracts)
 - do we introduce another fans/readers currency? TBD
 
 ACHIEVEMENT TODO:
+notifications
 currency name/values
 show locked cheeves with ? on screen (and maybe a hint)
 caffeine/job/words/money/wps/mps achievements

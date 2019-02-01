@@ -3,22 +3,29 @@
     <div class="columns">
       <div class="column is-half">
         <a
-          class="button"
+          class="button caffeine-button"
           :disabled="buzzActive || coffeeAvailableTimer > 0"
           @click="$root.$emit('coffee')"
         >
-          Drink Coffee
+          <i
+            class="fas fa-2x fa-coffee caffeine-icon"
+          />
+          <strong>
+            Drink Coffee
+          </strong>
         </a>
       </div>
       <div class="column is-half">
-        <span v-if="buzzActive">
-          Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
-        </span>
-        <span v-else>
-          <span v-if="coffeeAvailableTimer > 0">
-            Coffee available in {{ coffeeAvailableTimer }} seconds
+        <div>
+          <span v-if="buzzActive">
+            Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
           </span>
-        </span>
+          <span v-else>
+            <span v-if="coffeeAvailableTimer > 0">
+              Coffee available in {{ coffeeAvailableTimer }} seconds
+            </span>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -68,5 +75,12 @@ export default {
 .caffeine {
   margin: 0 auto;
   width: 700px;
+}
+.caffeine-button {
+  background-color: $blue;
+  padding: 25px 15px;
+}
+.caffeine-icon {
+  margin-right: 5px;
 }
 </style>

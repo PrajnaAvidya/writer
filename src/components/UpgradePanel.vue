@@ -22,10 +22,12 @@
       <div class="column">
         <a
           :disabled="!canBuyUpgrade(upgrade)"
-          class="button"
+          class="button buy-upgrade"
           @click="buyUpgrade(upgrade)"
         >
-          {{ upgrade.cost | money }}
+          <strong>
+            {{ upgrade.cost | money }}
+          </strong>
         </a>
       </div>
     </div>
@@ -238,5 +240,10 @@ export default {
 <style lang="scss" scoped>
 .upgrade-icon {
   margin-right: 5px;
+}
+.buy-upgrade {
+  font-size: 14pt;
+  padding: 20px 15px;
+  background-color: $greenish;
 }
 </style>

@@ -119,5 +119,6 @@ export default {
 }
 .buy-button {
   padding: 25px 15px;
+  background-color: $blue;
 }
 </style>

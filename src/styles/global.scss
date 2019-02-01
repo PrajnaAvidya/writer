@@ -1,0 +1,24 @@
+html {
+  background-color: $light;
+}
+
+table {
+  background-color: $greenish;
+}
+
+.is-primary, .is-active > a {
+  background-color: $blue !important;
+  border-color: $blue !important;
+}
+
+a, i, strong {
+  color: $dark;
+}
+
+.noty_type__error {
+  background-color: $red !important;
+}
+
+.noty_type__success {
+  background-color: $blue !important;
+}

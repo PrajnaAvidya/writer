@@ -269,6 +269,6 @@ hr, .table, .progress {
   margin: 0;
 }
 .urgent {
-  background-color: #DE636F;
+  background-color: $red;
 }
 </style>
