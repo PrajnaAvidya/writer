@@ -273,6 +273,7 @@ export default {
         notify('You feel buzzed', {
           type: 'warning',
           timeout: this.caffeineTime * 1000,
+          icon: 'fa-bolt',
         });
       }
     },

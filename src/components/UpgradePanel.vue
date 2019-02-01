@@ -121,7 +121,7 @@ export default {
       }
 
       // show message
-      notify(`Upgrade Purchased: ${upgrade.name}`);
+      notify(`Upgrade Purchased: ${upgrade.name}`, { icon: 'fa-angle-double-up' });
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);

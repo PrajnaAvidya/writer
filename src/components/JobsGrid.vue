@@ -216,7 +216,7 @@ export default {
       this.$root.$emit('subtractWords', job.words);
 
       // show message
-      notify(`Job Complete: ${job.name}`);
+      notify(`Job Complete: ${job.name}`, { icon: 'fa-briefcase' });
 
       // set as completed
       this.jobs[job.id].completed = true;
@@ -239,7 +239,7 @@ export default {
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
 
       // show message
-      notify(`Urgent Job Complete: ${job.name}`);
+      notify(`Urgent Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });
 
       // reset urgent job
       this.$root.$emit('setNextUrgentJob');
