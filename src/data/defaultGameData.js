@@ -4,6 +4,8 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   debugMode: true,
 
+  playerName: '',
+
   // currencies
   currency: {
     words: Big(0),

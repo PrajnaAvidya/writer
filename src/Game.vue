@@ -22,7 +22,7 @@
       <template slot="footer">
         <button
           class="button"
-          @click="$refs.introModal.close()"
+          @click="closeIntro()"
         >
           OK
         </button>
@@ -259,7 +259,11 @@ export default {
     // === end global update loop ===
 
     // === start methods ===
-    // effects
+    // ui/effects
+    closeIntro() {
+      this.updateData({ index: 'playerName', value: this.playerName });
+      this.$refs.introModal.close();
+    },
     loopEffect(data, amount, ms = 333) {
       if (amount.eq(0)) {
         return;
