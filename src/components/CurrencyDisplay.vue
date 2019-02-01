@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div>
+    <div class="is-size-3">
       Words: {{ words | round }}
     </div>
-    <div>
+    <div class="is-size-6">
       Words per Second: {{ workerWps | round }}
     </div>
     <div v-if="debugMode">
@@ -14,7 +14,7 @@
         Base Word Value (DEBUG): {{ words.times(wordValue) | moneyCents }}
       </div>
     </div>
-    <div>
+    <div class="is-size-4">
       Money: {{ money | moneyCents }}
     </div>
   </div>

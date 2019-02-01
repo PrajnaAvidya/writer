@@ -121,4 +121,7 @@ export default {
   padding: 25px 15px;
   background-color: $blue;
 }
+.buy-button[disabled] {
+  background-color: $blue;
+}
 </style>

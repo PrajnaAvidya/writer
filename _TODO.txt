@@ -1,5 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-currency data zaz up
 
 CORE TODO:
 rework unfolding/progression
