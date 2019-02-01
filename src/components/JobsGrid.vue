@@ -262,9 +262,12 @@ export default {
   font-size: 150%;
 }
 .job-cooldown {
+  padding-left: 20px;
+  padding-right: 20px;
   height: 43px;
   display:flex;
   align-items:center;
+  background-color: $greenish;
 }
 hr, .table, .progress {
   margin: 0;

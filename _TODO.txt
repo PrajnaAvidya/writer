@@ -1,5 +1,4 @@
 MOVE ACTION ITEMS TO HACKNPLAN
-progress bar background color
 currency data zaz up
 
 CORE TODO:
