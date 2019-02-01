@@ -119,22 +119,18 @@ export default {
     this.setupData();
   },
   mounted() {
-    // set time for next urgent job
-    this.setNextUrgentJob();
-
-    // subscribe to mutations
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'setBuyAmountIndex') {
-        this.calculateWorkerCosts();
-      }
-    });
-
+    // enable cheats if debug
     if (this.debugMode) {
       this.currency.words = Big(1E9);
       this.currency.money = Big(1E9);
+      this.updateData({ index: 'urgentJobMinimumTime', value: 10 });
+      this.updateData({ index: 'urgentJobMaximumTime', value: 30 });
     }
 
-    // loop currency
+    // set time for next urgent job
+    this.setNextUrgentJob();
+
+    // loop in currency
     this.loopEffect('displayedWords', this.currency.words);
     this.loopEffect('displayedMoney', this.currency.money);
 
@@ -145,6 +141,9 @@ export default {
   methods: {
     // generate all the initial data
     setupData() {
+      if (this.debugMode) {
+        console.log('setting up initial data');
+      }
       this.loadAdjectives();
       this.loadPlayerIcons();
       this.setWorkers(generateWorkerData());
@@ -153,6 +152,9 @@ export default {
       this.calculateWorkerCosts();
     },
     registerEvents() {
+      if (this.debugMode) {
+        console.log('registering events');
+      }
       this.$root.$on('notify', this.notify);
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
@@ -204,6 +206,9 @@ export default {
       // check urgent job
       if (unixTimestamp() >= this.urgentJobTimestamp) {
         if (!this.urgentJobActive) {
+          if (this.debugMode) {
+            console.log('enabling urgent job');
+          }
           // generate job
           this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
           // show notification
@@ -219,6 +224,9 @@ export default {
           });
           this.updateData({ index: 'urgentJobActive', value: true });
         } else if (unixTimestamp() >= this.urgentJobExpiration) {
+          if (this.debugMode) {
+            console.log('urgent job expired');
+          }
           this.updateData({ index: 'urgentJobActive', value: false });
           this.urgentJobNotification.close();
           this.setNextUrgentJob();
@@ -273,6 +281,9 @@ export default {
     },
     // notifications
     notify(text, config = {}) {
+      if (this.debugMode) {
+        console.log(`notification: ${text}`);
+      }
       const defaultConfig = {
         text,
         type: 'success',
@@ -341,6 +352,9 @@ export default {
       this.updateWpsMps();
     },
     calculateWorkerCosts() {
+      if (this.debugMode) {
+        console.log('recalculating worker costs');
+      }
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
         if (this.workerQuantities[id] !== workers[id].quantity) {
@@ -354,10 +368,6 @@ export default {
       this.setWorkers(workers);
     },
     multiplyProductivity(data) {
-      if (data.amount <= 1) {
-        return;
-      }
-
       this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
       this.updateWpsMps();
     },
@@ -368,6 +378,9 @@ export default {
       this.setUpgrades(newUpgrades);
     },
     updateWpsMps() {
+      if (this.debugMode) {
+        console.log('recalculating wps');
+      }
       const workerWps = calculateWorkerWps(this.workers);
       this.updateData({ index: 'workerWps', value: workerWps.total });
       this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
@@ -385,6 +398,9 @@ export default {
       const time = randomInt(this.urgentJobMinimumTime, this.urgentJobMaximumTime);
       if (this.urgentJobNotification) {
         this.urgentJobNotification.close();
+      }
+      if (this.debugMode) {
+        console.log(`next urgent job in ${time}`);
       }
 
       this.updateData({ index: 'urgentJobActive', value: false });
