@@ -7,6 +7,7 @@ export default {
   debugStartingWords: Big(1E9),
   debugStartingMoney: Big(1E9),
   debugCaffeineCooldown: 1,
+  debugJobCooldown: 1,
 
   playerName: '',
 

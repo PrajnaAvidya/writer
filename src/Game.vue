@@ -100,6 +100,7 @@ export default {
       'debugStartingWords',
       'debugStartingMoney',
       'debugCaffeineCooldown',
+      'debugJobCooldown',
     ]),
   },
   created() {
@@ -111,6 +112,7 @@ export default {
       this.currency.words = this.debugStartingWords;
       this.currency.money = this.debugStartingMoney;
       this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
+      this.updateData({ index: 'jobCooldown', value: this.debugJobCooldown });
       this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
       this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
     }
