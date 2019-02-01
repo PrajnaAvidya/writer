@@ -1,20 +1,33 @@
 <template>
   <div id="game">
     <BaseModal
-      ref="modal"
-      :initial-state="true"
+      ref="introModal"
+      title="Writer Incremental"
+      :initial-state="false"
     >
-      asdfasdfasdfasdf
+      <div class="field is-grouped">
+        You are a struggling writer named &nbsp;
+        <p class="control">
+          <input
+            v-model="playerName"
+            class="input test1234"
+            type="text"
+          >
+        </p>
+        &nbsp; down to your very
+      </div>
+      <div>
+        last dollar. Some instructions will go here telling you what to do first.
+      </div>
       <template slot="footer">
         <button
           class="button"
-          @click="$refs.modal.close()"
+          @click="$refs.introModal.close()"
         >
           OK
         </button>
       </template>
     </BaseModal>
-    <IntroModal />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -73,11 +86,11 @@ import workerCost from '@/utils/workerCost';
 import generateJobs from '@/utils/generateJobs';
 import animatePlus from '@/utils/animatePlus';
 // components
+import BaseModal from '@/components/BaseModal.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
-import IntroModal from '@/components/IntroModal.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
-import BaseModal from '@/components/BaseModal.vue';
+
 
 export default {
   name: 'Game',
@@ -85,10 +98,11 @@ export default {
     BaseModal, // TODO testing
     CreativeButtons,
     CaffeineBuzz,
-    IntroModal,
     CurrencyDisplay,
   },
   data: () => ({
+    playerName: 'Rafiq',
+
     displayedWords: Big(0),
     displayedMoney: Big(0),
 
@@ -522,5 +536,8 @@ export default {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
+}
+.test1234 {
+  vertical-align: top;
 }
 </style>
