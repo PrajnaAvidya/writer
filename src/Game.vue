@@ -75,25 +75,31 @@ export default {
   }),
   computed: {
     ...mapState([
-      'debugMode',
+      // currency
       'currency',
-      'buyAmount',
-      'buyAmountIndex',
+      'playerWords',
+      // upgrades
       'upgrades',
+      // workers
       'workers',
       'workerQuantities',
       'workerWps',
-      'playerWords',
+      'buyAmount',
+      'buyAmountIndex',
+      // caffeine
       'caffeineTime',
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'caffeineWordGeneration',
+      // caffeine animations
       'caffeineAnimationNext',
       'caffeineAnimationInterval',
       'caffeineAnimationAmount',
+      // jobs
       'jobRewardMultiplier',
       'jobCooldown',
+      // urgent jobs
       'urgentJobActive',
       'urgentJobExpiration',
       'urgentJobMinimumTime',
@@ -105,10 +111,13 @@ export default {
       'urgentJobMinimumTime',
       'urgentJobMaximumTime',
       'urgentJobRewardMultiplier',
+      // debug
+      'debugMode',
       'debugStartingWords',
       'debugStartingMoney',
       'debugCaffeineCooldown',
       'debugJobCooldown',
+      'debugUrgentJobs',
     ]),
   },
   created() {
@@ -121,8 +130,10 @@ export default {
       this.currency.money = this.debugStartingMoney;
       this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debugJobCooldown });
-      this.updateData({ index: 'urgentJobMinimumTime', value: this.debugJobCooldown });
-      this.updateData({ index: 'urgentJobMaximumTime', value: this.debugJobCooldown });
+      if (this.debugUrgentJobs) {
+        this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
+        this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
+      }
     }
 
     // set time for next urgent job

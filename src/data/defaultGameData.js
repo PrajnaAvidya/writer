@@ -4,10 +4,11 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // debug
   debugMode: false,
-  debugStartingWords: Big(1E6),
-  debugStartingMoney: Big(1E6),
+  debugStartingWords: Big(0),
+  debugStartingMoney: Big(21),
   debugCaffeineCooldown: 5,
   debugJobCooldown: 5,
+  debugUrgentJobs: false,
 
   // name
   playerName: '',
