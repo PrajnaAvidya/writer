@@ -8,6 +8,11 @@ art direction/design
 google analytics/event tracking
 
 FUTURE IDEAS/TODO:
+random popup rewards
+- caffeine boost
+- +words
+- +money
+- reset job cooldowns
 caffeine hurry mechanic similar to jobs
 subreddit sim flavor text gimmick?
 prevent notification spam when buying tons of upgrades
