@@ -69,6 +69,7 @@ export default {
   workerWps: Big(0),
   workerMps: Big(0),
   individualWorkerWps: {},
+  workerTooltips: {},
 
   // upgrades
   upgrades: {},

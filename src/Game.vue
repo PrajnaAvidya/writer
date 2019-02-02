@@ -141,6 +141,7 @@ export default {
       this.setUpgrades(generateUpgrades());
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
       this.calculateWorkerCosts();
+      this.updateWpsMps();
     },
     registerEvents() {
       if (this.debugMode) {
@@ -337,6 +338,7 @@ export default {
       }
       const workerWps = calculateWorkerWps(this.workers);
       this.updateData({ index: 'workerWps', value: workerWps.total });
+      this.updateData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },

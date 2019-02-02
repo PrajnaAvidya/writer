@@ -5,17 +5,29 @@ import Big from 'big.js';
 export default function (workers) {
   let total = Big(0);
   const worker = {};
+  const tooltips = {};
   Object.keys(workers).forEach((workerId) => {
-    const wordContribution = workers[workerId].productivityMultiplier.times(workers[workerId].baseProductivity).times(workers[workerId].quantity);
+    const baseContrubution = workers[workerId].productivityMultiplier.times(workers[workerId].baseProductivity);
+    const totalContribution = baseContrubution.times(workers[workerId].quantity);
 
-    if (wordContribution.gt(0)) {
-      total = total.plus(wordContribution);
+    if (totalContribution.gt(0)) {
+      total = total.plus(totalContribution);
     }
-    worker[workerId] = wordContribution;
+    worker[workerId] = totalContribution;
+
+    // set tooltip
+    if (baseContrubution.eq(0)) {
+      tooltips[workerId] = 'Produces no words (useless!)';
+    } else if (baseContrubution.eq(1)) {
+      tooltips[workerId] = 'Produces 1 word per second';
+    } else {
+      tooltips[workerId] = `Produces ${baseContrubution} words per second`;
+    }
   });
 
   return {
     total,
     worker,
+    tooltips,
   };
 }

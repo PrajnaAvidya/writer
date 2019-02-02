@@ -13,7 +13,8 @@
         <div class="column">
           <a
             :disabled="worker.costs[buyAmountIndex].gt(money)"
-            class="button buy-button"
+            class="button buy-button tooltip"
+            :data-tooltip="workerTooltips[worker.id]"
             @click="$root.$emit('hireWorker', worker.id)"
           >
             <i
@@ -56,6 +57,7 @@ export default {
       'workers',
       'workerWps',
       'individualWorkerWps',
+      'workerTooltips',
     ]),
     ...mapGetters([
       'money',
