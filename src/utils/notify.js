@@ -5,7 +5,6 @@ export default function (text, config = {}) {
   if (config.icon) {
     text = notifyIconText(text, config.icon);
   }
-  console.log(text);
   const defaultConfig = {
     text,
     type: 'success',
