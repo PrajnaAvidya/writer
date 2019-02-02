@@ -1,9 +1,12 @@
-MOVE ACTION ITEMS TO HACKNPLAN
-make base job cooldown longer
+current jobs system is fucked because the carrot just keeps dangling further away when you dont accept or it regens.
+
+worker/jobs/upgrade/cooldown/economy/etc balance
+don't show higher level unbought upgrades
+show wps per worker on grid next to % contribution
+show caffeine buzz wps contribution on screen
 
 CORE TODO:
 rework unfolding/progression
-find more stats to track
 art direction/design
 google analytics/event tracking
 
@@ -14,17 +17,12 @@ random popup rewards
 - +money
 - reset job cooldowns
 caffeine hurry mechanic similar to jobs
-subreddit sim flavor text gimmick?
 prevent notification spam when buying tons of upgrades
 more requirements for non-worker upgrades
 reputation currency
 - get from finishing jobs -- more quality = more reputation
 - make it unlock different things than money
 a polynomial growth worker (ie someone who hires students, and then someone/something that increases that)
-some sort of quality/creativity average for words written
-- minimum quality for job completion
-- player + workers (and upgradeable for both)
-- job reward % based on quality level (reputation, not money)
 tutorial/tooltips
 turn words into better/edited words
 achievement currency/upgrades
