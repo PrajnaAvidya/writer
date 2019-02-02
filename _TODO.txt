@@ -4,18 +4,9 @@ worker/jobs/upgrade/cooldown/economy/etc balance
 don't show higher level unbought upgrades
 show wps per worker on grid next to % contribution
 show caffeine buzz wps contribution on screen
-
-CORE TODO:
 rework unfolding/progression
-art direction/design
-google analytics/event tracking
 
 FUTURE IDEAS/TODO:
-random popup rewards
-- caffeine boost
-- +words
-- +money
-- reset job cooldowns
 caffeine hurry mechanic similar to jobs
 prevent notification spam when buying tons of upgrades
 more requirements for non-worker upgrades
@@ -30,27 +21,6 @@ achievement currency/upgrades
 book releases (later game after contracts)
 - based on reputation maybe?
 - do we introduce a fans/readers currency? TBD
-
-ACHIEVEMENT TODO:
-notifications
-currency name/values
-show locked cheeves with ? on screen (and maybe a hint)
-caffeine/job/words/money/wps/mps achievements
-
-POTENTIAL CHEEVE CURRENCY UPGRADES:
-job slots
-job cooldown
-"motivate" workers by clicking them
-bar click multiplier
-auto drink caffeine
-caffeine affecting workers
-"crit" feature for clicking
-super caffeine
-
-WRITING/LORE TODO:
-upgrade names/flavor texts
-worker flavor texts
-intro modal story
 
 EARLY PROGRESSION
 intro/story modal
