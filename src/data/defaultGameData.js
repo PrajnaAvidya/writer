@@ -66,7 +66,6 @@ export default {
   buyAmountIndex: 0,
   workers: {},
   workerQuantities: workerIndex(0),
-  assignments: workerIndex(0),
   workerWps: Big(0),
   workerMps: Big(0),
   individualWorkerWps: {},

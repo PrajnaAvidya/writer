@@ -49,52 +49,17 @@ import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'ProductionGrid',
-  data: () => ({
-    previousAssignments: {},
-    slider: {
-      lineHeight: 8,
-      processStyle: {
-        backgroundColor: '#3273DC',
-      },
-      tooltipStyles: {
-        backgroundColor: '#3273DC',
-        borderColor: '#3273DC',
-        color: '#3273DC',
-      },
-    },
-  }),
   computed: {
     ...mapState([
       'buyAmount',
       'buyAmountIndex',
       'workers',
-      'assignments',
       'workerWps',
       'individualWorkerWps',
     ]),
     ...mapGetters([
       'money',
     ]),
-  },
-  watch: {
-    assignments: {
-      handler(val) {
-        Object.keys(this.assignments).forEach((workerId) => {
-          if (this.assignments[workerId] !== this.previousAssignments[workerId]) {
-            const balance = val[workerId];
-
-            // send new balance value to Game
-            this.$root.$emit('updateWorkerBalance', { workerId, balance });
-
-            this.previousAssignments[workerId] = val[workerId];
-          }
-        });
-      },
-      deep: true,
-    },
-  },
-  mounted() {
-    this.previousAssignments = Object.assign({}, this.assignments);
   },
   methods: {
     showWorker(worker) {
