@@ -32,6 +32,10 @@ export default {
   caffeineWordGeneration: Big(3),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
+  // caffeine animation
+  caffeineAnimationInterval: 1,
+  caffeineAnimationAmount: '1',
+  caffeineAnimationNext: 0,
 
   // jobs
   jobs: {},

@@ -5,7 +5,7 @@
         <a
           class="button caffeine-button"
           :disabled="buzzActive || coffeeAvailableTimer > 0"
-          @click="$root.$emit('coffee')"
+          @click="$root.$emit('coffee', $event)"
         >
           <i
             class="fas fa-2x fa-coffee caffeine-icon"

@@ -57,6 +57,7 @@ export default {
     CurrencyDisplay,
   },
   data: () => ({
+    utimestamp: 0,
     displayedWords: Big(0),
     displayedMoney: Big(0),
 
@@ -68,6 +69,9 @@ export default {
 
     buzzActive: false,
     urgentJobNotification: null,
+
+    caffeineX: 0,
+    caffeineY: 0,
   }),
   computed: {
     ...mapState([
@@ -85,6 +89,9 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'caffeineWordGeneration',
+      'caffeineAnimationNext',
+      'caffeineAnimationInterval',
+      'caffeineAnimationAmount',
       'jobRewardMultiplier',
       'jobCooldown',
       'urgentJobActive',
@@ -184,20 +191,34 @@ export default {
 
       // set current frame
       this.lastFrame = timestamp;
+      this.utimestamp = unixTimestamp();
 
       // check caffeine
-      if (!this.buzzActive && this.endCaffeineTime > unixTimestamp()) {
+      if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
         if (this.debugMode) {
           console.log('buzz active');
         }
         this.buzzActive = true;
         this.updateData({ index: 'buzzActive', value: true });
-      } else if (this.buzzActive && this.endCaffeineTime <= unixTimestamp()) {
-        if (this.debugMode) {
-          console.log('buzz ending');
+      } else if (this.buzzActive) {
+        if (this.endCaffeineTime <= this.utimestamp) {
+          if (this.debugMode) {
+            console.log('buzz ending');
+          }
+          this.buzzActive = false;
+          this.updateData({ index: 'buzzActive', value: false });
+        } else if (this.utimestamp >= this.caffeineAnimationNext) {
+          // show animation
+          animatePlus({
+            x: this.caffeineX,
+            y: this.caffeineY,
+            value: this.caffeineAnimationAmount,
+            time: 500,
+            height: 150,
+            disappearFrom: 0.25,
+          });
+          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
         }
-        this.buzzActive = false;
-        this.updateData({ index: 'buzzActive', value: false });
       }
 
       // check urgent job
@@ -267,8 +288,12 @@ export default {
       this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
     },
     // caffeine
-    coffee() {
-      if (unixTimestamp() >= this.nextCaffeineTime) {
+    coffee(event) {
+      if (this.utimestamp >= this.nextCaffeineTime) {
+        // capture player mouse position
+        this.caffeineX = event.pageX - 5;
+        this.caffeineY = event.pageY - 20;
+
         this.activateCaffeine();
         // show message
         notify('You feel buzzed', {
@@ -351,7 +376,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob() {
-      if (unixTimestamp() >= this.urgentJobTimestamp) {
+      if (this.utimestamp >= this.urgentJobTimestamp) {
         if (!this.urgentJobActive) {
           if (this.debugMode) {
             console.log('enabling urgent job');
@@ -371,7 +396,7 @@ export default {
             ],
           });
           this.updateData({ index: 'urgentJobActive', value: true });
-        } else if (unixTimestamp() >= this.urgentJobExpiration) {
+        } else if (this.utimestamp >= this.urgentJobExpiration) {
           if (this.debugMode) {
             console.log('urgent job expired');
           }
@@ -382,7 +407,7 @@ export default {
       }
       if (this.urgentJobActive) {
         // update countdowns
-        this.updateData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - unixTimestamp()) / 1000, 10) });
+        this.updateData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
         this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
       }
     },

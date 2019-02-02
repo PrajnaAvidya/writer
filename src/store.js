@@ -35,6 +35,22 @@ export default new Vuex.Store({
       state.endCaffeineTime = unixTimestamp(state.caffeineTime);
       state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
+
+      if (state.caffeineWordGeneration.lte(5)) {
+        // show +1
+        state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration).toFixed();
+        state.caffeineAnimationAmount = 1;
+      } else if (state.caffeineWordGeneration.lt(5E6)) {
+        // show rounded +X
+        const roundedFraction = parseInt(state.caffeineWordGeneration.div(5).toFixed(), 10);
+        state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration.div(roundedFraction)).toFixed();
+        state.caffeineAnimationAmount = roundedFraction;
+      } else {
+        // show +X every 200ms
+        const fraction = state.caffeineWordGeneration.div(5);
+        state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration.div(fraction)).toFixed();
+        state.caffeineAnimationAmount = fraction;
+      }
     },
     adjustCaffeineTimer(state, amount) {
       state.caffeineCooldown += amount;
