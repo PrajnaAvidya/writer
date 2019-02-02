@@ -60,7 +60,7 @@
               &nbsp;
               <a
                 class="button is-small"
-                @click="resetJobTimer(job.id)"
+                @click="declineJob(job.id)"
               >
                 Decline
               </a>
@@ -188,15 +188,9 @@ export default {
     updateJobs() {
       for (let jobId = 1; jobId <= 4; jobId += 1) {
         this.jobAvailable[jobId] = unixTimestamp() >= this.jobsAvailableTimestamps[jobId];
-        if (this.jobAvailable[jobId]) {
-          if (this.jobs[jobId].completed === true) {
-            // generate new job
-            this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
-          } else if (unixTimestamp() >= this.jobsAvailableTimestamps[jobId] + (this.jobCooldown * 1000)) {
-            // regenerate stale job
-            this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
-            this.jobsAvailableTimestamps[jobId] = unixTimestamp();
-          }
+        if (this.jobAvailable[jobId] && this.jobs[jobId].completed === true) {
+          // generate new job
+          this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
         } else if (!this.jobAvailable[jobId]) {
           // update progress bar
           this.jobProgress[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
@@ -246,8 +240,15 @@ export default {
       // reset urgent job
       this.$root.$emit('setNextUrgentJob');
     },
-    hurryCooldown(jobId) {
-      this.speedJobCooldown({ jobId, seconds: 1 });
+    declineJob(id) {
+      // mark as completed so it will regen
+      this.jobs[id].completed = true;
+
+      // start cooldown
+      this.resetJobTimer(id);
+    },
+    hurryCooldown(id) {
+      this.speedJobCooldown({ id, seconds: 1 });
     },
     ...mapMutations([
       'resetJobTimer',

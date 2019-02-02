@@ -1,5 +1,3 @@
-current jobs system is fucked because the carrot just keeps dangling further away when you dont accept or it regens.
-
 worker/jobs/upgrade/cooldown/economy/etc balance
 don't show higher level unbought upgrades
 show wps per worker on grid next to % contribution
