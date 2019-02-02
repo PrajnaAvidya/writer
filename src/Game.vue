@@ -114,8 +114,8 @@ export default {
       this.currency.money = this.debugStartingMoney;
       this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debugJobCooldown });
-      this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
-      this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
+      this.updateData({ index: 'urgentJobMinimumTime', value: this.debugJobCooldown });
+      this.updateData({ index: 'urgentJobMaximumTime', value: this.debugJobCooldown });
     }
 
     // set time for next urgent job
