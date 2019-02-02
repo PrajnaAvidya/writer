@@ -10,6 +10,10 @@ export default function () {
   let id = 0;
 
   // caffeine
+  let previousCaffeineCooldownUpgrade = null;
+  let previousCaffeineLengthUpgrade = null;
+  let previousCaffeinePowerUpgrade = null;
+  let previousCaffeineWordUpgrade = null;
   upgradeData.caffeine.forEach((caffeineUpgrade) => {
     id += 1;
 
@@ -21,23 +25,38 @@ export default function () {
       icon: 'fa-coffee',
     };
 
+    // set effect
     if (caffeineUpgrade.cooldownReduction) {
       upgrade.cooldownReduction = caffeineUpgrade.cooldownReduction;
-    }
-    if (caffeineUpgrade.lengthMultiplier) {
+      if (previousCaffeineCooldownUpgrade) {
+        upgrade.previousId = previousCaffeineCooldownUpgrade;
+      }
+      previousCaffeineCooldownUpgrade = id;
+    } else if (caffeineUpgrade.lengthMultiplier) {
       upgrade.lengthMultiplier = caffeineUpgrade.lengthMultiplier;
-    }
-    if (caffeineUpgrade.powerMultiplier) {
+      if (previousCaffeineLengthUpgrade) {
+        upgrade.previousId = previousCaffeineLengthUpgrade;
+      }
+      previousCaffeineLengthUpgrade = id;
+    } else if (caffeineUpgrade.powerMultiplier) {
       upgrade.powerMultiplier = caffeineUpgrade.powerMultiplier;
-    }
-    if (caffeineUpgrade.wordMultiplier) {
+      if (previousCaffeinePowerUpgrade) {
+        upgrade.previousId = previousCaffeinePowerUpgrade;
+      }
+      previousCaffeinePowerUpgrade = id;
+    } else if (caffeineUpgrade.wordMultiplier) {
       upgrade.wordMultiplier = caffeineUpgrade.wordMultiplier;
+      if (previousCaffeineWordUpgrade) {
+        upgrade.previousId = previousCaffeineWordUpgrade;
+      }
+      previousCaffeineWordUpgrade = id;
     }
 
     upgrades[id] = upgrade;
   });
 
   // clicking
+  let previousClickingUpgrade = null;
   upgradeData.clicking.forEach((clickingUpgrade) => {
     id += 1;
 
@@ -51,16 +70,20 @@ export default function () {
     if (clickingUpgrade.writingMultiplier) {
       upgrade.writingMultiplier = clickingUpgrade.writingMultiplier;
     }
-    if (clickingUpgrade.maxWritingMultiplier) {
-      upgrade.maxWritingMultiplier = clickingUpgrade.maxWritingMultiplier;
+
+    // set previous id
+    if (previousClickingUpgrade) {
+      upgrade.previousId = previousClickingUpgrade;
     }
+    previousClickingUpgrade = id;
 
     upgrades[id] = upgrade;
   });
 
   // generic worker
-  upgradeData.genericWorker.forEach((genericUpgrade) => {
-    workers.forEach((worker) => {
+  workers.forEach((worker) => {
+    let previousWorkerUpgrade = null;
+    upgradeData.genericWorker.forEach((genericUpgrade) => {
       id += 1;
 
       const upgrade = {
@@ -77,11 +100,19 @@ export default function () {
         upgrade.multipliers[worker.id] = genericUpgrade.multiplier;
       }
 
+      // set previous id
+      if (previousWorkerUpgrade) {
+        upgrade.previousId = previousWorkerUpgrade;
+      }
+      previousWorkerUpgrade = id;
+
       upgrades[id] = upgrade;
     });
   });
 
   // jobs
+  let previousJobCooldownUpgrade = null;
+  let previousJobRewardUpgrade = null;
   upgradeData.jobs.forEach((jobUpgrade) => {
     id += 1;
 
@@ -92,17 +123,28 @@ export default function () {
       cost: Big(jobUpgrade.cost),
       icon: 'fa-briefcase',
     };
+    // set effect
     if (jobUpgrade.cooldownMultiplier) {
       upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
-    }
-    if (jobUpgrade.rewardMultiplier) {
+      if (previousJobCooldownUpgrade) {
+        upgrade.previousId = previousJobCooldownUpgrade;
+      }
+      previousJobCooldownUpgrade = id;
+    } else if (jobUpgrade.rewardMultiplier) {
       upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
+      if (previousJobRewardUpgrade) {
+        upgrade.previousId = previousJobRewardUpgrade;
+      }
+      previousJobRewardUpgrade = id;
     }
 
     upgrades[id] = upgrade;
   });
 
   // urgent jobs
+  let previousUrgentJobCooldownUpgrade = null;
+  let previousUrgentJobTimerUpgrade = null;
+  let previousUrgentJobMultiplierUpgrade = null;
   upgradeData.urgentJobs.forEach((jobUpgrade) => {
     id += 1;
 
@@ -113,20 +155,32 @@ export default function () {
       cost: Big(jobUpgrade.cost),
       icon: 'fa-bullhorn',
     };
+    // set effect
     if (jobUpgrade.cooldownMultiplier) {
       upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
-    }
-    if (jobUpgrade.timerMultiplier) {
+      if (previousUrgentJobCooldownUpgrade) {
+        upgrade.previousId = previousUrgentJobCooldownUpgrade;
+      }
+      previousUrgentJobCooldownUpgrade = id;
+    } else if (jobUpgrade.timerMultiplier) {
       upgrade.timerMultiplier = jobUpgrade.timerMultiplier;
-    }
-    if (jobUpgrade.rewardMultiplier) {
+      if (previousUrgentJobTimerUpgrade) {
+        upgrade.previousId = previousUrgentJobTimerUpgrade;
+      }
+      previousUrgentJobTimerUpgrade = id;
+    } else if (jobUpgrade.rewardMultiplier) {
       upgrade.rewardMultiplier = jobUpgrade.rewardMultiplier;
+      if (previousUrgentJobMultiplierUpgrade) {
+        upgrade.previousId = previousUrgentJobMultiplierUpgrade;
+      }
+      previousUrgentJobMultiplierUpgrade = id;
     }
 
     upgrades[id] = upgrade;
   });
 
   // word value
+  let previousWordValueUpgrade = null;
   upgradeData.wordValue.forEach((wordValueUpgrade) => {
     id += 1;
 
@@ -138,6 +192,12 @@ export default function () {
       multiplier: wordValueUpgrade.multiplier,
       icon: 'fa-dollar-sign',
     };
+
+    // set previous id
+    if (previousWordValueUpgrade) {
+      upgrade.previousId = previousWordValueUpgrade;
+    }
+    previousWordValueUpgrade = id;
 
     upgrades[id] = upgrade;
   });

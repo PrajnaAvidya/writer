@@ -74,6 +74,7 @@ export default {
   // upgrades
   upgrades: {},
   revealedUpgrades: {},
+  purchasedUpgrades: [],
 
   // words
   adjectives: [],

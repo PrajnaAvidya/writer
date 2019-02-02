@@ -45,6 +45,7 @@ export default {
       'workers',
       'upgrades',
       'revealedUpgrades',
+      'purchasedUpgrades',
       'statistics',
       'playerIcons',
     ]),
@@ -59,10 +60,11 @@ export default {
         return;
       }
 
-      // subtract cost
+      // buy
       if (upgrade.cost) {
         this.$root.$emit('subtractMoney', upgrade.cost);
       }
+      this.purchasedUpgrades.push(upgrade.id);
 
       // apply
       this.applyUpgrade(upgrade);
@@ -204,8 +206,12 @@ export default {
       return true;
     },
     canSeeUpgrade(upgrade) {
-      let metRequirements = true;
+      // check for previous id
+      if (upgrade.previousId && !this.purchasedUpgrades.includes(upgrade.previousId)) {
+        return false;
+      }
 
+      let metRequirements = true;
       if (upgrade.type === 'worker') {
         // show upgrade when player has 1/2 workers
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
@@ -228,6 +234,7 @@ export default {
         return false;
       }
 
+      // upgrades can always been seen once revealed
       this.revealedUpgrades[upgrade.id] = true;
       return true;
     },
