@@ -1,9 +1,3 @@
-worker/jobs/upgrade/cooldown/economy/etc balance
-don't show higher level unbought upgrades
-show wps per worker on grid next to % contribution
-show caffeine buzz wps contribution on screen
-rework unfolding/progression
-
 FUTURE IDEAS/TODO:
 caffeine hurry mechanic similar to jobs
 prevent notification spam when buying tons of upgrades
@@ -19,13 +13,3 @@ achievement currency/upgrades
 book releases (later game after contracts)
 - based on reputation maybe?
 - do we introduce a fans/readers currency? TBD
-
-EARLY PROGRESSION
-intro/story modal
-click a few times
-introduce caffeine
-introduce jobs (show click to hurry)
-introduce workers
-introduce urgent jobs
-introduce upgrades
-?
