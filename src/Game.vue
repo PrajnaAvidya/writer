@@ -1,6 +1,7 @@
 <template>
   <div id="game">
     <IntroModal />
+    <TutorialModals />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -42,6 +43,7 @@ import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
 import IntroModal from '@/components/Modals/IntroModal.vue';
+import TutorialModals from '@/components/Modals/TutorialModals.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
@@ -52,6 +54,7 @@ export default {
   components: {
     NavBar,
     IntroModal,
+    TutorialModals,
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
@@ -160,6 +163,7 @@ export default {
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
       this.calculateWorkerCosts();
       this.updateWpsMps();
+      this.loadTutorials();
     },
     registerEvents() {
       if (this.debugMode) {
@@ -512,6 +516,7 @@ export default {
       'updateData',
       'loadAdjectives',
       'loadPlayerIcons',
+      'loadTutorials',
     ]),
   },
 };

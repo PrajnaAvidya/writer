@@ -13,6 +13,9 @@ export default {
   // name
   playerName: '',
 
+  // tutorials
+  tutorials: [],
+
   // currencies
   currency: {
     words: Big(0),

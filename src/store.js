@@ -6,6 +6,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 import defaultData from '@/data/defaultGameData';
 import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
+import tutorials from '@/data/tutorials';
 
 Vue.use(Vuex);
 
@@ -76,6 +77,10 @@ export default new Vuex.Store({
     loadPlayerIcons(state) {
       state.playerIcons = playerIcons.reverse();
       state.playerIcon = state.playerIcons.pop();
+    },
+    loadTutorials(state) {
+      state.tutorials = tutorials;
+      console.log(state);
     },
   },
 
