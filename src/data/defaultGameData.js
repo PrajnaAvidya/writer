@@ -46,6 +46,7 @@ export default {
   caffeineAnimationNext: 0,
 
   // jobs
+  jobSlots: 1,
   jobs: {},
   jobsCompletedTimestamps: {
     1: 0,
@@ -61,6 +62,7 @@ export default {
   },
   jobCooldown: 120,
   jobRewardMultiplier: Big(1),
+  jobAvailable: {},
 
   // urgent jobs
   urgentJob: null,

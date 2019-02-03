@@ -60,15 +60,16 @@ export default {
     CurrencyDisplay,
   },
   data: () => ({
+    lastFrame: 0,
     utimestamp: 0,
+    nextStatUpdate: 0,
+    nextJobCheck: 0,
+
     displayedWords: Big(0),
     displayedMoney: Big(0),
 
     newWords: Big(0),
     newClickWords: Big(0),
-
-    lastFrame: 0,
-    nextStatUpdate: 0,
 
     buzzActive: false,
     urgentJobNotification: null,
@@ -101,8 +102,12 @@ export default {
       'caffeineAnimationInterval',
       'caffeineAnimationAmount',
       // jobs
+      'jobs',
+      'jobSlots',
       'jobRewardMultiplier',
       'jobCooldown',
+      'jobsAvailableTimestamps',
+      'jobAvailable',
       // urgent jobs
       'urgentJobActive',
       'urgentJobExpiration',
@@ -214,7 +219,8 @@ export default {
       // check caffeine
       this.checkCaffeine();
 
-      // check urgent job
+      // update jobs
+      this.updateJobs();
       this.updateUrgentJob();
 
       // how much to divide progress for current tick
@@ -388,6 +394,22 @@ export default {
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },
     // jobs
+    updateJobs() {
+      if (this.utimestamp < this.nextJobCheck) {
+        return;
+      }
+
+      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+        this.$set(this.jobAvailable, jobId, unixTimestamp() >= this.jobsAvailableTimestamps[jobId]);
+        if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
+          // generate new job
+          // TODO randomize type
+          this.jobs[jobId] = generateJobs(this.currency.wordValue, this.workerWps, 1);
+        }
+      }
+
+      this.nextJobCheck = this.utimestamp + 100;
+    },
     multiplyJobCooldown(amount) {
       this.updateData({ index: 'jobCooldown', value: this.jobCooldown * amount });
     },

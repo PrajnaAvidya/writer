@@ -127,34 +127,20 @@ import notify from '@/utils/notify';
 export default {
   name: 'JobsGrid',
   data: () => ({
-    jobAvailable: {
-      1: true,
-      2: true,
-      3: true,
-      4: true,
-    },
-    jobProgress: {
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-    },
-    jobTimer: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-    },
+    jobProgress: {},
+    jobTimer: {},
     interval: null,
   }),
   computed: {
     ...mapState([
       'jobs',
+      'jobSlots',
       'jobCooldown',
       'jobRewardMultiplier',
       'jobsAvailableTimestamps',
       'jobsCompletedTimestamps',
       'nextJobTime',
+      'jobAvailable',
       'workerWps',
       'urgentJob',
       'urgentJobActive',
@@ -168,9 +154,6 @@ export default {
     ]),
   },
   mounted() {
-    if (Object.keys(this.jobs).length === 0) {
-      this.newJobs();
-    }
     // only run once
     this.interval = setInterval(() => this.updateJobs(), 100);
   },
@@ -186,15 +169,11 @@ export default {
       this.jobsAvailableTimestamps[4] = unixTimestamp();
     },
     updateJobs() {
-      for (let jobId = 1; jobId <= 4; jobId += 1) {
-        this.jobAvailable[jobId] = unixTimestamp() >= this.jobsAvailableTimestamps[jobId];
-        if (this.jobAvailable[jobId] && this.jobs[jobId].completed === true) {
-          // generate new job
-          this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
-        } else if (!this.jobAvailable[jobId]) {
-          // update progress bar
-          this.jobProgress[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
-          this.jobTimer[jobId] = `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`;
+      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+        if (!this.jobAvailable[jobId]) {
+          // update progress bar & timer
+          this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp()));
+          this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`);
         }
       }
     },
