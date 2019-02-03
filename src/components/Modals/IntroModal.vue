@@ -2,9 +2,9 @@
   <BaseModal
     ref="modal"
     title="Writer Incremental"
-    :initial-state="false"
+    :initial-state="true"
   >
-    <div class="field is-grouped">
+    <div class="field is-grouped text input-text">
       You are a struggling writer named &nbsp;
       <p class="control">
         <input
@@ -13,10 +13,10 @@
           type="text"
         >
       </p>
-      &nbsp; down to your very
+      &nbsp; down to your very last
     </div>
-    <div>
-      last dollar. Some instructions will go here telling you what to do first.
+    <div class="text">
+      dollar. All that you can do now is write as many WORDS as possible.
     </div>
     <template slot="footer">
       <button
@@ -52,3 +52,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.text {
+  text-align: center;
+  height: 35px;
+  line-height: 35px;
+}
+.input-text {
+  margin-left: 10px;
+}
+input {
+  width: 150px;
+}
+</style>

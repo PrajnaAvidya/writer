@@ -31,7 +31,7 @@ const jobTypes = {
   },
   2: {
     name: 'Short',
-    rewardRange: [150, 200],
+    rewardRange: [200, 250],
     wordRange: [30, 90],
     minimumWords: 200,
   },
