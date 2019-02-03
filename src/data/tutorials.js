@@ -27,7 +27,7 @@ export default [
   },
   {
     unlock: {
-      worker: true, // TODO
+      worker: true,
     },
     delay: 60,
     text: 'This is so much easier than writing words myself! The more workers I hire, the more money I can make.',
