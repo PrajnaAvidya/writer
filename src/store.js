@@ -80,7 +80,6 @@ export default new Vuex.Store({
     },
     loadTutorials(state) {
       state.tutorials = tutorials;
-      console.log(state);
     },
   },
 
