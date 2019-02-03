@@ -1,12 +1,5 @@
 <template>
   <div class="jobs">
-    <a
-      v-if="debugMode"
-      class="button is-small is-primary"
-      @click="newJobs()"
-    >
-      New Jobs (DEBUG)
-    </a>
     <div class="jobs-header">
       Writing Contracts
     </div>
@@ -155,23 +148,15 @@ export default {
   },
   mounted() {
     // only run once
-    this.interval = setInterval(() => this.updateJobs(), 100);
+    this.interval = setInterval(() => this.updateProgressBars(), 100);
   },
   beforeDestroy() {
     clearInterval(this.interval);
   },
   methods: {
-    newJobs() {
-      this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
-      this.jobsAvailableTimestamps[1] = unixTimestamp();
-      this.jobsAvailableTimestamps[2] = unixTimestamp();
-      this.jobsAvailableTimestamps[3] = unixTimestamp();
-      this.jobsAvailableTimestamps[4] = unixTimestamp();
-    },
-    updateJobs() {
+    updateProgressBars() {
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
         if (!this.jobAvailable[jobId]) {
-          // update progress bar & timer
           this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp()));
           this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`);
         }
