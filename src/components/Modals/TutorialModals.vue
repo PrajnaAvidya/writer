@@ -15,7 +15,7 @@
 import BaseModal from '@/components/Modals/BaseModal.vue';
 
 export default {
-  name: 'TutorialModal',
+  name: 'TutorialModals',
   components: {
     BaseModal,
   },
