@@ -81,6 +81,7 @@ export default {
       // currency
       'currency',
       'playerWords',
+      'totalWps',
       // upgrades
       'upgrades',
       // workers
@@ -211,34 +212,7 @@ export default {
       this.utimestamp = unixTimestamp();
 
       // check caffeine
-      if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
-        if (this.debugMode) {
-          console.log('buzz active');
-        }
-        this.buzzActive = true;
-        this.updateData({ index: 'buzzActive', value: true });
-        this.updateWpsMps();
-      } else if (this.buzzActive) {
-        if (this.endCaffeineTime <= this.utimestamp) {
-          if (this.debugMode) {
-            console.log('buzz ending');
-          }
-          this.buzzActive = false;
-          this.updateData({ index: 'buzzActive', value: false });
-          this.updateWpsMps();
-        } else if (this.utimestamp >= this.caffeineAnimationNext) {
-          // show animation
-          animatePlus({
-            x: this.caffeineX,
-            y: this.caffeineY,
-            value: this.caffeineAnimationAmount,
-            time: 500,
-            height: 150,
-            disappearFrom: 0.25,
-          });
-          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
-        }
-      }
+      this.checkCaffeine();
 
       // check urgent job
       this.updateUrgentJob();
@@ -246,20 +220,9 @@ export default {
       // how much to divide progress for current tick
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
-      // start actual frame updates
-      let words = Big(0);
-
-      // add caffeine words
-      if (this.buzzActive) {
-        words = words.plus(this.caffeineWordGeneration);
-      }
-
-      // add worker words
-      words = words.plus(this.workerWps);
-
-      // add frame grand total
-      if (words.gt(0)) {
-        this.addWords(words.times(frameIncrement));
+      // add frame words (totalWps * increment)
+      if (this.totalWps.gt(0)) {
+        this.addWords(this.totalWps.times(frameIncrement));
       }
 
       // get next frame
@@ -335,6 +298,36 @@ export default {
     },
     multiplyCaffeineWords(amount) {
       this.updateData({ index: 'caffeineWordGeneration', value: this.caffeineWordGeneration.times(amount) });
+    },
+    checkCaffeine() {
+      if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
+        if (this.debugMode) {
+          console.log('buzz active');
+        }
+        this.buzzActive = true;
+        this.updateData({ index: 'buzzActive', value: true });
+        this.updateWpsMps();
+      } else if (this.buzzActive) {
+        if (this.endCaffeineTime <= this.utimestamp) {
+          if (this.debugMode) {
+            console.log('buzz ending');
+          }
+          this.buzzActive = false;
+          this.updateData({ index: 'buzzActive', value: false });
+          this.updateWpsMps();
+        } else if (this.utimestamp >= this.caffeineAnimationNext) {
+          // show animation
+          animatePlus({
+            x: this.caffeineX,
+            y: this.caffeineY,
+            value: this.caffeineAnimationAmount,
+            time: 500,
+            height: 150,
+            disappearFrom: 0.25,
+          });
+          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
+        }
+      }
     },
     // workers/upgrades
     hireWorker(id) {
