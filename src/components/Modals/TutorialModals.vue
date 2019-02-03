@@ -28,6 +28,8 @@ export default {
   }),
   computed: {
     ...mapState([
+      'debugMode',
+      'debugDisableTutorials',
       'tutorials',
       'currency',
       'buzzActive',
@@ -54,8 +56,8 @@ export default {
   },
   methods: {
     checkTutorial() {
-      // check if there's a tutorial to show or already about to show one
-      if (this.tutorial === undefined || this.active === true) {
+      // return if debug mode, active tutorial, or no tutorial
+      if ((this.debugMode && this.debugDisableTutorials) || this.tutorial === undefined || this.active === true) {
         return;
       }
 
@@ -81,7 +83,6 @@ export default {
     getNextTutorial() {
       this.tutorial = this.tutorials.pop();
       this.active = false;
-      console.log(this.tutorial);
     },
   },
 };
