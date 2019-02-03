@@ -6,6 +6,7 @@ export default {
   debugMode: false,
   debugStartingWords: Big(1E6),
   debugStartingMoney: Big(1E6),
+  debugCaffeineTime: 5,
   debugCaffeineCooldown: 5,
   debugJobCooldown: 5,
   debugUrgentJobs: false,

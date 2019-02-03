@@ -37,6 +37,7 @@ export default new Vuex.Store({
       state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
 
+      // set animation params
       if (state.caffeineWordGeneration.lte(5)) {
         // show +1
         state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration).toFixed();
@@ -79,7 +80,7 @@ export default new Vuex.Store({
       state.playerIcon = state.playerIcons.pop();
     },
     loadTutorials(state) {
-      state.tutorials = tutorials;
+      state.tutorials = tutorials.reverse();
     },
   },
 

@@ -118,6 +118,7 @@ export default {
       'debugMode',
       'debugStartingWords',
       'debugStartingMoney',
+      'debugCaffeineTime',
       'debugCaffeineCooldown',
       'debugJobCooldown',
       'debugUrgentJobs',
@@ -131,6 +132,7 @@ export default {
     if (this.debugMode) {
       this.currency.words = this.debugStartingWords;
       this.currency.money = this.debugStartingMoney;
+      this.updateData({ index: 'caffeineTime', value: this.debugCaffeineTime });
       this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debugJobCooldown });
       if (this.debugUrgentJobs) {
@@ -254,7 +256,9 @@ export default {
       words = words.plus(this.workerWps);
 
       // add frame grand total
-      this.addWords(words.times(frameIncrement));
+      if (words.gt(0)) {
+        this.addWords(words.times(frameIncrement));
+      }
 
       // get next frame
       window.requestAnimationFrame(this.tick);
