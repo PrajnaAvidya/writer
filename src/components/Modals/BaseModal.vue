@@ -2,6 +2,7 @@
   <div
     class="modal"
     :class="{ 'is-active': active }"
+    @click="clickToClose ? close($event) : null"
   >
     <div class="modal-background" />
     <div class="modal-card">
@@ -15,7 +16,7 @@
         <button
           class="delete"
           aria-label="close"
-          @click="close()"
+          @click="close($event)"
         />
       </header>
       <section class="modal-card-body">
@@ -50,6 +51,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    clickToClose: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     active: false,
@@ -58,10 +63,12 @@ export default {
     this.active = this.initialState;
   },
   methods: {
-    open() {
+    open($event) {
+      this.$emit('open', $event);
       this.active = true;
     },
-    close() {
+    close($event) {
+      this.$emit('close', $event);
       this.active = false;
     },
   },

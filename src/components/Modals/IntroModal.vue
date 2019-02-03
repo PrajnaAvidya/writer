@@ -2,7 +2,7 @@
   <BaseModal
     ref="modal"
     title="Writer Incremental"
-    :initial-state="true"
+    :initial-state="!(debugMode && debugDisableTutorials)"
   >
     <div class="field is-grouped text input-text">
       You are a struggling writer named &nbsp;
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import BaseModal from '@/components/Modals/BaseModal.vue';
 
 export default {
@@ -41,6 +41,12 @@ export default {
   data: () => ({
     playerName: 'Rafiq',
   }),
+  computed: {
+    ...mapState([
+      'debugMode',
+      'debugDisableTutorials',
+    ]),
+  },
   methods: {
     closeIntro() {
       this.updateData({ index: 'playerName', value: this.playerName });

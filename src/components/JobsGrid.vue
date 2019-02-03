@@ -1,12 +1,5 @@
 <template>
   <div class="jobs">
-    <a
-      v-if="debugMode"
-      class="button is-small is-primary"
-      @click="newJobs()"
-    >
-      New Jobs (DEBUG)
-    </a>
     <div class="jobs-header">
       Writing Contracts
     </div>
@@ -59,6 +52,7 @@
               </a>
               &nbsp;
               <a
+                v-if="firstJobComplete"
                 class="button is-small"
                 @click="declineJob(job.id)"
               >
@@ -127,34 +121,21 @@ import notify from '@/utils/notify';
 export default {
   name: 'JobsGrid',
   data: () => ({
-    jobAvailable: {
-      1: true,
-      2: true,
-      3: true,
-      4: true,
-    },
-    jobProgress: {
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-    },
-    jobTimer: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-    },
+    jobProgress: {},
+    jobTimer: {},
     interval: null,
+    firstJobComplete: false,
   }),
   computed: {
     ...mapState([
       'jobs',
+      'jobSlots',
       'jobCooldown',
       'jobRewardMultiplier',
       'jobsAvailableTimestamps',
       'jobsCompletedTimestamps',
       'nextJobTime',
+      'jobAvailable',
       'workerWps',
       'urgentJob',
       'urgentJobActive',
@@ -168,33 +149,18 @@ export default {
     ]),
   },
   mounted() {
-    if (Object.keys(this.jobs).length === 0) {
-      this.newJobs();
-    }
     // only run once
-    this.interval = setInterval(() => this.updateJobs(), 100);
+    this.interval = setInterval(() => this.updateProgressBars(), 100);
   },
   beforeDestroy() {
     clearInterval(this.interval);
   },
   methods: {
-    newJobs() {
-      this.updateData({ index: 'jobs', value: generateJobs(this.wordValue, this.workerWps) });
-      this.jobsAvailableTimestamps[1] = unixTimestamp();
-      this.jobsAvailableTimestamps[2] = unixTimestamp();
-      this.jobsAvailableTimestamps[3] = unixTimestamp();
-      this.jobsAvailableTimestamps[4] = unixTimestamp();
-    },
-    updateJobs() {
-      for (let jobId = 1; jobId <= 4; jobId += 1) {
-        this.jobAvailable[jobId] = unixTimestamp() >= this.jobsAvailableTimestamps[jobId];
-        if (this.jobAvailable[jobId] && this.jobs[jobId].completed === true) {
-          // generate new job
-          this.jobs[jobId] = generateJobs(this.wordValue, this.workerWps, jobId);
-        } else if (!this.jobAvailable[jobId]) {
-          // update progress bar
-          this.jobProgress[jobId] = (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp());
-          this.jobTimer[jobId] = `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`;
+    updateProgressBars() {
+      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+        if (!this.jobAvailable[jobId]) {
+          this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp()));
+          this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`);
         }
       }
     },
@@ -210,6 +176,7 @@ export default {
       // complete job
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
       this.$root.$emit('subtractWords', job.words);
+      this.firstJobComplete = true;
 
       // show message
       notify(`Job Complete: ${job.name}`, { icon: 'fa-briefcase' });
@@ -233,6 +200,7 @@ export default {
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(this.urgentJobRewardMultiplier).times(job.payment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
+      this.firstJobComplete = true;
 
       // show message
       notify(`Urgent Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });
@@ -246,6 +214,9 @@ export default {
 
       // start cooldown
       this.resetJobTimer(id);
+
+      // show message
+      notify(`Job Declined: ${this.jobs[id].name}`, { icon: 'fa-times' });
     },
     hurryCooldown(id) {
       this.speedJobCooldown({ id, seconds: 1 });

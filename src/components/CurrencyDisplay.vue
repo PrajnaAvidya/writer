@@ -4,7 +4,7 @@
       Words: {{ words | round }}
     </div>
     <div class="is-size-6">
-      Words per Second: {{ workerWps | round }}
+      Words per Second: {{ totalWps | round }}
     </div>
     <div v-if="debugMode">
       <div>
@@ -38,6 +38,7 @@ export default {
   computed: {
     ...mapState([
       'workerWps',
+      'totalWps',
       'workerMps',
       'debugMode',
     ]),

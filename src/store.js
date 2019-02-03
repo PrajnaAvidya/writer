@@ -6,6 +6,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 import defaultData from '@/data/defaultGameData';
 import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
+import tutorials from '@/data/tutorials';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,8 @@ export default new Vuex.Store({
     words: state => state.currency.words,
     money: state => state.currency.money,
     wordValue: state => state.currency.wordValue,
+    jobsComplete: state => state.statistics.jobs,
+    workersHired: state => state.statistics.workers,
   },
 
   mutations: {
@@ -36,6 +39,7 @@ export default new Vuex.Store({
       state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
 
+      // set animation params
       if (state.caffeineWordGeneration.lte(5)) {
         // show +1
         state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration).toFixed();
@@ -76,6 +80,9 @@ export default new Vuex.Store({
     loadPlayerIcons(state) {
       state.playerIcons = playerIcons.reverse();
       state.playerIcon = state.playerIcons.pop();
+    },
+    loadTutorials(state) {
+      state.tutorials = tutorials.reverse();
     },
   },
 

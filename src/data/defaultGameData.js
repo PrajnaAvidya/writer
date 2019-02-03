@@ -4,8 +4,10 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // debug
   debugMode: false,
+  debugDisableTutorials: true,
   debugStartingWords: Big(1E6),
   debugStartingMoney: Big(1E6),
+  debugCaffeineTime: 5,
   debugCaffeineCooldown: 5,
   debugJobCooldown: 5,
   debugUrgentJobs: false,
@@ -13,12 +15,18 @@ export default {
   // name
   playerName: '',
 
+  // tutorials
+  tutorials: [],
+
   // currencies
   currency: {
     words: Big(0),
     money: Big(1),
     wordValue: Big(0.10),
   },
+
+  // worker + caffeine wps (displayed)
+  totalWps: Big(0),
 
   // player words (clicking)
   playerWords: Big(1),
@@ -39,6 +47,7 @@ export default {
   caffeineAnimationNext: 0,
 
   // jobs
+  jobSlots: 1,
   jobs: {},
   jobsCompletedTimestamps: {
     1: 0,
@@ -54,6 +63,7 @@ export default {
   },
   jobCooldown: 120,
   jobRewardMultiplier: Big(1),
+  jobAvailable: {},
 
   // urgent jobs
   urgentJob: null,
@@ -81,7 +91,7 @@ export default {
   revealedUpgrades: {},
   purchasedUpgrades: [],
 
-  // words
+  // random words
   adjectives: [],
 
   // stats

@@ -1,6 +1,7 @@
 <template>
   <div id="game">
     <IntroModal />
+    <TutorialModals />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -42,6 +43,7 @@ import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
 import IntroModal from '@/components/Modals/IntroModal.vue';
+import TutorialModals from '@/components/Modals/TutorialModals.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
@@ -52,20 +54,22 @@ export default {
   components: {
     NavBar,
     IntroModal,
+    TutorialModals,
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
   },
   data: () => ({
+    lastFrame: 0,
     utimestamp: 0,
+    nextStatUpdate: 0,
+    nextJobCheck: 0,
+
     displayedWords: Big(0),
     displayedMoney: Big(0),
 
     newWords: Big(0),
     newClickWords: Big(0),
-
-    lastFrame: 0,
-    nextStatUpdate: 0,
 
     buzzActive: false,
     urgentJobNotification: null,
@@ -78,6 +82,7 @@ export default {
       // currency
       'currency',
       'playerWords',
+      'totalWps',
       // upgrades
       'upgrades',
       // workers
@@ -97,8 +102,12 @@ export default {
       'caffeineAnimationInterval',
       'caffeineAnimationAmount',
       // jobs
+      'jobs',
+      'jobSlots',
       'jobRewardMultiplier',
       'jobCooldown',
+      'jobsAvailableTimestamps',
+      'jobAvailable',
       // urgent jobs
       'urgentJobActive',
       'urgentJobExpiration',
@@ -115,6 +124,7 @@ export default {
       'debugMode',
       'debugStartingWords',
       'debugStartingMoney',
+      'debugCaffeineTime',
       'debugCaffeineCooldown',
       'debugJobCooldown',
       'debugUrgentJobs',
@@ -128,6 +138,7 @@ export default {
     if (this.debugMode) {
       this.currency.words = this.debugStartingWords;
       this.currency.money = this.debugStartingMoney;
+      this.updateData({ index: 'caffeineTime', value: this.debugCaffeineTime });
       this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debugJobCooldown });
       if (this.debugUrgentJobs) {
@@ -160,6 +171,7 @@ export default {
       this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
       this.calculateWorkerCosts();
       this.updateWpsMps();
+      this.loadTutorials();
     },
     registerEvents() {
       if (this.debugMode) {
@@ -167,14 +179,13 @@ export default {
       }
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
-      this.$root.$on('hireWorker', this.hireWorker);
       this.$root.$on('addMoney', this.addMoney);
       this.$root.$on('subtractMoney', this.subtractMoney);
       this.$root.$on('addWords', this.addWords);
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
+      this.$root.$on('hireWorker', this.hireWorker);
       this.$root.$on('multiplyProductivity', this.multiplyProductivity);
-      this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
@@ -188,6 +199,7 @@ export default {
       this.$root.$on('multiplyUrgentJobCooldown', this.multiplyUrgentJobCooldown);
       this.$root.$on('multiplyUrgentJobTimer', this.multiplyUrgentJobTimer);
       this.$root.$on('multiplyUrgentJobReward', this.multiplyUrgentJobReward);
+      this.$root.$on('removeUpgrade', this.removeUpgrade);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -205,52 +217,19 @@ export default {
       this.utimestamp = unixTimestamp();
 
       // check caffeine
-      if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
-        if (this.debugMode) {
-          console.log('buzz active');
-        }
-        this.buzzActive = true;
-        this.updateData({ index: 'buzzActive', value: true });
-      } else if (this.buzzActive) {
-        if (this.endCaffeineTime <= this.utimestamp) {
-          if (this.debugMode) {
-            console.log('buzz ending');
-          }
-          this.buzzActive = false;
-          this.updateData({ index: 'buzzActive', value: false });
-        } else if (this.utimestamp >= this.caffeineAnimationNext) {
-          // show animation
-          animatePlus({
-            x: this.caffeineX,
-            y: this.caffeineY,
-            value: this.caffeineAnimationAmount,
-            time: 500,
-            height: 150,
-            disappearFrom: 0.25,
-          });
-          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
-        }
-      }
+      this.checkCaffeine();
 
-      // check urgent job
+      // update jobs
+      this.updateJobs();
       this.updateUrgentJob();
 
       // how much to divide progress for current tick
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
-      // start actual frame updates
-      let words = Big(0);
-
-      // add caffeine words
-      if (this.buzzActive) {
-        words = words.plus(this.caffeineWordGeneration);
+      // add frame words (totalWps * increment)
+      if (this.totalWps.gt(0)) {
+        this.addWords(this.totalWps.times(frameIncrement));
       }
-
-      // add worker words
-      words = words.plus(this.workerWps);
-
-      // add frame grand total
-      this.addWords(words.times(frameIncrement));
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -326,6 +305,36 @@ export default {
     multiplyCaffeineWords(amount) {
       this.updateData({ index: 'caffeineWordGeneration', value: this.caffeineWordGeneration.times(amount) });
     },
+    checkCaffeine() {
+      if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
+        if (this.debugMode) {
+          console.log('buzz active');
+        }
+        this.buzzActive = true;
+        this.updateData({ index: 'buzzActive', value: true });
+        this.updateWpsMps();
+      } else if (this.buzzActive) {
+        if (this.endCaffeineTime <= this.utimestamp) {
+          if (this.debugMode) {
+            console.log('buzz ending');
+          }
+          this.buzzActive = false;
+          this.updateData({ index: 'buzzActive', value: false });
+          this.updateWpsMps();
+        } else if (this.utimestamp >= this.caffeineAnimationNext) {
+          // show animation
+          animatePlus({
+            x: this.caffeineX,
+            y: this.caffeineY,
+            value: this.caffeineAnimationAmount,
+            time: 500,
+            height: 150,
+            disappearFrom: 0.25,
+          });
+          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
+        }
+      }
+    },
     // workers/upgrades
     hireWorker(id) {
       // check if can afford
@@ -373,12 +382,33 @@ export default {
         console.log('recalculating wps');
       }
       const workerWps = calculateWorkerWps(this.workers);
+      // get caffeine wps
+      let totalWps = workerWps.total;
+      if (this.buzzActive) {
+        totalWps = totalWps.plus(this.caffeineWordGeneration);
+      }
       this.updateData({ index: 'workerWps', value: workerWps.total });
+      this.updateData({ index: 'totalWps', value: totalWps });
       this.updateData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
     },
     // jobs
+    updateJobs() {
+      if (this.utimestamp < this.nextJobCheck) {
+        return;
+      }
+
+      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+        this.$set(this.jobAvailable, jobId, unixTimestamp() >= this.jobsAvailableTimestamps[jobId]);
+        if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
+          // generate new job
+          this.jobs[jobId] = generateJobs(this.currency.wordValue, this.workerWps, jobId);
+        }
+      }
+
+      this.nextJobCheck = this.utimestamp + 100;
+    },
     multiplyJobCooldown(amount) {
       this.updateData({ index: 'jobCooldown', value: this.jobCooldown * amount });
     },
@@ -512,6 +542,7 @@ export default {
       'updateData',
       'loadAdjectives',
       'loadPlayerIcons',
+      'loadTutorials',
     ]),
   },
 };

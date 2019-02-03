@@ -1,0 +1,102 @@
+<template>
+  <BaseModal
+    ref="modal"
+    :show-header="false"
+    :show-footer="false"
+    :click-to-close="true"
+    @close="getNextTutorial()"
+  >
+    <div>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <span v-html="tutorial ? tutorial.text : ''" />
+    </div>
+  </BaseModal>
+</template>
+
+<script>
+import { mapState, mapGetters } from 'vuex';
+import BaseModal from '@/components/Modals/BaseModal.vue';
+
+export default {
+  name: 'TutorialModals',
+  components: {
+    BaseModal,
+  },
+  data: () => ({
+    tutorial: {},
+    active: false,
+  }),
+  computed: {
+    ...mapState([
+      'debugMode',
+      'debugDisableTutorials',
+      'tutorials',
+      'currency',
+      'buzzActive',
+      'statistics',
+    ]),
+    ...mapGetters([
+      'money',
+      'words',
+      'jobsComplete',
+      'workersHired',
+    ]),
+  },
+  watch: {
+    words() {
+      this.checkTutorial();
+    },
+    money() {
+      this.checkTutorial();
+    },
+    buzzActive() {
+      this.checkTutorial();
+    },
+    jobsComplete() {
+      this.checkTutorial();
+    },
+    workersHired() {
+      this.checkTutorial();
+    },
+  },
+  mounted() {
+    // load first tutorial
+    this.getNextTutorial();
+  },
+  methods: {
+    checkTutorial() {
+      // return if debug mode, active tutorial, or no tutorial
+      if ((this.debugMode && this.debugDisableTutorials) || this.tutorial === undefined || this.active === true) {
+        return;
+      }
+
+      // check if tutorial conditions are met
+      if (this.tutorial.unlock.words && this.words.gte(this.tutorial.unlock.words)) {
+        this.showTutorial();
+      } else if (this.tutorial.unlock.caffeine === true && this.buzzActive === true) {
+        this.showTutorial();
+      } else if (this.tutorial.unlock.job === true && this.jobsComplete.gt(0)) {
+        this.showTutorial();
+      } else if (this.tutorial.unlock.worker === true && this.workersHired.gt(0)) {
+        this.showTutorial();
+      }
+    },
+    showTutorial() {
+      this.active = true;
+
+      // show modal
+      if (this.debugMode === true || !this.tutorial.dela) {
+        // open immediately
+        this.$refs.modal.open();
+      } else {
+        // delay
+        setTimeout(() => this.$refs.modal.open(), parseInt(1000 * this.tutorial.delay, 10));
+      }
+    },
+    getNextTutorial() {
+      this.tutorial = this.tutorials.pop();
+      this.active = false;
+    },
+  },
+};
+</script>
