@@ -2,6 +2,7 @@
   <div
     class="modal"
     :class="{ 'is-active': active }"
+    @click="clickToClose ? close() : null"
   >
     <div class="modal-background" />
     <div class="modal-card">
@@ -49,6 +50,10 @@ export default {
     showFooter: {
       type: Boolean,
       default: true,
+    },
+    clickToClose: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
