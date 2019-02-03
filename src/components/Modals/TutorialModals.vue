@@ -85,7 +85,7 @@ export default {
       this.active = true;
 
       // show modal
-      if (this.debugMode === true || !this.tutorial.dela) {
+      if (this.debugMode === true || !this.tutorial.delay) {
         // open immediately
         this.$refs.modal.open();
       } else {
