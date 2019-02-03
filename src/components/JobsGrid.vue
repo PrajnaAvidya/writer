@@ -225,6 +225,9 @@ export default {
 
       // start cooldown
       this.resetJobTimer(id);
+
+      // show message
+      notify(`Job Declined: ${this.jobs[id].name}`, { icon: 'fa-times' });
     },
     hurryCooldown(id) {
       this.speedJobCooldown({ id, seconds: 1 });
