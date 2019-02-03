@@ -33,10 +33,13 @@ export default {
       'tutorials',
       'currency',
       'buzzActive',
+      'statistics',
     ]),
     ...mapGetters([
       'money',
       'words',
+      'jobsComplete',
+      'workersHired',
     ]),
   },
   watch: {
@@ -47,6 +50,12 @@ export default {
       this.checkTutorial();
     },
     buzzActive() {
+      this.checkTutorial();
+    },
+    jobsComplete() {
+      this.checkTutorial();
+    },
+    workersHired() {
       this.checkTutorial();
     },
   },
@@ -66,18 +75,22 @@ export default {
         this.showTutorial();
       } else if (this.tutorial.unlock.caffeine === true && this.buzzActive === true) {
         this.showTutorial();
+      } else if (this.tutorial.unlock.job === true && this.jobsComplete.gt(0)) {
+        this.showTutorial();
+      } else if (this.tutorial.unlock.worker === true && this.workersHired.gt(0)) {
+        this.showTutorial();
       }
     },
     showTutorial() {
       this.active = true;
 
       // show modal
-      if (this.tutorial.delay) {
-        // delay
-        setTimeout(() => this.$refs.modal.open(), parseInt(1000 * this.tutorial.delay, 10));
-      } else {
+      if (this.debugMode === true || !this.tutorial.dela) {
         // open immediately
         this.$refs.modal.open();
+      } else {
+        // delay
+        setTimeout(() => this.$refs.modal.open(), parseInt(1000 * this.tutorial.delay, 10));
       }
     },
     getNextTutorial() {

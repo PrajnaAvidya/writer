@@ -179,14 +179,13 @@ export default {
       }
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
-      this.$root.$on('hireWorker', this.hireWorker);
       this.$root.$on('addMoney', this.addMoney);
       this.$root.$on('subtractMoney', this.subtractMoney);
       this.$root.$on('addWords', this.addWords);
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
+      this.$root.$on('hireWorker', this.hireWorker);
       this.$root.$on('multiplyProductivity', this.multiplyProductivity);
-      this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
       this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
       this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
@@ -200,6 +199,7 @@ export default {
       this.$root.$on('multiplyUrgentJobCooldown', this.multiplyUrgentJobCooldown);
       this.$root.$on('multiplyUrgentJobTimer', this.multiplyUrgentJobTimer);
       this.$root.$on('multiplyUrgentJobReward', this.multiplyUrgentJobReward);
+      this.$root.$on('removeUpgrade', this.removeUpgrade);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -403,8 +403,7 @@ export default {
         this.$set(this.jobAvailable, jobId, unixTimestamp() >= this.jobsAvailableTimestamps[jobId]);
         if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
           // generate new job
-          // TODO randomize type
-          this.jobs[jobId] = generateJobs(this.currency.wordValue, this.workerWps, 1);
+          this.jobs[jobId] = generateJobs(this.currency.wordValue, this.workerWps, jobId);
         }
       }
 
