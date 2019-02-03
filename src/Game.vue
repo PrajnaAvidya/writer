@@ -217,6 +217,7 @@ export default {
         }
         this.buzzActive = true;
         this.updateData({ index: 'buzzActive', value: true });
+        this.updateWpsMps();
       } else if (this.buzzActive) {
         if (this.endCaffeineTime <= this.utimestamp) {
           if (this.debugMode) {
@@ -224,6 +225,7 @@ export default {
           }
           this.buzzActive = false;
           this.updateData({ index: 'buzzActive', value: false });
+          this.updateWpsMps();
         } else if (this.utimestamp >= this.caffeineAnimationNext) {
           // show animation
           animatePlus({
@@ -381,7 +383,13 @@ export default {
         console.log('recalculating wps');
       }
       const workerWps = calculateWorkerWps(this.workers);
+      // get caffeine wps
+      let totalWps = workerWps.total;
+      if (this.buzzActive) {
+        totalWps = totalWps.plus(this.caffeineWordGeneration);
+      }
       this.updateData({ index: 'workerWps', value: workerWps.total });
+      this.updateData({ index: 'totalWps', value: totalWps });
       this.updateData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
       this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });

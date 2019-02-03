@@ -24,6 +24,9 @@ export default {
     wordValue: Big(0.10),
   },
 
+  // worker + caffeine wps (displayed)
+  totalWps: Big(0),
+
   // player words (clicking)
   playerWords: Big(1),
   playerIcon: '',
@@ -85,7 +88,7 @@ export default {
   revealedUpgrades: {},
   purchasedUpgrades: [],
 
-  // words
+  // random words
   adjectives: [],
 
   // stats
