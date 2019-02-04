@@ -124,7 +124,6 @@ export default {
     jobProgress: {},
     jobTimer: {},
     interval: null,
-    firstJobComplete: false,
   }),
   computed: {
     ...mapState([
@@ -134,6 +133,7 @@ export default {
       'jobRewardMultiplier',
       'jobsAvailableTimestamps',
       'jobsCompletedTimestamps',
+      'firstJobComplete',
       'nextJobTime',
       'jobAvailable',
       'workerWps',
@@ -176,7 +176,7 @@ export default {
       // complete job
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
       this.$root.$emit('subtractWords', job.words);
-      this.firstJobComplete = true;
+      this.updateData({ index: 'firstJobComplete', value: true });
 
       // show message
       notify(`Job Complete: ${job.name}`, { icon: 'fa-briefcase' });
@@ -200,7 +200,7 @@ export default {
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(this.urgentJobRewardMultiplier).times(job.payment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
-      this.firstJobComplete = true;
+      this.updateData({ index: 'firstUrgentJobComplete', value: true });
 
       // show message
       notify(`Urgent Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });
