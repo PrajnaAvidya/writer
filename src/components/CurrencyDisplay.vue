@@ -13,7 +13,7 @@
     </div>
     <div v-if="debug.enabled">
       <div>
-        Base $ per Second (DEBUG): {{ workerMps | moneyCents }}
+        Base $ per Second (DEBUG): {{ totalMps | moneyCents }}
       </div>
       <div>
         Base Word Value (DEBUG): {{ words.times(wordValue) | moneyCents }}
@@ -51,7 +51,7 @@ export default {
       'showWps',
       'workerWps',
       'totalWps',
-      'workerMps',
+      'totalMps',
     ]),
     ...mapGetters([
       'wordValue',

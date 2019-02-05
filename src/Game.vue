@@ -145,7 +145,6 @@ export default {
         this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
         this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
       }
-
       if (this.debug.disableUnfolding) {
         this.updateData({ index: 'showMoney', value: true });
         this.updateData({ index: 'showWps', value: true });
@@ -155,6 +154,10 @@ export default {
         this.updateData({ index: 'showWorkers', value: true });
         this.updateData({ index: 'showUpgrades', value: true });
         this.updateData({ index: 'showStats', value: true });
+      }
+      if (this.debug.disableTutorials) {
+        this.updateData({ index: 'firstJobComplete', value: true });
+        this.updateData({ index: 'firstUrgentJobComplete', value: true });
       }
     }
 
@@ -388,7 +391,7 @@ export default {
       this.updateData({ index: 'totalWps', value: totalWps });
       this.updateData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
-      this.updateData({ index: 'workerMps', value: this.workerWps.times(this.currency.wordValue) });
+      this.updateData({ index: 'totalMps', value: this.totalWps.times(this.currency.wordValue) });
     },
     // jobs
     updateJobs() {

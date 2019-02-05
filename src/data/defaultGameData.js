@@ -6,8 +6,8 @@ export default {
   debug: {
     enabled: true,
     fastTutorials: true,
-    disableTutorials: false,
-    disableUnfolding: false,
+    disableTutorials: true,
+    disableUnfolding: true,
     urgentJobs: false,
     startingWords: Big(0),
     startingMoney: Big(1),
@@ -86,7 +86,7 @@ export default {
   workers: {},
   workerQuantities: workerIndex(0),
   workerWps: Big(0),
-  workerMps: Big(0),
+  totalMps: Big(0),
   individualWorkerWps: {},
   workerTooltips: {},
 
