@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p class="is-size-2">
+      Stats for {{ playerName }}
+    </p>
     <table class="table">
       <tbody>
         <tr>
@@ -53,6 +56,7 @@ export default {
       return this.statistics.upgrades.div(this.statistics.totalUpgrades).times(100).toFixed(0);
     },
     ...mapState([
+      'playerName',
       'statistics',
     ]),
   },

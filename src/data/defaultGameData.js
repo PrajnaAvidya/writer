@@ -4,19 +4,19 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // debug
   debug: {
-    enabled: true,
+    enabled: false,
     disableTutorials: true,
     disableUnfolding: true,
     urgentJobs: true,
     startingWords: Big(10000),
-    startingMoney: Big(0),
+    startingMoney: Big(10000),
     caffeineTime: 30,
     caffeineCooldown: 5,
     jobCooldown: 5,
   },
 
   // name
-  playerName: '',
+  playerName: 'Rafiq',
 
   // tutorials
   tutorials: [],
