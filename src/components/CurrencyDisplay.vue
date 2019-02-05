@@ -1,9 +1,17 @@
 <template>
   <div>
-    <div class="is-size-3">
-      Words: {{ words | round }}
-    </div>
-    <div class="is-size-6">
+    <Transition name="fade">
+      <div
+        v-if="showWords"
+        class="is-size-3"
+      >
+        Words: {{ words | round }}
+      </div>
+    </Transition>
+    <div
+      v-if="showWps"
+      class="is-size-6"
+    >
       Words per Second: {{ totalWps | round }}
     </div>
     <div v-if="debugMode">
@@ -14,7 +22,10 @@
         Base Word Value (DEBUG): {{ words.times(wordValue) | moneyCents }}
       </div>
     </div>
-    <div class="is-size-4">
+    <div
+      v-if="showMoney"
+      class="is-size-4"
+    >
       Money: {{ money | moneyCents }}
     </div>
   </div>
@@ -37,6 +48,9 @@ export default {
   },
   computed: {
     ...mapState([
+      'showWords',
+      'showMoney',
+      'showWps',
       'workerWps',
       'totalWps',
       'workerMps',

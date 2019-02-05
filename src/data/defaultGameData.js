@@ -3,7 +3,7 @@ import workerIndex from '@/utils/workerIndex';
 
 export default {
   // debug
-  debugMode: true,
+  debugMode: false,
   debugDisableTutorials: true,
   debugStartingWords: Big(10000),
   debugStartingMoney: Big(0),
@@ -61,7 +61,7 @@ export default {
     3: 0,
     4: 0,
   },
-  jobCooldown: 120,
+  jobCooldown: 300,
   jobRewardMultiplier: Big(1),
   jobAvailable: {},
 
@@ -94,7 +94,16 @@ export default {
   // random words
   adjectives: [],
 
-  // TODO unfolding
+  // unfolding
+  showWords: false,
+  showMoney: false,
+  showWps: false,
+  showNavigation: false,
+  showCoffee: false,
+  showJobs: false,
+  showWorkers: false,
+  showUpgrades: false,
+  showStats: false, // TODO
   firstJobComplete: false,
   firstUrgentJobComplete: false,
 

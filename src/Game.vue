@@ -10,6 +10,7 @@
       />
 
       <CaffeineBuzz
+        v-if="showCoffee"
         :buzz-active="buzzActive"
         class="caffeine-section"
       />
@@ -17,7 +18,7 @@
       <CreativeButtons />
     </section>
 
-    <NavBar />
+    <NavBar v-if="showNavigation" />
 
     <section class="section main">
       <RouterView />
@@ -120,6 +121,10 @@ export default {
       'urgentJobMinimumTime',
       'urgentJobMaximumTime',
       'urgentJobRewardMultiplier',
+      // unfolding
+      'showWords',
+      'showNavigation',
+      'showCoffee',
       // debug
       'debugMode',
       'debugStartingWords',
@@ -263,6 +268,10 @@ export default {
       }
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
+
+      if (!this.showWords && this.currency.words.gte(5)) {
+        this.updateData({ index: 'showWords', value: true });
+      }
 
       // show floating + animation
       animatePlus({

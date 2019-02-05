@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import BaseModal from '@/components/Modals/BaseModal.vue';
 
 export default {
@@ -73,6 +73,8 @@ export default {
       // check if tutorial conditions are met
       if (this.tutorial.unlock.words && this.words.gte(this.tutorial.unlock.words)) {
         this.showTutorial();
+      } else if (this.tutorial.unlock.money && this.money.gte(this.tutorial.unlock.money)) {
+        this.showTutorial();
       } else if (this.tutorial.unlock.caffeine === true && this.buzzActive === true) {
         this.showTutorial();
       } else if (this.tutorial.unlock.job === true && this.jobsComplete.gt(0)) {
@@ -87,16 +89,36 @@ export default {
       // show modal
       if (this.debugMode === true || !this.tutorial.delay) {
         // open immediately
-        this.$refs.modal.open();
+        this.revealTutorial();
       } else {
         // delay
-        setTimeout(() => this.$refs.modal.open(), parseInt(1000 * this.tutorial.delay, 10));
+        setTimeout(() => {
+          this.revealTutorial();
+        }, parseInt(1000 * this.tutorial.delay, 10));
+      }
+    },
+    revealTutorial() {
+      if (this.tutorial.text) {
+        this.$refs.modal.open();
+      }
+
+      if (this.tutorial.reveal) {
+        this.tutorial.reveal.forEach((reveal) => {
+          this.updateData({ index: reveal, value: true });
+        });
+      }
+
+      if (this.tutorial.urgentJob) {
+        // TODO trigger urgent job for 100 words
       }
     },
     getNextTutorial() {
       this.tutorial = this.tutorials.pop();
       this.active = false;
     },
+    ...mapMutations([
+      'updateData',
+    ]),
   },
 };
 </script>
