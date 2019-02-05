@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import BaseModal from '@/components/Modals/BaseModal.vue';
 
 export default {
@@ -28,8 +28,7 @@ export default {
   }),
   computed: {
     ...mapState([
-      'debugMode',
-      'debugDisableTutorials',
+      'debug',
       'tutorials',
       'currency',
       'buzzActive',
@@ -66,12 +65,14 @@ export default {
   methods: {
     checkTutorial() {
       // return if debug mode, active tutorial, or no tutorial
-      if ((this.debugMode && this.debugDisableTutorials) || this.tutorial === undefined || this.active === true) {
+      if ((this.debug.enabled && this.debug.disableTutorials) || this.tutorial === undefined || this.active === true) {
         return;
       }
 
       // check if tutorial conditions are met
       if (this.tutorial.unlock.words && this.words.gte(this.tutorial.unlock.words)) {
+        this.showTutorial();
+      } else if (this.tutorial.unlock.money && this.money.gte(this.tutorial.unlock.money)) {
         this.showTutorial();
       } else if (this.tutorial.unlock.caffeine === true && this.buzzActive === true) {
         this.showTutorial();
@@ -85,18 +86,40 @@ export default {
       this.active = true;
 
       // show modal
-      if (this.debugMode === true || !this.tutorial.delay) {
+      if ((this.debug.enabled && this.debug.fastTutorials) || !this.tutorial.delay) {
         // open immediately
-        this.$refs.modal.open();
+        this.revealTutorial();
       } else {
         // delay
-        setTimeout(() => this.$refs.modal.open(), parseInt(1000 * this.tutorial.delay, 10));
+        setTimeout(() => {
+          this.revealTutorial();
+        }, parseInt(1000 * this.tutorial.delay, 10));
+      }
+    },
+    revealTutorial() {
+      if (this.tutorial.reveal) {
+        this.tutorial.reveal.forEach((reveal) => {
+          this.updateData({ index: reveal, value: true });
+        });
+      }
+
+      if (this.tutorial.urgentJob) {
+        this.$root.$emit('updateUrgentJob', true);
+      }
+
+      if (this.tutorial.text) {
+        this.$refs.modal.open();
+      } else {
+        this.getNextTutorial();
       }
     },
     getNextTutorial() {
       this.tutorial = this.tutorials.pop();
       this.active = false;
     },
+    ...mapMutations([
+      'updateData',
+    ]),
   },
 };
 </script>

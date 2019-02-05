@@ -2,10 +2,10 @@
   <BaseModal
     ref="modal"
     title="Writer Incremental"
-    :initial-state="!(debugMode && debugDisableTutorials)"
+    :initial-state="!(debug.enabled && debug.disableTutorials)"
   >
     <div class="field is-grouped text input-text">
-      You are a struggling writer named &nbsp;
+      I am a struggling writer named &nbsp;
       <p class="control">
         <input
           v-model="playerName"
@@ -13,10 +13,10 @@
           type="text"
         >
       </p>
-      &nbsp; down to your very last
+      &nbsp; down to my very last dollar
     </div>
     <div class="text">
-      dollar. All that you can do now is write as many WORDS as possible.
+      All that I can do now is write as many WORDS as possible.
     </div>
     <template slot="footer">
       <button
@@ -43,8 +43,7 @@ export default {
   }),
   computed: {
     ...mapState([
-      'debugMode',
-      'debugDisableTutorials',
+      'debug',
     ]),
   },
   methods: {

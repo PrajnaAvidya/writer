@@ -3,17 +3,21 @@ import workerIndex from '@/utils/workerIndex';
 
 export default {
   // debug
-  debugMode: false,
-  debugDisableTutorials: true,
-  debugStartingWords: Big(1E6),
-  debugStartingMoney: Big(1E6),
-  debugCaffeineTime: 5,
-  debugCaffeineCooldown: 5,
-  debugJobCooldown: 5,
-  debugUrgentJobs: false,
+  debug: {
+    enabled: true,
+    fastTutorials: true,
+    disableTutorials: false,
+    disableUnfolding: false,
+    urgentJobs: false,
+    startingWords: Big(0),
+    startingMoney: Big(1),
+    caffeineTime: 30,
+    caffeineCooldown: 600,
+    jobCooldown: 300,
+  },
 
   // name
-  playerName: '',
+  playerName: 'Rafiq',
 
   // tutorials
   tutorials: [],
@@ -61,7 +65,7 @@ export default {
     3: 0,
     4: 0,
   },
-  jobCooldown: 120,
+  jobCooldown: 300,
   jobRewardMultiplier: Big(1),
   jobAvailable: {},
 
@@ -93,6 +97,18 @@ export default {
 
   // random words
   adjectives: [],
+
+  // unfolding
+  showMoney: false,
+  showWps: false,
+  showNavigation: false,
+  showCoffee: false,
+  showJobs: false,
+  showWorkers: false,
+  showUpgrades: false,
+  showStats: false,
+  firstJobComplete: false,
+  firstUrgentJobComplete: false,
 
   // stats
   statistics: {
