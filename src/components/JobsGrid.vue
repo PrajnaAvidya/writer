@@ -140,7 +140,6 @@ export default {
       'urgentJobActive',
       'urgentJobCountdown',
       'urgentJobRewardMultiplier',
-      'debugMode',
     ]),
     ...mapGetters([
       'words',

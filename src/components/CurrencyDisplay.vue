@@ -11,7 +11,7 @@
     >
       Words per Second: {{ totalWps | round }}
     </div>
-    <div v-if="debugMode">
+    <div v-if="debug.enabled">
       <div>
         Base $ per Second (DEBUG): {{ workerMps | moneyCents }}
       </div>
@@ -45,13 +45,13 @@ export default {
   },
   computed: {
     ...mapState([
+      'debug',
       'showWords',
       'showMoney',
       'showWps',
       'workerWps',
       'totalWps',
       'workerMps',
-      'debugMode',
     ]),
     ...mapGetters([
       'wordValue',

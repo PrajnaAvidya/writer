@@ -2,7 +2,7 @@
   <BaseModal
     ref="modal"
     title="Writer Incremental"
-    :initial-state="!(debugMode && debugDisableTutorials)"
+    :initial-state="!(debug.enabled && debug.disableTutorials)"
   >
     <div class="field is-grouped text input-text">
       I am a struggling writer named &nbsp;
@@ -43,8 +43,7 @@ export default {
   }),
   computed: {
     ...mapState([
-      'debugMode',
-      'debugDisableTutorials',
+      'debug',
     ]),
   },
   methods: {
