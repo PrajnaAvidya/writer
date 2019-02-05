@@ -241,8 +241,8 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
   height: 43px;
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   background-color: $greenish;
 }
 hr, .table, .progress {

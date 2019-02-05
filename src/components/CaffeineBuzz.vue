@@ -16,7 +16,7 @@
         </a>
       </div>
       <div class="column is-half">
-        <div>
+        <div class="caffeine-status">
           <span v-if="buzzActive">
             Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
           </span>
@@ -82,5 +82,9 @@ export default {
 }
 .caffeine-icon {
   margin-right: 5px;
+}
+.caffeine-status {
+  height: 52px;
+  line-height: 52px;
 }
 </style>
