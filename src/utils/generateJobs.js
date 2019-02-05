@@ -23,6 +23,12 @@ function generateJob(id, name, wordValue, wps, rewardRange, wordRange, minimumWo
 }
 
 const jobTypes = {
+  0: {
+    name: 'Urgent',
+    rewardRange: [750, 1000],
+    wordRange: [180, 900],
+    minimumWords: 1000,
+  },
   1: {
     name: 'Tiny',
     rewardRange: [200, 200],
@@ -47,23 +53,8 @@ const jobTypes = {
     wordRange: [900, 2400],
     minimumWords: 2000,
   },
-  5: {
-    name: 'Urgent',
-    rewardRange: [750, 1000],
-    wordRange: [180, 900],
-    minimumWords: 1000,
-  },
 };
 
-export default function (wordValue, wps, jobId = null) {
-  if (jobId) {
-    return generateJob(jobId, jobTypes[jobId].name, wordValue, wps, jobTypes[jobId].rewardRange, jobTypes[jobId].wordRange, jobTypes[jobId].minimumWords);
-  }
-
-  const jobs = {};
-  for (let id = 1; id <= 4; id += 1) {
-    jobs[id] = generateJob(id, jobTypes[id].name, wordValue, wps, jobTypes[id].rewardRange, jobTypes[id].wordRange, jobTypes[id].minimumWords);
-  }
-
-  return jobs;
+export default function (wordValue, wps, jobId) {
+  return generateJob(jobId, jobTypes[jobId].name, wordValue, wps, jobTypes[jobId].rewardRange, jobTypes[jobId].wordRange, jobTypes[jobId].minimumWords);
 }

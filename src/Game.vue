@@ -133,6 +133,7 @@ export default {
       'debugCaffeineCooldown',
       'debugJobCooldown',
       'debugUrgentJobs',
+      'debugDisableUnfolding',
     ]),
   },
   created() {
@@ -140,15 +141,28 @@ export default {
   },
   mounted() {
     // check for debug mode
-    if (this.debugMode) {
+    if (this.debugMode === true) {
       this.currency.words = this.debugStartingWords;
       this.currency.money = this.debugStartingMoney;
       this.updateData({ index: 'caffeineTime', value: this.debugCaffeineTime });
       this.updateData({ index: 'caffeineCooldown', value: this.debugCaffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debugJobCooldown });
-      if (this.debugUrgentJobs) {
+      if (this.debugUrgentJobs === true) {
         this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
         this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
+      }
+
+      if (this.debugDisableUnfolding === true) {
+        console.log('test');
+        this.updateData({ index: 'showWords', value: true });
+        this.updateData({ index: 'showMoney', value: true });
+        this.updateData({ index: 'showWps', value: true });
+        this.updateData({ index: 'showNavigation', value: true });
+        this.updateData({ index: 'showCoffee', value: true });
+        this.updateData({ index: 'showJobs', value: true });
+        this.updateData({ index: 'showWorkers', value: true });
+        this.updateData({ index: 'showUpgrades', value: true });
+        this.updateData({ index: 'showStats', value: true });
       }
     }
 
@@ -438,7 +452,7 @@ export default {
           }
           // generate job
           // TODO look at current words/wps/caffeine & make attainable
-          this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
+          this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 0) });
           // show notification
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',

@@ -3,14 +3,15 @@ import workerIndex from '@/utils/workerIndex';
 
 export default {
   // debug
-  debugMode: false,
+  debugMode: true,
   debugDisableTutorials: true,
   debugStartingWords: Big(10000),
   debugStartingMoney: Big(0),
   debugCaffeineTime: 30,
   debugCaffeineCooldown: 5,
   debugJobCooldown: 5,
-  debugUrgentJobs: false,
+  debugUrgentJobs: true,
+  debugDisableUnfolding: true,
 
   // name
   playerName: '',
