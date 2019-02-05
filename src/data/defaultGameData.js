@@ -103,7 +103,7 @@ export default {
   showJobs: false,
   showWorkers: false,
   showUpgrades: false,
-  showStats: false, // TODO
+  showStats: false,
   firstJobComplete: false,
   firstUrgentJobComplete: false,
 
