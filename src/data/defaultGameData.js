@@ -4,15 +4,16 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // debug
   debug: {
-    enabled: false,
-    disableTutorials: true,
-    disableUnfolding: true,
-    urgentJobs: true,
-    startingWords: Big(10000),
-    startingMoney: Big(10000),
+    enabled: true,
+    fastTutorials: true,
+    disableTutorials: false,
+    disableUnfolding: false,
+    urgentJobs: false,
+    startingWords: Big(0),
+    startingMoney: Big(1),
     caffeineTime: 30,
-    caffeineCooldown: 5,
-    jobCooldown: 5,
+    caffeineCooldown: 600,
+    jobCooldown: 300,
   },
 
   // name

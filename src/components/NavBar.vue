@@ -6,7 +6,10 @@
         v-if="showJobs"
         name="fade"
       >
-        <RouterLink to="/jobs">
+        <RouterLink
+          to="/jobs"
+          class="nav-link"
+        >
           <i class="fas fa-briefcase fa-lg" />
           Jobs
         </RouterLink>
@@ -15,8 +18,10 @@
         v-if="showWorkers"
         name="fade"
       >
-        |
-        <RouterLink to="/workers">
+        <RouterLink
+          to="/workers"
+          class="nav-link"
+        >
           <i class="fas fa-building fa-lg" />
           Workers
         </RouterLink>
@@ -25,8 +30,10 @@
         v-if="showUpgrades"
         name="fade"
       >
-        |
-        <RouterLink to="/upgrades">
+        <RouterLink
+          to="/upgrades"
+          class="nav-link"
+        >
           <i class="fas fa-arrow-up fa-lg" />
           Upgrades
         </RouterLink>
@@ -35,8 +42,10 @@
         v-if="showStats"
         name="fade"
       >
-        |
-        <RouterLink to="/stats">
+        <RouterLink
+          to="/stats"
+          class="nav-link"
+        >
           <i class="fas fa-chart-line fa-lg" />
           Stats
         </RouterLink>
@@ -65,5 +74,9 @@ export default {
 <style lang="scss" scoped>
 .nav {
   font-size: 16pt;
+}
+.nav-link {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 </style>

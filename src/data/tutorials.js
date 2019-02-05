@@ -48,7 +48,7 @@ export default [
   },
   {
     unlock: {
-      money: 1,
+      money: 100,
     },
     delay: 5,
     text: 'Sweet! I can use this money to buy some upgrades, or hire more workers... or both!',
