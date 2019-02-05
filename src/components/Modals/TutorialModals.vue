@@ -3,13 +3,18 @@
     ref="modal"
     :show-header="false"
     :show-footer="false"
-    :click-to-close="true"
     @close="getNextTutorial()"
   >
     <div>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <span v-html="tutorial ? tutorial.text : ''" />
     </div>
+    <button
+      class="button is-primary"
+      @click="closeAndGetNextTutorial()"
+    >
+      OK
+    </button>
   </BaseModal>
 </template>
 
@@ -117,9 +122,19 @@ export default {
       this.tutorial = this.tutorials.pop();
       this.active = false;
     },
+    closeAndGetNextTutorial() {
+      this.$refs.modal.close();
+      this.getNextTutorial();
+    },
     ...mapMutations([
       'updateData',
     ]),
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.button {
+  margin-top: 10px;
+}
+</style>

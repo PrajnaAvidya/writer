@@ -1,8 +1,9 @@
 <template>
   <BaseModal
     ref="modal"
-    title="Writer Incremental"
     :initial-state="!(debug.enabled && debug.disableTutorials)"
+    :show-header="false"
+    :show-footer="false"
   >
     <div class="field is-grouped text input-text">
       I am a struggling writer named &nbsp;
@@ -18,14 +19,12 @@
     <div class="text">
       All that I can do now is write as many WORDS as possible.
     </div>
-    <template slot="footer">
-      <button
-        class="button"
-        @click="closeIntro()"
-      >
-        OK
-      </button>
-    </template>
+    <button
+      class="button is-primary"
+      @click="closeIntro()"
+    >
+      OK
+    </button>
   </BaseModal>
 </template>
 
@@ -59,6 +58,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.button {
+  margin-top: 10px;
+}
 .text {
   text-align: center;
   height: 35px;

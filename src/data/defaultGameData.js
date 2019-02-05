@@ -6,7 +6,7 @@ export default {
   debug: {
     enabled: true,
     fastTutorials: true,
-    disableTutorials: true,
+    disableTutorials: false,
     disableUnfolding: true,
     urgentJobs: false,
     startingWords: Big(0),
