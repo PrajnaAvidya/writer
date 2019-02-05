@@ -8,6 +8,7 @@ export default [
     delay: 10,
     text: 'I didn\'t realize this would be SO HARD. It\'s taking forever just to write a few words! Maybe drinking a coffee would help...',
     reveal: ['showCoffee'],
+    urgentJob: true,
   },
   {
     unlock: {

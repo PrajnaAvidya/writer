@@ -109,7 +109,7 @@ export default {
       }
 
       if (this.tutorial.urgentJob) {
-        // TODO trigger urgent job for 100 words
+        this.$root.$emit('updateUrgentJob', true);
       }
     },
     getNextTutorial() {

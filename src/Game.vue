@@ -201,6 +201,7 @@ export default {
       this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
       this.$root.$on('multiplyJobReward', this.multiplyJobReward);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
+      this.$root.$on('updateUrgentJob', this.updateUrgentJob);
       this.$root.$on('multiplyUrgentJobCooldown', this.multiplyUrgentJobCooldown);
       this.$root.$on('multiplyUrgentJobTimer', this.multiplyUrgentJobTimer);
       this.$root.$on('multiplyUrgentJobReward', this.multiplyUrgentJobReward);
@@ -425,13 +426,18 @@ export default {
       this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
     },
     // urgent jobs
-    updateUrgentJob() {
-      if (this.utimestamp >= this.urgentJobTimestamp) {
+    updateUrgentJob(force = false) {
+      if (force === true || this.utimestamp >= this.urgentJobTimestamp) {
         if (!this.urgentJobActive) {
           if (this.debugMode) {
             console.log('enabling urgent job');
           }
+          if (force === true) {
+            // update end time for forced jobs
+            this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
+          }
           // generate job
+          // TODO look at current words/wps/caffeine & make attainable
           this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 5) });
           // show notification
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
