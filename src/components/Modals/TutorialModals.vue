@@ -98,10 +98,6 @@ export default {
       }
     },
     revealTutorial() {
-      if (this.tutorial.text) {
-        this.$refs.modal.open();
-      }
-
       if (this.tutorial.reveal) {
         this.tutorial.reveal.forEach((reveal) => {
           this.updateData({ index: reveal, value: true });
@@ -110,6 +106,12 @@ export default {
 
       if (this.tutorial.urgentJob) {
         this.$root.$emit('updateUrgentJob', true);
+      }
+
+      if (this.tutorial.text) {
+        this.$refs.modal.open();
+      } else {
+        this.getNextTutorial();
       }
     },
     getNextTutorial() {

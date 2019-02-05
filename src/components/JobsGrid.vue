@@ -114,7 +114,6 @@
 <script>
 import Big from 'big.js';
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import generateJobs from '@/utils/generateJobs';
 import unixTimestamp from '@/utils/unixTimestamp';
 import notify from '@/utils/notify';
 

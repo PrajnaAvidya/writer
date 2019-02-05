@@ -3,7 +3,7 @@ import workerIndex from '@/utils/workerIndex';
 
 export default {
   // debug
-  debugMode: true,
+  debugMode: false,
   debugDisableTutorials: true,
   debugStartingWords: Big(10000),
   debugStartingMoney: Big(0),
@@ -96,7 +96,6 @@ export default {
   adjectives: [],
 
   // unfolding
-  showWords: false,
   showMoney: false,
   showWps: false,
   showNavigation: false,

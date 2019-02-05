@@ -38,7 +38,8 @@ import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
-import generateJobs from '@/utils/generateJobs';
+import generateJob from '@/utils/generateJob';
+import generateUrgentJob from '@/utils/generateUrgentJob';
 import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
@@ -122,7 +123,6 @@ export default {
       'urgentJobMaximumTime',
       'urgentJobRewardMultiplier',
       // unfolding
-      'showWords',
       'showNavigation',
       'showCoffee',
       // debug
@@ -153,8 +153,6 @@ export default {
       }
 
       if (this.debugDisableUnfolding === true) {
-        console.log('test');
-        this.updateData({ index: 'showWords', value: true });
         this.updateData({ index: 'showMoney', value: true });
         this.updateData({ index: 'showWps', value: true });
         this.updateData({ index: 'showNavigation', value: true });
@@ -165,9 +163,6 @@ export default {
         this.updateData({ index: 'showStats', value: true });
       }
     }
-
-    // set time for next urgent job
-    this.setNextUrgentJob();
 
     // loop in currency
     this.loopEffect('displayedWords', this.currency.words);
@@ -283,10 +278,6 @@ export default {
       }
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
-
-      if (!this.showWords && this.currency.words.gte(5)) {
-        this.updateData({ index: 'showWords', value: true });
-      }
 
       // show floating + animation
       animatePlus({
@@ -427,7 +418,7 @@ export default {
         this.$set(this.jobAvailable, jobId, unixTimestamp() >= this.jobsAvailableTimestamps[jobId]);
         if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
           // generate new job
-          this.jobs[jobId] = generateJobs(this.currency.wordValue, this.workerWps, jobId);
+          this.jobs[jobId] = generateJob(this.currency.wordValue, this.workerWps, jobId);
         }
       }
 
@@ -450,10 +441,9 @@ export default {
             // update end time for forced jobs
             this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
           }
-          // generate job
-          // TODO look at current words/wps/caffeine & make attainable
-          this.updateData({ index: 'urgentJob', value: generateJobs(this.currency.wordValue, this.workerWps, 0) });
-          // show notification
+          // generate urgent job
+          this.updateData({ index: 'urgentJob', value: generateUrgentJob(this.currency, this.workerWps) });
+          // show notification with countdown timer
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
             icon: 'fa-bullhorn',

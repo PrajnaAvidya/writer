@@ -1,10 +1,7 @@
 <template>
   <div>
     <Transition name="fade">
-      <div
-        v-if="showWords"
-        class="is-size-3"
-      >
+      <div class="is-size-3">
         Words: {{ words | round }}
       </div>
     </Transition>
