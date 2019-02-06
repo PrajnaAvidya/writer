@@ -174,6 +174,7 @@ export default {
       // complete job
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
       this.$root.$emit('subtractWords', job.words);
+      this.addToStat({ stat: 'jobs', amount: 1 });
       this.updateData({ index: 'firstJobComplete', value: true });
 
       // show message

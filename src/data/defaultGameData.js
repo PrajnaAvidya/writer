@@ -4,7 +4,7 @@ import workerIndex from '@/utils/workerIndex';
 export default {
   // debug
   debug: {
-    enabled: true,
+    enabled: false,
     fastTutorials: true,
     disableTutorials: false,
     disableUnfolding: true,
@@ -39,10 +39,10 @@ export default {
 
   // caffeine
   buzzActive: false,
-  caffeineTime: 30,
-  caffeineCooldown: 600,
+  caffeineTime: 10,
+  caffeineCooldown: 300,
   caffeineClickMultiplier: Big(2),
-  caffeineWordGeneration: Big(3),
+  caffeineWordGeneration: Big(5),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
   // caffeine animation

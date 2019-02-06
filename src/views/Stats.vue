@@ -1,8 +1,5 @@
 <template>
   <div>
-    <p class="is-size-2">
-      Stats for {{ playerName }}
-    </p>
     <table class="table">
       <tbody>
         <tr>

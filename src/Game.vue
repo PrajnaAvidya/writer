@@ -1,6 +1,6 @@
 <template>
   <div id="game">
-    <IntroModal />
+    <!-- IntroModal -->
     <TutorialModals />
 
     <section class="section stats">
@@ -45,7 +45,7 @@ import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
-import IntroModal from '@/components/Modals/IntroModal.vue';
+// import IntroModal from '@/components/Modals/IntroModal.vue';
 import TutorialModals from '@/components/Modals/TutorialModals.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
@@ -56,7 +56,6 @@ export default {
   name: 'Game',
   components: {
     NavBar,
-    IntroModal,
     TutorialModals,
     CreativeButtons,
     CaffeineBuzz,
