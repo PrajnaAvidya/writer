@@ -42,12 +42,14 @@ export default {
   name: 'UpgradePanel',
   computed: {
     ...mapState([
+      'currency',
       'workers',
       'upgrades',
       'revealedUpgrades',
       'purchasedUpgrades',
       'statistics',
       'playerIcons',
+      'urgentJobTimestamp',
     ]),
     ...mapGetters([
       'money',
@@ -76,12 +78,13 @@ export default {
       if (upgrade.type === 'worker') {
         if (upgrade.multipliers) {
           Object.keys(upgrade.multipliers).forEach((workerId) => {
-            this.$root.$emit('multiplyProductivity', { worker: workerId, amount: upgrade.multipliers[workerId] });
+            this.workers[workerId].productivityMultiplier = this.workers[workerId].productivityMultiplier.times(upgrade.multipliers[workerId]);
+            this.$root.$emit('updateWpsMps');
           });
         }
       } else if (upgrade.type === 'clicking') {
         if (upgrade.writingMultiplier) {
-          this.$root.$emit('multiplyClickingWords', upgrade.writingMultiplier);
+          this.multiplyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
           // upgrade icon
           const icon = this.playerIcons.pop();
           if (icon !== undefined) {
@@ -90,35 +93,38 @@ export default {
         }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
-          this.$root.$emit('reduceCaffeineCooldown', upgrade.cooldownReduction);
+          this.adjustCaffeineTimer(-upgrade.cooldownReduction);
         }
         if (upgrade.lengthMultiplier) {
-          this.$root.$emit('multiplyCaffeineLength', upgrade.lengthMultiplier);
+          this.multiplyData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
         }
         if (upgrade.powerMultiplier) {
-          this.$root.$emit('multiplyCaffeinePower', upgrade.powerMultiplier);
+          this.multiplyData({ index: 'caffeineClickMultiplier', amount: upgrade.powerMultiplier });
         }
         if (upgrade.wordMultiplier) {
-          this.$root.$emit('multiplyCaffeineWords', upgrade.wordMultiplier);
+          this.multiplyData({ index: 'caffeineWordGeneration', amount: upgrade.wordMultiplier });
         }
       } else if (upgrade.type === 'wordValue') {
-        this.$root.$emit('multiplyWordValue', upgrade.multiplier);
+        this.currency.wordValue = this.currency.wordValue.times(upgrade.multiplier);
+        this.$root.$emit('updateWpsMps');
       } else if (upgrade.type === 'jobs') {
         if (upgrade.cooldownMultiplier) {
-          this.$root.$emit('multiplyJobCooldown', upgrade.cooldownMultiplier);
+          this.multiplyData({ index: 'jobCooldown', amount: upgrade.cooldownMultiplier });
         }
         if (upgrade.rewardMultiplier) {
-          this.$root.$emit('multiplyJobReward', upgrade.rewardMultiplier);
+          this.multiplyData({ index: 'jobRewardMultiplier', amount: upgrade.rewardMultiplier });
         }
       } else if (upgrade.type === 'urgentJobs') {
         if (upgrade.cooldownMultiplier) {
-          this.$root.$emit('multiplyUrgentJobCooldown', upgrade.cooldownMultiplier);
+          this.multiplyData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
+          this.multiplyData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
         }
         if (upgrade.timerMultiplier) {
-          this.$root.$emit('multiplyUrgentJobTimer', upgrade.timerMultiplier);
+          this.multiplyData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
+          this.updateData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
         }
         if (upgrade.rewardMultiplier) {
-          this.$root.$emit('multiplyUrgentJobReward', upgrade.rewardMultiplier);
+          this.multiplyData({ index: 'urgentJobRewardMultiplier', amount: upgrade.rewardMultiplier });
         }
       }
 
@@ -240,6 +246,8 @@ export default {
     },
     ...mapMutations([
       'updateData',
+      'multiplyData',
+      'adjustCaffeineTimer',
     ]),
   },
 };

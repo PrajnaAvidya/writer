@@ -56,6 +56,13 @@ export default new Vuex.Store({
     updateData(state, { index, value }) {
       state[index] = value;
     },
+    multiplyData(state, { index, amount }) {
+      if (typeof state[index] === 'object') {
+        state[index] = state[index].times(amount);
+      } else {
+        state[index] *= amount;
+      }
+    },
   },
 
   actions: {
