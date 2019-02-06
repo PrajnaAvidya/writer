@@ -11,11 +11,11 @@ export default {
     base: 1000,
     multiplier: 10,
   },
-  spentMoney: {
+  moneySpent: {
     base: 1000,
     multiplier: 5,
   },
-  coffees: {
+  caffeines: {
     base: 5,
     multiplier: 2,
   },

@@ -493,9 +493,6 @@ export default {
 #game {
   text-align: center;
 }
-.stats {
-  padding-top: 20px !important;
-}
 .nav {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -504,6 +501,9 @@ export default {
   padding: 0;
   width: 900px;
   margin: 0 auto;
+}
+.stats {
+  padding-top: 20px !important;
 }
 .caffeine-section {
   padding: 25px;
@@ -518,8 +518,5 @@ export default {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
-}
-.test1234 {
-  vertical-align: top;
 }
 </style>

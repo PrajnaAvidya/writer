@@ -8,6 +8,7 @@ import workerIndex from '@/utils/workerIndex';
 import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
 import tutorials from '@/data/tutorials';
+import milestones from '@/data/milestones';
 
 const data = {
   debug: {
@@ -19,7 +20,7 @@ const data = {
     startingWords: Big(1E6),
     startingMoney: Big(1E6),
     caffeineTime: 10,
-    caffeineCooldown: 1,
+    caffeineCooldown: 10,
     jobCooldown: 1,
   },
 
@@ -115,28 +116,33 @@ const data = {
   firstUrgentJobComplete: false,
 };
 
-const stats = [
-  'words',
-  'clickWords',
-  'money',
-  'moneySpent',
-  'caffeines',
-  'workers',
-  'jobs',
-  'urgentJobs',
-  'upgrades',
-  'totalUpgrades',
-];
+const stats = {
+  words: 'Words Written',
+  clickWords: 'Words Written from Clicks',
+  money: 'Money Made',
+  moneySpent: 'Money Spent',
+  caffeines: 'Coffees Drank',
+  workers: 'Workers Hired',
+  jobs: 'Jobs Complete',
+  urgentJobs: 'Urgent Jobs Complete',
+  upgrades: 'Upgrades Bought',
+};
 
 export default function () {
   const gameData = Object.assign({}, data);
 
   // generate stats
   gameData.statistics = {};
-  gameData.milestones = {};
-  stats.forEach((stat) => {
+  gameData.statDescriptions = {};
+  Object.keys(stats).forEach((stat) => {
     gameData.statistics[stat] = Big(0);
-    gameData.milestones[stat] = Big(0);
+    gameData.statDescriptions[stat] = stats[stat];
+  });
+
+  // generate first set of milestones
+  gameData.milestones = {};
+  Object.keys(milestones).forEach((stat) => {
+    gameData.milestones[stat] = milestones[stat].base;
   });
 
   // adjectives
