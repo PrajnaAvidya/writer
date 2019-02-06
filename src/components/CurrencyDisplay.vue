@@ -46,10 +46,8 @@ export default {
   computed: {
     ...mapState([
       'debug',
-      'showWords',
       'showMoney',
       'showWps',
-      'workerWps',
       'totalWps',
       'totalMps',
     ]),
