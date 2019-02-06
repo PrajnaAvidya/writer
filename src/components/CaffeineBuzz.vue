@@ -21,9 +21,18 @@
             Caffeine Buzz Remaining: {{ buzzRemaining }} seconds
           </span>
           <span v-else>
-            <span v-if="coffeeAvailableTimer > 0">
-              Coffee available in {{ coffeeAvailableTimer }} seconds
-            </span>
+            <div
+              v-if="coffeeAvailableTimer > 0"
+              class="caffeine-cooldown tooltip is-tooltip-bottom"
+              :data-tooltip="progressTooltip"
+              @click="hurryCooldown()"
+            >
+              <progress
+                class="progress is-info"
+                :value="caffeineProgress"
+                :max="caffeineCooldown * 1000"
+              />
+            </div>
           </span>
         </div>
       </div>
@@ -32,8 +41,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import unixTimestamp from '@/utils/unixTimestamp';
-import { mapState } from 'vuex';
 
 export default {
   name: 'CaffeineBuzz',
@@ -41,6 +50,8 @@ export default {
     coffeeAvailableTimer: 0,
     buzzRemaining: 0,
     interval: null,
+    caffeineProgress: 0,
+    progressTooltip: '',
   }),
   computed: {
     ...mapState([
@@ -52,21 +63,31 @@ export default {
     ]),
   },
   mounted() {
-    this.interval = setInterval(() => this.updateTimer(), 250);
+    this.interval = setInterval(() => this.updateTimer(), 100);
   },
   beforeDestroy() {
     clearInterval(this.interval);
   },
   methods: {
     updateTimer() {
+      const utimestamp = unixTimestamp();
       if (this.buzzActive) {
-        this.buzzRemaining = parseInt((this.endCaffeineTime - unixTimestamp()) / 1000, 10);
+        this.buzzRemaining = parseInt((this.endCaffeineTime - utimestamp) / 1000, 10);
         this.coffeeAvailableTimer = this.caffeineCooldown;
+        this.caffeineProgress = 0;
       } else {
         this.buzzRemaining = this.caffeineTime;
-        this.coffeeAvailableTimer = parseInt((this.nextCaffeineTime - unixTimestamp()) / 1000, 10);
+        this.coffeeAvailableTimer = parseInt((this.nextCaffeineTime - utimestamp) / 1000, 10);
+        this.caffeineProgress = (1000 * this.caffeineCooldown) - (this.nextCaffeineTime - utimestamp);
+        this.progressTooltip = `Coffee available in ${parseInt((this.nextCaffeineTime - utimestamp) / 1000, 10)} seconds`;
       }
     },
+    hurryCooldown(id) {
+      this.speedCaffeineCooldown(1);
+    },
+    ...mapMutations([
+      'speedCaffeineCooldown',
+    ]),
   },
 };
 </script>
@@ -86,5 +107,15 @@ export default {
 .caffeine-status {
   height: 52px;
   line-height: 52px;
+}
+.caffeine-cooldown {
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+}
+.progress {
+  margin: 0;
 }
 </style>

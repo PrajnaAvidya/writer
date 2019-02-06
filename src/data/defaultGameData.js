@@ -11,8 +11,8 @@ export default {
     urgentJobs: false,
     startingWords: Big(0),
     startingMoney: Big(1),
-    caffeineTime: 30,
-    caffeineCooldown: 600,
+    caffeineTime: 10,
+    caffeineCooldown: 300,
     jobCooldown: 300,
   },
 

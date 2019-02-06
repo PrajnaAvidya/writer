@@ -34,6 +34,9 @@ export default new Vuex.Store({
     speedJobCooldown(state, { id, seconds }) {
       state.jobsAvailableTimestamps[id] -= seconds * 1000;
     },
+    speedCaffeineCooldown(state, seconds) {
+      state.nextCaffeineTime -= seconds * 1000;
+    },
     activateCaffeine(state) {
       state.endCaffeineTime = unixTimestamp(state.caffeineTime);
       state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
