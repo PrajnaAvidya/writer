@@ -34,8 +34,6 @@ import { mapState, mapMutations } from 'vuex';
 // internal libs
 import log from '@/utils/log';
 import calculateWorkerWps from '@/utils/calculateWorkerWps';
-import generateWorkerData from '@/utils/generateWorkerData';
-import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
@@ -78,6 +76,9 @@ export default {
 
     caffeineX: 0,
     caffeineY: 0,
+    caffeineAnimationInterval: 1,
+    caffeineAnimationAmount: '1',
+    caffeineAnimationNext: 0,
   }),
   computed: {
     ...mapState([
@@ -100,10 +101,6 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'caffeineWordGeneration',
-      // caffeine animations
-      'caffeineAnimationNext',
-      'caffeineAnimationInterval',
-      'caffeineAnimationAmount',
       // jobs
       'jobs',
       'jobSlots',
@@ -128,9 +125,6 @@ export default {
       'showNavigation',
       'showCoffee',
     ]),
-  },
-  created() {
-    this.setupData();
   },
   mounted() {
     // check for debug mode
@@ -166,22 +160,13 @@ export default {
 
     // start game
     this.registerEvents();
+    this.calculateWorkerCosts();
+    this.updateWpsMps();
     window.requestAnimationFrame(this.tick);
   },
   methods: {
-    // generate all the initial data
-    setupData() {
-      log('setting up initial data');
-      this.loadAdjectives();
-      this.loadPlayerIcons();
-      this.setWorkers(generateWorkerData());
-      this.setUpgrades(generateUpgrades());
-      this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
-      this.calculateWorkerCosts();
-      this.updateWpsMps();
-      this.loadTutorials();
-    },
     registerEvents() {
+      // TODO sort this out
       log('registering events');
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
@@ -292,6 +277,7 @@ export default {
         this.caffeineY = event.pageY - 20;
 
         this.activateCaffeine();
+        this.caffeineAnimationParams();
         // show message
         notify('You feel buzzed', {
           type: 'warning',
@@ -334,8 +320,26 @@ export default {
             height: 150,
             disappearFrom: 0.25,
           });
-          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
+          this.caffeineAnimationNext = parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10);
         }
+      }
+    },
+    // caffeine animation
+    caffeineAnimationParams() {
+      if (this.caffeineWordGeneration.lte(5)) {
+        // show +1
+        this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration).toFixed();
+        this.caffeineAnimationAmount = 1;
+      } else if (this.caffeineWordGeneration.lt(5E6)) {
+        // show rounded +X
+        const roundedFraction = parseInt(this.caffeineWordGeneration.div(5).toFixed(), 10);
+        this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration.div(roundedFraction)).toFixed();
+        this.caffeineAnimationAmount = roundedFraction;
+      } else {
+        // show +X every 200ms
+        const fraction = this.caffeineWordGeneration.div(5);
+        this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration.div(fraction)).toFixed();
+        this.caffeineAnimationAmount = fraction;
       }
     },
     // workers/upgrades
@@ -534,12 +538,9 @@ export default {
       'addToStat',
       'activateCaffeine',
       'adjustCaffeineTimer',
+      'updateData',
       'setWorkers',
       'setUpgrades',
-      'updateData',
-      'loadAdjectives',
-      'loadPlayerIcons',
-      'loadTutorials',
     ]),
   },
 };

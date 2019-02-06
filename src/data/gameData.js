@@ -1,23 +1,30 @@
-import Big from 'big.js';
-import workerIndex from '@/utils/workerIndex';
+// load the big game data object that gets stored in vuex/local state
 
-export default {
-  // debug
+import Big from 'big.js';
+import shuffle from 'lodash/shuffle';
+import generateWorkerData from '@/utils/generateWorkerData';
+import generateUpgrades from '@/utils/generateUpgrades';
+import workerIndex from '@/utils/workerIndex';
+import adjectives from '@/data/adjectives';
+import playerIcons from '@/data/playerIcons';
+import tutorials from '@/data/tutorials';
+
+const data = {
   debug: {
-    enabled: false,
+    enabled: true,
     fastTutorials: true,
-    disableTutorials: false,
+    disableTutorials: true,
     disableUnfolding: true,
     urgentJobs: false,
-    startingWords: Big(0),
-    startingMoney: Big(1),
+    startingWords: Big(1E6),
+    startingMoney: Big(1E6),
     caffeineTime: 10,
-    caffeineCooldown: 300,
-    jobCooldown: 300,
+    caffeineCooldown: 1,
+    jobCooldown: 1,
   },
 
   // name
-  playerName: 'Rafiq',
+  // playerName: 'Rafiq',
 
   // tutorials
   tutorials: [],
@@ -46,9 +53,6 @@ export default {
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
   // caffeine animation
-  caffeineAnimationInterval: 1,
-  caffeineAnimationAmount: '1',
-  caffeineAnimationNext: 0,
 
   // jobs
   jobSlots: 1,
@@ -109,18 +113,48 @@ export default {
   showStats: false,
   firstJobComplete: false,
   firstUrgentJobComplete: false,
-
-  // stats
-  statistics: {
-    words: Big(0),
-    clickWords: Big(0),
-    money: Big(0),
-    moneySpent: Big(0),
-    caffeines: Big(0),
-    workers: Big(0),
-    jobs: Big(0),
-    urgentJobs: Big(0),
-    upgrades: Big(0),
-    totalUpgrades: Big(0),
-  },
 };
+
+const stats = [
+  'words',
+  'clickWords',
+  'money',
+  'moneySpent',
+  'caffeines',
+  'workers',
+  'jobs',
+  'urgentJobs',
+  'upgrades',
+  'totalUpgrades',
+];
+
+export default function () {
+  const gameData = Object.assign({}, data);
+
+  // generate stats
+  gameData.statistics = {};
+  gameData.milestones = {};
+  stats.forEach((stat) => {
+    gameData.statistics[stat] = Big(0);
+    gameData.milestones[stat] = Big(0);
+  });
+
+  // adjectives
+  gameData.adjectives = shuffle(adjectives);
+
+  // writing icons
+  gameData.playerIcons = playerIcons.reverse();
+  gameData.playerIcon = gameData.playerIcons.pop();
+
+  // workers & upgrades
+  gameData.workers = generateWorkerData();
+  gameData.upgrades = generateUpgrades(gameData.adjectives);
+
+  // get total # of upgrades for %
+  gameData.statistics.totalUpgrades = Object.keys(gameData.upgrades).length;
+
+  // tutorials/unfolding
+  gameData.tutorials = tutorials.reverse();
+
+  return gameData;
+}

@@ -3,9 +3,8 @@
 import Big from 'big.js';
 import upgradeData from '@/data/upgrades';
 import workers from '@/data/workers';
-import store from '@/store';
 
-export default function () {
+export default function (adjectives) {
   const upgrades = {};
   let id = 0;
 
@@ -20,7 +19,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'caffeine',
-      name: `${store.state.adjectives.pop()} Caffeine`,
+      name: `${adjectives.pop()} Caffeine`,
       cost: Big(caffeineUpgrade.cost),
       icon: 'fa-coffee',
     };
@@ -63,7 +62,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'clicking',
-      name: `${store.state.adjectives.pop()} Clicking`,
+      name: `${adjectives.pop()} Clicking`,
       cost: Big(clickingUpgrade.cost),
       icon: 'fa-mouse-pointer',
     };
@@ -89,7 +88,7 @@ export default function () {
       const upgrade = {
         id,
         type: 'worker',
-        name: `${store.state.adjectives.pop()} ${worker.plural}`,
+        name: `${adjectives.pop()} ${worker.plural}`,
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
         multipliers: {},
@@ -119,7 +118,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'jobs',
-      name: `${store.state.adjectives.pop()} Jobs`,
+      name: `${adjectives.pop()} Jobs`,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-briefcase',
     };
@@ -151,7 +150,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'urgentJobs',
-      name: `${store.state.adjectives.pop()} Urgent Jobs`,
+      name: `${adjectives.pop()} Urgent Jobs`,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-bullhorn',
     };
@@ -187,7 +186,7 @@ export default function () {
     const upgrade = {
       id,
       type: 'wordValue',
-      name: `${store.state.adjectives.pop()} Word Value`,
+      name: `${adjectives.pop()} Word Value`,
       cost: Big(wordValueUpgrade.cost),
       multiplier: wordValueUpgrade.multiplier,
       icon: 'fa-dollar-sign',
