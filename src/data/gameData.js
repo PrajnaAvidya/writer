@@ -3,8 +3,7 @@
 import Big from 'big.js';
 import shuffle from 'lodash/shuffle';
 import generateWorkerData from '@/utils/generateWorkerData';
-import generateUpgrades from '@/utils/generateUpgrades';
-import infiniteUpgrade from '@/utils/infiniteUpgrade';
+import upgrades from '@/data/upgrades';
 import workerIndex from '@/utils/workerIndex';
 import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
@@ -13,7 +12,7 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: true,
+    enabled: false,
     fastTutorials: true,
     disableTutorials: true,
     disableUnfolding: true,
@@ -22,7 +21,7 @@ const data = {
     startingMoney: Big(1E100),
     caffeineTime: 10,
     caffeineCooldown: 300,
-    jobCooldown: 60,
+    jobCooldown: 1,
   },
 
   // tutorials
@@ -158,19 +157,9 @@ export default function () {
   // workers
   gameData.workers = generateWorkerData();
 
-  // static upgrades
-  gameData.upgrades = generateUpgrades(gameData.adjectives);
+  // upgrades
+  gameData.upgrades = upgrades(gameData.adjectives);
   gameData.upgradeId = Object.keys(gameData.upgrades)[Object.keys(gameData.upgrades).length - 1];
-  // infinite upgrades
-  gameData.upgradeId += 1;
-  gameData.upgrades[gameData.upgradeId] = infiniteUpgrade(gameData.upgradeId, 'clicking', gameData.adjectives);
-  // TODO
-  // gameData.upgradeId += 1;
-  // gameData.upgrades[gameData.upgradeId] = generateUpgrade(gameData.upgradeId, 'wordValue', gameData.adjectives);
-  // TODO other upgrades
-
-  // get total # of upgrades for %
-  gameData.statistics.totalUpgrades = Object.keys(gameData.upgrades).length;
 
   // tutorials/unfolding
   gameData.tutorials = tutorials.reverse();

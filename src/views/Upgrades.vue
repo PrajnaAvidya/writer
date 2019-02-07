@@ -36,7 +36,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import infiniteUpgrade from '@/utils/infiniteUpgrade';
+import infiniteUpgrade from '@/data/upgrades/infinite';
 import notify from '@/utils/notify';
 
 export default {
@@ -114,22 +114,19 @@ export default {
         if (upgrade.lengthMultiplier) {
           this.multiplyData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
         }
-        if (upgrade.powerMultiplier) {
-          this.multiplyData({ index: 'caffeineClickMultiplier', amount: upgrade.powerMultiplier });
-        }
-        if (upgrade.wordMultiplier) {
-          this.multiplyData({ index: 'caffeineWordGeneration', amount: upgrade.wordMultiplier });
-        }
+      } else if (upgrade.type === 'caffeinePower') {
+        this.multiplyData({ index: 'caffeineClickMultiplier', amount: upgrade.multiplier });
+      } else if (upgrade.type === 'caffeineGeneration') {
+        this.multiplyData({ index: 'caffeineWordGeneration', amount: upgrade.multiplier });
       } else if (upgrade.type === 'wordValue') {
         this.currency.wordValue = this.currency.wordValue.times(upgrade.multiplier);
         this.$root.$emit('updateWpsMps');
+      } else if (upgrade.type === 'jobReward') {
+        this.multiplyData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
+      } else if (upgrade.type === 'urgentJobReward') {
+        this.multiplyData({ index: 'urgentJobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'jobs') {
-        if (upgrade.cooldownReduction) {
-          this.adjustJobTimer(-upgrade.cooldownReduction);
-        }
-        if (upgrade.rewardMultiplier) {
-          this.multiplyData({ index: 'jobRewardMultiplier', amount: upgrade.rewardMultiplier });
-        }
+        this.adjustJobTimer(-upgrade.cooldownReduction);
       } else if (upgrade.type === 'urgentJobs') {
         if (upgrade.cooldownMultiplier) {
           this.multiplyData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
@@ -138,9 +135,6 @@ export default {
         if (upgrade.timerMultiplier) {
           this.multiplyData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
           this.updateData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
-        }
-        if (upgrade.rewardMultiplier) {
-          this.multiplyData({ index: 'urgentJobRewardMultiplier', amount: upgrade.rewardMultiplier });
         }
       }
 
@@ -158,10 +152,19 @@ export default {
             effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.multipliers[workerId]}x`);
           });
         }
+      } else if (upgrade.type === 'wordValue') {
+        effects.push(`Increases base word value (& job payments) by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'caffeinePower') {
+        effects.push(`Increases caffeine click power by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'caffeineGeneration') {
+        effects.push(`Increases caffeine word generation by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'caffeineGeneration') {
+        effects.push(`Increases caffeine word generation by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'jobReward') {
+        effects.push(`Increases job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'urgentJobReward') {
+        effects.push(`Increases urgent job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else {
-        if (upgrade.type === 'wordValue') {
-          effects.push(`Increases base word value (& job payments) by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
-        }
         if (upgrade.writingMultiplier) {
           effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
         }
@@ -171,17 +174,8 @@ export default {
         if (upgrade.lengthMultiplier) {
           effects.push(`Increases duration by ${parseInt((upgrade.lengthMultiplier - 1) * 100, 10)}%`);
         }
-        if (upgrade.powerMultiplier) {
-          effects.push(`Increases effect by ${parseInt((upgrade.powerMultiplier - 1) * 100, 10)}%`);
-        }
-        if (upgrade.wordMultiplier) {
-          effects.push(`Increases word generation by ${parseInt((upgrade.wordMultiplier - 1) * 100, 10)}%`);
-        }
         if (upgrade.cooldownMultiplier) {
           effects.push(`Reduces cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
-        }
-        if (upgrade.rewardMultiplier) {
-          effects.push(`Increases reward by ${parseInt((upgrade.rewardMultiplier - 1) * 100, 10)}%`);
         }
         if (upgrade.timerMultiplier) {
           effects.push(`Increases timer by ${parseInt((upgrade.timerMultiplier - 1) * 100, 10)}%`);
