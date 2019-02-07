@@ -511,6 +511,9 @@ export default {
           // set next milestone
           this.milestoneCount[stat] += 1;
           this.milestones[stat] = this.milestones[stat].times(milestoneData[stat].multiplier);
+
+          // unlock stats
+          this.updateData({ index: 'showStats', value: true });
         }
       });
 

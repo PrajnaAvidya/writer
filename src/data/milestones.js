@@ -4,7 +4,7 @@ export default {
     multiplier: 10,
   },
   clickWords: {
-    base: 100,
+    base: 1000,
     multiplier: 5,
   },
   money: {

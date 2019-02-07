@@ -12,7 +12,7 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: true,
+    enabled: false,
     fastTutorials: true,
     disableTutorials: true,
     disableUnfolding: true,

@@ -204,7 +204,7 @@ export default {
       this.updateData({ index: 'firstUrgentJobComplete', value: true });
 
       // show message
-      notify(`Urgent Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });
+      notify(`Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });
 
       // reset urgent job
       this.$root.$emit('setNextUrgentJob');
