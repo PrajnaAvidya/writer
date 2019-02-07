@@ -132,6 +132,11 @@ export default {
       'showCoffee',
       // clickables
       'bookActive',
+      'bookMinimumTime',
+      'bookMaximumTime',
+      'nextBookTime',
+      'bookSpawnTime',
+      'bookExpireTime',
     ]),
   },
   mounted() {
@@ -151,6 +156,10 @@ export default {
       if (this.debug.urgentJobs) {
         this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
         this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
+      }
+      if (this.debug.books) {
+        this.updateData({ index: 'bookMinimumTime', value: 1 });
+        this.updateData({ index: 'bookMaximumTime', value: 1 });
       }
       if (this.debug.disableUnfolding) {
         this.updateData({ index: 'showMoney', value: true });
@@ -173,6 +182,7 @@ export default {
     this.loopEffect('displayedMoney', this.currency.money);
 
     // start game
+    this.setNextBook();
     this.registerEvents();
     this.calculateWorkerCosts();
     this.updateWpsMps();
@@ -209,13 +219,10 @@ export default {
       this.lastFrame = timestamp;
       this.utimestamp = unixTimestamp();
 
-      // check caffeine
+      // check/update stuff
       this.checkCaffeine();
-
-      // update milestones
+      this.checkBook();
       this.updateMilestones();
-
-      // update jobs
       this.updateJobs();
       this.updateUrgentJob();
 
@@ -470,6 +477,30 @@ export default {
       this.updateData({ index: 'urgentJobActive', value: false });
       this.updateData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
       this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
+    },
+    // clickables
+    setNextBook() {
+      const time = randomInt(this.bookMinimumTime, this.bookMaximumTime);
+      this.updateData({ index: 'nextBookTime', value: unixTimestamp(time) });
+      this.updateData({ index: 'bookExpireTime', value: unixTimestamp(time + this.bookSpawnTime) });
+      log(`next book in ${time}`);
+    },
+    checkBook() {
+      if (!this.bookActive && this.utimestamp >= this.nextBookTime) {
+        this.updateData({
+          index: 'bookPosition',
+          value: {
+            x: Math.floor(Math.random() * document.body.offsetWidth),
+            y: Math.floor(Math.random() * document.body.offsetHeight),
+          },
+        });
+        this.updateData({ index: 'bookActive', value: true });
+        log('book active');
+      } else if (this.bookActive && this.utimestamp >= this.bookExpireTime) {
+        this.updateData({ index: 'bookActive', value: false });
+        this.setNextBook();
+        log('book expired');
+      }
     },
     // economy
     addMoney(money, loop = true) {

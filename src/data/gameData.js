@@ -12,11 +12,12 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: false,
+    enabled: true,
     fastTutorials: true,
     disableTutorials: true,
     disableUnfolding: true,
     urgentJobs: false,
+    books: true,
     startingWords: Big(0),
     startingMoney: Big(1E100),
     caffeineTime: 10,
@@ -104,11 +105,16 @@ const data = {
   adjectives: [],
 
   // clickables
-  bookActive: true,
+  bookActive: false,
   bookPosition: {
     x: 0,
     y: 0,
   },
+  nextBookTime: 0,
+  bookExpireTime: 0,
+  bookMinimumTime: 300,
+  bookMaximumTime: 900,
+  bookSpawnTime: 60,
 
   // unfolding
   showMoney: false,

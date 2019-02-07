@@ -32,5 +32,6 @@ export default {
 .book {
   position: absolute;
   opacity: 0.75;
+  z-index: 999999;
 }
 </style>
