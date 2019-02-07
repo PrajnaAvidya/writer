@@ -2,7 +2,7 @@
 
 import Big from 'big.js';
 import upgradeData from '@/data/upgrades/data';
-import workers from '@/data/workers';
+import workers from '@/data/workers/data';
 
 export default function (adjectives) {
   const upgrades = {};

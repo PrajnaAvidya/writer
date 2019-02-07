@@ -2,9 +2,9 @@
 
 import Big from 'big.js';
 import shuffle from 'lodash/shuffle';
-import generateWorkerData from '@/utils/generateWorkerData';
+import workers from '@/data/workers';
 import upgrades from '@/data/upgrades';
-import workerIndex from '@/utils/workerIndex';
+import workerIndex from '@/data/workers/workerIndex';
 import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
 import tutorials from '@/data/tutorials';
@@ -155,7 +155,7 @@ export default function () {
   gameData.playerIcon = gameData.playerIcons.pop();
 
   // workers
-  gameData.workers = generateWorkerData();
+  gameData.workers = workers();
 
   // upgrades
   gameData.upgrades = upgrades(gameData.adjectives);
