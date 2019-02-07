@@ -43,11 +43,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'Stats',
   computed: {
-    upgradePercent() {
-      return this.statistics.upgrades.div(this.statistics.totalUpgrades).times(100).toFixed(0);
-    },
     ...mapState([
-      'playerName',
       'statistics',
       'milestones',
       'milestoneCount',
