@@ -123,8 +123,8 @@ export default function (adjectives) {
       icon: 'fa-briefcase',
     };
     // set effect
-    if (jobUpgrade.cooldownMultiplier) {
-      upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
+    if (jobUpgrade.cooldownReduction) {
+      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
       if (previousJobCooldownUpgrade) {
         upgrade.previousId = previousJobCooldownUpgrade;
       }

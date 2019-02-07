@@ -21,7 +21,7 @@ const data = {
     startingMoney: Big(1E100),
     caffeineTime: 10,
     caffeineCooldown: 10,
-    jobCooldown: 1,
+    jobCooldown: 60,
   },
 
   // name
@@ -71,7 +71,7 @@ const data = {
     3: 0,
     4: 0,
   },
-  jobCooldown: 300,
+  jobCooldown: 60,
   jobRewardMultiplier: Big(1),
   jobAvailable: {},
 

@@ -42,6 +42,7 @@ export default {
   name: 'UpgradePanel',
   computed: {
     ...mapState([
+      'debug',
       'currency',
       'workers',
       'upgrades',
@@ -108,8 +109,8 @@ export default {
         this.currency.wordValue = this.currency.wordValue.times(upgrade.multiplier);
         this.$root.$emit('updateWpsMps');
       } else if (upgrade.type === 'jobs') {
-        if (upgrade.cooldownMultiplier) {
-          this.multiplyData({ index: 'jobCooldown', amount: upgrade.cooldownMultiplier });
+        if (upgrade.cooldownReduction) {
+          this.adjustJobTimer(-upgrade.cooldownReduction);
         }
         if (upgrade.rewardMultiplier) {
           this.multiplyData({ index: 'jobRewardMultiplier', amount: upgrade.rewardMultiplier });
@@ -212,6 +213,10 @@ export default {
       return true;
     },
     canSeeUpgrade(upgrade) {
+      // check for debug
+      if (this.debug.enabled) {
+        return true;
+      }
       // check for previous id
       if (upgrade.previousId && !this.purchasedUpgrades.includes(upgrade.previousId)) {
         return false;
@@ -248,6 +253,7 @@ export default {
       'updateData',
       'multiplyData',
       'adjustCaffeineTimer',
+      'adjustJobTimer',
     ]),
   },
 };

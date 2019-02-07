@@ -14,13 +14,13 @@
             v-if="stat === 'money' || stat === 'moneySpent'"
             style="width: 120px;"
           >
-            {{ statistics[stat] | moneyCents }}
+            {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
           </td>
           <td
             v-else
             style="width: 120px;"
           >
-            {{ statistics[stat] | round }}
+            {{ statistics[stat] | round }} ({{ milestoneCount[stat] }})
           </td>
           <td style="width: 300px">
             <div
@@ -50,6 +50,7 @@ export default {
       'currency',
       'statistics',
       'milestones',
+      'milestoneCount',
       'statDescriptions',
     ]),
   },

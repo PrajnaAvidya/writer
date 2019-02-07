@@ -40,7 +40,13 @@ export default new Vuex.Store({
     },
     adjustCaffeineTimer(state, amount) {
       state.caffeineCooldown += amount;
-      state.nextCaffeineTime += amount;
+      state.nextCaffeineTime += amount * 1000;
+    },
+    adjustJobTimer(state, amount) {
+      state.jobCooldown += amount;
+      Object.keys(state.jobAvailable).forEach((jobId) => {
+        state.jobAvailable[jobId] += amount * 1000;
+      });
     },
     addToStat(state, { stat, amount }) {
       if (Big(amount).gt(0)) {

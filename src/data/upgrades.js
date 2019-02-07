@@ -66,34 +66,30 @@ export default {
     // length
     {
       cost: 1E2,
-      lengthMultiplier: 1.25,
+      lengthMultiplier: 1.5,
     },
     {
       cost: 1E3,
-      lengthMultiplier: 1.25,
+      lengthMultiplier: 1.5,
     },
     {
       cost: 1E4,
-      lengthMultiplier: 1.25,
+      lengthMultiplier: 1.5,
     },
     {
       cost: 1E5,
-      lengthMultiplier: 1.25,
+      lengthMultiplier: 1.5,
     },
     {
       cost: 1E6,
-      lengthMultiplier: 1.25,
+      lengthMultiplier: 1.5,
     },
     {
       cost: 1E7,
-      lengthMultiplier: 1.25,
+      lengthMultiplier: 1.5,
     },
     // cooldown reduction
     {
-      cost: 1E2,
-      cooldownReduction: 60,
-    },
-    {
       cost: 1E3,
       cooldownReduction: 60,
     },
@@ -111,14 +107,6 @@ export default {
     },
     {
       cost: 1E7,
-      cooldownReduction: 60,
-    },
-    {
-      cost: 1E8,
-      cooldownReduction: 60,
-    },
-    {
-      cost: 1E9,
       cooldownReduction: 60,
     },
     // power multiplier
@@ -243,39 +231,27 @@ export default {
     // cooldown reduction
     {
       cost: 1E2,
-      cooldownMultiplier: 0.75,
+      cooldownReduction: 10,
     },
     {
       cost: 1E3,
-      cooldownMultiplier: 0.75,
+      cooldownReduction: 10,
     },
     {
       cost: 1E4,
-      cooldownMultiplier: 0.75,
+      cooldownReduction: 10,
     },
     {
       cost: 1E5,
-      cooldownMultiplier: 0.75,
+      cooldownReduction: 10,
     },
     {
       cost: 1E6,
-      cooldownMultiplier: 0.75,
+      cooldownReduction: 10,
     },
     {
       cost: 1E7,
-      cooldownMultiplier: 0.75,
-    },
-    {
-      cost: 1E8,
-      cooldownMultiplier: 0.75,
-    },
-    {
-      cost: 1E9,
-      cooldownMultiplier: 0.75,
-    },
-    {
-      cost: 1E10,
-      cooldownMultiplier: 0.75,
+      cooldownReduction: 10,
     },
     // reward multiplier
     {
