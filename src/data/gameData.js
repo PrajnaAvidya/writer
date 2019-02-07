@@ -17,8 +17,8 @@ const data = {
     disableTutorials: true,
     disableUnfolding: true,
     urgentJobs: false,
-    startingWords: Big(1E6),
-    startingMoney: Big(1E6),
+    startingWords: Big(0),
+    startingMoney: Big(1E100),
     caffeineTime: 10,
     caffeineCooldown: 10,
     jobCooldown: 1,
@@ -35,6 +35,7 @@ const data = {
     words: Big(0),
     money: Big(1),
     wordValue: Big(0.10),
+    milestones: Big(0),
   },
 
   // worker + caffeine wps (displayed)

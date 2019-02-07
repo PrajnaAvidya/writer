@@ -5,7 +5,15 @@ export default {
       writingMultiplier: 2,
     },
     {
+      cost: 5E2,
+      writingMultiplier: 2,
+    },
+    {
       cost: 1E3,
+      writingMultiplier: 2,
+    },
+    {
+      cost: 5E3,
       writingMultiplier: 2,
     },
     {
@@ -13,7 +21,15 @@ export default {
       writingMultiplier: 2,
     },
     {
+      cost: 5E4,
+      writingMultiplier: 2,
+    },
+    {
       cost: 1E5,
+      writingMultiplier: 2,
+    },
+    {
+      cost: 5E5,
       writingMultiplier: 2,
     },
     {
@@ -21,11 +37,27 @@ export default {
       writingMultiplier: 2,
     },
     {
+      cost: 5E6,
+      writingMultiplier: 2,
+    },
+    {
       cost: 1E7,
       writingMultiplier: 2,
     },
     {
+      cost: 5E7,
+      writingMultiplier: 2,
+    },
+    {
       cost: 1E8,
+      writingMultiplier: 2,
+    },
+    {
+      cost: 5E8,
+      writingMultiplier: 2,
+    },
+    {
+      cost: 1E9,
       writingMultiplier: 2,
     },
   ],
@@ -92,35 +124,35 @@ export default {
     // power multiplier
     {
       cost: 1E2,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E3,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E4,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E5,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E6,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E7,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E8,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     {
       cost: 1E9,
-      powerMultiplier: 1.25,
+      powerMultiplier: 1.5,
     },
     // word generation
     {

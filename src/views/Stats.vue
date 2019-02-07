@@ -1,5 +1,8 @@
 <template>
   <div>
+    <span class="title is-size-3">
+      Milestones: {{ currency.milestones | round }}
+    </span>
     <table class="table">
       <tbody>
         <tr
@@ -44,6 +47,7 @@ export default {
   name: 'Stats',
   computed: {
     ...mapState([
+      'currency',
       'statistics',
       'milestones',
       'statDescriptions',
@@ -63,6 +67,7 @@ export default {
 <style lang="scss" scoped>
 .table {
   margin: 0 auto;
+  margin-top: 10px;
 }
 .stat-progress {
   top: 5px;

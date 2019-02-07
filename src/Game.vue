@@ -494,7 +494,8 @@ export default {
       Object.keys(this.milestones).forEach((stat) => {
         if (this.statistics[stat].gte(this.milestones[stat])) {
           log(`got milestone for ${stat}`);
-          // TODO give currency
+          // give currency
+          this.currency.milestones = this.currency.milestones.plus(1);
 
           // show message
           notify('You completed a milestone!', {
