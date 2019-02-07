@@ -9,7 +9,6 @@ export default function (adjectives) {
   let id = 0;
 
   // caffeine
-  /*
   let previousCaffeineCooldownUpgrade = null;
   let previousCaffeineLengthUpgrade = null;
   let previousCaffeinePowerUpgrade = null;
@@ -54,42 +53,7 @@ export default function (adjectives) {
 
     upgrades[id] = upgrade;
   });
-  */
 
-  // generic worker
-  // TODO uncomment
-  /*
-  workers.forEach((worker) => {
-    let previousWorkerUpgrade = null;
-    upgradeData.genericWorker.forEach((genericUpgrade) => {
-      id += 1;
-
-      const upgrade = {
-        id,
-        type: 'worker',
-        name: `${adjectives.pop()} ${worker.plural}`,
-        cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
-        requirements: {},
-        multipliers: {},
-        icon: worker.icon,
-      };
-      upgrade.requirements[worker.id] = genericUpgrade.requirement;
-      if (genericUpgrade.multiplier) {
-        upgrade.multipliers[worker.id] = genericUpgrade.multiplier;
-      }
-
-      // set previous id
-      if (previousWorkerUpgrade) {
-        upgrade.previousId = previousWorkerUpgrade;
-      }
-      previousWorkerUpgrade = id;
-
-      upgrades[id] = upgrade;
-    });
-  });
-  */
-
-  /*
   // jobs
   let previousJobCooldownUpgrade = null;
   let previousJobRewardUpgrade = null;
@@ -158,7 +122,6 @@ export default function (adjectives) {
 
     upgrades[id] = upgrade;
   });
-  */
 
   return upgrades;
 }

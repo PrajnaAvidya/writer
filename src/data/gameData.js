@@ -3,8 +3,8 @@
 import Big from 'big.js';
 import shuffle from 'lodash/shuffle';
 import generateWorkerData from '@/utils/generateWorkerData';
-import generateWorkerUpgrades from '@/utils/generateWorkerUpgrades';
-import generateUpgrade from '@/utils/generateUpgrade';
+import generateUpgrades from '@/utils/generateUpgrades';
+import infiniteUpgrade from '@/utils/infiniteUpgrade';
 import workerIndex from '@/utils/workerIndex';
 import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
@@ -157,15 +157,16 @@ export default function () {
 
   // workers
   gameData.workers = generateWorkerData();
-  
-  // upgrades
-  // TODO uncommment workers
-  //gameData.upgrades = generateWorkerUpgrades(gameData.adjectives);
-  //gameData.upgradeId = Object.keys(gameData.upgrades)[Object.keys(gameData.upgrades).length - 1];
+
+  // static upgrades
+  gameData.upgrades = generateUpgrades(gameData.adjectives);
+  gameData.upgradeId = Object.keys(gameData.upgrades)[Object.keys(gameData.upgrades).length - 1];
+  // infinite upgrades
   gameData.upgradeId += 1;
-  gameData.upgrades[gameData.upgradeId] = generateUpgrade(gameData.upgradeId, 'clicking', gameData.adjectives);
-  gameData.upgradeId += 1;
-  gameData.upgrades[gameData.upgradeId] = generateUpgrade(gameData.upgradeId, 'wordValue', gameData.adjectives);
+  gameData.upgrades[gameData.upgradeId] = infiniteUpgrade(gameData.upgradeId, 'clicking', gameData.adjectives);
+  // TODO
+  // gameData.upgradeId += 1;
+  // gameData.upgrades[gameData.upgradeId] = generateUpgrade(gameData.upgradeId, 'wordValue', gameData.adjectives);
   // TODO other upgrades
 
   // get total # of upgrades for %

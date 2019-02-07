@@ -36,7 +36,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import generateUpgrade from '@/utils/generateUpgrade';
+import infiniteUpgrade from '@/utils/infiniteUpgrade';
 import notify from '@/utils/notify';
 
 export default {
@@ -84,10 +84,10 @@ export default {
       // remove from list
       this.$root.$emit('removeUpgrade', upgrade.id);
 
-      // generate next upgrade
-      if (upgrade.type !== 'worker') {
+      // generate next upgrade if infinite upgrade
+      if (upgrade.infinite) {
         this.incrementUpgradeId();
-        this.upgrades[this.upgradeId] = generateUpgrade(this.upgradeId, upgrade.type, this.adjectives, upgrade);
+        this.upgrades[this.upgradeId] = infiniteUpgrade(this.upgradeId, upgrade.type, this.adjectives, upgrade);
       }
     },
     applyUpgrade(upgrade) {

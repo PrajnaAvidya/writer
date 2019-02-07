@@ -7,6 +7,7 @@ export default function (id, type, adjectives, previousUpgrade = null) {
   const upgrade = {
     id,
     type,
+    infinite: true,
   };
 
   if (type === 'clicking') {

@@ -1,12 +1,17 @@
 export default {
+  // infinite upgrades
   clicking: {
     base: 100,
     scale: 5,
     multiplier: 2,
   },
+  // TODO job reward
+  // TODO caffeine power
+  // TODO caffeine word gen
+  // TODO job reward
+  // TODO urgent job reward
 
-  // TODO refactor caffeine upgrades
-  /*
+  // limited upgrades
   caffeine: [
     // length
     {
@@ -121,7 +126,6 @@ export default {
       wordMultiplier: 2,
     },
   ],
-  */
 
   // costs are multiples of worker base cost
   genericWorker: [
@@ -183,7 +187,6 @@ export default {
   ],
 
   // jobs
-  // TODO
   jobs: [
     // cooldown reduction
     {
@@ -213,36 +216,35 @@ export default {
     // reward multiplier
     {
       cost: 1E2,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
     {
       cost: 1E3,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
     {
       cost: 1E4,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
     {
       cost: 1E5,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
     {
       cost: 1E6,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
     {
       cost: 1E7,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
     {
       cost: 1E8,
-      rewardMultiplier: 1.5,
+      rewardMultiplier: 1.25,
     },
   ],
 
   // urgent jobs
-  // TODO
   urgentJobs: [
     {
       cost: 5E3,
@@ -282,10 +284,15 @@ export default {
     },
   ],
 
+  // TODO urgent job reward
+
   // word value
+  // disabled for now because it doesn't make sense in game (and there are job reward + upgrades)
+  /*
   wordValue: {
     base: 100,
     scale: 10,
     multiplier: 2,
   },
+  */
 };
