@@ -7,10 +7,16 @@
           :key="stat"
         >
           <th>{{ statDescriptions[stat] }}</th>
-          <td v-if="stat === 'money' || stat === 'moneySpent'">
+          <td
+            v-if="stat === 'money' || stat === 'moneySpent'"
+            style="width: 120px;"
+          >
             {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
           </td>
-          <td v-else>
+          <td
+            v-else
+            style="width: 120px;"
+          >
             {{ statistics[stat] | round }} ({{ milestoneCount[stat] }})
           </td>
           <td style="width: 300px">
