@@ -11,13 +11,13 @@
             v-if="stat === 'money' || stat === 'moneySpent'"
             style="width: 120px;"
           >
-            {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
+            {{ statistics[stat] | moneyCents }}
           </td>
           <td
             v-else
             style="width: 120px;"
           >
-            {{ statistics[stat] | round }} ({{ milestoneCount[stat] }})
+            {{ statistics[stat] | round }}
           </td>
           <td style="width: 300px">
             <div
@@ -46,7 +46,6 @@ export default {
     ...mapState([
       'statistics',
       'milestones',
-      'milestoneCount',
       'statDescriptions',
     ]),
   },
