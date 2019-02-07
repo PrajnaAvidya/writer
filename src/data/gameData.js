@@ -103,6 +103,13 @@ const data = {
   // random words
   adjectives: [],
 
+  // clickables
+  bookActive: true,
+  bookPosition: {
+    x: 0,
+    y: 0,
+  },
+
   // unfolding
   showMoney: false,
   showWps: false,
@@ -126,7 +133,7 @@ const stats = {
   jobs: 'Jobs Complete',
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',
-  wordsHad: 'Most Words At Once',
+  wordsHad: 'Most Words Had At Once',
   wps: 'Highest Words Per Second',
 };
 

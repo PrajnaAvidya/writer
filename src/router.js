@@ -35,6 +35,7 @@ const router = new Router({
   ],
 });
 
+// track navigation in google analytics
 router.afterEach(() => {
   Vue.$ga.page(router);
 });

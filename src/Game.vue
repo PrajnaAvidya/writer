@@ -1,7 +1,8 @@
 <template>
   <div id="game">
-    <!-- IntroModal -->
-    <TutorialModals />
+    <ClickableBook />
+
+    <UnfoldingTutorials />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -43,7 +44,8 @@ import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
-import TutorialModals from '@/components/Modals/TutorialModals.vue';
+import ClickableBook from '@/components/ClickableBook.vue';
+import UnfoldingTutorials from '@/components/UnfoldingTutorials.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
@@ -55,7 +57,8 @@ export default {
   name: 'Game',
   components: {
     NavBar,
-    TutorialModals,
+    ClickableBook,
+    UnfoldingTutorials,
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
@@ -65,6 +68,7 @@ export default {
     utimestamp: 0,
     nextJobCheck: 0,
     nextMilestoneCheck: 0,
+    nextTitleUpdate: 0,
 
     displayedWords: Big(0),
     displayedMoney: Big(0),
@@ -126,6 +130,8 @@ export default {
       // unfolding
       'showNavigation',
       'showCoffee',
+      // clickables
+      'bookActive',
     ]),
   },
   mounted() {
@@ -221,6 +227,9 @@ export default {
         this.addWords(this.totalWps.times(frameIncrement));
       }
 
+      // update title
+      this.updateTitle();
+
       // get next frame
       window.requestAnimationFrame(this.tick);
     },
@@ -243,6 +252,17 @@ export default {
         setTimeout(() => {
           vm[data] = vm[data].plus(tickAmount);
         }, i * ms / loopAmount);
+      }
+    },
+    updateTitle() {
+      if (this.utimestamp >= this.nextTitleUpdate) {
+        if (this.bookActive) {
+          document.title = `[B] Writer - ${this.$options.filters.round(this.currency.words)}W $${this.$options.filters.round(this.currency.money)}`;
+        } else {
+          document.title = `Writer - ${this.$options.filters.round(this.currency.words)}W $${this.$options.filters.round(this.currency.money)}`;
+        }
+
+        this.nextTitleUpdate = unixTimestamp(3);
       }
     },
     // player input
@@ -401,7 +421,7 @@ export default {
         }
       }
 
-      this.nextJobCheck = this.utimestamp + 100;
+      this.nextJobCheck = unixTimestamp(0.1);
     },
     // urgent jobs
     updateUrgentJob(force = false) {
@@ -549,7 +569,7 @@ export default {
         }
       });
 
-      this.nextMilestoneCheck = this.utimestamp + 500;
+      this.nextMilestoneCheck = unixTimestamp(0.5);
     },
     // === end methods ===
     ...mapMutations([
