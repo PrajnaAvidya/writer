@@ -180,23 +180,13 @@ export default {
   // costs are multiples of worker base cost
   genericWorker: [
     {
-      cost: 5,
+      cost: 10,
       requirement: 1,
       multiplier: 2,
     },
     {
-      cost: 25,
-      requirement: 5,
-      multiplier: 2,
-    },
-    {
       cost: 50,
-      requirement: 10,
-      multiplier: 2,
-    },
-    {
-      cost: 250,
-      requirement: 15,
+      requirement: 5,
       multiplier: 2,
     },
     {
@@ -205,23 +195,43 @@ export default {
       multiplier: 2,
     },
     {
-      cost: 2500,
-      requirement: 35,
-      multiplier: 2,
-    },
-    {
-      cost: 5000,
-      requirement: 40,
-      multiplier: 2,
-    },
-    {
-      cost: 10000,
+      cost: 5E4,
       requirement: 50,
       multiplier: 2,
     },
     {
-      cost: 50000,
-      requirement: 60,
+      cost: 5E6,
+      requirement: 100,
+      multiplier: 2,
+    },
+    {
+      cost: 5E8,
+      requirement: 150,
+      multiplier: 2,
+    },
+    {
+      cost: 5E11,
+      requirement: 200,
+      multiplier: 2,
+    },
+    {
+      cost: 5E14,
+      requirement: 250,
+      multiplier: 2,
+    },
+    {
+      cost: 5E17,
+      requirement: 300,
+      multiplier: 2,
+    },
+    {
+      cost: 5E20,
+      requirement: 350,
+      multiplier: 2,
+    },
+    {
+      cost: 5E24,
+      requirement: 400,
       multiplier: 2,
     },
   ],
