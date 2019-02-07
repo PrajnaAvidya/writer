@@ -43,12 +43,13 @@ import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
-// import IntroModal from '@/components/Modals/IntroModal.vue';
 import TutorialModals from '@/components/Modals/TutorialModals.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
+// data
+import milestoneData from '@/data/milestones';
 
 export default {
   name: 'Game',
@@ -62,8 +63,8 @@ export default {
   data: () => ({
     lastFrame: 0,
     utimestamp: 0,
-    nextStatUpdate: 0,
     nextJobCheck: 0,
+    nextMilestoneCheck: 0,
 
     displayedWords: Big(0),
     displayedMoney: Big(0),
@@ -118,6 +119,10 @@ export default {
       'urgentJobRewardMultiplier',
       'urgentJobTimer',
       'urgentJobTimestamp',
+      // stats
+      'statistics',
+      'milestones',
+      'milestoneCount',
       // unfolding
       'showNavigation',
       'showCoffee',
@@ -194,6 +199,9 @@ export default {
 
       // check caffeine
       this.checkCaffeine();
+
+      // update milestones
+      this.updateMilestones();
 
       // update jobs
       this.updateJobs();
@@ -368,7 +376,7 @@ export default {
       }
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
-        this.$set(this.jobAvailable, jobId, unixTimestamp() >= this.jobsAvailableTimestamps[jobId]);
+        this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
         if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
           // generate new job
           this.jobs[jobId] = generateJob(this.currency.wordValue, this.workerWps, jobId);
@@ -476,6 +484,26 @@ export default {
       } else {
         this.displayedWords = this.displayedWords.plus(words);
       }
+    },
+    // stats
+    updateMilestones() {
+      if (this.utimestamp < this.nextMilestoneCheck) {
+        return;
+      }
+
+      Object.keys(this.milestones).forEach((stat) => {
+        if (this.statistics[stat].gte(this.milestones[stat])) {
+          log(`got milestone for ${stat}`);
+          // TODO give currency
+          // TODO notification
+
+          // set next milestone
+          this.milestoneCount[stat] += 1;
+          this.milestones[stat] = this.milestones[stat].times(milestoneData[stat].multiplier);
+        }
+      });
+
+      this.nextMilestoneCheck = this.utimestamp + 1000;
     },
     // === end methods ===
     ...mapMutations([

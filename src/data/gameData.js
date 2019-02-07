@@ -141,8 +141,10 @@ export default function () {
 
   // generate first set of milestones
   gameData.milestones = {};
+  gameData.milestoneCount = {};
   Object.keys(milestones).forEach((stat) => {
-    gameData.milestones[stat] = milestones[stat].base;
+    gameData.milestones[stat] = Big(milestones[stat].base);
+    gameData.milestoneCount[stat] = 0;
   });
 
   // adjectives

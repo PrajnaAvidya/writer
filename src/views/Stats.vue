@@ -8,10 +8,10 @@
         >
           <th>{{ statDescriptions[stat] }}</th>
           <td v-if="stat === 'money' || stat === 'moneySpent'">
-            {{ statistics[stat] | moneyCents }}
+            {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
           </td>
           <td v-else>
-            {{ statistics[stat] | round }}
+            {{ statistics[stat] | round }} ({{ milestoneCount[stat] }})
           </td>
           <td style="width: 300px">
             <div
@@ -44,6 +44,7 @@ export default {
       'playerName',
       'statistics',
       'milestones',
+      'milestoneCount',
       'statDescriptions',
     ]),
   },
