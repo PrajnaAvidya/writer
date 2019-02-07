@@ -34,8 +34,6 @@ import { mapState, mapMutations } from 'vuex';
 // internal libs
 import log from '@/utils/log';
 import calculateWorkerWps from '@/utils/calculateWorkerWps';
-import generateWorkerData from '@/utils/generateWorkerData';
-import generateUpgrades from '@/utils/generateUpgrades';
 import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
 import workerCost from '@/utils/workerCost';
@@ -45,12 +43,13 @@ import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
-// import IntroModal from '@/components/Modals/IntroModal.vue';
 import TutorialModals from '@/components/Modals/TutorialModals.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
+// data
+import milestoneData from '@/data/milestones';
 
 export default {
   name: 'Game',
@@ -64,8 +63,8 @@ export default {
   data: () => ({
     lastFrame: 0,
     utimestamp: 0,
-    nextStatUpdate: 0,
     nextJobCheck: 0,
+    nextMilestoneCheck: 0,
 
     displayedWords: Big(0),
     displayedMoney: Big(0),
@@ -78,6 +77,9 @@ export default {
 
     caffeineX: 0,
     caffeineY: 0,
+    caffeineAnimationInterval: 1,
+    caffeineAnimationAmount: '1',
+    caffeineAnimationNext: 0,
   }),
   computed: {
     ...mapState([
@@ -100,10 +102,6 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'caffeineWordGeneration',
-      // caffeine animations
-      'caffeineAnimationNext',
-      'caffeineAnimationInterval',
-      'caffeineAnimationAmount',
       // jobs
       'jobs',
       'jobSlots',
@@ -114,25 +112,29 @@ export default {
       'firstUrgentJobComplete',
       // urgent jobs
       'urgentJobActive',
-      'urgentJobExpiration',
-      'urgentJobMinimumTime',
-      'urgentJobMaximumTime',
-      'urgentJobTimestamp',
-      'urgentJobTimer',
-      'urgentJobExpires',
       'urgentJobCountdown',
-      'urgentJobMinimumTime',
+      'urgentJobExpiration',
       'urgentJobMaximumTime',
+      'urgentJobMinimumTime',
       'urgentJobRewardMultiplier',
+      'urgentJobTimer',
+      'urgentJobTimestamp',
+      // stats
+      'statistics',
+      'milestones',
+      'milestoneCount',
       // unfolding
       'showNavigation',
       'showCoffee',
     ]),
   },
-  created() {
-    this.setupData();
-  },
   mounted() {
+    this.$ga.event({
+      eventCategory: 'Game',
+      eventAction: 'New',
+      eventLabel: this.currency.words.toString(),
+    });
+
     // check for debug mode
     if (this.debug.enabled) {
       this.currency.words = this.debug.startingWords;
@@ -166,21 +168,11 @@ export default {
 
     // start game
     this.registerEvents();
+    this.calculateWorkerCosts();
+    this.updateWpsMps();
     window.requestAnimationFrame(this.tick);
   },
   methods: {
-    // generate all the initial data
-    setupData() {
-      log('setting up initial data');
-      this.loadAdjectives();
-      this.loadPlayerIcons();
-      this.setWorkers(generateWorkerData());
-      this.setUpgrades(generateUpgrades());
-      this.addToStat({ stat: 'totalUpgrades', amount: Object.keys(this.upgrades).length });
-      this.calculateWorkerCosts();
-      this.updateWpsMps();
-      this.loadTutorials();
-    },
     registerEvents() {
       log('registering events');
       this.$root.$on('write', this.write);
@@ -191,21 +183,9 @@ export default {
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
       this.$root.$on('hireWorker', this.hireWorker);
-      this.$root.$on('multiplyProductivity', this.multiplyProductivity);
-      this.$root.$on('multiplyClickingWords', this.multiplyClickingWords);
-      this.$root.$on('addCaffeineMaxLength', this.addCaffeineMaxLength);
-      this.$root.$on('multiplyCaffeineLength', this.multiplyCaffeineLength);
-      this.$root.$on('multiplyCaffeinePower', this.multiplyCaffeinePower);
-      this.$root.$on('multiplyCaffeineWords', this.multiplyCaffeineWords);
-      this.$root.$on('reduceCaffeineCooldown', this.reduceCaffeineCooldown);
-      this.$root.$on('multiplyWordValue', this.multiplyWordValue);
-      this.$root.$on('multiplyJobCooldown', this.multiplyJobCooldown);
-      this.$root.$on('multiplyJobReward', this.multiplyJobReward);
+      this.$root.$on('updateWpsMps', this.updateWpsMps);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
-      this.$root.$on('multiplyUrgentJobCooldown', this.multiplyUrgentJobCooldown);
-      this.$root.$on('multiplyUrgentJobTimer', this.multiplyUrgentJobTimer);
-      this.$root.$on('multiplyUrgentJobReward', this.multiplyUrgentJobReward);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
     },
     // === start global update loop ===
@@ -225,6 +205,9 @@ export default {
 
       // check caffeine
       this.checkCaffeine();
+
+      // update milestones
+      this.updateMilestones();
 
       // update jobs
       this.updateJobs();
@@ -281,9 +264,6 @@ export default {
         disappearFrom: 0.25,
       });
     },
-    multiplyClickingWords(amount) {
-      this.updateData({ index: 'playerWords', value: this.playerWords.times(amount) });
-    },
     // caffeine
     coffee(event) {
       if (this.utimestamp >= this.nextCaffeineTime) {
@@ -292,25 +272,20 @@ export default {
         this.caffeineY = event.pageY - 20;
 
         this.activateCaffeine();
+        this.caffeineAnimationParams();
         // show message
         notify('You feel buzzed', {
           type: 'warning',
           timeout: this.caffeineTime * 1000,
           icon: 'fa-bolt',
         });
+
+        this.$ga.event({
+          eventCategory: 'Caffeine',
+          eventAction: 'Activate',
+          eventLabel: this.caffeineWordGeneration.toString(),
+        });
       }
-    },
-    reduceCaffeineCooldown(amount) {
-      this.adjustCaffeineTimer(-amount);
-    },
-    multiplyCaffeineLength(amount) {
-      this.updateData({ index: 'caffeineTime', value: amount });
-    },
-    multiplyCaffeinePower(amount) {
-      this.updateData({ index: 'caffeineClickMultiplier', value: this.caffeineClickMultiplier.times(amount) });
-    },
-    multiplyCaffeineWords(amount) {
-      this.updateData({ index: 'caffeineWordGeneration', value: this.caffeineWordGeneration.times(amount) });
     },
     checkCaffeine() {
       if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
@@ -334,8 +309,26 @@ export default {
             height: 150,
             disappearFrom: 0.25,
           });
-          this.updateData({ index: 'caffeineAnimationNext', value: parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10) });
+          this.caffeineAnimationNext = parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10);
         }
+      }
+    },
+    // caffeine animation
+    caffeineAnimationParams() {
+      if (this.caffeineWordGeneration.lte(5)) {
+        // show +1
+        this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration).toFixed();
+        this.caffeineAnimationAmount = 1;
+      } else if (this.caffeineWordGeneration.lt(5E6)) {
+        // show rounded +X
+        const roundedFraction = parseInt(this.caffeineWordGeneration.div(5).toFixed(), 10);
+        this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration.div(roundedFraction)).toFixed();
+        this.caffeineAnimationAmount = roundedFraction;
+      } else {
+        // show +X every 200ms
+        const fraction = this.caffeineWordGeneration.div(5);
+        this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration.div(fraction)).toFixed();
+        this.caffeineAnimationAmount = fraction;
       }
     },
     // workers/upgrades
@@ -353,6 +346,12 @@ export default {
       // recalculate stuff
       this.calculateWorkerCosts();
       this.updateWpsMps();
+
+      this.$ga.event({
+        eventCategory: 'Workers',
+        eventAction: 'Hired',
+        eventLabel: `${this.buyAmount} ${this.workers[id].pluralName}`,
+      });
     },
     calculateWorkerCosts() {
       log('recalculating worker costs');
@@ -367,10 +366,6 @@ export default {
       });
       // have to re-assign whole workers object to trigger reactivity
       this.setWorkers(workers);
-    },
-    multiplyProductivity(data) {
-      this.workers[data.worker].productivityMultiplier = this.workers[data.worker].productivityMultiplier.times(data.amount);
-      this.updateWpsMps();
     },
     removeUpgrade(upgradeId) {
       this.addToStat({ stat: 'upgrades', amount: 1 });
@@ -399,7 +394,7 @@ export default {
       }
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
-        this.$set(this.jobAvailable, jobId, unixTimestamp() >= this.jobsAvailableTimestamps[jobId]);
+        this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
         if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
           // generate new job
           this.jobs[jobId] = generateJob(this.currency.wordValue, this.workerWps, jobId);
@@ -407,12 +402,6 @@ export default {
       }
 
       this.nextJobCheck = this.utimestamp + 100;
-    },
-    multiplyJobCooldown(amount) {
-      this.updateData({ index: 'jobCooldown', value: this.jobCooldown * amount });
-    },
-    multiplyJobReward(amount) {
-      this.updateData({ index: 'jobRewardMultiplier', value: this.jobRewardMultiplier.times(amount) });
     },
     // urgent jobs
     updateUrgentJob(force = false) {
@@ -461,17 +450,6 @@ export default {
       this.updateData({ index: 'urgentJobActive', value: false });
       this.updateData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
       this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
-    },
-    multiplyUrgentJobCooldown(amount) {
-      this.updateData({ index: 'urgentJobMinimumTime', value: amount * this.urgentJobMinimumTime });
-      this.updateData({ index: 'urgentJobMaximumTime', value: amount * this.urgentJobMaximumTime });
-    },
-    multiplyUrgentJobTimer(amount) {
-      this.updateData({ index: 'urgentJobTimer', value: amount * this.urgentJobTimer });
-      this.updateData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * this.urgentJobTimer) });
-    },
-    multiplyUrgentJobReward(amount) {
-      this.updateData({ index: 'urgentJobRewardMultiplier', value: this.urgentJobRewardMultiplier.times(amount) });
     },
     // economy
     addMoney(money, loop = true) {
@@ -525,21 +503,61 @@ export default {
         this.displayedWords = this.displayedWords.plus(words);
       }
     },
-    multiplyWordValue(amount) {
-      this.currency.wordValue = this.currency.wordValue.times(amount);
-      this.updateWpsMps();
+    // stats
+    updateMilestones() {
+      if (this.utimestamp < this.nextMilestoneCheck) {
+        return;
+      }
+
+      // update words had/wps
+      if (this.currency.words.gt(this.statistics.wordsHad)) {
+        this.statistics.wordsHad = Big(this.currency.words);
+      }
+      if (this.totalWps.gt(this.statistics.wps)) {
+        this.statistics.wps = Big(this.totalWps);
+      }
+
+      Object.keys(this.milestones).forEach((stat) => {
+        if (this.statistics[stat].gte(this.milestones[stat])) {
+          log(`got milestone for ${stat}`);
+          // give currency
+          this.currency.milestones = this.currency.milestones.plus(1);
+
+          // show message
+          notify('You completed a milestone!', {
+            type: 'success',
+            icon: 'fa-star',
+            callbacks: {
+              onClick: () => {
+                this.$router.push('/stats');
+              },
+            },
+          });
+
+          // set next milestone
+          this.milestoneCount[stat] += 1;
+          this.milestones[stat] = this.milestones[stat].times(milestoneData[stat].multiplier);
+
+          // unlock stats
+          this.updateData({ index: 'showStats', value: true });
+
+          this.$ga.event({
+            eventCategory: 'Milestone',
+            eventAction: 'Completed',
+            eventLabel: `${stat} ${this.milestoneCount[stat]}`,
+          });
+        }
+      });
+
+      this.nextMilestoneCheck = this.utimestamp + 500;
     },
     // === end methods ===
     ...mapMutations([
       'addToStat',
       'activateCaffeine',
-      'adjustCaffeineTimer',
+      'updateData',
       'setWorkers',
       'setUpgrades',
-      'updateData',
-      'loadAdjectives',
-      'loadPlayerIcons',
-      'loadTutorials',
     ]),
   },
 };
@@ -549,9 +567,6 @@ export default {
 #game {
   text-align: center;
 }
-.stats {
-  padding-top: 20px !important;
-}
 .nav {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -560,6 +575,9 @@ export default {
   padding: 0;
   width: 900px;
   margin: 0 auto;
+}
+.stats {
+  padding-top: 20px !important;
 }
 .caffeine-section {
   padding: 25px;
@@ -574,8 +592,5 @@ export default {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
-}
-.test1234 {
-  vertical-align: top;
 }
 </style>

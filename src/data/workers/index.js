@@ -1,7 +1,7 @@
 // generate worker objects from data file
 
 import Big from 'big.js';
-import workerData from '@/data/workers';
+import workerData from '@/data/workers/data';
 import workerCost from '@/utils/workerCost';
 
 export default function () {

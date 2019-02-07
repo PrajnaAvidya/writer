@@ -1,12 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Big from 'big.js';
-import shuffle from 'lodash/shuffle';
 import unixTimestamp from '@/utils/unixTimestamp';
-import defaultData from '@/data/defaultGameData';
-import adjectives from '@/data/adjectives';
-import playerIcons from '@/data/playerIcons';
-import tutorials from '@/data/tutorials';
+import defaultData from '@/data/gameData';
 
 Vue.use(Vuex);
 
@@ -41,51 +37,40 @@ export default new Vuex.Store({
       state.endCaffeineTime = unixTimestamp(state.caffeineTime);
       state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
-
-      // set animation params
-      if (state.caffeineWordGeneration.lte(5)) {
-        // show +1
-        state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration).toFixed();
-        state.caffeineAnimationAmount = 1;
-      } else if (state.caffeineWordGeneration.lt(5E6)) {
-        // show rounded +X
-        const roundedFraction = parseInt(state.caffeineWordGeneration.div(5).toFixed(), 10);
-        state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration.div(roundedFraction)).toFixed();
-        state.caffeineAnimationAmount = roundedFraction;
-      } else {
-        // show +X every 200ms
-        const fraction = state.caffeineWordGeneration.div(5);
-        state.caffeineAnimationInterval = Big(1000).div(state.caffeineWordGeneration.div(fraction)).toFixed();
-        state.caffeineAnimationAmount = fraction;
-      }
     },
     adjustCaffeineTimer(state, amount) {
       state.caffeineCooldown += amount;
-      state.nextCaffeineTime += amount;
+      state.nextCaffeineTime += amount * 1000;
+    },
+    adjustJobTimer(state, amount) {
+      state.jobCooldown += amount;
+      Object.keys(state.jobAvailable).forEach((jobId) => {
+        state.jobAvailable[jobId] += amount * 1000;
+      });
     },
     addToStat(state, { stat, amount }) {
       if (Big(amount).gt(0)) {
         state.statistics[stat] = state.statistics[stat].plus(amount);
       }
     },
-    setUpgrades(state, upgrades) {
-      state.upgrades = Object.assign({}, upgrades);
-    },
     setWorkers(state, workers) {
       state.workers = Object.assign({}, workers);
+    },
+    setUpgrades(state, upgrades) {
+      state.upgrades = Object.assign({}, upgrades);
     },
     updateData(state, { index, value }) {
       state[index] = value;
     },
-    loadAdjectives(state) {
-      state.adjectives = shuffle(adjectives);
+    multiplyData(state, { index, amount }) {
+      if (typeof state[index] === 'object') {
+        state[index] = state[index].times(amount);
+      } else {
+        state[index] *= amount;
+      }
     },
-    loadPlayerIcons(state) {
-      state.playerIcons = playerIcons.reverse();
-      state.playerIcon = state.playerIcons.pop();
-    },
-    loadTutorials(state) {
-      state.tutorials = tutorials.reverse();
+    incrementUpgradeId(state) {
+      state.upgradeId += 1;
     },
   },
 
