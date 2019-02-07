@@ -36,6 +36,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
+import generateUpgrade from '@/utils/generateUpgrade';
 import notify from '@/utils/notify';
 
 export default {
@@ -51,6 +52,8 @@ export default {
       'statistics',
       'playerIcons',
       'urgentJobTimestamp',
+      'upgradeId',
+      'adjectives',
     ]),
     ...mapGetters([
       'money',
@@ -80,6 +83,12 @@ export default {
 
       // remove from list
       this.$root.$emit('removeUpgrade', upgrade.id);
+
+      // generate next upgrade
+      if (upgrade.type !== 'worker') {
+        this.incrementUpgradeId();
+        this.upgrades[this.upgradeId] = generateUpgrade(this.upgradeId, upgrade.type, this.adjectives, upgrade);
+      }
     },
     applyUpgrade(upgrade) {
       if (upgrade.type === 'worker') {
@@ -260,6 +269,7 @@ export default {
       'multiplyData',
       'adjustCaffeineTimer',
       'adjustJobTimer',
+      'incrementUpgradeId',
     ]),
   },
 };

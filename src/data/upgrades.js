@@ -1,67 +1,12 @@
 export default {
-  clicking: [
-    {
-      cost: 1E2,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E2,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E3,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E3,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E4,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E4,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E5,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E5,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E6,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E6,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E7,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E7,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E8,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 5E8,
-      writingMultiplier: 2,
-    },
-    {
-      cost: 1E9,
-      writingMultiplier: 2,
-    },
-  ],
+  clicking: {
+    base: 100,
+    scale: 5,
+    multiplier: 2,
+  },
 
+  // TODO refactor caffeine upgrades
+  /*
   caffeine: [
     // length
     {
@@ -176,6 +121,7 @@ export default {
       wordMultiplier: 2,
     },
   ],
+  */
 
   // costs are multiples of worker base cost
   genericWorker: [
@@ -237,6 +183,7 @@ export default {
   ],
 
   // jobs
+  // TODO
   jobs: [
     // cooldown reduction
     {
@@ -295,6 +242,7 @@ export default {
   ],
 
   // urgent jobs
+  // TODO
   urgentJobs: [
     {
       cost: 5E3,
@@ -335,82 +283,9 @@ export default {
   ],
 
   // word value
-  wordValue: [
-    {
-      cost: 1E2,
-      multiplier: 2,
-    },
-    {
-      cost: 5E2,
-      multiplier: 2,
-    },
-    {
-      cost: 1E3,
-      multiplier: 2,
-    },
-    {
-      cost: 5E3,
-      multiplier: 2,
-    },
-    {
-      cost: 1E4,
-      multiplier: 2,
-    },
-    {
-      cost: 5E4,
-      multiplier: 2,
-    },
-    {
-      cost: 1E5,
-      multiplier: 2,
-    },
-    {
-      cost: 5E5,
-      multiplier: 2,
-    },
-    {
-      cost: 1E6,
-      multiplier: 2,
-    },
-    {
-      cost: 5E6,
-      multiplier: 2,
-    },
-    {
-      cost: 1E7,
-      multiplier: 2,
-    },
-    {
-      cost: 5E7,
-      multiplier: 2,
-    },
-    {
-      cost: 1E8,
-      multiplier: 2,
-    },
-    {
-      cost: 5E8,
-      multiplier: 2,
-    },
-    {
-      cost: 1E9,
-      multiplier: 2,
-    },
-    {
-      cost: 5E9,
-      multiplier: 2,
-    },
-    {
-      cost: 1E10,
-      multiplier: 2,
-    },
-    {
-      cost: 5E10,
-      multiplier: 2,
-    },
-    {
-      cost: 1E11,
-      multiplier: 2,
-    },
-  ],
+  wordValue: {
+    base: 100,
+    scale: 10,
+    multiplier: 2,
+  },
 };

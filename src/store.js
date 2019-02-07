@@ -69,6 +69,9 @@ export default new Vuex.Store({
         state[index] *= amount;
       }
     },
+    incrementUpgradeId(state) {
+      state.upgradeId += 1;
+    },
   },
 
   actions: {

@@ -9,6 +9,7 @@ export default function (adjectives) {
   let id = 0;
 
   // caffeine
+  /*
   let previousCaffeineCooldownUpgrade = null;
   let previousCaffeineLengthUpgrade = null;
   let previousCaffeinePowerUpgrade = null;
@@ -53,33 +54,11 @@ export default function (adjectives) {
 
     upgrades[id] = upgrade;
   });
-
-  // clicking
-  let previousClickingUpgrade = null;
-  upgradeData.clicking.forEach((clickingUpgrade) => {
-    id += 1;
-
-    const upgrade = {
-      id,
-      type: 'clicking',
-      name: `${adjectives.pop()} Clicking`,
-      cost: Big(clickingUpgrade.cost),
-      icon: 'fa-mouse-pointer',
-    };
-    if (clickingUpgrade.writingMultiplier) {
-      upgrade.writingMultiplier = clickingUpgrade.writingMultiplier;
-    }
-
-    // set previous id
-    if (previousClickingUpgrade) {
-      upgrade.previousId = previousClickingUpgrade;
-    }
-    previousClickingUpgrade = id;
-
-    upgrades[id] = upgrade;
-  });
+  */
 
   // generic worker
+  // TODO uncomment
+  /*
   workers.forEach((worker) => {
     let previousWorkerUpgrade = null;
     upgradeData.genericWorker.forEach((genericUpgrade) => {
@@ -108,7 +87,9 @@ export default function (adjectives) {
       upgrades[id] = upgrade;
     });
   });
+  */
 
+  /*
   // jobs
   let previousJobCooldownUpgrade = null;
   let previousJobRewardUpgrade = null;
@@ -177,29 +158,7 @@ export default function (adjectives) {
 
     upgrades[id] = upgrade;
   });
-
-  // word value
-  let previousWordValueUpgrade = null;
-  upgradeData.wordValue.forEach((wordValueUpgrade) => {
-    id += 1;
-
-    const upgrade = {
-      id,
-      type: 'wordValue',
-      name: `${adjectives.pop()} Word Value`,
-      cost: Big(wordValueUpgrade.cost),
-      multiplier: wordValueUpgrade.multiplier,
-      icon: 'fa-dollar-sign',
-    };
-
-    // set previous id
-    if (previousWordValueUpgrade) {
-      upgrade.previousId = previousWordValueUpgrade;
-    }
-    previousWordValueUpgrade = id;
-
-    upgrades[id] = upgrade;
-  });
+  */
 
   return upgrades;
 }
