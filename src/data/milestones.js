@@ -16,23 +16,23 @@ export default {
     multiplier: 5,
   },
   caffeines: {
-    base: 5,
+    base: 3,
     multiplier: 2,
   },
   jobs: {
-    base: 5,
+    base: 3,
     multiplier: 2,
   },
   workers: {
     base: 10,
-    multiplier: 2.5,
+    multiplier: 2,
   },
   upgrades: {
     base: 10,
-    multiplier: 2.5,
+    multiplier: 2,
   },
   urgentJobs: {
-    base: 5,
-    multiplier: 1.5,
+    base: 3,
+    multiplier: 2,
   },
 };

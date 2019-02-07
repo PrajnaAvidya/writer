@@ -495,7 +495,17 @@ export default {
         if (this.statistics[stat].gte(this.milestones[stat])) {
           log(`got milestone for ${stat}`);
           // TODO give currency
-          // TODO notification
+
+          // show message
+          notify('You completed a milestone!', {
+            type: 'success',
+            icon: 'fa-star',
+            callbacks: {
+              onClick: () => {
+                this.$router.push('/stats');
+              },
+            },
+          });
 
           // set next milestone
           this.milestoneCount[stat] += 1;
@@ -503,7 +513,7 @@ export default {
         }
       });
 
-      this.nextMilestoneCheck = this.utimestamp + 1000;
+      this.nextMilestoneCheck = this.utimestamp + 500;
     },
     // === end methods ===
     ...mapMutations([

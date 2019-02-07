@@ -159,6 +159,8 @@ export default {
         if (!this.jobAvailable[jobId]) {
           this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp()));
           this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`);
+        } else {
+          this.$set(this.jobProgress, jobId, 0);
         }
       }
     },
