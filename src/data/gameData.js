@@ -126,6 +126,8 @@ const stats = {
   jobs: 'Jobs Complete',
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',
+  wordsHad: 'Most Words At Once',
+  wps: 'Highest Words Per Second',
 };
 
 export default function () {

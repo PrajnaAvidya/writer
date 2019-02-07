@@ -35,4 +35,12 @@ export default {
     base: 3,
     multiplier: 2,
   },
+  wordsHad: {
+    base: 1000,
+    multiplier: 5,
+  },
+  wps: {
+    base: 10,
+    multiplier: 2,
+  },
 };

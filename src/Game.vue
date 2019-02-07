@@ -509,6 +509,14 @@ export default {
         return;
       }
 
+      // update words had/wps
+      if (this.currency.words.gt(this.statistics.wordsHad)) {
+        this.statistics.wordsHad = Big(this.currency.words);
+      }
+      if (this.totalWps.gt(this.statistics.wps)) {
+        this.statistics.wps = Big(this.totalWps);
+      }
+
       Object.keys(this.milestones).forEach((stat) => {
         if (this.statistics[stat].gte(this.milestones[stat])) {
           log(`got milestone for ${stat}`);
