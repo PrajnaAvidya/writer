@@ -187,6 +187,12 @@ export default {
 
       // start cooldown
       this.resetJobTimer(job.id);
+
+      this.$ga.event({
+        eventCategory: 'Job',
+        eventAction: 'Completed',
+        eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.payment).toString()}`,
+      });
     },
     completeUrgentJob(id) {
       // get job
@@ -208,8 +214,17 @@ export default {
 
       // reset urgent job
       this.$root.$emit('setNextUrgentJob');
+
+      this.$ga.event({
+        eventCategory: 'Urgent Job',
+        eventAction: 'Completed',
+        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.payment).toString()}`,
+      });
     },
     declineJob(id) {
+      // get job
+      const job = this.urgentJob;
+
       // mark as completed so it will regen
       this.jobs[id].completed = true;
 
@@ -218,6 +233,12 @@ export default {
 
       // show message
       notify(`Job Declined: ${this.jobs[id].name}`, { icon: 'fa-times' });
+
+      this.$ga.event({
+        eventCategory: 'Job',
+        eventAction: 'Declined',
+        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.payment).toString()}`,
+      });
     },
     hurryCooldown(id) {
       this.speedJobCooldown({ id, seconds: 1 });

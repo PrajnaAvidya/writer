@@ -1,4 +1,3 @@
-import Big from 'big.js';
 import randomInt from '@/utils/randomInt';
 import jobData from '@/data/jobs';
 

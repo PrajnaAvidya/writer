@@ -24,9 +24,6 @@ const data = {
     jobCooldown: 60,
   },
 
-  // name
-  // playerName: 'Rafiq',
-
   // tutorials
   tutorials: [],
 
@@ -58,6 +55,7 @@ const data = {
 
   // jobs
   jobSlots: 1,
+  maxJobSlots: 4,
   jobs: {},
   jobsCompletedTimestamps: {
     1: 0,

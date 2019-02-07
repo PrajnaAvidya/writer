@@ -129,6 +129,12 @@ export default {
     ]),
   },
   mounted() {
+    this.$ga.event({
+      eventCategory: 'Game',
+      eventAction: 'New',
+      eventLabel: this.currency.words.toString(),
+    });
+
     // check for debug mode
     if (this.debug.enabled) {
       this.currency.words = this.debug.startingWords;
@@ -273,6 +279,12 @@ export default {
           timeout: this.caffeineTime * 1000,
           icon: 'fa-bolt',
         });
+
+        this.$ga.event({
+          eventCategory: 'Caffeine',
+          eventAction: 'Activate',
+          eventLabel: this.caffeineWordGeneration.toString(),
+        });
       }
     },
     checkCaffeine() {
@@ -334,6 +346,12 @@ export default {
       // recalculate stuff
       this.calculateWorkerCosts();
       this.updateWpsMps();
+
+      this.$ga.event({
+        eventCategory: 'Workers',
+        eventAction: 'Hired',
+        eventLabel: `${this.buyAmount} ${this.workers[id].pluralName}`,
+      });
     },
     calculateWorkerCosts() {
       log('recalculating worker costs');
@@ -514,6 +532,12 @@ export default {
 
           // unlock stats
           this.updateData({ index: 'showStats', value: true });
+
+          this.$ga.event({
+            eventCategory: 'Milestone',
+            eventAction: 'Completed',
+            eventLabel: `${stat} ${this.milestoneCount[stat]}`,
+          });
         }
       });
 

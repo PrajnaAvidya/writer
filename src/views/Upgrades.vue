@@ -72,6 +72,12 @@ export default {
       // apply
       this.applyUpgrade(upgrade);
 
+      this.$ga.event({
+        eventCategory: 'Upgrade',
+        eventAction: 'Bought',
+        eventLabel: `${upgrade.name} ${upgrade.cost.toString()}`,
+      });
+
       // remove from list
       this.$root.$emit('removeUpgrade', upgrade.id);
     },

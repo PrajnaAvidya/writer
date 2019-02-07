@@ -12,13 +12,13 @@
           <th>{{ statDescriptions[stat] }}</th>
           <td
             v-if="stat === 'money' || stat === 'moneySpent'"
-            style="width: 120px;"
+            style="width: 150px;"
           >
             {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
           </td>
           <td
             v-else
-            style="width: 120px;"
+            style="width: 150px;"
           >
             {{ statistics[stat] | round }} ({{ milestoneCount[stat] }})
           </td>
