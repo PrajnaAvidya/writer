@@ -33,9 +33,9 @@ export default new Vuex.Store({
     speedCaffeineCooldown(state, seconds) {
       state.nextCaffeineTime -= seconds * 1000;
     },
-    activateCaffeine(state) {
+    activateCaffeine(state, force = false) {
       state.endCaffeineTime = unixTimestamp(state.caffeineTime);
-      state.nextCaffeineTime = unixTimestamp(state.caffeineTime + state.caffeineCooldown);
+      state.nextCaffeineTime = force ? unixTimestamp(state.caffeineTime) : unixTimestamp(state.caffeineTime + state.caffeineCooldown);
       state.statistics.caffeines = state.statistics.caffeines.plus(1);
     },
     adjustCaffeineTimer(state, amount) {

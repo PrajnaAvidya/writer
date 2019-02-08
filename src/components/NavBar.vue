@@ -62,6 +62,18 @@
           Rebirth
         </RouterLink>
       </Transition>
+      <Transition
+        v-if="checkDebug('disableUnfolding') || rebirth.plotPoints.gt(0)"
+        name="fade"
+      >
+        <RouterLink
+          to="/bonus"
+          class="nav-link"
+        >
+          <i class="fas fa-star fa-lg" />
+          Bonus
+        </RouterLink>
+      </Transition>
       <hr>
     </div>
   </section>

@@ -173,8 +173,16 @@ export default {
     },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
-        this.currency.words = this.debug.startingWords;
-        this.currency.money = this.debug.startingMoney;
+        if (this.debug.startingWords) {
+          this.currency.words = this.debug.startingWords;
+        }
+        if (this.debug.startingMoney) {
+          this.currency.money = this.debug.startingMoney;
+        }
+        if (this.debug.startingPlotPoints) {
+          this.rebirth.plotPoints = this.debug.startingPlotPoints;
+        }
+
         this.updateData({ index: 'caffeineTime', value: this.debug.caffeineTime });
         this.updateData({ index: 'caffeineCooldown', value: this.debug.caffeineCooldown });
         this.updateData({ index: 'jobCooldown', value: this.debug.jobCooldown });
@@ -287,6 +295,8 @@ export default {
       if (this.buzzActive) {
         words = words.times(this.caffeineClickMultiplier);
       }
+      // add plot bonus
+      words = words.times(Big(1).plus(this.rebirth.plotPoints.div(100)));
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
 
@@ -307,7 +317,7 @@ export default {
         this.caffeineX = event.pageX - 5;
         this.caffeineY = event.pageY - 20;
 
-        this.activateCaffeine();
+        this.activateCaffeine(force);
         this.caffeineAnimationParams();
         // show message
         notify('You feel buzzed', {
@@ -340,7 +350,7 @@ export default {
           animatePlus({
             x: this.caffeineX,
             y: this.caffeineY,
-            value: this.$options.filters.round(this.caffeineAnimationAmount),
+            value: this.$options.filters.round(this.caffeineAnimationAmount.times(Big(1).plus(this.rebirth.plotPoints.div(100)))),
             time: 500,
             height: 150,
             disappearFrom: 0.25,
@@ -354,12 +364,12 @@ export default {
       if (this.caffeineWordGeneration.lte(5)) {
         // show +1
         this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration).toFixed();
-        this.caffeineAnimationAmount = 1;
+        this.caffeineAnimationAmount = Big(1);
       } else if (this.caffeineWordGeneration.lt(5E6)) {
         // show rounded +X
         const roundedFraction = parseInt(this.caffeineWordGeneration.div(5).toFixed(), 10);
         this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration.div(roundedFraction)).toFixed();
-        this.caffeineAnimationAmount = roundedFraction;
+        this.caffeineAnimationAmount = Big(roundedFraction);
       } else {
         // show +X every 200ms
         const fraction = this.caffeineWordGeneration.div(5);
@@ -411,11 +421,16 @@ export default {
     },
     updateWpsMps() {
       log('recalculating wps');
+      // get plot point bonus
+      const plotBonus = Big(1).plus(this.rebirth.plotPoints.div(100));
+      // get worker wps
       const workerWps = calculateWorkerWps(this.workers);
-      // get caffeine wps
-      let totalWps = workerWps.total;
+      // add plot point bonus
+      let totalWps = workerWps.total.times(plotBonus);
+      // add caffeine wps
       if (this.buzzActive) {
-        totalWps = totalWps.plus(this.caffeineWordGeneration);
+        // add plot point bonus
+        totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
       }
       this.updateData({ index: 'workerWps', value: workerWps.total });
       this.updateData({ index: 'totalWps', value: totalWps });

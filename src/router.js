@@ -37,6 +37,11 @@ const router = new Router({
       name: 'Rebirth',
       component: () => import('@/views/Rebirth.vue'),
     },
+    {
+      path: '/bonus',
+      name: 'Bonus',
+      component: () => import('@/views/Bonus.vue'),
+    },
   ],
 });
 
