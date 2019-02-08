@@ -565,6 +565,9 @@ export default {
       if (this.currency.words.gt(this.statistics.wordsHad)) {
         this.statistics.wordsHad = Big(this.currency.words);
       }
+      if (this.currency.money.gt(this.statistics.moneyHad)) {
+        this.statistics.moneyHad = Big(this.currency.money);
+      }
       if (this.totalWps.gt(this.statistics.wps)) {
         this.statistics.wps = Big(this.totalWps);
       }

@@ -141,6 +141,7 @@ const stats = {
   upgrades: 'Upgrades Bought',
   clickables: 'Books Clicked',
   wordsHad: 'Most Words Had At Once',
+  moneyHad: 'Most Money Had At Once',
   wps: 'Highest Words Per Second',
 };
 

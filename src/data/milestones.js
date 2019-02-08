@@ -43,6 +43,10 @@ export default {
     base: 1000,
     multiplier: 5,
   },
+  moneyHad: {
+    base: 500,
+    multiplier: 5,
+  },
   wps: {
     base: 10,
     multiplier: 2,
