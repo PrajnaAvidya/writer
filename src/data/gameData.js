@@ -12,7 +12,7 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: false,
+    enabled: true,
     fastTutorials: true,
     disableTutorials: true,
     disableUnfolding: true,
@@ -140,8 +140,10 @@ const stats = {
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',
   clickables: 'Books Clicked',
+  /*
   wordsHad: 'Most Words Had At Once',
   moneyHad: 'Most Money Had At Once',
+  */
   wps: 'Highest Words Per Second',
 };
 
