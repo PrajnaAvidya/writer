@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="milestones is-size-3">
-      Milestones (this life): {{ currency.milestones | round }}
+      Milestones: {{ currency.milestones | round }}
     </div>
     <div class="is-size-4">
-      Milestones (stored): {{ currency.milestones | round }}
+      Rebirth is coming next update!
     </div>
   </div>
 </template>
