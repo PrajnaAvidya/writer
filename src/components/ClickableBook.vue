@@ -21,7 +21,7 @@ export default {
   computed: {
     ...mapState([
       'currency',
-      'workerWps',
+      'totalWps',
       'bookActive',
       'bookPosition',
       'buzzActive',
@@ -30,18 +30,17 @@ export default {
   methods: {
     clickBook(event) {
       const roll = randomInt(1, 100);
-      log(`roll: ${roll}`);
       let eventLabel;
-      if (roll <= 40 && !this.buzzActive) {
+      if (roll <= 50 && !this.buzzActive) {
         // caffeine
         this.$root.$emit('coffee', event, true);
         log('bonus caffeine buzz');
         eventLabel = 'Caffeine';
-      } else if (roll <= 75) {
+      } else {
         // +words
         let words = this.currency.words.times(randomInt(10, 50) / 100).plus(1800);
-        if (words.gt(1800) && words.gt(this.workerWps.times(1800))) {
-          words = this.workerWps.times(1800).plus(1800);
+        if (words.gt(1800) && words.gt(this.totalWps.times(1800))) {
+          words = this.totalWps.times(1800).plus(1800);
         }
         this.$root.$emit('addWords', words, true);
         log(`bonus words: ${words.toString()}`);
@@ -57,16 +56,18 @@ export default {
           disappearFrom: 0.5,
           className: 'bonus-plus',
         });
-      } else {
+      }
+      /*
+      else {
         // +money
         let money = this.currency.money.times(randomInt(10, 50) / 100).plus(600);
-        if (money.gt(600) && money.gt(this.workerWps.times(3600).times(this.currency.wordValue))) {
-          money = this.workerWps.times(3600).times(this.currency.wordValue).plus(600);
+        if (money.gt(600) && money.gt(this.totalWps.times(3600).times(this.currency.wordValue))) {
+          money = this.totalWps.times(3600).times(this.currency.wordValue).plus(600);
         }
         this.$root.$emit('addMoney', money);
         log(`bonus money: ${money.toString()}`);
         eventLabel = 'Money';
-        notify(`Bonus Money: ${this.$options.filters.round(money)}!`, { icon: 'fa-book' });
+        notify(`Bonus Money: ${this.$options.filters.moneyCents(money)}!`, { icon: 'fa-book' });
 
         animatePlus({
           x: event.pageX - 5,
@@ -78,6 +79,7 @@ export default {
           className: 'bonus-plus',
         });
       }
+      */
 
       this.addToStat({ stat: 'clickables', amount: 1 });
       this.$root.$emit('setNextBook');

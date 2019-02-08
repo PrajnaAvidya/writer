@@ -15,6 +15,7 @@ export default new Vuex.Store({
     wordValue: state => state.currency.wordValue,
     jobsComplete: state => state.statistics.jobs,
     workersHired: state => state.statistics.workers,
+    checkDebug: state => debug => state.debug.enabled && state.debug[debug],
   },
 
   mutations: {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
     },
     setUpgrades(state, upgrades) {
       state.upgrades = Object.assign({}, upgrades);
+    },
+    revealUnfolding(state, reveal) {
+      state.unfolding[reveal] = true;
     },
     updateData(state, { index, value }) {
       state[index] = value;

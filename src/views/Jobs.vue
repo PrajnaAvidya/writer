@@ -177,7 +177,7 @@ export default {
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'jobs', amount: 1 });
-      this.updateData({ index: 'firstJobComplete', value: true });
+      this.revealUnfolding('firstJobComplete');
 
       // show message
       notify(`Job Complete: ${job.name}`, { icon: 'fa-briefcase' });
@@ -207,7 +207,7 @@ export default {
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(this.urgentJobRewardMultiplier).times(job.payment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
-      this.updateData({ index: 'firstUrgentJobComplete', value: true });
+      this.revealUnfolding('firstUrgentJobComplete');
 
       // show message
       notify(`Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });
@@ -245,9 +245,9 @@ export default {
     },
     ...mapMutations([
       'resetJobTimer',
-      'updateData',
       'addToStat',
       'speedJobCooldown',
+      'revealUnfolding',
     ]),
   },
 };

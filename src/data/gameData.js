@@ -12,14 +12,14 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: false,
+    enabled: true,
     fastTutorials: true,
     disableTutorials: true,
     disableUnfolding: true,
     urgentJobs: false,
     books: true,
     startingWords: Big(0),
-    startingMoney: Big(0),
+    startingMoney: Big(1),
     caffeineTime: 10,
     caffeineCooldown: 300,
     jobCooldown: 1,
@@ -34,6 +34,11 @@ const data = {
     money: Big(1),
     wordValue: Big(0.10),
     milestones: Big(0),
+  },
+
+  // rebirth
+  rebirth: {
+    asdf: true,
   },
 
   // worker + caffeine wps (displayed)
@@ -117,16 +122,19 @@ const data = {
   bookSpawnTime: 60,
 
   // unfolding
-  showMoney: false,
-  showWps: false,
-  showNavigation: false,
-  showCoffee: false,
-  showJobs: false,
-  showWorkers: false,
-  showUpgrades: false,
-  showStats: false,
-  firstJobComplete: false,
-  firstUrgentJobComplete: false,
+  unfolding: {
+    showMoney: false,
+    showWps: false,
+    showNavigation: false,
+    showCoffee: false,
+    showJobs: false,
+    showWorkers: false,
+    showUpgrades: false,
+    showStats: false,
+    showRebirth: false,
+    firstJobComplete: false,
+    firstUrgentJobComplete: false,
+  },
 };
 
 const stats = {
@@ -140,7 +148,10 @@ const stats = {
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',
   clickables: 'Books Clicked',
+  /*
   wordsHad: 'Most Words Had At Once',
+  moneyHad: 'Most Money Had At Once',
+  */
   wps: 'Highest Words Per Second',
 };
 

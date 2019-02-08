@@ -43,7 +43,6 @@ export default {
   name: 'UpgradePanel',
   computed: {
     ...mapState([
-      'debug',
       'currency',
       'workers',
       'upgrades',
@@ -57,6 +56,7 @@ export default {
     ]),
     ...mapGetters([
       'money',
+      'checkDebug',
     ]),
   },
   methods: {
@@ -223,7 +223,7 @@ export default {
     },
     canSeeUpgrade(upgrade) {
       // check for debug
-      if (this.debug.enabled) {
+      if (this.checkDebug('enabled')) {
         return true;
       }
       // check for previous id

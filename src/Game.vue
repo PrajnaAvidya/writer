@@ -11,14 +11,14 @@
       />
 
       <CaffeineBuzz
-        v-if="showCoffee"
+        v-if="checkDebug('disableUnfolding') || unfolding.showCoffee"
         class="caffeine-section"
       />
 
       <CreativeButtons />
     </section>
 
-    <NavBar v-if="showNavigation" />
+    <NavBar v-if="checkDebug('disableUnfolding') || unfolding.showNavigation" />
 
     <section class="section main">
       <RouterView />
@@ -30,7 +30,7 @@
 // external libs
 import Big from 'big.js';
 import Noty from 'noty';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 // internal libs
 import log from '@/utils/log';
 import calculateWorkerWps from '@/utils/calculateWorkerWps';
@@ -127,8 +127,7 @@ export default {
       'milestones',
       'milestoneCount',
       // unfolding
-      'showNavigation',
-      'showCoffee',
+      'unfolding',
       // clickables
       'bookActive',
       'bookMinimumTime',
@@ -136,6 +135,9 @@ export default {
       'nextBookTime',
       'bookSpawnTime',
       'bookExpireTime',
+    ]),
+    ...mapGetters([
+      'checkDebug',
     ]),
   },
   mounted() {
@@ -146,33 +148,23 @@ export default {
     });
 
     // check for debug mode
-    if (this.debug.enabled) {
+    if (this.checkDebug('enabled')) {
       this.currency.words = this.debug.startingWords;
       this.currency.money = this.debug.startingMoney;
       this.updateData({ index: 'caffeineTime', value: this.debug.caffeineTime });
       this.updateData({ index: 'caffeineCooldown', value: this.debug.caffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debug.jobCooldown });
-      if (this.debug.urgentJobs) {
+      if (this.checkDebug('urgentJobs')) {
         this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
         this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
       }
-      if (this.debug.books) {
+      if (this.checkDebug('books')) {
         this.updateData({ index: 'bookMinimumTime', value: 1 });
         this.updateData({ index: 'bookMaximumTime', value: 1 });
       }
-      if (this.debug.disableUnfolding) {
-        this.updateData({ index: 'showMoney', value: true });
-        this.updateData({ index: 'showWps', value: true });
-        this.updateData({ index: 'showNavigation', value: true });
-        this.updateData({ index: 'showCoffee', value: true });
-        this.updateData({ index: 'showJobs', value: true });
-        this.updateData({ index: 'showWorkers', value: true });
-        this.updateData({ index: 'showUpgrades', value: true });
-        this.updateData({ index: 'showStats', value: true });
-      }
-      if (this.debug.disableTutorials) {
-        this.updateData({ index: 'firstJobComplete', value: true });
-        this.updateData({ index: 'firstUrgentJobComplete', value: true });
+      if (this.checkDebug('disableTutorials')) {
+        this.revealUnfolding('firstJobComplete');
+        this.revealUnfolding('firstUrgentJobComplete');
       }
     }
 
@@ -561,10 +553,15 @@ export default {
         return;
       }
 
-      // update words had/wps
+      /*
       if (this.currency.words.gt(this.statistics.wordsHad)) {
         this.statistics.wordsHad = Big(this.currency.words);
       }
+      if (this.currency.money.gt(this.statistics.moneyHad)) {
+        this.statistics.moneyHad = Big(this.currency.money);
+      }
+      */
+      // update max wps
       if (this.totalWps.gt(this.statistics.wps)) {
         this.statistics.wps = Big(this.totalWps);
       }
@@ -591,7 +588,7 @@ export default {
           this.milestones[stat] = this.milestones[stat].times(milestoneData[stat].multiplier);
 
           // unlock stats
-          this.updateData({ index: 'showStats', value: true });
+          this.revealUnfolding('showStats');
 
           this.$ga.event({
             eventCategory: 'Milestone',
@@ -600,6 +597,10 @@ export default {
           });
         }
       });
+      
+      if (this.currency.milestones.gte(10)) {
+        this.revealUnfolding('showRebirth');
+      }
 
       this.nextMilestoneCheck = unixTimestamp(0.5);
     },
@@ -610,6 +611,7 @@ export default {
       'updateData',
       'setWorkers',
       'setUpgrades',
+      'revealUnfolding',
     ]),
   },
 };

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <span class="title is-size-3">
-      Milestones: {{ currency.milestones | round }}
-    </span>
     <table class="table">
       <tbody>
         <tr
@@ -11,7 +8,7 @@
         >
           <th>{{ statDescriptions[stat] }}</th>
           <td
-            v-if="stat === 'money' || stat === 'moneySpent'"
+            v-if="stat === 'money' || stat === 'moneySpent' || stat === 'moneyHad'"
             style="width: 150px;"
           >
             {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
