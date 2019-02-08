@@ -15,6 +15,7 @@ export default new Vuex.Store({
     wordValue: state => state.currency.wordValue,
     jobsComplete: state => state.statistics.jobs,
     workersHired: state => state.statistics.workers,
+    checkDebug: state => debug => state.debug.enabled && state.debug[debug],
   },
 
   mutations: {

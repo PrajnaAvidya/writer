@@ -6,12 +6,12 @@
       </div>
     </Transition>
     <div
-      v-if="debug.disableUnfolding || unfolding.showWps"
+      v-if="checkDebug('disableUnfolding') || unfolding.showWps"
       class="is-size-6"
     >
       Words per Second: {{ totalWps | round }}
     </div>
-    <div v-if="debug.enabled">
+    <div v-if="checkDebug('enabled')">
       <div>
         Base $ per Second (DEBUG): {{ totalMps | moneyCents }}
       </div>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div
-      v-if="debug.disableUnfolding || unfolding.showMoney"
+      v-if="checkDebug('disableUnfolding') || unfolding.showMoney"
       class="is-size-4"
     >
       Money: {{ money | moneyCents }}
@@ -45,13 +45,13 @@ export default {
   },
   computed: {
     ...mapState([
-      'debug',
       'unfolding',
       'totalWps',
       'totalMps',
     ]),
     ...mapGetters([
       'wordValue',
+      'checkDebug',
     ]),
   },
 };

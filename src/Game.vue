@@ -11,14 +11,14 @@
       />
 
       <CaffeineBuzz
-        v-if="debug.disableUnfolding || unfolding.showCoffee"
+        v-if="checkDebug('disableUnfolding') || unfolding.showCoffee"
         class="caffeine-section"
       />
 
       <CreativeButtons />
     </section>
 
-    <NavBar v-if="debug.disableUnfolding || unfolding.showNavigation" />
+    <NavBar v-if="checkDebug('disableUnfolding') || unfolding.showNavigation" />
 
     <section class="section main">
       <RouterView />
@@ -30,7 +30,7 @@
 // external libs
 import Big from 'big.js';
 import Noty from 'noty';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 // internal libs
 import log from '@/utils/log';
 import calculateWorkerWps from '@/utils/calculateWorkerWps';
@@ -136,6 +136,9 @@ export default {
       'bookSpawnTime',
       'bookExpireTime',
     ]),
+    ...mapGetters([
+      'checkDebug',
+    ]),
   },
   mounted() {
     this.$ga.event({
@@ -145,21 +148,21 @@ export default {
     });
 
     // check for debug mode
-    if (this.debug.enabled) {
+    if (this.checkDebug('enabled')) {
       this.currency.words = this.debug.startingWords;
       this.currency.money = this.debug.startingMoney;
       this.updateData({ index: 'caffeineTime', value: this.debug.caffeineTime });
       this.updateData({ index: 'caffeineCooldown', value: this.debug.caffeineCooldown });
       this.updateData({ index: 'jobCooldown', value: this.debug.jobCooldown });
-      if (this.debug.urgentJobs) {
+      if (this.checkDebug('urgentJobs')) {
         this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
         this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
       }
-      if (this.debug.books) {
+      if (this.checkDebug('books')) {
         this.updateData({ index: 'bookMinimumTime', value: 1 });
         this.updateData({ index: 'bookMaximumTime', value: 1 });
       }
-      if (this.debug.disableTutorials) {
+      if (this.checkDebug('disableTutorials')) {
         this.revealUnfolding('firstJobComplete');
         this.revealUnfolding('firstUrgentJobComplete');
       }

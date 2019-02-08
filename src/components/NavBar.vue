@@ -3,7 +3,7 @@
     <div id="nav">
       <hr>
       <Transition
-        v-if="debug.disableUnfolding || unfolding.showJobs"
+        v-if="checkDebug('disableUnfolding') || unfolding.showJobs"
         name="fade"
       >
         <RouterLink
@@ -15,7 +15,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="debug.disableUnfolding || unfolding.showWorkers"
+        v-if="checkDebug('disableUnfolding') || unfolding.showWorkers"
         name="fade"
       >
         <RouterLink
@@ -27,7 +27,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="debug.disableUnfolding || unfolding.showUpgrades"
+        v-if="checkDebug('disableUnfolding') || unfolding.showUpgrades"
         name="fade"
       >
         <RouterLink
@@ -39,7 +39,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="debug.disableUnfolding || unfolding.showStats"
+        v-if="checkDebug('disableUnfolding') || unfolding.showStats"
         name="fade"
       >
         <RouterLink
@@ -51,7 +51,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="debug.disableUnfolding || unfolding.showRebirth"
+        v-if="checkDebug('disableUnfolding') || unfolding.showRebirth"
         name="fade"
       >
         <RouterLink
@@ -68,14 +68,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'NavBar',
   computed: {
     ...mapState([
-      'debug',
       'unfolding',
+    ]),
+    ...mapGetters([
+      'checkDebug',
     ]),
   },
 };

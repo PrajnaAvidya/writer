@@ -33,7 +33,6 @@ export default {
   }),
   computed: {
     ...mapState([
-      'debug',
       'tutorials',
       'currency',
       'buzzActive',
@@ -44,6 +43,7 @@ export default {
       'words',
       'jobsComplete',
       'workersHired',
+      'checkDebug',
     ]),
   },
   watch: {
@@ -70,7 +70,7 @@ export default {
   methods: {
     checkTutorial() {
       // return if debug mode, active tutorial, or no tutorial
-      if ((this.debug.enabled && this.debug.disableTutorials) || this.tutorial === undefined || this.active === true) {
+      if (this.checkDebug('disableTutorials') || this.tutorial === undefined || this.active === true) {
         return;
       }
 
@@ -91,7 +91,7 @@ export default {
       this.active = true;
 
       // show modal
-      if ((this.debug.enabled && this.debug.fastTutorials) || !this.tutorial.delay) {
+      if (this.checkDebug('fastTutorials') || !this.tutorial.delay) {
         // open immediately
         this.revealTutorial();
       } else {

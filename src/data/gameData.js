@@ -12,10 +12,10 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: false,
+    enabled: true,
     fastTutorials: true,
     disableTutorials: true,
-    disableUnfolding: false,
+    disableUnfolding: true,
     urgentJobs: false,
     books: true,
     startingWords: Big(0),
