@@ -285,7 +285,7 @@ export default {
       animatePlus({
         x: event.pageX - 5,
         y: event.pageY - 20,
-        value: words,
+        value: this.$options.filters.round(words),
         time: 500,
         height: 150,
         disappearFrom: 0.25,
@@ -331,7 +331,7 @@ export default {
           animatePlus({
             x: this.caffeineX,
             y: this.caffeineY,
-            value: this.caffeineAnimationAmount,
+            value: this.$options.filters.round(this.caffeineAnimationAmount),
             time: 500,
             height: 150,
             disappearFrom: 0.25,

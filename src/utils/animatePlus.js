@@ -1,10 +1,8 @@
-import round from '@/utils/round';
-
-export default function ({ x, y, value, time = 500, height = 100, disappearFrom = 0.5 }) {
+export default function ({ x, y, value, time = 500, height = 100, disappearFrom = 0.5, className = 'floating-plus' }) {
   // create and add div
   const dvPlus = document.createElement('div');
-  dvPlus.className = 'floating-plus';
-  dvPlus.innerHTML = `+${round(value)}`;
+  dvPlus.className = className;
+  dvPlus.innerHTML = `+${value}`;
   dvPlus.style.left = `${x}px`;
   document.body.appendChild(dvPlus);
 
