@@ -36,6 +36,11 @@ const data = {
     milestones: Big(0),
   },
 
+  // rebirth
+  rebirth: {
+    asdf: true,
+  },
+
   // worker + caffeine wps (displayed)
   totalWps: Big(0),
 
