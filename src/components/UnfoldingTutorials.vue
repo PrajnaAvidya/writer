@@ -104,7 +104,7 @@ export default {
     revealTutorial() {
       if (this.tutorial.reveal) {
         this.tutorial.reveal.forEach((reveal) => {
-          this.updateData({ index: reveal, value: true });
+          this.revealUnfolding(reveal);
         });
       }
 
@@ -127,7 +127,7 @@ export default {
       this.getNextTutorial();
     },
     ...mapMutations([
-      'updateData',
+      'revealUnfolding',
     ]),
   },
 };

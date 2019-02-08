@@ -6,7 +6,7 @@
       </div>
     </Transition>
     <div
-      v-if="showWps"
+      v-if="debug.disableUnfolding || unfolding.showWps"
       class="is-size-6"
     >
       Words per Second: {{ totalWps | round }}
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div
-      v-if="showMoney"
+      v-if="debug.disableUnfolding || unfolding.showMoney"
       class="is-size-4"
     >
       Money: {{ money | moneyCents }}
@@ -46,8 +46,7 @@ export default {
   computed: {
     ...mapState([
       'debug',
-      'showMoney',
-      'showWps',
+      'unfolding',
       'totalWps',
       'totalMps',
     ]),

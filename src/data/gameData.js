@@ -12,10 +12,10 @@ import milestones from '@/data/milestones';
 
 const data = {
   debug: {
-    enabled: true,
+    enabled: false,
     fastTutorials: true,
     disableTutorials: true,
-    disableUnfolding: true,
+    disableUnfolding: false,
     urgentJobs: false,
     books: true,
     startingWords: Big(0),
@@ -117,16 +117,19 @@ const data = {
   bookSpawnTime: 60,
 
   // unfolding
-  showMoney: false,
-  showWps: false,
-  showNavigation: false,
-  showCoffee: false,
-  showJobs: false,
-  showWorkers: false,
-  showUpgrades: false,
-  showStats: false,
-  firstJobComplete: false,
-  firstUrgentJobComplete: false,
+  unfolding: {
+    showMoney: false,
+    showWps: false,
+    showNavigation: false,
+    showCoffee: false,
+    showJobs: false,
+    showWorkers: false,
+    showUpgrades: false,
+    showStats: false,
+    showRebirth: false,
+    firstJobComplete: false,
+    firstUrgentJobComplete: false,
+  },
 };
 
 const stats = {

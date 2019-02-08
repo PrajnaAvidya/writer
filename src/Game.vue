@@ -11,14 +11,14 @@
       />
 
       <CaffeineBuzz
-        v-if="showCoffee"
+        v-if="debug.disableUnfolding || unfolding.showCoffee"
         class="caffeine-section"
       />
 
       <CreativeButtons />
     </section>
 
-    <NavBar v-if="showNavigation" />
+    <NavBar v-if="debug.disableUnfolding || unfolding.showNavigation" />
 
     <section class="section main">
       <RouterView />
@@ -127,8 +127,7 @@ export default {
       'milestones',
       'milestoneCount',
       // unfolding
-      'showNavigation',
-      'showCoffee',
+      'unfolding',
       // clickables
       'bookActive',
       'bookMinimumTime',
@@ -160,19 +159,9 @@ export default {
         this.updateData({ index: 'bookMinimumTime', value: 1 });
         this.updateData({ index: 'bookMaximumTime', value: 1 });
       }
-      if (this.debug.disableUnfolding) {
-        this.updateData({ index: 'showMoney', value: true });
-        this.updateData({ index: 'showWps', value: true });
-        this.updateData({ index: 'showNavigation', value: true });
-        this.updateData({ index: 'showCoffee', value: true });
-        this.updateData({ index: 'showJobs', value: true });
-        this.updateData({ index: 'showWorkers', value: true });
-        this.updateData({ index: 'showUpgrades', value: true });
-        this.updateData({ index: 'showStats', value: true });
-      }
       if (this.debug.disableTutorials) {
-        this.updateData({ index: 'firstJobComplete', value: true });
-        this.updateData({ index: 'firstUrgentJobComplete', value: true });
+        this.revealUnfolding('firstJobComplete');
+        this.revealUnfolding('firstUrgentJobComplete');
       }
     }
 
@@ -561,13 +550,15 @@ export default {
         return;
       }
 
-      // update words had/wps
+      /*
       if (this.currency.words.gt(this.statistics.wordsHad)) {
         this.statistics.wordsHad = Big(this.currency.words);
       }
       if (this.currency.money.gt(this.statistics.moneyHad)) {
         this.statistics.moneyHad = Big(this.currency.money);
       }
+      */
+      // update max wps
       if (this.totalWps.gt(this.statistics.wps)) {
         this.statistics.wps = Big(this.totalWps);
       }
@@ -594,7 +585,7 @@ export default {
           this.milestones[stat] = this.milestones[stat].times(milestoneData[stat].multiplier);
 
           // unlock stats
-          this.updateData({ index: 'showStats', value: true });
+          this.revealUnfolding('showStats');
 
           this.$ga.event({
             eventCategory: 'Milestone',
@@ -613,6 +604,7 @@ export default {
       'updateData',
       'setWorkers',
       'setUpgrades',
+      'revealUnfolding',
     ]),
   },
 };

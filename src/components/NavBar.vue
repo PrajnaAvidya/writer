@@ -3,7 +3,7 @@
     <div id="nav">
       <hr>
       <Transition
-        v-if="showJobs"
+        v-if="debug.disableUnfolding || unfolding.showJobs"
         name="fade"
       >
         <RouterLink
@@ -15,7 +15,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="showWorkers"
+        v-if="debug.disableUnfolding || unfolding.showWorkers"
         name="fade"
       >
         <RouterLink
@@ -27,7 +27,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="showUpgrades"
+        v-if="debug.disableUnfolding || unfolding.showUpgrades"
         name="fade"
       >
         <RouterLink
@@ -39,7 +39,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="showStats"
+        v-if="debug.disableUnfolding || unfolding.showStats"
         name="fade"
       >
         <RouterLink
@@ -48,6 +48,18 @@
         >
           <i class="fas fa-chart-line fa-lg" />
           Stats
+        </RouterLink>
+      </Transition>
+      <Transition
+        v-if="debug.disableUnfolding || unfolding.showRebirth"
+        name="fade"
+      >
+        <RouterLink
+          to="/rebirth"
+          class="nav-link"
+        >
+          <i class="fas fa-star fa-lg" />
+          Rebirth
         </RouterLink>
       </Transition>
       <hr>
@@ -62,10 +74,8 @@ export default {
   name: 'NavBar',
   computed: {
     ...mapState([
-      'showJobs',
-      'showWorkers',
-      'showUpgrades',
-      'showStats',
+      'debug',
+      'unfolding',
     ]),
   },
 };
