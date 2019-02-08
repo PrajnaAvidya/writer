@@ -19,7 +19,7 @@ const data = {
     urgentJobs: false,
     books: true,
     startingWords: Big(0),
-    startingMoney: Big(1E100),
+    startingMoney: Big(0),
     caffeineTime: 10,
     caffeineCooldown: 300,
     jobCooldown: 1,
@@ -139,6 +139,7 @@ const stats = {
   jobs: 'Jobs Complete',
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',
+  clickables: 'Books Clicked',
   wordsHad: 'Most Words Had At Once',
   wps: 'Highest Words Per Second',
 };

@@ -12,7 +12,6 @@
 
       <CaffeineBuzz
         v-if="showCoffee"
-        :buzz-active="buzzActive"
         class="caffeine-section"
       />
 
@@ -203,6 +202,7 @@ export default {
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
+      this.$root.$on('setNextBook', this.setNextBook);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -292,8 +292,8 @@ export default {
       });
     },
     // caffeine
-    coffee(event) {
-      if (this.utimestamp >= this.nextCaffeineTime) {
+    coffee(event, force = false) {
+      if (force || this.utimestamp >= this.nextCaffeineTime) {
         // capture player mouse position
         this.caffeineX = event.pageX - 5;
         this.caffeineY = event.pageY - 20;
@@ -481,6 +481,7 @@ export default {
     // clickables
     setNextBook() {
       const time = randomInt(this.bookMinimumTime, this.bookMaximumTime);
+      this.updateData({ index: 'bookActive', value: false });
       this.updateData({ index: 'nextBookTime', value: unixTimestamp(time) });
       this.updateData({ index: 'bookExpireTime', value: unixTimestamp(time + this.bookSpawnTime) });
       log(`next book in ${time}`);
