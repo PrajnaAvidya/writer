@@ -2,12 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import Big from 'big.js';
 import unixTimestamp from '@/utils/unixTimestamp';
-import defaultData from '@/data/gameData';
+import defaultData from '@/data/stateData';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: defaultData,
+  state: defaultData(),
 
   getters: {
     words: state => state.currency.words,
@@ -24,7 +24,6 @@ export default new Vuex.Store({
       state.buyAmount = 10 ** index;
     },
     resetJobTimer(state, jobId) {
-      state.statistics.jobs = state.statistics.jobs.plus(1);
       state.jobsCompletedTimestamps[jobId] = unixTimestamp();
       state.jobsAvailableTimestamps[jobId] = unixTimestamp(state.jobCooldown);
     },
@@ -75,6 +74,21 @@ export default new Vuex.Store({
     },
     incrementUpgradeId(state) {
       state.upgradeId += 1;
+    },
+    setRebirth(state, rebirthData) {
+      state.rebirth = Object.assign({}, rebirthData);
+    },
+    reset(state) {
+      const s = defaultData();
+      Object.keys(s).forEach((key) => {
+        state[key] = s[key];
+      });
+      state.currency = {
+        words: Big(0),
+        money: Big(1),
+        wordValue: Big(0.10),
+        milestones: Big(0),
+      };
     },
   },
 

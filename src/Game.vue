@@ -50,6 +50,7 @@ import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 // data
+import gameData from '@/data/gameData';
 import milestoneData from '@/data/milestones';
 
 export default {
@@ -62,28 +63,7 @@ export default {
     CaffeineBuzz,
     CurrencyDisplay,
   },
-  data: () => ({
-    lastFrame: 0,
-    utimestamp: 0,
-    nextJobCheck: 0,
-    nextMilestoneCheck: 0,
-    nextTitleUpdate: 0,
-
-    displayedWords: Big(0),
-    displayedMoney: Big(0),
-
-    newWords: Big(0),
-    newClickWords: Big(0),
-
-    buzzActive: false,
-    urgentJobNotification: null,
-
-    caffeineX: 0,
-    caffeineY: 0,
-    caffeineAnimationInterval: 1,
-    caffeineAnimationAmount: '1',
-    caffeineAnimationNext: 0,
-  }),
+  data: () => gameData(),
   computed: {
     ...mapState([
       'debug',
@@ -135,51 +115,83 @@ export default {
       'nextBookTime',
       'bookSpawnTime',
       'bookExpireTime',
+      // rebirth
+      'rebirth',
     ]),
     ...mapGetters([
       'checkDebug',
     ]),
   },
   mounted() {
-    this.$ga.event({
-      eventCategory: 'Game',
-      eventAction: 'New',
-      eventLabel: this.currency.words.toString(),
-    });
-
-    // check for debug mode
-    if (this.checkDebug('enabled')) {
-      this.currency.words = this.debug.startingWords;
-      this.currency.money = this.debug.startingMoney;
-      this.updateData({ index: 'caffeineTime', value: this.debug.caffeineTime });
-      this.updateData({ index: 'caffeineCooldown', value: this.debug.caffeineCooldown });
-      this.updateData({ index: 'jobCooldown', value: this.debug.jobCooldown });
-      if (this.checkDebug('urgentJobs')) {
-        this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
-        this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
-      }
-      if (this.checkDebug('books')) {
-        this.updateData({ index: 'bookMinimumTime', value: 1 });
-        this.updateData({ index: 'bookMaximumTime', value: 1 });
-      }
-      if (this.checkDebug('disableTutorials')) {
-        this.revealUnfolding('firstJobComplete');
-        this.revealUnfolding('firstUrgentJobComplete');
-      }
-    }
-
-    // loop in currency
-    this.loopEffect('displayedWords', this.currency.words);
-    this.loopEffect('displayedMoney', this.currency.money);
-
-    // start game
-    this.setNextBook();
-    this.registerEvents();
-    this.calculateWorkerCosts();
-    this.updateWpsMps();
-    window.requestAnimationFrame(this.tick);
+    this.newGame();
   },
   methods: {
+    newGame() {
+      this.$ga.event({
+        eventCategory: 'Game',
+        eventAction: 'New',
+        eventLabel: this.currency.words.toString(),
+      });
+
+      // check for debug mode
+      this.setDebugMode();
+
+      // loop in currency
+      this.loopEffect('displayedWords', this.currency.words);
+      this.loopEffect('displayedMoney', this.currency.money);
+
+      // start game
+      this.setNextBook();
+      this.registerEvents();
+      this.calculateWorkerCosts();
+      this.updateWpsMps();
+      window.requestAnimationFrame(this.tick);
+    },
+    rebirthGame() {
+      this.$ga.event({
+        eventCategory: 'Game',
+        eventAction: 'Rebirth',
+        eventLabel: `Rebirths: ${this.rebirth.rebirths.toString()}`,
+      });
+
+      // check for debug mode
+      this.setDebugMode();
+
+      // loop in currency
+      this.loopEffect('displayedWords', this.currency.words);
+      this.loopEffect('displayedMoney', this.currency.money);
+
+      // start game
+      this.setNextBook();
+      this.calculateWorkerCosts();
+      this.updateWpsMps();
+      window.requestAnimationFrame(this.tick);
+
+      log(this.currency.words.toString());
+      log(this.currency.money.toString());
+      log(this.currency.milestones.toString());
+    },
+    setDebugMode() {
+      if (this.checkDebug('enabled')) {
+        this.currency.words = this.debug.startingWords;
+        this.currency.money = this.debug.startingMoney;
+        this.updateData({ index: 'caffeineTime', value: this.debug.caffeineTime });
+        this.updateData({ index: 'caffeineCooldown', value: this.debug.caffeineCooldown });
+        this.updateData({ index: 'jobCooldown', value: this.debug.jobCooldown });
+        if (this.checkDebug('urgentJobs')) {
+          this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
+          this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
+        }
+        if (this.checkDebug('books')) {
+          this.updateData({ index: 'bookMinimumTime', value: 1 });
+          this.updateData({ index: 'bookMaximumTime', value: 1 });
+        }
+        if (this.checkDebug('disableTutorials')) {
+          this.revealUnfolding('firstJobComplete');
+          this.revealUnfolding('firstUrgentJobComplete');
+        }
+      }
+    },
     registerEvents() {
       log('registering events');
       this.$root.$on('write', this.write);
@@ -195,9 +207,14 @@ export default {
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('setNextBook', this.setNextBook);
+      this.$root.$on('rebirth', this.doRebirth);
     },
     // === start global update loop ===
     tick(timestamp) {
+      if (this.haltAnimation) {
+        return;
+      }
+
       // get time since last frame
       const progress = timestamp - this.lastFrame;
 
@@ -597,12 +614,43 @@ export default {
           });
         }
       });
-      
-      if (this.currency.milestones.gte(10)) {
+
+      if (this.currency.milestones.gte((this.rebirth.baseMilestonesNeeded.plus(this.rebirth.rebirths)).div(2))) {
         this.revealUnfolding('showRebirth');
       }
 
       this.nextMilestoneCheck = unixTimestamp(0.5);
+    },
+    // rebirth
+    doRebirth() {
+      this.haltAnimation = true;
+
+      // save rebirth data
+      const rebirthData = Object.assign({}, this.rebirth);
+      rebirthData.plotPoints = rebirthData.plotPoints.plus(this.currency.milestones);
+      rebirthData.rebirths = rebirthData.rebirths.plus(1);
+
+      // reload vuex data
+      this.reset();
+
+      // add rebirth data back
+      this.setRebirth(rebirthData);
+
+      // reload game data
+      Object.assign(this.$data, gameData());
+
+      // disable unfolding
+      Object.keys(this.unfolding).forEach((unfold) => {
+        this.unfolding[unfold] = true;
+      });
+
+      // start game
+      this.haltAnimation = false;
+      log(this.currency.words.toString());
+      log(this.currency.money.toString());
+      log(this.currency.milestones.toString());
+      log(this.rebirth.plotPoints.toString());
+      this.rebirthGame();
     },
     // === end methods ===
     ...mapMutations([
@@ -612,6 +660,8 @@ export default {
       'setWorkers',
       'setUpgrades',
       'revealUnfolding',
+      'reset',
+      'setRebirth',
     ]),
   },
 };

@@ -11,6 +11,11 @@ table {
   border-color: $blue !important;
 }
 
+.is-danger {
+  background-color: $red !important;
+  border-color: $red !important;
+}
+
 a, i, strong {
   color: $dark;
 }

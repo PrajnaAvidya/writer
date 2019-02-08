@@ -58,7 +58,7 @@
           to="/rebirth"
           class="nav-link"
         >
-          <i class="fas fa-star fa-lg" />
+          <i class="fas fa-recycle fa-lg" />
           Rebirth
         </RouterLink>
       </Transition>
