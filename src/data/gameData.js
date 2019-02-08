@@ -18,7 +18,7 @@ const data = {
     disableUnfolding: true,
     urgentJobs: false,
     books: true,
-    startingWords: Big(0),
+    startingWords: Big(10000),
     startingMoney: Big(1),
     caffeineTime: 10,
     caffeineCooldown: 300,
