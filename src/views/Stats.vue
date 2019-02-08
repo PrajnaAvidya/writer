@@ -1,8 +1,5 @@
 <template>
   <div>
-    <span class="title is-size-3">
-      Milestones: {{ currency.milestones | round }}
-    </span>
     <table class="table">
       <tbody>
         <tr

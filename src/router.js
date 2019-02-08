@@ -32,6 +32,11 @@ const router = new Router({
       name: 'Stats',
       component: () => import('@/views/Stats.vue'),
     },
+    {
+      path: '/rebirth',
+      name: 'Rebirth',
+      component: () => import('@/views/Rebirth.vue'),
+    },
   ],
 });
 

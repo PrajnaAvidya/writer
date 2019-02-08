@@ -19,7 +19,7 @@ const data = {
     urgentJobs: false,
     books: true,
     startingWords: Big(0),
-    startingMoney: Big(0),
+    startingMoney: Big(1),
     caffeineTime: 10,
     caffeineCooldown: 300,
     jobCooldown: 1,
