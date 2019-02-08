@@ -597,6 +597,10 @@ export default {
           });
         }
       });
+      
+      if (this.currency.milestones.gte(10)) {
+        this.revealUnfolding('showRebirth');
+      }
 
       this.nextMilestoneCheck = unixTimestamp(0.5);
     },
