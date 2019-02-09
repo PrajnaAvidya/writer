@@ -9,7 +9,6 @@ import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
 import tutorials from '@/data/tutorials';
 import milestones from '@/data/milestones';
-import bonuses from '@/data/bonuses';
 
 const data = {
   // tutorials
@@ -21,19 +20,6 @@ const data = {
     money: Big(10000),
     wordValue: Big(0.10),
     milestones: Big(0),
-  },
-
-  // rebirth
-  rebirth: {
-    baseMilestonesNeeded: Big(0),
-    rebirths: Big(0),
-    plotPoints: Big(0),
-    bonuses: {
-      jobSlots: 1,
-      hurryAmount: 1,
-      workerCaffeine: workerIndex(false),
-    },
-    lockedBonuses: {},
   },
 
   // worker + caffeine wps (displayed)
@@ -162,9 +148,6 @@ export default function () {
     stateData.jobsCompletedTimestamps[id] = 0;
     stateData.jobsAvailableTimestamps[id] = 0;
   }
-
-  // bonuses
-  stateData.rebirth.lockedBonuses = Object.assign({}, bonuses());
 
   // tutorials/unfolding
   stateData.tutorials = tutorials.reverse();

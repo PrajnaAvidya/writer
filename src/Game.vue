@@ -111,17 +111,21 @@ export default {
       'nextBookTime',
       'bookSpawnTime',
       'bookExpireTime',
-      // rebirth
-      'rebirth',
+    ]),
+    ...mapState('rebirth', [
+      'rebirths',
+      'plotPoints',
+      'bonuses',
+      'baseMilestonesNeeded',
     ]),
     ...mapGetters('debug', [
       'checkDebug',
     ]),
-    ...mapGetters('game', [
-      'jobSlots',
-    ]),
     ...mapGetters('unfolding', [
       'checkUnfolding',
+    ]),
+    ...mapGetters('rebirth', [
+      'jobSlots',
     ]),
   },
   mounted() {
@@ -153,7 +157,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Game',
         eventAction: 'Rebirth',
-        eventLabel: `Rebirths: ${this.rebirth.rebirths.toString()}`,
+        eventLabel: `Rebirths: ${this.rebirths.toString()}`,
       });
 
       // check for debug mode
@@ -179,19 +183,19 @@ export default {
           this.currency.money = debugSettings.startingMoney;
         }
         if (debugSettings.startingPlotPoints) {
-          this.rebirth.plotPoints = debugSettings.startingPlotPoints;
+          this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
         }
 
-        this.updateData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
-        this.updateData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
-        this.updateData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
+        this.setGameData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
+        this.setGameData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
+        this.setGameData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
         if (this.checkDebug('urgentJobs')) {
-          this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
-          this.updateData({ index: 'urgentJobMaximumTime', value: 1 });
+          this.setGameData({ index: 'urgentJobMinimumTime', value: 1 });
+          this.setGameData({ index: 'urgentJobMaximumTime', value: 1 });
         }
         if (this.checkDebug('books')) {
-          this.updateData({ index: 'bookMinimumTime', value: 1 });
-          this.updateData({ index: 'bookMaximumTime', value: 1 });
+          this.setGameData({ index: 'bookMinimumTime', value: 1 });
+          this.setGameData({ index: 'bookMaximumTime', value: 1 });
         }
         if (this.checkDebug('disableTutorials')) {
           this.revealUnfolding('firstJobComplete');
@@ -295,7 +299,7 @@ export default {
         words = words.times(this.caffeineClickMultiplier);
       }
       // add plot bonus
-      words = words.times(Big(1).plus(this.rebirth.plotPoints.div(100)));
+      words = words.times(Big(1).plus(this.plotPoints.div(100)));
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
 
@@ -336,20 +340,20 @@ export default {
       if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
         log('buzz active');
         this.buzzActive = true;
-        this.updateData({ index: 'buzzActive', value: true });
+        this.setGameData({ index: 'buzzActive', value: true });
         this.updateWpsMps();
       } else if (this.buzzActive) {
         if (this.endCaffeineTime <= this.utimestamp) {
           log('buzz ending');
           this.buzzActive = false;
-          this.updateData({ index: 'buzzActive', value: false });
+          this.setGameData({ index: 'buzzActive', value: false });
           this.updateWpsMps();
         } else if (this.utimestamp >= this.caffeineAnimationNext) {
           // show animation
           animatePlus({
             x: this.caffeineX,
             y: this.caffeineY,
-            value: this.$options.filters.round(this.caffeineAnimationAmount.times(Big(1).plus(this.rebirth.plotPoints.div(100)))),
+            value: this.$options.filters.round(this.caffeineAnimationAmount.times(Big(1).plus(this.plotPoints.div(100)))),
             time: 500,
             height: 150,
             disappearFrom: 0.25,
@@ -421,9 +425,9 @@ export default {
     updateWpsMps() {
       log('recalculating wps');
       // get plot point bonus
-      const plotBonus = Big(1).plus(this.rebirth.plotPoints.div(100));
+      const plotBonus = Big(1).plus(this.plotPoints.div(100));
       // get worker wps
-      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.rebirth.bonuses.workerCaffeine, this.caffeineClickMultiplier);
+      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.caffeineClickMultiplier);
       // add plot point bonus
       let totalWps = workerWps.total.times(plotBonus);
       // add caffeine wps
@@ -431,11 +435,11 @@ export default {
         // add plot point bonus
         totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
       }
-      this.updateData({ index: 'workerWps', value: workerWps.total });
-      this.updateData({ index: 'totalWps', value: totalWps });
-      this.updateData({ index: 'workerTooltips', value: workerWps.tooltips });
-      this.updateData({ index: 'individualWorkerWps', value: workerWps.worker });
-      this.updateData({ index: 'totalMps', value: this.totalWps.times(this.currency.wordValue) });
+      this.setGameData({ index: 'workerWps', value: workerWps.total });
+      this.setGameData({ index: 'totalWps', value: totalWps });
+      this.setGameData({ index: 'workerTooltips', value: workerWps.tooltips });
+      this.setGameData({ index: 'individualWorkerWps', value: workerWps.worker });
+      this.setGameData({ index: 'totalMps', value: this.totalWps.times(this.currency.wordValue) });
     },
     // jobs
     updateJobs() {
@@ -460,10 +464,10 @@ export default {
           log('enabling urgent job');
           if (force === true) {
             // update end time for forced jobs
-            this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
+            this.setGameData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
           }
           // generate urgent job
-          this.updateData({ index: 'urgentJob', value: generateUrgentJob(this.currency, this.workerWps) });
+          this.setGameData({ index: 'urgentJob', value: generateUrgentJob(this.currency, this.workerWps) });
           // show notification with countdown timer
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
@@ -476,17 +480,17 @@ export default {
               }, { id: 'button1', 'data-status': 'ok' }),
             ],
           });
-          this.updateData({ index: 'urgentJobActive', value: true });
+          this.setGameData({ index: 'urgentJobActive', value: true });
         } else if (this.utimestamp >= this.urgentJobExpiration) {
           log('urgent job expired');
-          this.updateData({ index: 'urgentJobActive', value: false });
+          this.setGameData({ index: 'urgentJobActive', value: false });
           this.urgentJobNotification.close();
           this.setNextUrgentJob();
         }
       }
       if (this.urgentJobActive) {
         // update countdowns
-        this.updateData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
+        this.setGameData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
         this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
       }
     },
@@ -497,31 +501,31 @@ export default {
       }
       log(`next urgent job in ${time}`);
 
-      this.updateData({ index: 'urgentJobActive', value: false });
-      this.updateData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
-      this.updateData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
+      this.setGameData({ index: 'urgentJobActive', value: false });
+      this.setGameData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
+      this.setGameData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
     },
     // clickables
     setNextBook() {
       const time = randomInt(this.bookMinimumTime, this.bookMaximumTime);
-      this.updateData({ index: 'bookActive', value: false });
-      this.updateData({ index: 'nextBookTime', value: unixTimestamp(time) });
-      this.updateData({ index: 'bookExpireTime', value: unixTimestamp(time + this.bookSpawnTime) });
+      this.setGameData({ index: 'bookActive', value: false });
+      this.setGameData({ index: 'nextBookTime', value: unixTimestamp(time) });
+      this.setGameData({ index: 'bookExpireTime', value: unixTimestamp(time + this.bookSpawnTime) });
       log(`next book in ${time}`);
     },
     checkBook() {
       if (!this.bookActive && this.utimestamp >= this.nextBookTime) {
-        this.updateData({
+        this.setGameData({
           index: 'bookPosition',
           value: {
             x: Math.floor(Math.random() * document.body.offsetWidth),
             y: Math.floor(Math.random() * document.body.offsetHeight),
           },
         });
-        this.updateData({ index: 'bookActive', value: true });
+        this.setGameData({ index: 'bookActive', value: true });
         log('book active');
       } else if (this.bookActive && this.utimestamp >= this.bookExpireTime) {
-        this.updateData({ index: 'bookActive', value: false });
+        this.setGameData({ index: 'bookActive', value: false });
         this.setNextBook();
         log('book expired');
       }
@@ -629,7 +633,7 @@ export default {
         }
       });
 
-      if (this.currency.milestones.gte((this.rebirth.baseMilestonesNeeded.plus(this.rebirth.rebirths)).div(2))) {
+      if (this.currency.milestones.gte((this.baseMilestonesNeeded.plus(this.rebirths)).div(2))) {
         this.revealUnfolding('showRebirth');
       }
 
@@ -639,16 +643,12 @@ export default {
     doRebirth() {
       this.haltAnimation = true;
 
-      // save rebirth data
-      const rebirthData = Object.assign({}, this.rebirth);
-      rebirthData.plotPoints = rebirthData.plotPoints.plus(this.currency.milestones);
-      rebirthData.rebirths = rebirthData.rebirths.plus(1);
+      // update rebirth data
+      this.addRebirthData({ index: 'plotPoints', amount: this.currency.milestones });
+      this.addRebirthData({ index: 'rebirths', amount: 1 });
 
-      // reload vuex data
-      this.reset();
-
-      // add rebirth data back
-      this.setRebirth(rebirthData);
+      // reload game vuex data
+      this.resetGame();
 
       // show bonus pane
       this.revealUnfolding('showbonus');
@@ -664,14 +664,17 @@ export default {
     ...mapMutations('game', [
       'addToStat',
       'activateCaffeine',
-      'updateData',
+      'setGameData',
       'setWorkers',
       'setUpgrades',
-      'reset',
-      'setRebirth',
+      'resetGame',
     ]),
     ...mapMutations('unfolding', [
       'revealUnfolding',
+    ]),
+    ...mapMutations('rebirth', [
+      'setRebirthData',
+      'addRebirthData',
     ]),
   },
 };

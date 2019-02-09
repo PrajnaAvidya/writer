@@ -148,6 +148,9 @@ export default {
     ...mapGetters('unfolding', [
       'checkUnfolding',
     ]),
+    ...mapGetters('rebirth', [
+      'jobSlots',
+    ]),
   },
   mounted() {
     // only run once

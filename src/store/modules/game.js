@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Big from 'big.js';
 import unixTimestamp from '@/utils/unixTimestamp';
 import defaultData from '@/data/stateData';
+import store from '@/store';
 
 Vue.use(Vuex);
 
@@ -14,7 +15,6 @@ const getters = {
   wordValue: s => s.currency.wordValue,
   jobsComplete: s => s.statistics.jobs,
   workersHired: s => s.statistics.workers,
-  jobSlots: s => s.rebirth.bonuses.jobSlots,
 };
 
 const mutations = {
@@ -27,10 +27,10 @@ const mutations = {
     s.jobsAvailableTimestamps[jobId] = unixTimestamp(s.jobCooldown);
   },
   speedJobCooldown(s, id) {
-    s.jobsAvailableTimestamps[id] -= s.rebirth.bonuses.hurryAmount * 1000;
+    s.jobsAvailableTimestamps[id] -= store.state.rebirth.bonuses.hurryAmount * 1000;
   },
   speedCaffeineCooldown(s) {
-    s.nextCaffeineTime -= s.rebirth.bonuses.hurryAmount * 1000;
+    s.nextCaffeineTime -= store.state.rebirth.bonuses.hurryAmount * 1000;
   },
   activateCaffeine(s, force = false) {
     s.endCaffeineTime = unixTimestamp(s.caffeineTime);
@@ -58,7 +58,7 @@ const mutations = {
   setUpgrades(s, upgrades) {
     s.upgrades = Object.assign({}, upgrades);
   },
-  updateData(s, { index, value }) {
+  setGameData(s, { index, value }) {
     s[index] = value;
   },
   multiplyData(s, { index, amount }) {
@@ -71,27 +71,7 @@ const mutations = {
   incrementUpgradeId(s) {
     s.upgradeId += 1;
   },
-  spendPlotPoints(s, amount) {
-    s.rebirth.plotPoints = s.rebirth.plotPoints.minus(amount);
-  },
-  addJobSlot(s) {
-    if (s.rebirth.bonuses.jobSlots < s.maxJobSlots) {
-      s.rebirth.bonuses.jobSlots += 1;
-    }
-  },
-  increaseHurryAmount(s) {
-    s.rebirth.bonuses.hurryAmount *= 2;
-  },
-  enableWorkerCaffeine(s, worker) {
-    s.rebirth.bonuses.workerCaffeine[worker] = true;
-  },
-  removeBonus(s, id) {
-    Vue.delete(s.rebirth.lockedBonuses, id);
-  },
-  setRebirth(s, rebirthData) {
-    s.rebirth = Object.assign({}, rebirthData);
-  },
-  reset(s) {
+  resetGame(s) {
     const d = defaultData();
     Object.keys(d).forEach((key) => {
       s[key] = d[key];

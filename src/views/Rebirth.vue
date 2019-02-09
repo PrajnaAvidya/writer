@@ -36,11 +36,14 @@ export default {
   }),
   computed: {
     milestonesNeeded() {
-      return this.rebirth.baseMilestonesNeeded.plus(this.rebirth.rebirths);
+      return this.baseMilestonesNeeded.plus(this.rebirths);
     },
     ...mapState('game', [
       'currency',
-      'rebirth',
+    ]),
+    ...mapState('rebirth', [
+      'rebirths',
+      'baseMilestonesNeeded',
     ]),
   },
   methods: {

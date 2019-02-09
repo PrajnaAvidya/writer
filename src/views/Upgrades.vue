@@ -106,7 +106,7 @@ export default {
           // upgrade icon
           const icon = this.playerIcons.pop();
           if (icon !== undefined) {
-            this.updateData({ index: 'playerIcon', value: icon });
+            this.setGameData({ index: 'playerIcon', value: icon });
           }
         }
       } else if (upgrade.type === 'caffeine') {
@@ -136,7 +136,7 @@ export default {
         }
         if (upgrade.timerMultiplier) {
           this.multiplyData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
-          this.updateData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
+          this.setGameData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
         }
       }
 
@@ -261,7 +261,7 @@ export default {
       return true;
     },
     ...mapMutations('game', [
-      'updateData',
+      'setGameData',
       'multiplyData',
       'adjustCaffeineTimer',
       'adjustJobTimer',
