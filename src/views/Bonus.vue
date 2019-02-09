@@ -11,6 +11,7 @@
         v-for="bonus in lockedBonuses"
         :key="bonus.id"
         class="columns bonus"
+        :class="{ 'is-hidden': !canSeeBonus(bonus) }"
       >
         <div class="column">
           {{ bonus.name }}
@@ -41,9 +42,18 @@ export default {
     ...mapState('rebirth', [
       'plotPoints',
       'lockedBonuses',
+      'purchasedBonuses',
     ]),
   },
   methods: {
+    canSeeBonus(bonus) {
+      // check for previous id
+      if (bonus.previousId && !this.purchasedBonuses.includes(bonus.previousId)) {
+        return false;
+      }
+
+      return true;
+    },
     buyBonus(bonus) {
       if (this.plotPoints.lt(bonus.cost)) {
         return;
@@ -52,17 +62,19 @@ export default {
       this.spendPlotPoints(bonus.cost);
 
       // apply bonus
-      if (bonus.jobSlot) {
-        this.addJobSlot();
-      } else if (bonus.hurryAmount) {
-        this.multiplyBonus({ index: 'hurryAmount', amount: 2 });
-      } else if (bonus.caffeine) {
+      if (bonus.caffeine) {
         this.enableWorkerCaffeine(bonus.caffeine);
-      } else if (bonus.caffeineWordMultiplier) {
+      } else if (bonus.type === 'jobSlot') {
+        this.addJobSlot();
+      } else if (bonus.type === 'hurryAmount') {
+        this.multiplyBonus({ index: 'hurryAmount', amount: 2 });
+      } else if (bonus.type === 'caffeineWordMultiplier') {
         this.multiplyBonus({ index: 'caffeineWordMultiplier', amount: 2 });
-      } else if (bonus.caffeineClickWps) {
+      } else if (bonus.type === 'caffeineClickWps') {
         this.addBonus({ index: 'caffeineClickWps', amount: 1 });
       }
+
+      this.purchasedBonuses.push(bonus.id);
 
       this.removeBonus(bonus.id);
 
@@ -75,6 +87,7 @@ export default {
       });
     },
     ...mapMutations('rebirth', [
+      'enableWorkerCaffeine',
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',

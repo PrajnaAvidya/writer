@@ -14,4 +14,5 @@ export default {
     caffeineClickWps: Big(0),
   },
   lockedBonuses: bonuses(),
+  purchasedBonuses: [],
 };
