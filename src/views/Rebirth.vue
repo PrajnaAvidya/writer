@@ -54,13 +54,18 @@ export default {
 
       if (this.buttonText === 'Rebirth') {
         this.buttonText = 'Are You Sure?';
+        setTimeout(() => {
+          this.buttonText = 'Rebirth';
+        }, 5000);
       } else {
         log('rebirth');
         document.title = 'REBIRTH!';
         this.doRebirth = true;
-        this.$root.$emit('halt');
+        this.$root.$emit('crazy');
         setTimeout(() => {
           this.$root.$emit('rebirth');
+          this.doRebirth = false;
+          this.buttonText = 'Rebirth';
           this.$router.push('/');
         }, 5000);
       }

@@ -22,6 +22,7 @@ const gameData = {
   caffeineAnimationNext: 0,
   // unfolding
   unfoldingComponent: null,
+  crazyBooksComponent: null,
 };
 
 export default function () {

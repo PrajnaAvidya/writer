@@ -1,6 +1,7 @@
 <template>
   <div id="game">
     <ClickableBook />
+    <Component :is="crazyBooksComponent" />"
 
     <Component :is="unfoldingComponent" />
 
@@ -46,6 +47,7 @@ import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
 // components
 import ClickableBook from '@/components/ClickableBook.vue';
+import CrazyBooks from '@/components/CrazyBooks.vue';
 import UnfoldingTutorials from '@/components/UnfoldingTutorials.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
@@ -60,6 +62,7 @@ export default {
   components: {
     NavBar,
     ClickableBook,
+    CrazyBooks,
     UnfoldingTutorials,
     CreativeButtons,
     CaffeineBuzz,
@@ -240,7 +243,10 @@ export default {
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('setNextBook', this.setNextBook);
       this.$root.$on('endUnfolding', () => { this.unfoldingComponent = null; });
-      this.$root.$on('halt', () => { this.haltAnimation = true; });
+      this.$root.$on('crazy', () => {
+        this.haltAnimation = true;
+        this.crazyBooksComponent = 'CrazyBooks';
+      });
       this.$root.$on('rebirth', this.doRebirth);
     },
     // === start global update loop ===
