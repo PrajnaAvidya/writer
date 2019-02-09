@@ -6,37 +6,33 @@
     <p>
       You are currently receiving a <strong>{{ rebirth.plotPoints | round }}% bonus to clicks, caffeine, and workers.</strong> You may spend some of your plot points on the following abilities:
     </p>
-    <div
-      v-for="bonus in rebirth.lockedBonuses"
-      :key="bonus.name"
-      class="columns upgrade"
-    >
-      <div class="column">
-        {{ bonus.name }}
-      </div>
-      <div class="column">
-        {{ bonus.description }}
-      </div>
-      <div class="column">
-        <a
-          :disabled="rebirth.plotPoints.lt(bonus.cost)"
-          class="button is-warning"
-          @click="buyBonus(bonus)"
-        >
-          {{ bonus.cost | round }} Plot Points
-        </a>
+    <div class="bonuses">
+      <div
+        v-for="bonus in rebirth.lockedBonuses"
+        :key="bonus.id"
+        class="columns bonus"
+      >
+        <div class="column">
+          {{ bonus.name }}
+        </div>
+        <div class="column">
+          {{ bonus.description }}
+        </div>
+        <div class="column">
+          <a
+            :disabled="rebirth.plotPoints.lt(bonus.cost)"
+            class="button is-warning"
+            @click="buyBonus(bonus)"
+          >
+            {{ bonus.cost | round }} Plot Points
+          </a>
+        </div>
       </div>
     </div>
 
-    <div class="columns upgrade">
+    <div class="columns bonus">
       <div class="column">
-        More bonus abilities coming
-      </div>
-      <div class="column">
-        in the next alpha!
-      </div>
-      <div class="column">
-        &nbsp;
+        <i>More bonuses coming in the next alpha!</i>
       </div>
     </div>
   </div>
@@ -72,6 +68,12 @@ export default {
       this.removeBonus(bonus.id);
 
       this.$root.$emit('updateWpsMps');
+
+      this.$ga.event({
+        eventCategory: 'Bonus',
+        eventAction: 'Bought',
+        eventLabel: `${bonus.name}`,
+      });
     },
     ...mapMutations([
       'removeBonus',
@@ -88,7 +90,12 @@ export default {
 .bonus-title {
   margin: 10px;
 }
-.upgrade {
+.bonuses {
+  height: 465px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.bonus {
   margin-top: 15px;
 }
 </style>

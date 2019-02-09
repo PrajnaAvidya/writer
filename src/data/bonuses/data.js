@@ -1,79 +1,74 @@
-export default {
-  1: {
-    id: 1,
+export default [
+  {
     name: 'Second Job Slot',
     description: 'Unlocks another job slot',
     cost: 25,
     jobSlot: true,
   },
-  2: {
-    id: 2,
+  {
     name: 'Third Job Slot',
     description: 'Unlocks another job slot',
     cost: 100,
     jobSlot: true,
   },
-  3: {
-    id: 3,
+  {
     name: 'Fourth Job Slot',
     description: 'Unlocks yet another job slot',
     cost: 300,
     jobSlot: true,
   },
-  4: {
-    id: 4,
+  {
     name: 'Fifth Job Slot',
     description: 'Unlocks the final job slot!',
     cost: 1000,
     jobSlot: true,
   },
-  5: {
-    id: 5,
+  {
     name: 'Hurry-er Cooldowns',
     description: 'Increase effectiveness of clicking job/caffeine cooldown bars',
     cost: 100,
     hurryAmount: true,
   },
-  6: {
-    id: 6,
+  {
+    name: 'HURRY, COOLDOWNS!',
+    description: 'Increase effectiveness of clicking job/caffeine cooldown bars even more',
+    cost: 1000,
+    hurryAmount: true,
+  },
+  {
     name: 'Buzzed Kids',
-    description: 'Make caffeine affect children',
+    description: 'Caffeine click bonus now affects children',
     cost: 1000,
     caffeine: 'child',
   },
-  7: {
-    id: 7,
+  {
     name: 'Tweakers',
-    description: 'Make caffeine affect students',
+    description: 'Caffeine click bonus now affects students',
     cost: 2000,
     caffeine: 'student',
   },
-  8: {
-    id: 8,
+  {
     name: 'Adderall',
-    description: 'Make caffeine affect graduate students',
+    description: 'Caffeine click bonus now affects graduate students',
     cost: 3000,
     caffeine: 'gradudate',
   },
-  9: {
-    id: 9,
+  {
     name: 'Worth It?',
-    description: 'Make caffeine affect amateur writers',
+    description: 'Caffeine click bonus now affects amateur writers',
     cost: 4000,
     caffeine: 'amateur',
   },
-  10: {
-    id: 10,
+  {
     name: 'Performance Enhancing',
-    description: 'Make caffeine affect professional writers',
+    description: 'Caffeine click bonus now affects professional writers',
     cost: 5000,
     caffeine: 'professional',
   },
-  11: {
-    id: 11,
+  {
     name: 'In It To Win It',
-    description: 'Make caffeine affect nobel prize winners',
+    description: 'Caffeine click bonus now affects nobel prize winners',
     cost: 6000,
     caffeine: 'prize',
   },
-};
+];

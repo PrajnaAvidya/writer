@@ -194,7 +194,7 @@ export default function () {
   }
 
   // bonuses
-  stateData.rebirth.lockedBonuses = Object.assign({}, bonuses);
+  stateData.rebirth.lockedBonuses = Object.assign({}, bonuses());
 
   // tutorials/unfolding
   stateData.tutorials = tutorials.reverse();
