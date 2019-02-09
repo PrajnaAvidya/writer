@@ -14,7 +14,7 @@ export default [
     plural: 'Students',
     baseCost: 100,
     costMultiplier: 0.15,
-    productivity: 2,
+    productivity: 5,
     icon: 'fa-university',
   },
   {
@@ -23,7 +23,7 @@ export default [
     plural: 'Graduate Students',
     baseCost: 2000,
     costMultiplier: 0.175,
-    productivity: 5,
+    productivity: 20,
     icon: 'fa-user-graduate',
   },
   {
@@ -32,7 +32,7 @@ export default [
     plural: 'Amateur Writers',
     baseCost: 10000,
     costMultiplier: 0.2,
-    productivity: 15,
+    productivity: 100,
     icon: 'fa-signature',
   },
   {
@@ -41,7 +41,7 @@ export default [
     plural: 'Professional Writers',
     baseCost: 100000,
     costMultiplier: 0.225,
-    productivity: 50,
+    productivity: 500,
     icon: 'fa-pen-fancy',
   },
   {
@@ -50,7 +50,7 @@ export default [
     plural: 'Nobel Prize Winners',
     baseCost: 1000000,
     costMultiplier: 0.25,
-    productivity: 250,
+    productivity: 1000,
     icon: 'fa-trophy',
   },
 ];

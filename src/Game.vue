@@ -213,7 +213,7 @@ export default {
           this.setBooksData({ index: 'bookMinimumTime', value: 1 });
           this.setBooksData({ index: 'bookMaximumTime', value: 1 });
         }
-        if (this.checkDebug('disableTutorials') || this.checkDebug('disableUnfolding')) {
+        if (this.checkDebug('disableUnfolding')) {
           this.revealUnfolding('firstJobComplete');
           this.revealUnfolding('firstUrgentJobComplete');
           this.setNextUrgentJob();
@@ -579,7 +579,7 @@ export default {
       this.addToStat({ stat: 'words', amount: words });
 
       // loop in effect
-      if (loop && words.gt(this.workerWps.div(10))) {
+      if (loop && words.gt(this.totalWps.div(10))) {
         this.loopEffect('displayedWords', words);
       } else {
         this.displayedWords = this.displayedWords.plus(words);
@@ -592,7 +592,7 @@ export default {
       }
 
       // loop in effect
-      if (loop && words.gt(this.workerWps.div(10))) {
+      if (loop && words.gt(this.totalWps.div(10))) {
         this.loopEffect('displayedWords', words.times(-1), 166);
       } else {
         this.displayedWords = this.displayedWords.plus(words);

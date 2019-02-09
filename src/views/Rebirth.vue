@@ -71,9 +71,6 @@ export default {
 .milestones {
   font-weight: bolder;
 }
-.text {
-  margin: 10px;
-}
 .rebirth {
   opacity: 1;
   background: #ddd;

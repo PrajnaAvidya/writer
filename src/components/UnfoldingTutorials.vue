@@ -56,7 +56,7 @@ export default {
   methods: {
     checkTutorial() {
       // return if debug mode, active tutorial, or no tutorial
-      if (this.checkDebug('disableTutorials') || this.tutorial === undefined || this.active === true) {
+      if (this.checkDebug('disableUnfolding') || this.tutorial === undefined || this.active === true) {
         return;
       }
 

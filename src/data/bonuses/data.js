@@ -24,7 +24,7 @@ export default [
     jobSlot: true,
   },
   {
-    name: 'Hurry-er Cooldowns',
+    name: 'Hurry Cooldowns',
     description: 'Increase effectiveness of clicking job/caffeine cooldown bars',
     cost: 100,
     hurryAmount: true,
