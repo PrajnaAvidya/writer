@@ -21,8 +21,8 @@ const mutations = {
   },
   adjustJobTimer(s, amount) {
     s.jobCooldown += amount;
-    Object.keys(s.jobAvailable).forEach((jobId) => {
-      s.jobAvailable[jobId] += amount * 1000;
+    Object.keys(s.jobsAvailableTimestamps).forEach((jobId) => {
+      s.jobsAvailableTimestamps[jobId] += amount * 1000;
     });
   },
   resetJobTimer(s, jobId) {
