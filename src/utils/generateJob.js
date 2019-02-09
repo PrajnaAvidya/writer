@@ -27,6 +27,12 @@ const jobTypes = {
     wordRange: [900, 2400],
     minimumWords: 2000,
   },
+  5: {
+    name: 'Epic',
+    rewardRange: [425, 500],
+    wordRange: [3600, 9000],
+    minimumWords: 10000,
+  },
 };
 
 export default function (wordValue, wps, id) {

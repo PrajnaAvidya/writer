@@ -87,7 +87,6 @@ export default {
       'caffeineWordGeneration',
       // jobs
       'jobs',
-      'jobSlots',
       'jobRewardMultiplier',
       'jobCooldown',
       'jobsAvailableTimestamps',
@@ -120,6 +119,7 @@ export default {
     ]),
     ...mapGetters([
       'checkDebug',
+      'jobSlots',
     ]),
   },
   mounted() {

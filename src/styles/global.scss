@@ -11,6 +11,11 @@ table {
   border-color: $blue !important;
 }
 
+.is-warning {
+  background-color: $yellow !important;
+  border-color: $yellow !important;
+}
+
 .is-danger {
   background-color: $red !important;
   border-color: $red !important;

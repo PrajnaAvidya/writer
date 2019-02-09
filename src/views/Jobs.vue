@@ -127,7 +127,6 @@ export default {
   computed: {
     ...mapState([
       'jobs',
-      'jobSlots',
       'jobCooldown',
       'jobRewardMultiplier',
       'jobsAvailableTimestamps',
@@ -146,6 +145,7 @@ export default {
       'words',
       'wordValue',
       'checkDebug',
+      'jobSlots',
     ]),
   },
   mounted() {

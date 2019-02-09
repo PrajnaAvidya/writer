@@ -10,12 +10,13 @@ export default new Vuex.Store({
   state: defaultData(),
 
   getters: {
+    checkDebug: state => debug => state.debug.enabled && state.debug[debug],
     words: state => state.currency.words,
     money: state => state.currency.money,
     wordValue: state => state.currency.wordValue,
     jobsComplete: state => state.statistics.jobs,
     workersHired: state => state.statistics.workers,
-    checkDebug: state => debug => state.debug.enabled && state.debug[debug],
+    jobSlots: state => state.rebirth.bonuses.jobSlots,
   },
 
   mutations: {
@@ -45,7 +46,7 @@ export default new Vuex.Store({
     adjustJobTimer(state, amount) {
       state.jobCooldown += amount;
       Object.keys(state.jobAvailable).forEach((jobId) => {
-        state.jobAvailable[jobId] += amount * 1000;
+        state.g[jobId] += amount * 1000;
       });
     },
     addToStat(state, { stat, amount }) {
@@ -74,6 +75,17 @@ export default new Vuex.Store({
     },
     incrementUpgradeId(state) {
       state.upgradeId += 1;
+    },
+    spendPlotPoints(state, amount) {
+      state.rebirth.plotPoints = state.rebirth.plotPoints.minus(amount);
+    },
+    addJobSlot(state) {
+      if (state.rebirth.bonuses.jobSlots < state.maxJobSlots) {
+        state.rebirth.bonuses.jobSlots += 1;
+      }
+    },
+    removeBonus(state, id) {
+      Vue.delete(state.rebirth.lockedBonuses, id);
     },
     setRebirth(state, rebirthData) {
       state.rebirth = Object.assign({}, rebirthData);

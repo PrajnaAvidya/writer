@@ -9,10 +9,11 @@ import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
 import tutorials from '@/data/tutorials';
 import milestones from '@/data/milestones';
+import bonuses from '@/data/bonuses';
 
 const data = {
   debug: {
-    enabled: false,
+    enabled: true,
     fastTutorials: false,
     disableTutorials: false,
     disableUnfolding: true,
@@ -20,7 +21,7 @@ const data = {
     books: false,
     startingWords: Big(1000000),
     startingMoney: Big(1000000),
-    startingPlotPoints: Big(100),
+    startingPlotPoints: Big(1000),
     caffeineTime: 10,
     caffeineCooldown: 300,
     jobCooldown: 1,
@@ -42,6 +43,10 @@ const data = {
     baseMilestonesNeeded: Big(20),
     rebirths: Big(0),
     plotPoints: Big(0),
+    bonuses: {
+      jobSlots: 1,
+    },
+    lockedBonuses: {},
   },
 
   // worker + caffeine wps (displayed)
@@ -63,21 +68,10 @@ const data = {
   // caffeine animation
 
   // jobs
-  jobSlots: 1,
-  maxJobSlots: 4,
+  maxJobSlots: 5,
   jobs: {},
-  jobsCompletedTimestamps: {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-  },
-  jobsAvailableTimestamps: {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-  },
+  jobsCompletedTimestamps: {},
+  jobsAvailableTimestamps: {},
   jobCooldown: 60,
   jobRewardMultiplier: Big(1),
   jobAvailable: {},
@@ -190,6 +184,15 @@ export default function () {
   // upgrades
   stateData.upgrades = upgrades(stateData.adjectives);
   stateData.upgradeId = Object.keys(stateData.upgrades)[Object.keys(stateData.upgrades).length - 1];
+
+  // jobs
+  for (let id = 1; id <= stateData.maxJobSlots; id += 1) {
+    stateData.jobsCompletedTimestamps[id] = 0;
+    stateData.jobsAvailableTimestamps[id] = 0;
+  }
+
+  // bonuses
+  stateData.rebirth.lockedBonuses = Object.assign({}, bonuses);
 
   // tutorials/unfolding
   stateData.tutorials = tutorials.reverse();
