@@ -1,6 +1,6 @@
 // conditions/data for tutorial modals & unfolding
 
-export default [
+const tutorials = [
   {
     unlock: {
       words: 5,
@@ -55,3 +55,12 @@ export default [
     reveal: ['showStats'],
   },
 ];
+
+export default function () {
+  const data = {};
+
+  // tutorials/unfolding
+  data.tutorials = tutorials.reverse();
+
+  return data;
+}

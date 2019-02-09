@@ -32,7 +32,7 @@ export default {
     active: false,
   }),
   computed: {
-    ...mapState('game', [
+    ...mapState('tutorials', [
       'tutorials',
     ]),
     ...mapState('currency', [

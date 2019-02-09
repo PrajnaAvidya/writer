@@ -649,9 +649,9 @@ export default {
       this.addRebirthData({ index: 'rebirths', amount: 1 });
 
       // reload relevant vuex stores
-      this.resetGame();
       this.resetCurrency();
       this.resetStatistics();
+      this.resetIcons();
       this.resetCaffeine();
       this.resetBooks();
       this.resetJobs();
@@ -673,9 +673,6 @@ export default {
     ...mapMutations('unfolding', [
       'revealUnfolding',
     ]),
-    ...mapMutations('game', [
-      'resetGame',
-    ]),
     ...mapMutations('upgrades', [
       'setUpgrades',
       'resetUpgrades',
@@ -689,6 +686,9 @@ export default {
       'addToStat',
       'setStatisticsData',
       'resetStatistics',
+    ]),
+    ...mapMutations('icons', [
+      'resetIcons',
     ]),
     ...mapMutations('caffeine', [
       'resetCaffeine',

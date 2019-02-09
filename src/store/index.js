@@ -3,9 +3,10 @@ import Vuex from 'vuex';
 
 import debug from '@/store/modules/debug';
 import unfolding from '@/store/modules/unfolding';
-import game from '@/store/modules/game';
+import tutorials from '@/store/modules/tutorials';
 import currency from '@/store/modules/currency';
 import statistics from '@/store/modules/statistics';
+import icons from '@/store/modules/icons';
 import caffeine from '@/store/modules/caffeine';
 import books from '@/store/modules/books';
 import jobs from '@/store/modules/jobs';
@@ -19,9 +20,10 @@ export default new Vuex.Store({
   modules: {
     debug,
     unfolding,
-    game,
+    tutorials,
     currency,
     statistics,
+    icons,
     caffeine,
     books,
     jobs,

@@ -42,7 +42,7 @@ import notify from '@/utils/notify';
 export default {
   name: 'UpgradePanel',
   computed: {
-    ...mapState('game', [
+    ...mapState('icons', [
       'playerIcons',
     ]),
     ...mapState('upgrades', [
@@ -113,7 +113,7 @@ export default {
           // upgrade icon
           const icon = this.playerIcons.pop();
           if (icon !== undefined) {
-            this.setGameData({ index: 'playerIcon', value: icon });
+            this.setIconData({ index: 'playerIcon', value: icon });
           }
         }
       } else if (upgrade.type === 'caffeine') {
@@ -267,8 +267,8 @@ export default {
       this.revealedUpgrades[upgrade.id] = true;
       return true;
     },
-    ...mapMutations('game', [
-      'setGameData',
+    ...mapMutations('icons', [
+      'setIconData',
     ]),
     ...mapMutations('upgrades', [
       'incrementUpgradeId',
