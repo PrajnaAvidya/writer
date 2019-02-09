@@ -43,12 +43,12 @@ export default {
         this.setBuyAmountIndex(value);
       },
     },
-    ...mapState([
+    ...mapState('game', [
       'buyAmountIndex',
     ]),
   },
   methods: {
-    ...mapMutations([
+    ...mapMutations('game', [
       'setBuyAmountIndex',
     ]),
   },

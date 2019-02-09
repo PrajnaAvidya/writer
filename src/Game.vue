@@ -65,7 +65,7 @@ export default {
   },
   data: () => gameData(),
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'debug',
       // currency
       'currency',
@@ -117,7 +117,7 @@ export default {
       // rebirth
       'rebirth',
     ]),
-    ...mapGetters([
+    ...mapGetters('game', [
       'checkDebug',
       'jobSlots',
     ]),
@@ -668,7 +668,7 @@ export default {
       this.rebirthGame();
     },
     // === end methods ===
-    ...mapMutations([
+    ...mapMutations('game', [
       'addToStat',
       'activateCaffeine',
       'updateData',

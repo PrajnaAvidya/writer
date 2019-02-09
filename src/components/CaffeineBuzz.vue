@@ -54,7 +54,7 @@ export default {
     progressTooltip: '',
   }),
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'buzzActive',
       'nextCaffeineTime',
       'endCaffeineTime',
@@ -85,7 +85,7 @@ export default {
     hurryCooldown(id) {
       this.speedCaffeineCooldown();
     },
-    ...mapMutations([
+    ...mapMutations('game', [
       'speedCaffeineCooldown',
     ]),
   },

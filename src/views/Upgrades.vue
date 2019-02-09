@@ -42,7 +42,7 @@ import notify from '@/utils/notify';
 export default {
   name: 'UpgradePanel',
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'currency',
       'workers',
       'upgrades',
@@ -54,7 +54,7 @@ export default {
       'upgradeId',
       'adjectives',
     ]),
-    ...mapGetters([
+    ...mapGetters('game', [
       'money',
       'checkDebug',
     ]),
@@ -258,7 +258,7 @@ export default {
       this.revealedUpgrades[upgrade.id] = true;
       return true;
     },
-    ...mapMutations([
+    ...mapMutations('game', [
       'updateData',
       'multiplyData',
       'adjustCaffeineTimer',

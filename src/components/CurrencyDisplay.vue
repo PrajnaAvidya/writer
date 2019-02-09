@@ -44,12 +44,12 @@ export default {
     },
   },
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'unfolding',
       'totalWps',
       'totalMps',
     ]),
-    ...mapGetters([
+    ...mapGetters('game', [
       'wordValue',
       'checkDebug',
     ]),

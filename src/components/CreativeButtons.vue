@@ -25,7 +25,7 @@ export default {
     tooltip: 'Write some words',
   }),
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'playerWords',
       'buzzActive',
       'playerIcon',

@@ -19,7 +19,7 @@ import randomInt from '@/utils/randomInt';
 export default {
   name: 'ClickableBook',
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'currency',
       'totalWps',
       'bookActive',
@@ -90,7 +90,7 @@ export default {
         eventLabel,
       });
     },
-    ...mapMutations([
+    ...mapMutations('game', [
       'addToStat',
     ]),
   },

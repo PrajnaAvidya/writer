@@ -44,7 +44,7 @@ import { mapState, mapMutations } from 'vuex';
 export default {
   name: 'Bonus',
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'rebirth',
     ]),
   },
@@ -75,7 +75,7 @@ export default {
         eventLabel: `${bonus.name}`,
       });
     },
-    ...mapMutations([
+    ...mapMutations('game', [
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',

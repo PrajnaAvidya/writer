@@ -85,10 +85,10 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'NavBar',
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'unfolding',
     ]),
-    ...mapGetters([
+    ...mapGetters('game', [
       'checkDebug',
     ]),
   },

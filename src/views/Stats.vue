@@ -43,7 +43,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'Stats',
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'currency',
       'statistics',
       'milestones',

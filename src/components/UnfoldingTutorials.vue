@@ -32,13 +32,13 @@ export default {
     active: false,
   }),
   computed: {
-    ...mapState([
+    ...mapState('game', [
       'tutorials',
       'currency',
       'buzzActive',
       'statistics',
     ]),
-    ...mapGetters([
+    ...mapGetters('game', [
       'money',
       'words',
       'jobsComplete',
@@ -126,7 +126,7 @@ export default {
       this.$refs.modal.close();
       this.getNextTutorial();
     },
-    ...mapMutations([
+    ...mapMutations('game', [
       'revealUnfolding',
     ]),
   },
