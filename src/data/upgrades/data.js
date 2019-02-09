@@ -26,8 +26,8 @@ export default {
     multiplier: 1.5,
   },
   urgentJobReward: {
-    base: 100,
-    scale: 10,
+    base: 1E5,
+    scale: 100,
     multiplier: 2,
   },
 
