@@ -4,7 +4,7 @@ import store from '@/store';
 const state = workersData;
 
 const getters = {
-  workersHired: () => store.state.game.statistics.workers,
+  workersHired: () => store.state.statistics.stats.workers,
 };
 
 const mutations = {

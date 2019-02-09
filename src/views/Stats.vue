@@ -11,13 +11,13 @@
             v-if="stat === 'money' || stat === 'moneySpent'"
             style="width: 150px;"
           >
-            {{ statistics[stat] | moneyCents }} ({{ milestoneCount[stat] }})
+            {{ stats[stat] | moneyCents }} ({{ milestoneCount[stat] }})
           </td>
           <td
             v-else
             style="width: 150px;"
           >
-            {{ statistics[stat] | round }} ({{ milestoneCount[stat] }})
+            {{ stats[stat] | round }} ({{ milestoneCount[stat] }})
           </td>
           <td style="width: 300px">
             <div
@@ -26,7 +26,7 @@
             >
               <progress
                 class="progress is-info"
-                :value="statistics[stat]"
+                :value="stats[stat]"
                 :max="milestoneTargets[stat]"
               />
             </div>
@@ -43,8 +43,8 @@ import { mapState } from 'vuex';
 export default {
   name: 'Stats',
   computed: {
-    ...mapState('game', [
-      'statistics',
+    ...mapState('statistics', [
+      'stats',
       'milestoneTargets',
       'milestoneCount',
       'statDescriptions',
@@ -56,9 +56,9 @@ export default {
   methods: {
     tooltip(stat) {
       if (stat === 'money' || stat === 'moneySpent') {
-        return `${this.$options.filters.moneyCents(this.statistics[stat])} / ${this.$options.filters.moneyCents(this.milestoneTargets[stat])}`;
+        return `${this.$options.filters.moneyCents(this.stats[stat])} / ${this.$options.filters.moneyCents(this.milestoneTargets[stat])}`;
       }
-      return `${this.$options.filters.round(this.statistics[stat])} / ${this.$options.filters.round(this.milestoneTargets[stat])}`;
+      return `${this.$options.filters.round(this.stats[stat])} / ${this.$options.filters.round(this.milestoneTargets[stat])}`;
     },
   },
 };

@@ -61,29 +61,6 @@ export default {
           className: 'bonus-plus',
         });
       }
-      /*
-      else {
-        // +money
-        let money = this.money.times(randomInt(10, 50) / 100).plus(600);
-        if (money.gt(600) && money.gt(this.totalWps.times(3600).times(this.wordValue))) {
-          money = this.totalWps.times(3600).times(this.wordValue).plus(600);
-        }
-        this.$root.$emit('addMoney', money);
-        log(`bonus money: ${money.toString()}`);
-        eventLabel = 'Money';
-        notify(`Bonus Money: ${this.$options.filters.moneyCents(money)}!`, { icon: 'fa-book' });
-
-        animatePlus({
-          x: event.pageX - 5,
-          y: event.pageY - 20,
-          value: `${this.$options.filters.moneyCents(money)}`,
-          time: 3000,
-          height: 250,
-          disappearFrom: 0.5,
-          className: 'bonus-plus',
-        });
-      }
-      */
 
       this.addToStat({ stat: 'clickables', amount: 1 });
       this.$root.$emit('setNextBook');
@@ -94,7 +71,7 @@ export default {
         eventLabel,
       });
     },
-    ...mapMutations('game', [
+    ...mapMutations('statistics', [
       'addToStat',
     ]),
   },

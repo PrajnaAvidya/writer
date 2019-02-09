@@ -250,7 +250,7 @@ export default {
     ...mapMutations('unfolding', [
       'revealUnfolding',
     ]),
-    ...mapMutations('game', [
+    ...mapMutations('statistics', [
       'addToStat',
     ]),
     ...mapMutations('jobs', [

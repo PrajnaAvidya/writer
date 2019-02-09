@@ -34,7 +34,6 @@ export default {
   computed: {
     ...mapState('game', [
       'tutorials',
-      'statistics',
     ]),
     ...mapState('currency', [
       'money',

@@ -43,12 +43,16 @@ export default {
   name: 'UpgradePanel',
   computed: {
     ...mapState('game', [
+      'playerIcons',
+    ]),
+    ...mapState('upgrades', [
       'upgrades',
       'revealedUpgrades',
       'purchasedUpgrades',
-      'statistics',
-      'playerIcons',
       'upgradeId',
+    ]),
+    ...mapState('statistics', [
+      'stats',
     ]),
     ...mapState('currency', [
       'money',
@@ -248,9 +252,9 @@ export default {
           return true;
         });
       } else if (upgrade.type === 'jobs') {
-        return this.statistics.jobs.gte(5);
+        return this.stats.jobs.gte(5);
       } else if (upgrade.type === 'urgentJobs') {
-        return this.statistics.urgentJobs.gte(3);
+        return this.stats.urgentJobs.gte(3);
       } else {
         // show upgrade when player has 1/2 money
         metRequirements = this.money.gte(upgrade.cost.div(2));
@@ -265,6 +269,8 @@ export default {
     },
     ...mapMutations('game', [
       'setGameData',
+    ]),
+    ...mapMutations('upgrades', [
       'incrementUpgradeId',
     ]),
     ...mapMutations('currency', [

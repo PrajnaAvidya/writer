@@ -65,11 +65,11 @@ export default {
   },
   data: () => gameData(),
   computed: {
-    ...mapState('game', [
-      // upgrades
+    ...mapState('upgrades', [
       'upgrades',
-      // stats
-      'statistics',
+    ]),
+    ...mapState('statistics', [
+      'stats',
       'milestoneTargets',
       'milestoneCount',
     ]),
@@ -598,12 +598,12 @@ export default {
       }
 
       // update max wps
-      if (this.totalWps.gt(this.statistics.wps)) {
-        this.statistics.wps = Big(this.totalWps);
+      if (this.totalWps.gt(this.stats.wps)) {
+        this.setStatisticsData({ index: 'wps', value: Big(this.totalWps) });
       }
 
       Object.keys(this.milestoneTargets).forEach((stat) => {
-        if (this.statistics[stat].gte(this.milestoneTargets[stat])) {
+        if (this.stats[stat].gte(this.milestoneTargets[stat])) {
           log(`got milestone for ${stat}`);
           // give currency
           this.addCurrencyData({ index: 'milestones', amount: 1 });
@@ -651,10 +651,12 @@ export default {
       // reload relevant vuex stores
       this.resetGame();
       this.resetCurrency();
+      this.resetStatistics();
       this.resetCaffeine();
       this.resetBooks();
       this.resetJobs();
       this.resetWorkers();
+      this.resetUpgrades();
       this.updateJobs(true);
 
       // show bonus panel
@@ -672,14 +674,21 @@ export default {
       'revealUnfolding',
     ]),
     ...mapMutations('game', [
-      'addToStat',
-      'setUpgrades',
       'resetGame',
+    ]),
+    ...mapMutations('upgrades', [
+      'setUpgrades',
+      'resetUpgrades',
     ]),
     ...mapMutations('currency', [
       'resetCurrency',
       'addCurrencyData',
       'setCurrencyData',
+    ]),
+    ...mapMutations('statistics', [
+      'addToStat',
+      'setStatisticsData',
+      'resetStatistics',
     ]),
     ...mapMutations('caffeine', [
       'resetCaffeine',

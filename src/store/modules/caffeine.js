@@ -15,7 +15,7 @@ const mutations = {
   activateCaffeine(s, force = false) {
     s.endCaffeineTime = unixTimestamp(s.caffeineTime);
     s.nextCaffeineTime = force ? unixTimestamp(s.caffeineTime) : unixTimestamp(s.caffeineTime + s.caffeineCooldown);
-    store.state.game.statistics.caffeines = store.state.game.statistics.caffeines.plus(1);
+    store.state.statistics.stats.caffeines = store.state.statistics.stats.caffeines.plus(1);
   },
   adjustCaffeineTimer(s, amount) {
     s.caffeineCooldown += amount;

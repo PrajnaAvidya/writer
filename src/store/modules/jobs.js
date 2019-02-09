@@ -5,7 +5,7 @@ import store from '@/store';
 const state = jobsData;
 
 const getters = {
-  jobsComplete: () => store.state.game.statistics.jobs,
+  jobsComplete: () => store.state.statistics.stats.jobs,
 };
 
 const mutations = {
