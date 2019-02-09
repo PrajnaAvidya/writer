@@ -69,7 +69,7 @@ export default {
         || (this.tutorial.unlock.job === true && this.jobsComplete.gt(0))
         || (this.tutorial.unlock.worker === true && this.workersHired.gt(0))
       ) {
-        this.revealTutorial();
+        this.showTutorial();
       }
     },
     showTutorial() {
