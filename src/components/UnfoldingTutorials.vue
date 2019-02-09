@@ -109,9 +109,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.button {
-  margin-top: 10px;
-}
-</style>
