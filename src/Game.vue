@@ -11,14 +11,14 @@
       />
 
       <CaffeineBuzz
-        v-if="checkDebug('disableUnfolding') || unfolding.showCoffee"
+        v-if="checkUnfolding('showCoffee')"
         class="caffeine-section"
       />
 
       <CreativeButtons />
     </section>
 
-    <NavBar v-if="checkDebug('disableUnfolding') || unfolding.showNavigation" />
+    <NavBar v-if="checkUnfolding('showNavigation')" />
 
     <section class="section main">
       <RouterView />
@@ -104,8 +104,6 @@ export default {
       'statistics',
       'milestones',
       'milestoneCount',
-      // unfolding
-      'unfolding',
       // clickables
       'bookActive',
       'bookMinimumTime',
@@ -121,6 +119,9 @@ export default {
     ]),
     ...mapGetters('game', [
       'jobSlots',
+    ]),
+    ...mapGetters('unfolding', [
+      'checkUnfolding',
     ]),
   },
   mounted() {
@@ -167,10 +168,6 @@ export default {
       this.calculateWorkerCosts();
       this.updateWpsMps();
       window.requestAnimationFrame(this.tick);
-
-      log(this.currency.words.toString());
-      log(this.currency.money.toString());
-      log(this.currency.milestones.toString());
     },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
@@ -458,7 +455,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (force === true || ((this.firstUrgentJobComplete || this.checkDebug('disableUnfolding')) && this.utimestamp >= this.urgentJobTimestamp)) {
+      if (force === true || (this.checkUnfolding('firstUrgentJobComplete') && this.utimestamp >= this.urgentJobTimestamp)) {
         if (!this.urgentJobActive) {
           log('enabling urgent job');
           if (force === true) {
@@ -653,20 +650,14 @@ export default {
       // add rebirth data back
       this.setRebirth(rebirthData);
 
+      // show bonus pane
+      this.revealUnfolding('showbonus');
+
       // reload game data
       Object.assign(this.$data, gameData());
 
-      // disable unfolding
-      Object.keys(this.unfolding).forEach((unfold) => {
-        this.unfolding[unfold] = true;
-      });
-
       // start game
       this.haltAnimation = false;
-      log(this.currency.words.toString());
-      log(this.currency.money.toString());
-      log(this.currency.milestones.toString());
-      log(this.rebirth.plotPoints.toString());
       this.rebirthGame();
     },
     // === end methods ===
@@ -676,9 +667,11 @@ export default {
       'updateData',
       'setWorkers',
       'setUpgrades',
-      'revealUnfolding',
       'reset',
       'setRebirth',
+    ]),
+    ...mapMutations('unfolding', [
+      'revealUnfolding',
     ]),
   },
 };

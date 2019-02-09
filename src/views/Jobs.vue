@@ -52,7 +52,7 @@
               </a>
               &nbsp;
               <a
-                v-if="checkDebug('disableUnfolding') || unfolding.firstJobComplete"
+                v-if="checkUnfolding('firstJobComplete')"
                 class="button is-small"
                 @click="declineJob(job.id)"
               >
@@ -139,15 +139,14 @@ export default {
       'urgentJobActive',
       'urgentJobCountdown',
       'urgentJobRewardMultiplier',
-      'unfolding',
-    ]),
-    ...mapGetters('debug', [
-      'checkDebug',
     ]),
     ...mapGetters('game', [
       'words',
       'wordValue',
       'jobSlots',
+    ]),
+    ...mapGetters('unfolding', [
+      'checkUnfolding',
     ]),
   },
   mounted() {
@@ -251,6 +250,8 @@ export default {
       'resetJobTimer',
       'addToStat',
       'speedJobCooldown',
+    ]),
+    ...mapMutations('unfolding', [
       'revealUnfolding',
     ]),
   },

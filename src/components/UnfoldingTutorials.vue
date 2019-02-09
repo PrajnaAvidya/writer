@@ -128,7 +128,7 @@ export default {
       this.$refs.modal.close();
       this.getNextTutorial();
     },
-    ...mapMutations('game', [
+    ...mapMutations('unfolding', [
       'revealUnfolding',
     ]),
   },

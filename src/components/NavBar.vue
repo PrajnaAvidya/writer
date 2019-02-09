@@ -3,7 +3,7 @@
     <div id="nav">
       <hr>
       <Transition
-        v-if="checkDebug('disableUnfolding') || unfolding.showJobs"
+        v-if="checkUnfolding('showJobs')"
         name="fade"
       >
         <RouterLink
@@ -15,7 +15,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="checkDebug('disableUnfolding') || unfolding.showWorkers"
+        v-if="checkUnfolding('showWorkers')"
         name="fade"
       >
         <RouterLink
@@ -27,7 +27,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="checkDebug('disableUnfolding') || unfolding.showUpgrades"
+        v-if="checkUnfolding('showUpgrades')"
         name="fade"
       >
         <RouterLink
@@ -39,7 +39,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="checkDebug('disableUnfolding') || unfolding.showStats"
+        v-if="checkUnfolding('showStats')"
         name="fade"
       >
         <RouterLink
@@ -51,7 +51,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="checkDebug('disableUnfolding') || unfolding.showRebirth"
+        v-if="checkUnfolding('showRebirth')"
         name="fade"
       >
         <RouterLink
@@ -63,7 +63,7 @@
         </RouterLink>
       </Transition>
       <Transition
-        v-if="checkDebug('disableUnfolding') || rebirth.plotPoints.gt(0)"
+        v-if="checkUnfolding('showBonus')"
         name="fade"
       >
         <RouterLink
@@ -85,11 +85,11 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'NavBar',
   computed: {
-    ...mapState('game', [
-      'unfolding',
-    ]),
     ...mapGetters('debug', [
       'checkDebug',
+    ]),
+    ...mapGetters('unfolding', [
+      'checkUnfolding',
     ]),
   },
 };

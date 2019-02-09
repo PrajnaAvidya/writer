@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import game from '@/store/modules/game';
+
 import debug from '@/store/modules/debug';
+import game from '@/store/modules/game';
+import unfolding from '@/store/modules/unfolding';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    game,
     debug,
+    game,
+    unfolding,
   },
 });

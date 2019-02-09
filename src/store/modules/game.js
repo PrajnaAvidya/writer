@@ -58,9 +58,6 @@ const mutations = {
   setUpgrades(s, upgrades) {
     s.upgrades = Object.assign({}, upgrades);
   },
-  revealUnfolding(s, reveal) {
-    s.unfolding[reveal] = true;
-  },
   updateData(s, { index, value }) {
     s[index] = value;
   },
