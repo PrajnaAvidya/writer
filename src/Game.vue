@@ -50,7 +50,7 @@ import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 // data
-import gameData from '@/data/gameData';
+import gameData from '@/data/game';
 import milestoneData from '@/data/milestones';
 
 export default {

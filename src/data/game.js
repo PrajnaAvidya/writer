@@ -1,22 +1,20 @@
 import Big from 'big.js';
 
 const gameData = {
-  haltAnimation: false,
+  // tick
   lastFrame: 0,
   utimestamp: 0,
+  haltAnimation: false,
+  // currency display
+  displayedWords: Big(0),
+  displayedMoney: Big(0),
+  // periodic checks
   nextJobCheck: 0,
   nextMilestoneCheck: 0,
   nextTitleUpdate: 0,
-  caffeineWordGeneration: Big(0),
-
-  displayedWords: Big(0),
-  displayedMoney: Big(0),
-
-  newWords: Big(0),
-  newClickWords: Big(0),
-
   urgentJobNotification: null,
-
+  // caffeine animation
+  caffeineWordGeneration: Big(0),
   caffeineX: 0,
   caffeineY: 0,
   caffeineAnimationInterval: 1,
