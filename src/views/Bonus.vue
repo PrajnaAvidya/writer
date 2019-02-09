@@ -63,6 +63,10 @@ export default {
       // apply bonus
       if (bonus.jobSlot) {
         this.addJobSlot();
+      } else if (bonus.hurryAmount) {
+        this.increaseHurryAmount();
+      } else if (bonus.caffeine) {
+        this.enableWorkerCaffeine(bonus.caffeine);
       }
 
       this.removeBonus(bonus.id);
@@ -73,6 +77,8 @@ export default {
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',
+      'increaseHurryAmount',
+      'enableWorkerCaffeine',
     ]),
   },
 };

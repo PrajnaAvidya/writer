@@ -28,11 +28,11 @@ export default new Vuex.Store({
       state.jobsCompletedTimestamps[jobId] = unixTimestamp();
       state.jobsAvailableTimestamps[jobId] = unixTimestamp(state.jobCooldown);
     },
-    speedJobCooldown(state, { id, seconds }) {
-      state.jobsAvailableTimestamps[id] -= seconds * 1000;
+    speedJobCooldown(state, id) {
+      state.jobsAvailableTimestamps[id] -= state.rebirth.bonuses.hurryAmount * 1000;
     },
-    speedCaffeineCooldown(state, seconds) {
-      state.nextCaffeineTime -= seconds * 1000;
+    speedCaffeineCooldown(state) {
+      state.nextCaffeineTime -= state.rebirth.bonuses.hurryAmount * 1000;
     },
     activateCaffeine(state, force = false) {
       state.endCaffeineTime = unixTimestamp(state.caffeineTime);
@@ -83,6 +83,12 @@ export default new Vuex.Store({
       if (state.rebirth.bonuses.jobSlots < state.maxJobSlots) {
         state.rebirth.bonuses.jobSlots += 1;
       }
+    },
+    increaseHurryAmount(state) {
+      state.rebirth.bonuses.hurryAmount *= 2;
+    },
+    enableWorkerCaffeine(state, worker) {
+      state.rebirth.bonuses.workerCaffeine[worker] = true;
     },
     removeBonus(state, id) {
       Vue.delete(state.rebirth.lockedBonuses, id);

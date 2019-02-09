@@ -243,7 +243,7 @@ export default {
       });
     },
     hurryCooldown(id) {
-      this.speedJobCooldown({ id, seconds: 1 });
+      this.speedJobCooldown(id);
     },
     ...mapMutations([
       'resetJobTimer',

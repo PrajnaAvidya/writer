@@ -83,7 +83,7 @@ export default {
       }
     },
     hurryCooldown(id) {
-      this.speedCaffeineCooldown(1);
+      this.speedCaffeineCooldown();
     },
     ...mapMutations([
       'speedCaffeineCooldown',

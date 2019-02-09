@@ -424,7 +424,7 @@ export default {
       // get plot point bonus
       const plotBonus = Big(1).plus(this.rebirth.plotPoints.div(100));
       // get worker wps
-      const workerWps = calculateWorkerWps(this.workers);
+      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.rebirth.bonuses.workerCaffeine, this.caffeineClickMultiplier);
       // add plot point bonus
       let totalWps = workerWps.total.times(plotBonus);
       // add caffeine wps

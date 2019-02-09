@@ -40,11 +40,13 @@ const data = {
 
   // rebirth
   rebirth: {
-    baseMilestonesNeeded: Big(20),
+    baseMilestonesNeeded: Big(0),
     rebirths: Big(0),
     plotPoints: Big(0),
     bonuses: {
       jobSlots: 1,
+      hurryAmount: 1,
+      workerCaffeine: workerIndex(false),
     },
     lockedBonuses: {},
   },
