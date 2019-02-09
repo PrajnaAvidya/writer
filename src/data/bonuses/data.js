@@ -42,13 +42,13 @@ export default [
     caffeine: 'child',
   },
   {
-    name: 'Tweakers',
+    name: 'Little Tweakers',
     description: 'Caffeine click bonus now affects students',
     cost: 2000,
     caffeine: 'student',
   },
   {
-    name: 'Adderall',
+    name: 'Adderall Assistance',
     description: 'Caffeine click bonus now affects graduate students',
     cost: 3000,
     caffeine: 'gradudate',
