@@ -3,7 +3,7 @@ import workerIndex from '@/data/workers/workerIndex';
 import bonuses from '@/data/bonuses';
 
 export default {
-  baseMilestonesNeeded: Big(0), // TODO set back to 20
+  baseMilestonesNeeded: Big(20),
   rebirths: Big(0),
   plotPoints: Big(0),
   bonuses: {
