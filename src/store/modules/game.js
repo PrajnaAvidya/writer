@@ -13,14 +13,9 @@ const getters = {
   words: s => s.currency.words,
   money: s => s.currency.money,
   wordValue: s => s.currency.wordValue,
-  workersHired: s => s.statistics.workers,
 };
 
 const mutations = {
-  setBuyAmountIndex(s, index) {
-    s.buyAmountIndex = index;
-    s.buyAmount = 10 ** index;
-  },
   speedCaffeineCooldown(s) {
     s.nextCaffeineTime -= store.state.rebirth.bonuses.hurryAmount * 1000;
   },
@@ -38,9 +33,6 @@ const mutations = {
     if (Big(amount).gt(0)) {
       s.statistics[stat] = s.statistics[stat].plus(amount);
     }
-  },
-  setWorkers(s, workers) {
-    s.workers = Object.assign({}, workers);
   },
   setUpgrades(s, upgrades) {
     s.upgrades = Object.assign({}, upgrades);

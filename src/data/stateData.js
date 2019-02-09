@@ -1,10 +1,7 @@
 // load the big game data object that gets stored in vuex/local state
 
 import Big from 'big.js';
-import shuffle from 'lodash/shuffle';
-import workers from '@/data/workers';
 import upgrades from '@/data/upgrades';
-import workerIndex from '@/data/workers/workerIndex';
 import playerIcons from '@/data/playerIcons';
 import tutorials from '@/data/tutorials';
 import milestones from '@/data/milestones';
@@ -35,15 +32,6 @@ const data = {
   caffeineWordGeneration: Big(5),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
-
-  // workers
-  buyAmount: 1,
-  buyAmountIndex: 0,
-  workers: {},
-  workerQuantities: workerIndex(0),
-  workerWps: Big(0),
-  individualWorkerWps: {},
-  workerTooltips: {},
 
   // upgrades
   upgradeId: 0,
@@ -103,9 +91,6 @@ export default function () {
   // writing icons
   stateData.playerIcons = playerIcons.reverse();
   stateData.playerIcon = stateData.playerIcons.pop();
-
-  // workers
-  stateData.workers = workers();
 
   // upgrades
   stateData.upgrades = upgrades();

@@ -37,7 +37,6 @@ const mutations = {
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });
-    console.log(s);
   },
 };
 

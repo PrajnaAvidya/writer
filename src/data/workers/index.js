@@ -3,13 +3,23 @@
 import Big from 'big.js';
 import workerData from '@/data/workers/data';
 import workerCost from '@/utils/workerCost';
+import workerIndex from '@/data/workers/workerIndex';
 
 export default function () {
-  const workers = {};
+  const workers = {
+    // workers
+    workers: {},
+    buyAmount: 1,
+    buyAmountIndex: 0,
+    workerQuantities: workerIndex(0),
+    workerWps: Big(0),
+    individualWorkerWps: {},
+    workerTooltips: {},
+  };
   let previousId = null;
 
   workerData.forEach((worker) => {
-    workers[worker.id] = {
+    workers.workers[worker.id] = {
       id: worker.id,
       previousId,
       nextId: null,
@@ -28,7 +38,7 @@ export default function () {
       icon: worker.icon,
     };
     if (workers[previousId]) {
-      workers[previousId].nextId = worker.id;
+      workers.workers[previousId].nextId = worker.id;
     }
 
     previousId = worker.id;

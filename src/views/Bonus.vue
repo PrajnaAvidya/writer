@@ -68,7 +68,7 @@ export default {
 
       this.removeBonus(bonus.id);
 
-      this.$root.$emit('updateWpsMps');
+      this.$root.$emit('updateWps');
 
       this.$ga.event({
         eventCategory: 'Bonus',

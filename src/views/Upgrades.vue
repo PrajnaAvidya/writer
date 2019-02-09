@@ -44,7 +44,6 @@ export default {
   computed: {
     ...mapState('game', [
       'currency',
-      'workers',
       'upgrades',
       'revealedUpgrades',
       'purchasedUpgrades',
@@ -54,6 +53,9 @@ export default {
     ]),
     ...mapState('jobs', [
       'urgentJobTimestamp',
+    ]),
+    ...mapState('workers', [
+      'workers',
     ]),
     ...mapGetters('debug', [
       'checkDebug',
@@ -98,7 +100,7 @@ export default {
         if (upgrade.multipliers) {
           Object.keys(upgrade.multipliers).forEach((workerId) => {
             this.workers[workerId].productivityMultiplier = this.workers[workerId].productivityMultiplier.times(upgrade.multipliers[workerId]);
-            this.$root.$emit('updateWpsMps');
+            this.$root.$emit('updateWps');
           });
         }
       } else if (upgrade.type === 'clicking') {

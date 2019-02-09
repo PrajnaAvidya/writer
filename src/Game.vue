@@ -71,12 +71,6 @@ export default {
       'playerWords',
       // upgrades
       'upgrades',
-      // workers
-      'workers',
-      'workerQuantities',
-      'workerWps',
-      'buyAmount',
-      'buyAmountIndex',
       // caffeine
       'caffeineTime',
       'nextCaffeineTime',
@@ -112,6 +106,13 @@ export default {
       'urgentJobRewardMultiplier',
       'urgentJobTimer',
       'urgentJobTimestamp',
+    ]),
+    ...mapState('workers', [
+      'workers',
+      'workerQuantities',
+      'workerWps',
+      'buyAmount',
+      'buyAmountIndex',
     ]),
     ...mapState('rebirth', [
       'rebirths',
@@ -151,7 +152,7 @@ export default {
       this.setNextBook();
       this.registerEvents();
       this.calculateWorkerCosts();
-      this.updateWpsMps();
+      this.updateWps();
       window.requestAnimationFrame(this.tick);
     },
     rebirthGame() {
@@ -171,7 +172,7 @@ export default {
       // start game
       this.setNextBook();
       this.calculateWorkerCosts();
-      this.updateWpsMps();
+      this.updateWps();
       window.requestAnimationFrame(this.tick);
     },
     setDebugMode() {
@@ -214,7 +215,7 @@ export default {
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
       this.$root.$on('hireWorker', this.hireWorker);
-      this.$root.$on('updateWpsMps', this.updateWpsMps);
+      this.$root.$on('updateWps', this.updateWps);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
@@ -342,13 +343,13 @@ export default {
         log('buzz active');
         this.buzzActive = true;
         this.setGameData({ index: 'buzzActive', value: true });
-        this.updateWpsMps();
+        this.updateWps();
       } else if (this.buzzActive) {
         if (this.endCaffeineTime <= this.utimestamp) {
           log('buzz ending');
           this.buzzActive = false;
           this.setGameData({ index: 'buzzActive', value: false });
-          this.updateWpsMps();
+          this.updateWps();
         } else if (this.utimestamp >= this.caffeineAnimationNext) {
           // show animation
           animatePlus({
@@ -395,7 +396,7 @@ export default {
 
       // recalculate stuff
       this.calculateWorkerCosts();
-      this.updateWpsMps();
+      this.updateWps();
 
       this.$ga.event({
         eventCategory: 'Workers',
@@ -423,12 +424,13 @@ export default {
       this.$delete(newUpgrades, upgradeId);
       this.setUpgrades(newUpgrades);
     },
-    updateWpsMps() {
+    updateWps() {
       log('recalculating wps');
       // get plot point bonus
       const plotBonus = Big(1).plus(this.plotPoints.div(100));
       // get worker wps
       const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.caffeineClickMultiplier);
+
       // add plot point bonus
       let totalWps = workerWps.total.times(plotBonus);
       // add caffeine wps
@@ -437,9 +439,9 @@ export default {
         totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
       }
       this.currency.totalWps = totalWps;
-      this.setGameData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
-      this.setGameData({ index: 'workerTooltips', value: workerWps.tooltips });
-      this.setGameData({ index: 'individualWorkerWps', value: workerWps.worker });
+      this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
+      this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
+      this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
     },
     // jobs
     updateJobs(force = false) {
@@ -642,6 +644,7 @@ export default {
       // reload relevant vuex stores
       this.resetGame();
       this.resetJobs();
+      this.resetWorkers();
       this.updateJobs(true);
 
       // show bonus panel
@@ -655,24 +658,28 @@ export default {
       this.rebirthGame();
     },
     // === end methods ===
+    ...mapMutations('unfolding', [
+      'revealUnfolding',
+    ]),
     ...mapMutations('game', [
       'addToStat',
       'activateCaffeine',
       'setGameData',
-      'setWorkers',
       'setUpgrades',
       'resetGame',
-    ]),
-    ...mapMutations('unfolding', [
-      'revealUnfolding',
-    ]),
-    ...mapMutations('rebirth', [
-      'setRebirthData',
-      'addRebirthData',
     ]),
     ...mapMutations('jobs', [
       'setJobsData',
       'resetJobs',
+    ]),
+    ...mapMutations('workers', [
+      'setWorkers',
+      'setWorkersData',
+      'resetWorkers',
+    ]),
+    ...mapMutations('rebirth', [
+      'setRebirthData',
+      'addRebirthData',
     ]),
   },
 };

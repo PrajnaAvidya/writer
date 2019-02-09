@@ -125,9 +125,6 @@ export default {
     interval: null,
   }),
   computed: {
-    ...mapState('game', [
-      'workerWps',
-    ]),
     ...mapState('jobs', [
       'jobs',
       'jobCooldown',

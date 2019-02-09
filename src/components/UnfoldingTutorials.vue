@@ -23,7 +23,7 @@ import { mapState, mapGetters, mapMutations } from 'vuex';
 import BaseModal from '@/components/Modals/BaseModal.vue';
 
 export default {
-  name: 'TutorialModals',
+  name: 'UnfoldingTutorials',
   components: {
     BaseModal,
   },
@@ -44,10 +44,12 @@ export default {
     ...mapGetters('game', [
       'money',
       'words',
-      'workersHired',
     ]),
     ...mapGetters('jobs', [
       'jobsComplete',
+    ]),
+    ...mapGetters('workers', [
+      'workersHired',
     ]),
   },
   watch: {
