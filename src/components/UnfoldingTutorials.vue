@@ -1,32 +1,12 @@
 <template>
-  <BaseModal
-    ref="modal"
-    :show-header="false"
-    :show-footer="false"
-    @close="getNextTutorial()"
-  >
-    <div>
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <span v-html="tutorial ? tutorial.text : ''" />
-    </div>
-    <button
-      class="button is-primary"
-      @click="closeAndGetNextTutorial()"
-    >
-      OK
-    </button>
-  </BaseModal>
+  <div />
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import BaseModal from '@/components/Modals/BaseModal.vue';
 
 export default {
   name: 'UnfoldingTutorials',
-  components: {
-    BaseModal,
-  },
   data: () => ({
     tutorial: {},
     active: false,
@@ -96,7 +76,6 @@ export default {
     showTutorial() {
       this.active = true;
 
-      // show modal
       if (!this.tutorial.delay) {
         // open immediately
         this.revealTutorial();
@@ -118,19 +97,11 @@ export default {
         this.$root.$emit('updateUrgentJob', true);
       }
 
-      if (this.tutorial.text) {
-        this.$refs.modal.open();
-      } else {
-        this.getNextTutorial();
-      }
+      this.getNextTutorial();
     },
     getNextTutorial() {
       this.tutorial = this.tutorials.pop();
       this.active = false;
-    },
-    closeAndGetNextTutorial() {
-      this.$refs.modal.close();
-      this.getNextTutorial();
     },
     ...mapMutations('unfolding', [
       'revealUnfolding',
