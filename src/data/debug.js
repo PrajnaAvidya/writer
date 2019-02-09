@@ -1,9 +1,9 @@
 import Big from 'big.js';
 
 export default {
-  enabled: true,
+  enabled: false,
   fastTutorials: false,
-  disableTutorials: true,
+  disableTutorials: false,
   disableUnfolding: true,
   urgentJobs: false,
   books: false,

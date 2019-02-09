@@ -4,7 +4,7 @@ import store from '@/store';
 const state = unfoldingData;
 
 const getters = {
-  checkUnfolding: s => unfolding => s[unfolding] || store.state.debug.disableUnfolding,
+  checkUnfolding: s => unfolding => s[unfolding] || (store.state.debug.enabled && store.state.debug.disableUnfolding),
 };
 
 const mutations = {
