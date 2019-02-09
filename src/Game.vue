@@ -89,7 +89,6 @@ export default {
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
-      'caffeineWordMultiplier',
       'caffeineMinimumWordGeneration',
     ]),
     ...mapState('books', [
@@ -319,7 +318,7 @@ export default {
     write(event) {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = words.times(this.caffeineClickMultiplier);
+        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
       }
       // add plot bonus
       words = words.times(Big(1).plus(this.plotPoints.div(100)));
@@ -385,7 +384,7 @@ export default {
     },
     // caffeine animation
     caffeineAnimationParams() {
-      const wordGeneration = this.caffeineWordMultiplier.times(this.totalWps).times(Big(1).plus(this.plotPoints.div(100)));
+      const wordGeneration = this.bonuses.caffeineWordMultiplier.times(this.totalWps).times(Big(1).plus(this.plotPoints.div(100)));
       this.caffeineWordGeneration = wordGeneration.gt(this.caffeineMinimumWordGeneration) ? wordGeneration : this.caffeineMinimumWordGeneration;
 
       if (this.caffeineWordGeneration.lte(5)) {
@@ -451,7 +450,7 @@ export default {
       // get plot bonus
       const plotBonus = Big(1).plus(this.plotPoints.div(100));
       // get worker wps
-      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.caffeineWordMultiplier);
+      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.bonuses.caffeineWordMultiplier);
       // add plot point bonus
       let totalWps = workerWps.total.times(plotBonus);
       // add caffeine wps

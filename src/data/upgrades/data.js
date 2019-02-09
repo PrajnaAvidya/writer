@@ -1,24 +1,26 @@
 export default {
   // infinite/procedural upgrades
+  /*
   wordValue: {
     base: 100,
     scale: 10,
     multiplier: 2,
   },
+  */
   clicking: {
     base: 100,
-    scale: 5,
+    scale: 10,
     multiplier: 2,
   },
   caffeinePower: {
-    base: 100,
+    base: 1000,
     scale: 25,
     multiplier: 2,
   },
   jobReward: {
     base: 100,
-    scale: 10,
-    multiplier: 1.5,
+    scale: 50,
+    multiplier: 2,
   },
   urgentJobReward: {
     base: 1E5,
@@ -34,15 +36,7 @@ export default {
       lengthMultiplier: 1.5,
     },
     {
-      cost: 1E3,
-      lengthMultiplier: 1.5,
-    },
-    {
       cost: 1E4,
-      lengthMultiplier: 1.5,
-    },
-    {
-      cost: 1E5,
       lengthMultiplier: 1.5,
     },
     {
@@ -50,7 +44,15 @@ export default {
       lengthMultiplier: 1.5,
     },
     {
-      cost: 1E7,
+      cost: 1E8,
+      lengthMultiplier: 1.5,
+    },
+    {
+      cost: 1E10,
+      lengthMultiplier: 1.5,
+    },
+    {
+      cost: 1E12,
       lengthMultiplier: 1.5,
     },
     // caffeine cooldown reduction

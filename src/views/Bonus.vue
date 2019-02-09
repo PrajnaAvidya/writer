@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div>
     <div class="bonus-title is-size-3">
       Plot Points: {{ plotPoints | round }}
     </div>
@@ -29,12 +29,6 @@
         </div>
       </div>
     </div>
-
-    <div class="columns bonus">
-      <div class="column">
-        <i>More bonuses coming in the next alpha!</i>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -61,9 +55,13 @@ export default {
       if (bonus.jobSlot) {
         this.addJobSlot();
       } else if (bonus.hurryAmount) {
-        this.increaseHurryAmount();
+        this.multiplyBonus({ index: 'hurryAmount', amount: 2 });
       } else if (bonus.caffeine) {
         this.enableWorkerCaffeine(bonus.caffeine);
+      } else if (bonus.caffeineWordMultiplier) {
+        this.multiplyBonus({ index: 'caffeineWordMultiplier', amount: 2 });
+      } else if (bonus.caffeineClickWps) {
+        this.addBonus({ index: 'caffeineClickWps', amount: 1 });
       }
 
       this.removeBonus(bonus.id);
@@ -80,8 +78,8 @@ export default {
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',
-      'increaseHurryAmount',
-      'enableWorkerCaffeine',
+      'addBonus',
+      'multiplyBonus',
     ]),
   },
 };

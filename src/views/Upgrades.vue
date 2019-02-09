@@ -1,5 +1,5 @@
 <template>
-  <div class="upgrades box">
+  <div class="upgrades">
     <div
       v-for="upgrade in orderedUpgrades()"
       :key="upgrade.id"

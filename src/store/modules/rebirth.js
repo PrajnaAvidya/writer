@@ -27,8 +27,19 @@ const mutations = {
       s.bonuses.jobSlots += 1;
     }
   },
-  increaseHurryAmount(s) {
-    s.bonuses.hurryAmount *= 2;
+  addBonus(s, { index, amount }) {
+    if (typeof s.bonuses[index] === 'object') {
+      s.bonuses[index] = s.bonuses[index].plus(amount);
+    } else {
+      s.bonuses[index] += amount;
+    }
+  },
+  multiplyBonus(s, { index, amount }) {
+    if (typeof s.bonuses[index] === 'object') {
+      s.bonuses[index] = s.bonuses[index].times(amount);
+    } else {
+      s.bonuses[index] *= amount;
+    }
   },
   enableWorkerCaffeine(s, worker) {
     s.bonuses.workerCaffeine[worker] = true;

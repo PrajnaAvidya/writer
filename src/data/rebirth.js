@@ -10,6 +10,8 @@ export default {
     jobSlots: 1,
     hurryAmount: 1,
     workerCaffeine: workerIndex(false),
+    caffeineWordMultiplier: Big(1),
+    caffeineClickWps: Big(0),
   },
   lockedBonuses: bonuses(),
 };
