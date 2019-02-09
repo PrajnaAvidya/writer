@@ -1,5 +1,5 @@
 import randomInt from '@/utils/randomInt';
-import jobData from '@/data/jobs';
+import randomJobName from '@/utils/randomJobName';
 
 const rewardRangePercent = [750, 1500];
 const wordsRangePercent = [10, 50];
@@ -18,7 +18,7 @@ export default function (currency, wps) {
   return {
     id: 0,
     completed: false,
-    name: `Urgent ${jobData.names[randomInt(0, jobData.names.length - 1)]}`,
+    name: `Urgent ${randomJobName()}`,
     words,
     payment: jobWordValue.times(words),
   };

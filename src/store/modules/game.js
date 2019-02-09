@@ -13,7 +13,6 @@ const getters = {
   words: s => s.currency.words,
   money: s => s.currency.money,
   wordValue: s => s.currency.wordValue,
-  jobsComplete: s => s.statistics.jobs,
   workersHired: s => s.statistics.workers,
 };
 
@@ -21,13 +20,6 @@ const mutations = {
   setBuyAmountIndex(s, index) {
     s.buyAmountIndex = index;
     s.buyAmount = 10 ** index;
-  },
-  resetJobTimer(s, jobId) {
-    s.jobsCompletedTimestamps[jobId] = unixTimestamp();
-    s.jobsAvailableTimestamps[jobId] = unixTimestamp(s.jobCooldown);
-  },
-  speedJobCooldown(s, id) {
-    s.jobsAvailableTimestamps[id] -= store.state.rebirth.bonuses.hurryAmount * 1000;
   },
   speedCaffeineCooldown(s) {
     s.nextCaffeineTime -= store.state.rebirth.bonuses.hurryAmount * 1000;
@@ -41,12 +33,7 @@ const mutations = {
     s.caffeineCooldown += amount;
     s.nextCaffeineTime += amount * 1000;
   },
-  adjustJobTimer(s, amount) {
-    s.jobCooldown += amount;
-    Object.keys(s.jobAvailable).forEach((jobId) => {
-      s.g[jobId] += amount * 1000;
-    });
-  },
+
   addToStat(s, { stat, amount }) {
     if (Big(amount).gt(0)) {
       s.statistics[stat] = s.statistics[stat].plus(amount);

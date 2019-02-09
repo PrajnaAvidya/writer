@@ -44,8 +44,10 @@ export default {
     ...mapGetters('game', [
       'money',
       'words',
-      'jobsComplete',
       'workersHired',
+    ]),
+    ...mapGetters('jobs', [
+      'jobsComplete',
     ]),
   },
   watch: {

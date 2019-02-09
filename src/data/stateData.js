@@ -5,7 +5,6 @@ import shuffle from 'lodash/shuffle';
 import workers from '@/data/workers';
 import upgrades from '@/data/upgrades';
 import workerIndex from '@/data/workers/workerIndex';
-import adjectives from '@/data/adjectives';
 import playerIcons from '@/data/playerIcons';
 import tutorials from '@/data/tutorials';
 import milestones from '@/data/milestones';
@@ -38,27 +37,6 @@ const data = {
   caffeineWordGeneration: Big(5),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
-  // caffeine animation
-
-  // jobs
-  maxJobSlots: 5,
-  jobs: {},
-  jobsCompletedTimestamps: {},
-  jobsAvailableTimestamps: {},
-  jobCooldown: 60,
-  jobRewardMultiplier: Big(1),
-  jobAvailable: {},
-
-  // urgent jobs
-  urgentJob: null,
-  urgentJobActive: false,
-  urgentJobTimestamp: null,
-  urgentJobExpiration: null,
-  urgentJobMinimumTime: 300,
-  urgentJobMaximumTime: 900,
-  urgentJobTimer: 60,
-  urgentJobCountdown: 0,
-  urgentJobRewardMultiplier: Big(1),
 
   // workers
   buyAmount: 1,
@@ -103,10 +81,6 @@ const stats = {
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',
   clickables: 'Books Clicked',
-  /*
-  wordsHad: 'Most Words Had At Once',
-  moneyHad: 'Most Money Had At Once',
-  */
   wps: 'Highest Words Per Second',
 };
 
@@ -129,9 +103,6 @@ export default function () {
     stateData.milestoneCount[stat] = 0;
   });
 
-  // adjectives
-  stateData.adjectives = shuffle(adjectives);
-
   // writing icons
   stateData.playerIcons = playerIcons.reverse();
   stateData.playerIcon = stateData.playerIcons.pop();
@@ -140,14 +111,8 @@ export default function () {
   stateData.workers = workers();
 
   // upgrades
-  stateData.upgrades = upgrades(stateData.adjectives);
+  stateData.upgrades = upgrades();
   stateData.upgradeId = Object.keys(stateData.upgrades)[Object.keys(stateData.upgrades).length - 1];
-
-  // jobs
-  for (let id = 1; id <= stateData.maxJobSlots; id += 1) {
-    stateData.jobsCompletedTimestamps[id] = 0;
-    stateData.jobsAvailableTimestamps[id] = 0;
-  }
 
   // tutorials/unfolding
   stateData.tutorials = tutorials.reverse();

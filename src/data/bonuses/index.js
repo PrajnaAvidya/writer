@@ -1,6 +1,6 @@
 import bonusData from '@/data/bonuses/data';
 
-export default function (adjectives) {
+export default function () {
   const bonuses = {};
   let id = 0;
 

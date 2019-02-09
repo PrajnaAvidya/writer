@@ -126,6 +126,9 @@ export default {
   }),
   computed: {
     ...mapState('game', [
+      'workerWps',
+    ]),
+    ...mapState('jobs', [
       'jobs',
       'jobCooldown',
       'jobRewardMultiplier',
@@ -134,7 +137,6 @@ export default {
       'firstJobComplete',
       'nextJobTime',
       'jobAvailable',
-      'workerWps',
       'urgentJob',
       'urgentJobActive',
       'urgentJobCountdown',
@@ -249,13 +251,15 @@ export default {
     hurryCooldown(id) {
       this.speedJobCooldown(id);
     },
-    ...mapMutations('game', [
-      'resetJobTimer',
-      'addToStat',
-      'speedJobCooldown',
-    ]),
     ...mapMutations('unfolding', [
       'revealUnfolding',
+    ]),
+    ...mapMutations('game', [
+      'addToStat',
+    ]),
+    ...mapMutations('jobs', [
+      'resetJobTimer',
+      'speedJobCooldown',
     ]),
   },
 };

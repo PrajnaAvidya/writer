@@ -84,7 +84,20 @@ export default {
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'caffeineWordGeneration',
-      // jobs
+      // stats
+      'statistics',
+      'milestones',
+      'milestoneCount',
+      // clickables
+      'bookActive',
+      'bookMinimumTime',
+      'bookMaximumTime',
+      'nextBookTime',
+      'bookSpawnTime',
+      'bookExpireTime',
+    ]),
+    ...mapState('jobs', [
+      // regular jobs
       'jobs',
       'jobRewardMultiplier',
       'jobCooldown',
@@ -100,17 +113,6 @@ export default {
       'urgentJobRewardMultiplier',
       'urgentJobTimer',
       'urgentJobTimestamp',
-      // stats
-      'statistics',
-      'milestones',
-      'milestoneCount',
-      // clickables
-      'bookActive',
-      'bookMinimumTime',
-      'bookMaximumTime',
-      'nextBookTime',
-      'bookSpawnTime',
-      'bookExpireTime',
     ]),
     ...mapState('rebirth', [
       'rebirths',
@@ -188,18 +190,18 @@ export default {
 
         this.setGameData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
         this.setGameData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
-        this.setGameData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
+        this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
         if (this.checkDebug('urgentJobs')) {
-          this.setGameData({ index: 'urgentJobMinimumTime', value: 1 });
-          this.setGameData({ index: 'urgentJobMaximumTime', value: 1 });
+          this.setJobsData({ index: 'urgentJobMinimumTime', value: 1 });
+          this.setJobsData({ index: 'urgentJobMaximumTime', value: 1 });
         }
         if (this.checkDebug('books')) {
-          this.setGameData({ index: 'bookMinimumTime', value: 1 });
-          this.setGameData({ index: 'bookMaximumTime', value: 1 });
+          this.setJobsData({ index: 'bookMinimumTime', value: 1 });
+          this.setJobsData({ index: 'bookMaximumTime', value: 1 });
         }
         if (this.checkDebug('disableTutorials')) {
-          this.revealUnfolding('firstJobComplete');
-          this.revealUnfolding('firstUrgentJobComplete');
+          this.setJobsData('firstJobComplete');
+          this.setJobsData('firstUrgentJobComplete');
         }
       }
     },
@@ -464,10 +466,10 @@ export default {
           log('enabling urgent job');
           if (force === true) {
             // update end time for forced jobs
-            this.setGameData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
+            this.setJobsData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
           }
           // generate urgent job
-          this.setGameData({ index: 'urgentJob', value: generateUrgentJob(this.currency, this.workerWps) });
+          this.setJobsData({ index: 'urgentJob', value: generateUrgentJob(this.currency, this.workerWps) });
           // show notification with countdown timer
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
@@ -480,17 +482,17 @@ export default {
               }, { id: 'button1', 'data-status': 'ok' }),
             ],
           });
-          this.setGameData({ index: 'urgentJobActive', value: true });
+          this.setJobsData({ index: 'urgentJobActive', value: true });
         } else if (this.utimestamp >= this.urgentJobExpiration) {
           log('urgent job expired');
-          this.setGameData({ index: 'urgentJobActive', value: false });
+          this.setJobsData({ index: 'urgentJobActive', value: false });
           this.urgentJobNotification.close();
           this.setNextUrgentJob();
         }
       }
       if (this.urgentJobActive) {
         // update countdowns
-        this.setGameData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
+        this.setJobsData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
         this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
       }
     },
@@ -501,9 +503,9 @@ export default {
       }
       log(`next urgent job in ${time}`);
 
-      this.setGameData({ index: 'urgentJobActive', value: false });
-      this.setGameData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
-      this.setGameData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
+      this.setJobsData({ index: 'urgentJobActive', value: false });
+      this.setJobsData({ index: 'urgentJobTimestamp', value: unixTimestamp(time) });
+      this.setJobsData({ index: 'urgentJobExpiration', value: unixTimestamp(time + this.urgentJobTimer) });
     },
     // clickables
     setNextBook() {
@@ -588,14 +590,6 @@ export default {
         return;
       }
 
-      /*
-      if (this.currency.words.gt(this.statistics.wordsHad)) {
-        this.statistics.wordsHad = Big(this.currency.words);
-      }
-      if (this.currency.money.gt(this.statistics.moneyHad)) {
-        this.statistics.moneyHad = Big(this.currency.money);
-      }
-      */
       // update max wps
       if (this.totalWps.gt(this.statistics.wps)) {
         this.statistics.wps = Big(this.totalWps);
@@ -675,6 +669,9 @@ export default {
     ...mapMutations('rebirth', [
       'setRebirthData',
       'addRebirthData',
+    ]),
+    ...mapMutations('jobs', [
+      'setJobsData',
     ]),
   },
 };

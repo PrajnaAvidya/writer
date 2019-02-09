@@ -3,8 +3,9 @@
 import Big from 'big.js';
 import upgradeData from '@/data/upgrades/data';
 import workers from '@/data/workers/data';
+import randomAdjective from '@/utils/randomAdjective';
 
-export default function (adjectives) {
+export default function () {
   const upgrades = {};
   let id = 0;
 
@@ -17,7 +18,7 @@ export default function (adjectives) {
       const upgrade = {
         id,
         type: 'worker',
-        name: `${adjectives.pop()} ${worker.plural}`,
+        name: `${randomAdjective()} ${worker.plural}`,
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
         multipliers: {},
@@ -47,7 +48,7 @@ export default function (adjectives) {
     const upgrade = {
       id,
       type: 'caffeine',
-      name: `${adjectives.pop()} Caffeine`,
+      name: `${randomAdjective()} Caffeine`,
       cost: Big(caffeineUpgrade.cost),
       icon: 'fa-coffee',
     };
@@ -78,7 +79,7 @@ export default function (adjectives) {
     const upgrade = {
       id,
       type: 'jobs',
-      name: `${adjectives.pop()} Jobs`,
+      name: `${randomAdjective()} Jobs`,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-briefcase',
     };
@@ -103,7 +104,7 @@ export default function (adjectives) {
     const upgrade = {
       id,
       type: 'urgentJobs',
-      name: `${adjectives.pop()} Urgent Jobs`,
+      name: `${randomAdjective()} Urgent Jobs`,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-bullhorn',
     };

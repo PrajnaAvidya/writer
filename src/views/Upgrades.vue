@@ -50,9 +50,10 @@ export default {
       'purchasedUpgrades',
       'statistics',
       'playerIcons',
-      'urgentJobTimestamp',
       'upgradeId',
-      'adjectives',
+    ]),
+    ...mapState('jobs', [
+      'urgentJobTimestamp',
     ]),
     ...mapGetters('debug', [
       'checkDebug',
@@ -89,7 +90,7 @@ export default {
       // generate next upgrade if infinite upgrade
       if (upgrade.infinite) {
         this.incrementUpgradeId();
-        this.upgrades[this.upgradeId] = infiniteUpgrade(this.upgradeId, upgrade.type, this.adjectives, upgrade);
+        this.upgrades[this.upgradeId] = infiniteUpgrade(this.upgradeId, upgrade.type, upgrade);
       }
     },
     applyUpgrade(upgrade) {
@@ -124,19 +125,19 @@ export default {
         this.currency.wordValue = this.currency.wordValue.times(upgrade.multiplier);
         this.$root.$emit('updateWpsMps');
       } else if (upgrade.type === 'jobReward') {
-        this.multiplyData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
+        this.multiplyJobData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'urgentJobReward') {
-        this.multiplyData({ index: 'urgentJobRewardMultiplier', amount: upgrade.multiplier });
+        this.multiplyJobData({ index: 'urgentJobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'jobs') {
         this.adjustJobTimer(-upgrade.cooldownReduction);
       } else if (upgrade.type === 'urgentJobs') {
         if (upgrade.cooldownMultiplier) {
-          this.multiplyData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
-          this.multiplyData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
+          this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
+          this.multiplyJobData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
         }
         if (upgrade.timerMultiplier) {
-          this.multiplyData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
-          this.setGameData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
+          this.multiplyJobData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
+          this.setJobsData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
         }
       }
 
@@ -264,8 +265,12 @@ export default {
       'setGameData',
       'multiplyData',
       'adjustCaffeineTimer',
-      'adjustJobTimer',
       'incrementUpgradeId',
+    ]),
+    ...mapMutations('jobs', [
+      'adjustJobTimer',
+      'setJobsData',
+      'multiplyJobData',
     ]),
   },
 };

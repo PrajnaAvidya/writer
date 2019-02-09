@@ -1,6 +1,6 @@
 import Big from 'big.js';
 import randomInt from '@/utils/randomInt';
-import jobData from '@/data/jobs';
+import randomJobName from '@/utils/randomJobName';
 
 const jobTypes = {
   1: {
@@ -45,7 +45,7 @@ export default function (wordValue, wps, id) {
   return {
     id,
     completed: false,
-    name: `${jobTypes[id].name} ${jobData.names[randomInt(0, jobData.names.length - 1)]}`,
+    name: `${jobTypes[id].name} ${randomJobName()}`,
     words,
     payment: jobWordValue.times(words),
   };

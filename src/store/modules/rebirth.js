@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import store from '@/store';
 import rebirthData from '@/data/rebirth';
 
 const state = rebirthData;
@@ -22,7 +23,7 @@ const mutations = {
     s.plotPoints = s.plotPoints.minus(amount);
   },
   addJobSlot(s) {
-    if (s.bonuses.jobSlots < s.maxJobSlots) {
+    if (s.bonuses.jobSlots < store.state.jobs.maxJobSlots) {
       s.bonuses.jobSlots += 1;
     }
   },
