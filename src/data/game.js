@@ -20,6 +20,8 @@ const gameData = {
   caffeineAnimationInterval: 1,
   caffeineAnimationAmount: '1',
   caffeineAnimationNext: 0,
+  // unfolding
+  unfoldingComponent: null,
 };
 
 export default function () {

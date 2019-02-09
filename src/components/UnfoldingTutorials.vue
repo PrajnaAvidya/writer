@@ -4,6 +4,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
+import log from '@/utils/log';
 
 export default {
   name: 'UnfoldingTutorials',
@@ -61,16 +62,14 @@ export default {
       }
 
       // check if tutorial conditions are met
-      if (this.tutorial.unlock.words && this.words.gte(this.tutorial.unlock.words)) {
-        this.showTutorial();
-      } else if (this.tutorial.unlock.money && this.money.gte(this.tutorial.unlock.money)) {
-        this.showTutorial();
-      } else if (this.tutorial.unlock.caffeine === true && this.buzzActive === true) {
-        this.showTutorial();
-      } else if (this.tutorial.unlock.job === true && this.jobsComplete.gt(0)) {
-        this.showTutorial();
-      } else if (this.tutorial.unlock.worker === true && this.workersHired.gt(0)) {
-        this.showTutorial();
+      if (
+        (this.tutorial.unlock.words && this.words.gte(this.tutorial.unlock.words))
+        || (this.tutorial.unlock.money && this.money.gte(this.tutorial.unlock.money))
+        || (this.tutorial.unlock.caffeine === true && this.buzzActive === true)
+        || (this.tutorial.unlock.job === true && this.jobsComplete.gt(0))
+        || (this.tutorial.unlock.worker === true && this.workersHired.gt(0))
+      ) {
+        this.revealTutorial();
       }
     },
     showTutorial() {
@@ -101,6 +100,10 @@ export default {
     },
     getNextTutorial() {
       this.tutorial = this.tutorials.pop();
+      if (!this.tutorial) {
+        log('tutorials complete');
+        this.$root.$emit('endUnfolding');
+      }
       this.active = false;
     },
     ...mapMutations('unfolding', [

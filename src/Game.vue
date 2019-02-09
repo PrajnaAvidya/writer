@@ -2,7 +2,7 @@
   <div id="game">
     <ClickableBook />
 
-    <UnfoldingTutorials />
+    <Component :is="unfoldingComponent" />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -21,7 +21,9 @@
     <NavBar v-if="checkUnfolding('showNavigation')" />
 
     <section class="section main">
-      <RouterView />
+      <KeepAlive>
+        <RouterView />
+      </KeepAlive>
     </section>
   </div>
 </template>
@@ -153,6 +155,9 @@ export default {
       // check for debug mode
       this.setDebugMode();
 
+      // enable tutorials/unfolding
+      this.unfoldingComponent = 'UnfoldingTutorials';
+
       // loop in currency
       this.loopEffect('displayedWords', this.words);
       this.loopEffect('displayedMoney', this.money);
@@ -235,6 +240,7 @@ export default {
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('setNextBook', this.setNextBook);
+      this.$root.$on('endUnfolding', () => { this.unfoldingComponent = null; });
       this.$root.$on('rebirth', this.doRebirth);
     },
     // === start global update loop ===
