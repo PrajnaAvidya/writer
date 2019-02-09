@@ -314,11 +314,16 @@ export default {
     },
     updateTitle() {
       if (this.utimestamp >= this.nextTitleUpdate) {
-        if (this.bookActive) {
-          document.title = `[B] Writer - ${this.$options.filters.round(this.words)}W $${this.$options.filters.round(this.money)}`;
-        } else {
-          document.title = `Writer - ${this.$options.filters.round(this.words)}W $${this.$options.filters.round(this.money)}`;
+        let prefix = '';
+        if (this.urgentJobActive && this.bookActive) {
+          prefix = '[B][J] ';
+        } else if (this.urgentJobActive) {
+          prefix = '[J] ';
+        } else if (this.bookActive) {
+          prefix = '[B] ';
         }
+
+        document.title = `${prefix}Writer - ${this.$options.filters.round(this.words)}W $${this.$options.filters.round(this.money)}`;
 
         this.nextTitleUpdate = unixTimestamp(3);
       }
