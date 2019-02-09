@@ -3,8 +3,8 @@ import Big from 'big.js';
 export default {
   enabled: false,
   disableUnfolding: true,
-  urgentJobs: false,
-  books: false,
+  urgentJobs: true,
+  books: true,
   // startingWords: Big(1000000),
   startingMoney: Big(1E9),
   startingPlotPoints: Big(1200),

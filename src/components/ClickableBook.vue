@@ -49,7 +49,7 @@ export default {
         this.$root.$emit('addWords', words, true);
         log(`bonus words: ${words.toString()}`);
         eventLabel = 'Words';
-        notify(`Bonus Words: ${this.$options.filters.round(words)}!`, { icon: 'fa-book' });
+        notify(`Bonus Words: ${this.$options.filters.round(words)}!`, { type: 'info', icon: 'fa-book' });
 
         animatePlus({
           x: event.pageX - 5,

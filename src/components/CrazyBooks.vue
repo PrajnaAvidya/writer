@@ -12,14 +12,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import log from '@/utils/log';
-import notify from '@/utils/notify';
-import animatePlus from '@/utils/animatePlus';
-import randomInt from '@/utils/randomInt';
-
 export default {
-  name: 'ClickableBook',
+  name: 'CrazyBooks',
   data: () => ({
     numberOfBooks: 0,
   }),

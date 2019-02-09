@@ -1,7 +1,7 @@
 <template>
   <div id="game">
     <ClickableBook />
-    <Component :is="crazyBooksComponent" />"
+    <Component :is="crazyBooksComponent" />
 
     <Component :is="unfoldingComponent" />
 
@@ -629,7 +629,7 @@ export default {
 
           // show message
           notify('You completed a milestone!', {
-            type: 'success',
+            type: 'info',
             icon: 'fa-star',
             callbacks: {
               onClick: () => {

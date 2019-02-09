@@ -35,6 +35,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import notify from '@/utils/notify';
 
 export default {
   name: 'Bonus',
@@ -73,6 +74,8 @@ export default {
       } else if (bonus.type === 'caffeineClickWps') {
         this.addBonus({ index: 'caffeineClickWps', amount: 1 });
       }
+
+      notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
 
       this.purchasedBonuses.push(bonus.id);
 
