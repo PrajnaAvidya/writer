@@ -54,9 +54,11 @@ export default {
       'upgradeId',
       'adjectives',
     ]),
+    ...mapGetters('debug', [
+      'checkDebug',
+    ]),
     ...mapGetters('game', [
       'money',
-      'checkDebug',
     ]),
   },
   methods: {

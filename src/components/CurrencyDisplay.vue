@@ -49,9 +49,11 @@ export default {
       'totalWps',
       'totalMps',
     ]),
+    ...mapGetters('debug', [
+      'checkDebug',
+    ]),
     ...mapGetters('game', [
       'wordValue',
-      'checkDebug',
     ]),
   },
 };

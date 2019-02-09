@@ -141,10 +141,12 @@ export default {
       'urgentJobRewardMultiplier',
       'unfolding',
     ]),
+    ...mapGetters('debug', [
+      'checkDebug',
+    ]),
     ...mapGetters('game', [
       'words',
       'wordValue',
-      'checkDebug',
       'jobSlots',
     ]),
   },

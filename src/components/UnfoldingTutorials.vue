@@ -38,12 +38,14 @@ export default {
       'buzzActive',
       'statistics',
     ]),
+    ...mapGetters('debug', [
+      'checkDebug',
+    ]),
     ...mapGetters('game', [
       'money',
       'words',
       'jobsComplete',
       'workersHired',
-      'checkDebug',
     ]),
   },
   watch: {

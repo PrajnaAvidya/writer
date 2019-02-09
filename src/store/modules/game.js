@@ -9,7 +9,6 @@ Vue.use(Vuex);
 const state = defaultData();
 
 const getters = {
-  checkDebug: s => debug => s.debug.enabled && s.debug[debug],
   words: s => s.currency.words,
   money: s => s.currency.money,
   wordValue: s => s.currency.wordValue,

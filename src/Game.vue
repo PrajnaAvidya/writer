@@ -66,7 +66,6 @@ export default {
   data: () => gameData(),
   computed: {
     ...mapState('game', [
-      'debug',
       // currency
       'currency',
       'playerWords',
@@ -117,8 +116,10 @@ export default {
       // rebirth
       'rebirth',
     ]),
-    ...mapGetters('game', [
+    ...mapGetters('debug', [
       'checkDebug',
+    ]),
+    ...mapGetters('game', [
       'jobSlots',
     ]),
   },
@@ -173,19 +174,20 @@ export default {
     },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
-        if (this.debug.startingWords) {
-          this.currency.words = this.debug.startingWords;
+        const debugSettings = this.$store.state.debug;
+        if (debugSettings.startingWords) {
+          this.currency.words = debugSettings.startingWords;
         }
-        if (this.debug.startingMoney) {
-          this.currency.money = this.debug.startingMoney;
+        if (debugSettings.startingMoney) {
+          this.currency.money = debugSettings.startingMoney;
         }
-        if (this.debug.startingPlotPoints) {
-          this.rebirth.plotPoints = this.debug.startingPlotPoints;
+        if (debugSettings.startingPlotPoints) {
+          this.rebirth.plotPoints = debugSettings.startingPlotPoints;
         }
 
-        this.updateData({ index: 'caffeineTime', value: this.debug.caffeineTime });
-        this.updateData({ index: 'caffeineCooldown', value: this.debug.caffeineCooldown });
-        this.updateData({ index: 'jobCooldown', value: this.debug.jobCooldown });
+        this.updateData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
+        this.updateData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
+        this.updateData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
         if (this.checkDebug('urgentJobs')) {
           this.updateData({ index: 'urgentJobMinimumTime', value: 1 });
           this.updateData({ index: 'urgentJobMaximumTime', value: 1 });

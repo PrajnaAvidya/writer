@@ -88,7 +88,7 @@ export default {
     ...mapState('game', [
       'unfolding',
     ]),
-    ...mapGetters('game', [
+    ...mapGetters('debug', [
       'checkDebug',
     ]),
   },
