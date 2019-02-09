@@ -10,17 +10,7 @@ const data = {
   // tutorials
   tutorials: [],
 
-  // currencies
-  currency: {
-    words: Big(10000),
-    money: Big(10000),
-    wordValue: Big(0.10),
-    milestones: Big(0),
-    totalWps: Big(0), // worker + caffeine wps
-  },
-
-  // player words (clicking)
-  playerWords: Big(1),
+  // player icons
   playerIcon: '',
   playerIcons: [],
 
@@ -60,10 +50,10 @@ export default function () {
   });
 
   // generate first set of milestones
-  stateData.milestones = {};
+  stateData.milestoneTargets = {};
   stateData.milestoneCount = {};
   Object.keys(milestones).forEach((stat) => {
-    stateData.milestones[stat] = Big(milestones[stat].base);
+    stateData.milestoneTargets[stat] = Big(milestones[stat].base);
     stateData.milestoneCount[stat] = 0;
   });
 

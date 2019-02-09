@@ -8,9 +8,7 @@ Vue.use(Vuex);
 const state = defaultData();
 
 const getters = {
-  words: s => s.currency.words,
-  money: s => s.currency.money,
-  wordValue: s => s.currency.wordValue,
+  //
 };
 
 const mutations = {
@@ -25,13 +23,6 @@ const mutations = {
   setGameData(s, { index, value }) {
     s[index] = value;
   },
-  multiplyData(s, { index, amount }) {
-    if (typeof s[index] === 'object') {
-      s[index] = s[index].times(amount);
-    } else {
-      s[index] *= amount;
-    }
-  },
   incrementUpgradeId(s) {
     s.upgradeId += 1;
   },
@@ -40,12 +31,6 @@ const mutations = {
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });
-    s.currency = {
-      words: Big(0),
-      money: Big(1),
-      wordValue: Big(0.10),
-      milestones: Big(0),
-    };
   },
 };
 

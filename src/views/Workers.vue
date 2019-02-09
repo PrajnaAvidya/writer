@@ -57,6 +57,9 @@ export default {
     BuyAmounts,
   },
   computed: {
+    ...mapState('currency', [
+      'money',
+    ]),
     ...mapState('workers', [
       'buyAmount',
       'buyAmountIndex',
@@ -64,9 +67,6 @@ export default {
       'workerWps',
       'individualWorkerWps',
       'workerTooltips',
-    ]),
-    ...mapGetters('game', [
-      'money',
     ]),
   },
   methods: {

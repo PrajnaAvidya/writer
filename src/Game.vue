@@ -66,15 +66,20 @@ export default {
   data: () => gameData(),
   computed: {
     ...mapState('game', [
-      // currency
-      'currency',
-      'playerWords',
       // upgrades
       'upgrades',
       // stats
       'statistics',
-      'milestones',
+      'milestoneTargets',
       'milestoneCount',
+    ]),
+    ...mapState('currency', [
+      'words',
+      'money',
+      'wordValue',
+      'milestones',
+      'playerWords',
+      'totalWps',
     ]),
     ...mapState('caffeine', [
       'buzzActive',
@@ -141,15 +146,15 @@ export default {
       this.$ga.event({
         eventCategory: 'Game',
         eventAction: 'New',
-        eventLabel: this.currency.words.toString(),
+        eventLabel: this.words.toString(),
       });
 
       // check for debug mode
       this.setDebugMode();
 
       // loop in currency
-      this.loopEffect('displayedWords', this.currency.words);
-      this.loopEffect('displayedMoney', this.currency.money);
+      this.loopEffect('displayedWords', this.words);
+      this.loopEffect('displayedMoney', this.money);
 
       // start game
       this.setNextBook();
@@ -169,8 +174,8 @@ export default {
       this.setDebugMode();
 
       // loop in currency
-      this.loopEffect('displayedWords', this.currency.words);
-      this.loopEffect('displayedMoney', this.currency.money);
+      this.loopEffect('displayedWords', this.words);
+      this.loopEffect('displayedMoney', this.money);
 
       // start game
       this.setNextBook();
@@ -182,10 +187,10 @@ export default {
       if (this.checkDebug('enabled')) {
         const debugSettings = this.$store.state.debug;
         if (debugSettings.startingWords) {
-          this.currency.words = debugSettings.startingWords;
+          this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
         }
         if (debugSettings.startingMoney) {
-          this.currency.money = debugSettings.startingMoney;
+          this.setCurrencyData({ index: 'money', value: debugSettings.startingMoney });
         }
         if (debugSettings.startingPlotPoints) {
           this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
@@ -256,8 +261,8 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // add frame words (totalWps * increment)
-      if (this.currency.totalWps.gt(0)) {
-        this.addWords(this.currency.totalWps.times(frameIncrement));
+      if (this.totalWps.gt(0)) {
+        this.addWords(this.totalWps.times(frameIncrement));
       }
 
       // update title
@@ -290,9 +295,9 @@ export default {
     updateTitle() {
       if (this.utimestamp >= this.nextTitleUpdate) {
         if (this.bookActive) {
-          document.title = `[B] Writer - ${this.$options.filters.round(this.currency.words)}W $${this.$options.filters.round(this.currency.money)}`;
+          document.title = `[B] Writer - ${this.$options.filters.round(this.words)}W $${this.$options.filters.round(this.money)}`;
         } else {
-          document.title = `Writer - ${this.$options.filters.round(this.currency.words)}W $${this.$options.filters.round(this.currency.money)}`;
+          document.title = `Writer - ${this.$options.filters.round(this.words)}W $${this.$options.filters.round(this.money)}`;
         }
 
         this.nextTitleUpdate = unixTimestamp(3);
@@ -387,7 +392,7 @@ export default {
     // workers/upgrades
     hireWorker(id) {
       // check if can afford
-      if (this.currency.money.lt(this.workers[id].costs[this.buyAmountIndex])) {
+      if (this.money.lt(this.workers[id].costs[this.buyAmountIndex])) {
         return;
       }
 
@@ -440,7 +445,7 @@ export default {
         // add plot point bonus
         totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
       }
-      this.currency.totalWps = totalWps;
+      this.setCurrencyData({ index: 'totalWps', value: totalWps });
       this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
       this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
@@ -455,7 +460,7 @@ export default {
         this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
         if (force || (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true))) {
           // generate new job
-          this.jobs[jobId] = generateJob(this.currency.wordValue, this.workerWps, jobId);
+          this.jobs[jobId] = generateJob(this.wordValue, this.workerWps, jobId);
         }
       }
 
@@ -471,7 +476,7 @@ export default {
             this.setJobsData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
           }
           // generate urgent job
-          this.setJobsData({ index: 'urgentJob', value: generateUrgentJob(this.currency, this.workerWps) });
+          this.setJobsData({ index: 'urgentJob', value: generateUrgentJob(this.words, this.wordValue, this.workerWps) });
           // show notification with countdown timer
           this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
             type: 'error',
@@ -537,11 +542,11 @@ export default {
     // economy
     addMoney(money, loop = true) {
       // add money
-      this.currency.money = this.currency.money.plus(money);
+      this.addCurrencyData({ index: 'money', amount: money });
       this.addToStat({ stat: 'money', amount: money });
 
       // loop in effect
-      if (loop && money.gt(this.currency.money.div(1000))) {
+      if (loop && money.gt(this.money.div(1000))) {
         this.loopEffect('displayedMoney', money);
       } else {
         this.displayedMoney = this.displayedMoney.plus(money);
@@ -549,21 +554,21 @@ export default {
     },
     subtractMoney(money, loop = true) {
       // subtract money
-      this.currency.money = this.currency.money.minus(money);
+      this.addCurrencyData({ index: 'money', amount: money.times(-1) });
       this.addToStat({ stat: 'moneySpent', amount: money });
-      if (this.currency.money.lt(0)) {
-        this.currency.money = Big(0);
+      if (this.money.lt(0)) {
+        this.setCurrencyData({ index: 'money', value: Big(0) });
       }
 
       // loop in effect
-      if (loop && money.gt(this.currency.money.div(1000))) {
+      if (loop && money.gt(this.money.div(1000))) {
         this.loopEffect('displayedMoney', money.times(-1), 166);
       } else {
         this.displayedMoney = this.displayedMoney.minus(money);
       }
     },
     addWords(words, loop = false) {
-      this.currency.words = this.currency.words.plus(words);
+      this.addCurrencyData({ index: 'words', amount: words });
       this.addToStat({ stat: 'words', amount: words });
 
       // loop in effect
@@ -574,9 +579,9 @@ export default {
       }
     },
     subtractWords(words, loop = true) {
-      this.currency.words = this.currency.words.minus(words);
-      if (this.currency.words.lt(0)) {
-        this.currency.words = Big(0);
+      this.addCurrencyData({ index: 'words', amount: words.times(-1) });
+      if (this.words.lt(0)) {
+        this.setCurrencyData({ index: 'words', value: Big(0) });
       }
 
       // loop in effect
@@ -593,15 +598,15 @@ export default {
       }
 
       // update max wps
-      if (this.currency.totalWps.gt(this.statistics.wps)) {
-        this.statistics.wps = Big(this.currency.totalWps);
+      if (this.totalWps.gt(this.statistics.wps)) {
+        this.statistics.wps = Big(this.totalWps);
       }
 
-      Object.keys(this.milestones).forEach((stat) => {
-        if (this.statistics[stat].gte(this.milestones[stat])) {
+      Object.keys(this.milestoneTargets).forEach((stat) => {
+        if (this.statistics[stat].gte(this.milestoneTargets[stat])) {
           log(`got milestone for ${stat}`);
           // give currency
-          this.currency.milestones = this.currency.milestones.plus(1);
+          this.addCurrencyData({ index: 'milestones', amount: 1 });
 
           // show message
           notify('You completed a milestone!', {
@@ -616,7 +621,7 @@ export default {
 
           // set next milestone
           this.milestoneCount[stat] += 1;
-          this.milestones[stat] = this.milestones[stat].times(milestoneData[stat].multiplier);
+          this.milestoneTargets[stat] = this.milestoneTargets[stat].times(milestoneData[stat].multiplier);
 
           // unlock stats
           this.revealUnfolding('showStats');
@@ -629,7 +634,7 @@ export default {
         }
       });
 
-      if (this.currency.milestones.gte((this.baseMilestonesNeeded.plus(this.rebirths)).div(2))) {
+      if (this.milestones.gte((this.baseMilestonesNeeded.plus(this.rebirths)).div(2))) {
         this.revealUnfolding('showRebirth');
       }
 
@@ -640,11 +645,12 @@ export default {
       this.haltAnimation = true;
 
       // update rebirth data
-      this.addRebirthData({ index: 'plotPoints', amount: this.currency.milestones });
+      this.addRebirthData({ index: 'plotPoints', amount: this.milestones });
       this.addRebirthData({ index: 'rebirths', amount: 1 });
 
       // reload relevant vuex stores
       this.resetGame();
+      this.resetCurrency();
       this.resetCaffeine();
       this.resetBooks();
       this.resetJobs();
@@ -669,6 +675,11 @@ export default {
       'addToStat',
       'setUpgrades',
       'resetGame',
+    ]),
+    ...mapMutations('currency', [
+      'resetCurrency',
+      'addCurrencyData',
+      'setCurrencyData',
     ]),
     ...mapMutations('caffeine', [
       'resetCaffeine',

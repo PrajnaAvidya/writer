@@ -3,7 +3,7 @@
     <table class="table">
       <tbody>
         <tr
-          v-for="stat in Object.keys(milestones)"
+          v-for="stat in Object.keys(milestoneTargets)"
           :key="stat"
         >
           <th>{{ statDescriptions[stat] }}</th>
@@ -27,7 +27,7 @@
               <progress
                 class="progress is-info"
                 :value="statistics[stat]"
-                :max="milestones[stat]"
+                :max="milestoneTargets[stat]"
               />
             </div>
           </td>
@@ -44,19 +44,21 @@ export default {
   name: 'Stats',
   computed: {
     ...mapState('game', [
-      'currency',
       'statistics',
-      'milestones',
+      'milestoneTargets',
       'milestoneCount',
       'statDescriptions',
+    ]),
+    ...mapState('currency', [
+
     ]),
   },
   methods: {
     tooltip(stat) {
       if (stat === 'money' || stat === 'moneySpent') {
-        return `${this.$options.filters.moneyCents(this.statistics[stat])} / ${this.$options.filters.moneyCents(this.milestones[stat])}`;
+        return `${this.$options.filters.moneyCents(this.statistics[stat])} / ${this.$options.filters.moneyCents(this.milestoneTargets[stat])}`;
       }
-      return `${this.$options.filters.round(this.statistics[stat])} / ${this.$options.filters.round(this.milestones[stat])}`;
+      return `${this.$options.filters.round(this.statistics[stat])} / ${this.$options.filters.round(this.milestoneTargets[stat])}`;
     },
   },
 };

@@ -34,18 +34,17 @@ export default {
   computed: {
     ...mapState('game', [
       'tutorials',
-      'currency',
       'statistics',
+    ]),
+    ...mapState('currency', [
+      'money',
+      'words',
     ]),
     ...mapState('caffeine', [
       'buzzActive',
     ]),
     ...mapGetters('debug', [
       'checkDebug',
-    ]),
-    ...mapGetters('game', [
-      'money',
-      'words',
     ]),
     ...mapGetters('jobs', [
       'jobsComplete',

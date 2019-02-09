@@ -2,14 +2,14 @@
   <div>
     <div class="box">
       <div class="milestones is-size-3">
-        Milestones: {{ currency.milestones | round }}
+        Milestones: {{ milestones | round }}
       </div>
       <p class="text">
         Once you hit {{ milestonesNeeded | round }} milestones you can rebirth and start from zero. Your milestones will be converted into <strong>plot points</strong> which will give you a bonus in the next life.
       </p>
       <a
         class="button is-danger"
-        :disabled="currency.milestones.lt(milestonesNeeded)"
+        :disabled="milestones.lt(milestonesNeeded)"
         @click="confirmRebirth()"
       >
         {{ buttonText }}
@@ -38,8 +38,8 @@ export default {
     milestonesNeeded() {
       return this.baseMilestonesNeeded.plus(this.rebirths);
     },
-    ...mapState('game', [
-      'currency',
+    ...mapState('currency', [
+      'milestones',
     ]),
     ...mapState('rebirth', [
       'rebirths',
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     confirmRebirth() {
-      if (this.currency.milestones.lt(this.milestonesNeeded)) {
+      if (this.milestones.lt(this.milestonesNeeded)) {
         return;
       }
 

@@ -19,8 +19,9 @@ import randomInt from '@/utils/randomInt';
 export default {
   name: 'ClickableBook',
   computed: {
-    ...mapState('game', [
-      'currency',
+    ...mapState('currency', [
+      'words',
+      'totalWps',
     ]),
     ...mapState('books', [
       'bookActive',
@@ -41,9 +42,9 @@ export default {
         eventLabel = 'Caffeine';
       } else {
         // +words
-        let words = this.currency.words.times(randomInt(10, 50) / 100).plus(1800);
-        if (words.gt(1800) && words.gt(this.currency.totalWps.times(1800))) {
-          words = this.currency.totalWps.times(1800).plus(1800);
+        let words = this.words.times(randomInt(10, 50) / 100).plus(1800);
+        if (words.gt(1800) && words.gt(this.totalWps.times(1800))) {
+          words = this.totalWps.times(1800).plus(1800);
         }
         this.$root.$emit('addWords', words, true);
         log(`bonus words: ${words.toString()}`);
@@ -63,9 +64,9 @@ export default {
       /*
       else {
         // +money
-        let money = this.currency.money.times(randomInt(10, 50) / 100).plus(600);
-        if (money.gt(600) && money.gt(this.currency.totalWps.times(3600).times(this.currency.wordValue))) {
-          money = this.currency.totalWps.times(3600).times(this.currency.wordValue).plus(600);
+        let money = this.money.times(randomInt(10, 50) / 100).plus(600);
+        if (money.gt(600) && money.gt(this.totalWps.times(3600).times(this.wordValue))) {
+          money = this.totalWps.times(3600).times(this.wordValue).plus(600);
         }
         this.$root.$emit('addMoney', money);
         log(`bonus money: ${money.toString()}`);

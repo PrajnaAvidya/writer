@@ -125,6 +125,10 @@ export default {
     interval: null,
   }),
   computed: {
+    ...mapState('currency', [
+      'words',
+      'wordValue',
+    ]),
     ...mapState('jobs', [
       'jobs',
       'jobCooldown',
@@ -138,11 +142,6 @@ export default {
       'urgentJobActive',
       'urgentJobCountdown',
       'urgentJobRewardMultiplier',
-    ]),
-    ...mapGetters('game', [
-      'words',
-      'wordValue',
-      'jobSlots',
     ]),
     ...mapGetters('unfolding', [
       'checkUnfolding',
@@ -228,7 +227,7 @@ export default {
     },
     declineJob(id) {
       // get job
-      const job = this.urgentJob;
+      const job = this.jobs[id];
 
       // mark as completed so it will regen
       this.jobs[id].completed = true;

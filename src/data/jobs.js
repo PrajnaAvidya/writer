@@ -3,8 +3,8 @@ import Big from 'big.js';
 const data = {
   // regular jobs
   maxJobSlots: 5,
-  jobs: {}, // TODO grep 'jobs'
-  jobsCompletedTimestamps: {}, // TODO
+  jobs: {},
+  jobsCompletedTimestamps: {},
   jobsAvailableTimestamps: {},
   jobCooldown: 60,
   jobRewardMultiplier: Big(1),

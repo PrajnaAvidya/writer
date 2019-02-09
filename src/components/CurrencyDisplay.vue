@@ -9,7 +9,7 @@
       v-if="checkUnfolding('showWps')"
       class="is-size-6"
     >
-      Words per Second: {{ currency.totalWps | round }}
+      Words per Second: {{ totalWps | round }}
     </div>
     <div v-if="checkDebug('enabled')">
       <div>
@@ -41,14 +41,12 @@ export default {
     },
   },
   computed: {
-    ...mapState('game', [
-      'currency',
+    ...mapState('currency', [
+      'totalWps',
+      'wordValue',
     ]),
     ...mapGetters('debug', [
       'checkDebug',
-    ]),
-    ...mapGetters('game', [
-      'wordValue',
     ]),
     ...mapGetters('unfolding', [
       'checkUnfolding',

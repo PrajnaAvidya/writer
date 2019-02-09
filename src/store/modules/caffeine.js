@@ -21,6 +21,13 @@ const mutations = {
     s.caffeineCooldown += amount;
     s.nextCaffeineTime += amount * 1000;
   },
+  multiplyCaffeineData(s, { index, amount }) {
+    if (typeof s[index] === 'object') {
+      s[index] = s[index].times(amount);
+    } else {
+      s[index] *= amount;
+    }
+  },
   setCaffeineData(s, { index, value }) {
     s[index] = value;
   },

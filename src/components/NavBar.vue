@@ -85,9 +85,6 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'NavBar',
   computed: {
-    ...mapGetters('debug', [
-      'checkDebug',
-    ]),
     ...mapGetters('unfolding', [
       'checkUnfolding',
     ]),

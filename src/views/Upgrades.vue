@@ -43,13 +43,16 @@ export default {
   name: 'UpgradePanel',
   computed: {
     ...mapState('game', [
-      'currency',
       'upgrades',
       'revealedUpgrades',
       'purchasedUpgrades',
       'statistics',
       'playerIcons',
       'upgradeId',
+    ]),
+    ...mapState('currency', [
+      'money',
+      'wordValue',
     ]),
     ...mapState('jobs', [
       'urgentJobTimestamp',
@@ -59,9 +62,6 @@ export default {
     ]),
     ...mapGetters('debug', [
       'checkDebug',
-    ]),
-    ...mapGetters('game', [
-      'money',
     ]),
   },
   methods: {
@@ -105,7 +105,7 @@ export default {
         }
       } else if (upgrade.type === 'clicking') {
         if (upgrade.writingMultiplier) {
-          this.multiplyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
+          this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
           // upgrade icon
           const icon = this.playerIcons.pop();
           if (icon !== undefined) {
@@ -117,14 +117,14 @@ export default {
           this.adjustCaffeineTimer(-upgrade.cooldownReduction);
         }
         if (upgrade.lengthMultiplier) {
-          this.multiplyData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
+          this.multiplyCaffeineData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
         }
       } else if (upgrade.type === 'caffeinePower') {
-        this.multiplyData({ index: 'caffeineClickMultiplier', amount: upgrade.multiplier });
+        this.multiplyCaffeineData({ index: 'caffeineClickMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'caffeineGeneration') {
-        this.multiplyData({ index: 'caffeineWordGeneration', amount: upgrade.multiplier });
+        this.multiplyCaffeineData({ index: 'caffeineWordGeneration', amount: upgrade.multiplier });
       } else if (upgrade.type === 'wordValue') {
-        this.currency.wordValue = this.currency.wordValue.times(upgrade.multiplier);
+        this.multiplyCurrencyData({ index: 'wordValue', amount: upgrade.multiplier });
         this.$root.$emit('updateWpsMps');
       } else if (upgrade.type === 'jobReward') {
         this.multiplyJobData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
@@ -265,11 +265,14 @@ export default {
     },
     ...mapMutations('game', [
       'setGameData',
-      'multiplyData',
       'incrementUpgradeId',
+    ]),
+    ...mapMutations('currency', [
+      'multiplyCurrencyData',
     ]),
     ...mapMutations('caffeine', [
       'adjustCaffeineTimer',
+      'multiplyCaffeineData',
     ]),
     ...mapMutations('jobs', [
       'adjustJobTimer',
