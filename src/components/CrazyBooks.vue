@@ -41,15 +41,4 @@ export default {
   opacity: 0.75;
   z-index: 99999999;
 }
-.bonus-plus {
-  font-weight: bold;
-  font-size: 250%;
-  position : absolute;
-  color: #DE636F;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-}
 </style>

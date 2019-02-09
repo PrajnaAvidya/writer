@@ -9,7 +9,7 @@
       </p>
       <a
         class="button is-danger"
-        :disabled="milestones.lt(milestonesNeeded)"
+        :disabled="!checkDebug('rebirth') && milestones.lt(milestonesNeeded)"
         @click="confirmRebirth()"
       >
         {{ buttonText }}
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import log from '@/utils/log';
 
 export default {
@@ -45,10 +45,13 @@ export default {
       'rebirths',
       'baseMilestonesNeeded',
     ]),
+    ...mapGetters('debug', [
+      'checkDebug',
+    ]),
   },
   methods: {
     confirmRebirth() {
-      if (this.milestones.lt(this.milestonesNeeded)) {
+      if (!this.checkDebug('rebirth') && this.milestones.lt(this.milestonesNeeded)) {
         return;
       }
 

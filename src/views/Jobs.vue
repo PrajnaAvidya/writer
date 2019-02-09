@@ -267,7 +267,7 @@ export default {
   width: 800px;
 }
 .jobs-header {
-  font-size: 150%;
+  font-size: 18pt;
   margin-bottom: 5px;
 }
 .job-cooldown {

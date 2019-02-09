@@ -86,7 +86,7 @@ export default {
 }
 .bonus-plus {
   font-weight: bold;
-  font-size: 250%;
+  font-size: 30pt;
   position : absolute;
   color: #DE636F;
   user-select: none;

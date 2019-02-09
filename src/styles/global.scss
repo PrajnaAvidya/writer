@@ -6,6 +6,17 @@ table {
   background-color: $greenish;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#game {
+  min-height: 100%;
+
+  margin-bottom: -60px;
+}
+
 .is-primary, .is-active > a {
   background-color: $blue !important;
   border-color: $blue !important;
@@ -35,4 +46,17 @@ a, i, strong {
 
 .text {
   margin: 10px;
+}
+
+.footer {
+  height: 30px !important;
+  text-align: center;
+  font-size: 10pt;
+  background-color: $light !important;
+  padding: 15px !important;
+}
+
+.footer,
+.push {
+  height: 60px;
 }

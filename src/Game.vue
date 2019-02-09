@@ -26,6 +26,8 @@
         <RouterView />
       </KeepAlive>
     </section>
+
+    <div class="push" />
   </div>
 </template>
 
