@@ -97,7 +97,7 @@ export default {
       this.active = true;
 
       // show modal
-      if (this.checkDebug('fastTutorials') || !this.tutorial.delay) {
+      if (!this.tutorial.delay) {
         // open immediately
         this.revealTutorial();
       } else {

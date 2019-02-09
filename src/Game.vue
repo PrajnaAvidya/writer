@@ -195,10 +195,15 @@ export default {
         if (debugSettings.startingPlotPoints) {
           this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
         }
-
-        this.setCaffeineData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
-        this.setCaffeineData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
-        this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
+        if (debugSettings.jobCooldown) {
+          this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
+        }
+        if (debugSettings.caffeineTime) {
+          this.setCaffeineData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
+        }
+        if (debugSettings.caffeineCooldown) {
+          this.setCaffeineData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
+        }
         if (this.checkDebug('urgentJobs')) {
           this.setJobsData({ index: 'urgentJobMinimumTime', value: 1 });
           this.setJobsData({ index: 'urgentJobMaximumTime', value: 1 });
@@ -634,7 +639,7 @@ export default {
         }
       });
 
-      if (this.milestones.gte((this.baseMilestonesNeeded.plus(this.rebirths)).div(2))) {
+      if (this.milestones.gte(10)) {
         this.revealUnfolding('showRebirth');
       }
 
@@ -660,7 +665,7 @@ export default {
       this.updateJobs(true);
 
       // show bonus panel
-      this.revealUnfolding('showbonus');
+      this.revealUnfolding('showBonus');
 
       // reload game data
       Object.assign(this.$data, gameData());
