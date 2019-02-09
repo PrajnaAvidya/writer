@@ -7,6 +7,7 @@ const gameData = {
   nextJobCheck: 0,
   nextMilestoneCheck: 0,
   nextTitleUpdate: 0,
+  caffeineWordGeneration: Big(0),
 
   displayedWords: Big(0),
   displayedMoney: Big(0),

@@ -87,7 +87,8 @@ export default {
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
-      'caffeineWordGeneration',
+      'caffeineWordMultiplier',
+      'caffeineMinimumWordGeneration',
     ]),
     ...mapState('books', [
       'bookActive',
@@ -378,6 +379,9 @@ export default {
     },
     // caffeine animation
     caffeineAnimationParams() {
+      const wordGeneration = this.caffeineWordMultiplier.times(this.totalWps).times(Big(1).plus(this.plotPoints.div(100)));
+      this.caffeineWordGeneration = wordGeneration.gt(this.caffeineMinimumWordGeneration) ? wordGeneration : this.caffeineMinimumWordGeneration;
+
       if (this.caffeineWordGeneration.lte(5)) {
         // show +1
         this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration).toFixed();
@@ -441,11 +445,11 @@ export default {
       // get plot point bonus
       const plotBonus = Big(1).plus(this.plotPoints.div(100));
       // get worker wps
-      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.caffeineClickMultiplier);
+      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.caffeineWordMultiplier);
 
       // add plot point bonus
       let totalWps = workerWps.total.times(plotBonus);
-      // add caffeine wps
+      // get caffeine wps
       if (this.buzzActive) {
         // add plot point bonus
         totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));

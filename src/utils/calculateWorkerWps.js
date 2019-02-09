@@ -2,7 +2,7 @@
 
 import Big from 'big.js';
 
-export default function (workers, caffeine, workerCaffeine, caffeineClickMultiplier) {
+export default function (workers, caffeine, workerCaffeine, multiplier) {
   let total = Big(0);
   const worker = {};
   const tooltips = {};
@@ -12,7 +12,7 @@ export default function (workers, caffeine, workerCaffeine, caffeineClickMultipl
 
     // caffeine
     if (caffeine === true && workerCaffeine[workerId] === true) {
-      totalContribution = totalContribution.times(caffeineClickMultiplier);
+      totalContribution = totalContribution.times(multiplier);
     }
 
     if (totalContribution.gt(0)) {

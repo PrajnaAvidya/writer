@@ -25,8 +25,8 @@ export default function () {
   upgradeId += 1;
   data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'caffeinePower');
   // caffeine word gen
-  upgradeId += 1;
-  data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'caffeineGeneration');
+  // upgradeId += 1;
+  // data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'caffeineGeneration');
   // job reward
   upgradeId += 1;
   data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'jobReward');
