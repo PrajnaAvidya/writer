@@ -1,6 +1,6 @@
 import currencyData from '@/data/currencies';
 
-const state = currencyData;
+const state = Object.assign({}, currencyData);
 
 const getters = {
   //
@@ -25,7 +25,7 @@ const mutations = {
     s[index] = value;
   },
   resetCurrency(s) {
-    const d = currencyData;
+    const d = Object.assign({}, currencyData);
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

@@ -1,6 +1,6 @@
 import debugData from '@/data/debug';
 
-const state = debugData;
+const state = Object.assign({}, debugData);
 
 const getters = {
   checkDebug: s => debug => s.enabled && s[debug],

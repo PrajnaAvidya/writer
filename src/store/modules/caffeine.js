@@ -2,7 +2,7 @@ import store from '@/store';
 import caffeineData from '@/data/caffeine';
 import unixTimestamp from '@/utils/unixTimestamp';
 
-const state = caffeineData;
+const state = Object.assign({}, caffeineData);
 
 const getters = {
   //
@@ -32,10 +32,12 @@ const mutations = {
     s[index] = value;
   },
   resetCaffeine(s) {
-    const d = caffeineData;
+    const d = Object.assign({}, caffeineData);
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });
+    s.endCaffeineTime = 0;
+    s.nextCaffeineTime = 0;
   },
 };
 

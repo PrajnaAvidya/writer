@@ -1,6 +1,6 @@
 import tutorialData from '@/data/tutorials';
 
-const state = tutorialData;
+const state = Object.assign({}, tutorialData());
 
 const getters = {
   //
@@ -8,7 +8,7 @@ const getters = {
 
 const mutations = {
   resetTutorials(s) {
-    const d = tutorialData;
+    const d = Object.assign({}, tutorialData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

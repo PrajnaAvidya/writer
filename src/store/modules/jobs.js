@@ -2,7 +2,7 @@ import unixTimestamp from '@/utils/unixTimestamp';
 import jobsData from '@/data/jobs';
 import store from '@/store';
 
-const state = jobsData;
+const state = Object.assign({}, jobsData());
 
 const getters = {
   jobsComplete: () => store.state.statistics.stats.jobs,
@@ -33,7 +33,7 @@ const mutations = {
     s.jobsAvailableTimestamps[id] -= store.state.rebirth.bonuses.hurryAmount * 1000;
   },
   resetJobs(s) {
-    const d = jobsData();
+    const d = Object.assign({}, jobsData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

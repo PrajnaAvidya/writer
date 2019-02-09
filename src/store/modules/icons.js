@@ -1,6 +1,6 @@
 import iconData from '@/data/icons';
 
-const state = iconData;
+const state = Object.assign({}, iconData());
 
 const getters = {
   //
@@ -11,7 +11,7 @@ const mutations = {
     s[index] = value;
   },
   resetIcons(s) {
-    const d = iconData;
+    const d = Object.assign({}, iconData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

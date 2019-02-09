@@ -1,7 +1,7 @@
 import Big from 'big.js';
 import statisticsData from '@/data/statistics';
 
-const state = statisticsData;
+const state = Object.assign({}, statisticsData());
 
 const getters = {
   //
@@ -17,7 +17,7 @@ const mutations = {
     s[index] = value;
   },
   resetStatistics(s) {
-    const d = statisticsData;
+    const d = Object.assign({}, statisticsData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

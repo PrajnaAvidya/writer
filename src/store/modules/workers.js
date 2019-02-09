@@ -1,7 +1,7 @@
 import workersData from '@/data/workers';
 import store from '@/store';
 
-const state = workersData;
+const state = Object.assign({}, workersData());
 
 const getters = {
   workersHired: () => store.state.statistics.stats.workers,
@@ -19,7 +19,7 @@ const mutations = {
     s[index] = value;
   },
   resetWorkers(s) {
-    const d = workersData();
+    const d = Object.assign({}, workersData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

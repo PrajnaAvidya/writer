@@ -1,7 +1,7 @@
 import unfoldingData from '@/data/unfolding';
 import store from '@/store';
 
-const state = unfoldingData;
+const state = Object.assign({}, unfoldingData);
 
 const getters = {
   checkUnfolding: s => unfolding => s[unfolding] || (store.state.debug.enabled && store.state.debug.disableUnfolding),

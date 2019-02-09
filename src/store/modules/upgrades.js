@@ -1,6 +1,6 @@
 import upgradeData from '@/data/upgrades';
 
-const state = upgradeData;
+const state = Object.assign({}, upgradeData());
 
 const getters = {
   //
@@ -17,7 +17,7 @@ const mutations = {
     s[index] = value;
   },
   resetUpgrades(s) {
-    const d = upgradeData;
+    const d = Object.assign({}, upgradeData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

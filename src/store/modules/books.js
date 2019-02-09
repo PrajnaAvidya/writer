@@ -1,6 +1,6 @@
 import booksData from '@/data/books';
 
-const state = booksData;
+const state = Object.assign({}, booksData);
 
 const getters = {
   //
@@ -11,7 +11,7 @@ const mutations = {
     s[index] = value;
   },
   resetBooks(s) {
-    const d = booksData;
+    const d = Object.assign({}, booksData);
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import store from '@/store';
 import rebirthData from '@/data/rebirth';
 
-const state = rebirthData;
+const state = Object.assign({}, rebirthData);
 
 const getters = {
   jobSlots: s => s.bonuses.jobSlots,
