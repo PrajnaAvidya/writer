@@ -56,7 +56,9 @@ export default {
         this.buttonText = 'Are You Sure?';
       } else {
         log('rebirth');
+        document.title = 'REBIRTH!';
         this.doRebirth = true;
+        this.$root.$emit('halt');
         setTimeout(() => {
           this.$root.$emit('rebirth');
           this.$router.push('/');
@@ -82,16 +84,16 @@ export default {
   position: fixed;
 
   -webkit-animation-name: fadeIn;
-  -webkit-animation-duration: 1s;
+  -webkit-animation-duration: 3s;
   animation-name: fadeIn;
-  animation-duration: 1s;
+  animation-duration: 3s;
 }
 @-webkit-keyframes fadeIn {
   0% { opacity: 0; }
-  20% { opacity: 0; }
-  40% { opacity: 0.3; }
-  60% { opacity: 0.5; }
-  80% { opacity: 0.9; }
+  20% { opacity: 0.1; }
+  40% { opacity: 0.5; }
+  60% { opacity: 0.7; }
+  80% { opacity: 0.8; }
   100% { opacity: 1; }
 }
 

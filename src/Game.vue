@@ -240,6 +240,7 @@ export default {
       this.$root.$on('removeUpgrade', this.removeUpgrade);
       this.$root.$on('setNextBook', this.setNextBook);
       this.$root.$on('endUnfolding', () => { this.unfoldingComponent = null; });
+      this.$root.$on('halt', () => { this.haltAnimation = true; });
       this.$root.$on('rebirth', this.doRebirth);
     },
     // === start global update loop ===
@@ -654,8 +655,6 @@ export default {
     },
     // rebirth
     doRebirth() {
-      this.haltAnimation = true;
-
       // update rebirth data
       this.addRebirthData({ index: 'plotPoints', amount: this.milestones });
       this.addRebirthData({ index: 'rebirths', amount: 1 });
