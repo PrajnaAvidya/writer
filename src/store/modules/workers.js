@@ -12,8 +12,8 @@ const mutations = {
     s.buyAmountIndex = index;
     s.buyAmount = 10 ** index;
   },
-  setWorkers(s, workers) {
-    s.workers = Object.assign({}, workers);
+  setWorkers(s, data) {
+    s.data = Object.assign({}, data);
   },
   setWorkersData(s, { index, value }) {
     s[index] = value;

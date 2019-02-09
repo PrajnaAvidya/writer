@@ -8,8 +8,8 @@ const getters = {
 };
 
 const mutations = {
-  revealUnfolding(s, reveal) {
-    s[reveal] = true;
+  revealUnfolding(s, data) {
+    s[data] = true;
   },
 };
 

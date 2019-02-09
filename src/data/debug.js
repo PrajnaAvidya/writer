@@ -3,7 +3,7 @@ import Big from 'big.js';
 export default {
   enabled: true,
   fastTutorials: false,
-  disableTutorials: false,
+  disableTutorials: true,
   disableUnfolding: true,
   urgentJobs: false,
   books: false,

@@ -71,17 +71,20 @@ export default {
       'playerWords',
       // upgrades
       'upgrades',
-      // caffeine
+      // stats
+      'statistics',
+      'milestones',
+      'milestoneCount',
+    ]),
+    ...mapState('caffeine', [
+      'buzzActive',
       'caffeineTime',
       'nextCaffeineTime',
       'endCaffeineTime',
       'caffeineClickMultiplier',
       'caffeineWordGeneration',
-      // stats
-      'statistics',
-      'milestones',
-      'milestoneCount',
-      // clickables
+    ]),
+    ...mapState('books', [
       'bookActive',
       'bookMinimumTime',
       'bookMaximumTime',
@@ -188,20 +191,21 @@ export default {
           this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
         }
 
-        this.setGameData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
-        this.setGameData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
+        this.setCaffeineData({ index: 'caffeineTime', value: debugSettings.caffeineTime });
+        this.setCaffeineData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
         this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
         if (this.checkDebug('urgentJobs')) {
           this.setJobsData({ index: 'urgentJobMinimumTime', value: 1 });
           this.setJobsData({ index: 'urgentJobMaximumTime', value: 1 });
         }
         if (this.checkDebug('books')) {
-          this.setJobsData({ index: 'bookMinimumTime', value: 1 });
-          this.setJobsData({ index: 'bookMaximumTime', value: 1 });
+          this.setBooksData({ index: 'bookMinimumTime', value: 1 });
+          this.setBooksData({ index: 'bookMaximumTime', value: 1 });
         }
-        if (this.checkDebug('disableTutorials')) {
-          this.setJobsData('firstJobComplete');
-          this.setJobsData('firstUrgentJobComplete');
+        if (this.checkDebug('disableTutorials') || this.checkDebug('disableUnfolding')) {
+          this.revealUnfolding('firstJobComplete');
+          this.revealUnfolding('firstUrgentJobComplete');
+          this.setNextUrgentJob();
         }
       }
     },
@@ -341,14 +345,12 @@ export default {
     checkCaffeine() {
       if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
         log('buzz active');
-        this.buzzActive = true;
-        this.setGameData({ index: 'buzzActive', value: true });
+        this.setCaffeineData({ index: 'buzzActive', value: true });
         this.updateWps();
       } else if (this.buzzActive) {
         if (this.endCaffeineTime <= this.utimestamp) {
           log('buzz ending');
-          this.buzzActive = false;
-          this.setGameData({ index: 'buzzActive', value: false });
+          this.setCaffeineData({ index: 'buzzActive', value: false });
           this.updateWps();
         } else if (this.utimestamp >= this.caffeineAnimationNext) {
           // show animation
@@ -510,24 +512,24 @@ export default {
     // clickables
     setNextBook() {
       const time = randomInt(this.bookMinimumTime, this.bookMaximumTime);
-      this.setGameData({ index: 'bookActive', value: false });
-      this.setGameData({ index: 'nextBookTime', value: unixTimestamp(time) });
-      this.setGameData({ index: 'bookExpireTime', value: unixTimestamp(time + this.bookSpawnTime) });
+      this.setBooksData({ index: 'bookActive', value: false });
+      this.setBooksData({ index: 'nextBookTime', value: unixTimestamp(time) });
+      this.setBooksData({ index: 'bookExpireTime', value: unixTimestamp(time + this.bookSpawnTime) });
       log(`next book in ${time}`);
     },
     checkBook() {
       if (!this.bookActive && this.utimestamp >= this.nextBookTime) {
-        this.setGameData({
+        this.setBooksData({
           index: 'bookPosition',
           value: {
             x: Math.floor(Math.random() * document.body.offsetWidth),
             y: Math.floor(Math.random() * document.body.offsetHeight),
           },
         });
-        this.setGameData({ index: 'bookActive', value: true });
+        this.setBooksData({ index: 'bookActive', value: true });
         log('book active');
       } else if (this.bookActive && this.utimestamp >= this.bookExpireTime) {
-        this.setGameData({ index: 'bookActive', value: false });
+        this.setBooksData({ index: 'bookActive', value: false });
         this.setNextBook();
         log('book expired');
       }
@@ -643,6 +645,8 @@ export default {
 
       // reload relevant vuex stores
       this.resetGame();
+      this.resetCaffeine();
+      this.resetBooks();
       this.resetJobs();
       this.resetWorkers();
       this.updateJobs(true);
@@ -663,10 +667,17 @@ export default {
     ]),
     ...mapMutations('game', [
       'addToStat',
-      'activateCaffeine',
-      'setGameData',
       'setUpgrades',
       'resetGame',
+    ]),
+    ...mapMutations('caffeine', [
+      'resetCaffeine',
+      'setCaffeineData',
+      'activateCaffeine',
+    ]),
+    ...mapMutations('books', [
+      'resetBooks',
+      'setBooksData',
     ]),
     ...mapMutations('jobs', [
       'setJobsData',

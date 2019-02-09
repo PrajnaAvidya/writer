@@ -266,8 +266,10 @@ export default {
     ...mapMutations('game', [
       'setGameData',
       'multiplyData',
-      'adjustCaffeineTimer',
       'incrementUpgradeId',
+    ]),
+    ...mapMutations('caffeine', [
+      'adjustCaffeineTimer',
     ]),
     ...mapMutations('jobs', [
       'adjustJobTimer',

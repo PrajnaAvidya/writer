@@ -21,8 +21,12 @@ export default {
   computed: {
     ...mapState('game', [
       'currency',
+    ]),
+    ...mapState('books', [
       'bookActive',
       'bookPosition',
+    ]),
+    ...mapState('caffeine', [
       'buzzActive',
     ]),
   },

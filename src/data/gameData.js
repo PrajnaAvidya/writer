@@ -14,7 +14,6 @@ const gameData = {
   newWords: Big(0),
   newClickWords: Big(0),
 
-  buzzActive: false,
   urgentJobNotification: null,
 
   caffeineX: 0,

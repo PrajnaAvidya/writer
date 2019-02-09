@@ -27,8 +27,10 @@ export default {
   computed: {
     ...mapState('game', [
       'playerWords',
-      'buzzActive',
       'playerIcon',
+    ]),
+    ...mapState('caffeine', [
+      'buzzActive',
     ]),
   },
   watch: {

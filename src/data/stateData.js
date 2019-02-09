@@ -24,15 +24,6 @@ const data = {
   playerIcon: '',
   playerIcons: [],
 
-  // caffeine
-  buzzActive: false,
-  caffeineTime: 10,
-  caffeineCooldown: 300,
-  caffeineClickMultiplier: Big(2),
-  caffeineWordGeneration: Big(5),
-  nextCaffeineTime: 0,
-  endCaffeineTime: 0,
-
   // upgrades
   upgradeId: 0,
   upgrades: {},
@@ -41,18 +32,6 @@ const data = {
 
   // random words
   adjectives: [],
-
-  // clickables
-  bookActive: false,
-  bookPosition: {
-    x: 0,
-    y: 0,
-  },
-  nextBookTime: 0,
-  bookExpireTime: 0,
-  bookMinimumTime: 300,
-  bookMaximumTime: 900,
-  bookSpawnTime: 60,
 };
 
 const stats = {

@@ -35,8 +35,10 @@ export default {
     ...mapState('game', [
       'tutorials',
       'currency',
-      'buzzActive',
       'statistics',
+    ]),
+    ...mapState('caffeine', [
+      'buzzActive',
     ]),
     ...mapGetters('debug', [
       'checkDebug',

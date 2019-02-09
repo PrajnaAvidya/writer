@@ -1,9 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Big from 'big.js';
-import unixTimestamp from '@/utils/unixTimestamp';
 import defaultData from '@/data/stateData';
-import store from '@/store';
 
 Vue.use(Vuex);
 
@@ -16,19 +14,6 @@ const getters = {
 };
 
 const mutations = {
-  speedCaffeineCooldown(s) {
-    s.nextCaffeineTime -= store.state.rebirth.bonuses.hurryAmount * 1000;
-  },
-  activateCaffeine(s, force = false) {
-    s.endCaffeineTime = unixTimestamp(s.caffeineTime);
-    s.nextCaffeineTime = force ? unixTimestamp(s.caffeineTime) : unixTimestamp(s.caffeineTime + s.caffeineCooldown);
-    s.statistics.caffeines = s.statistics.caffeines.plus(1);
-  },
-  adjustCaffeineTimer(s, amount) {
-    s.caffeineCooldown += amount;
-    s.nextCaffeineTime += amount * 1000;
-  },
-
   addToStat(s, { stat, amount }) {
     if (Big(amount).gt(0)) {
       s.statistics[stat] = s.statistics[stat].plus(amount);
