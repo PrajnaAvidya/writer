@@ -5,7 +5,7 @@ import store from '@/store';
 const state = jobsData;
 
 const getters = {
-  jobsComplete: s => store.state.game.statistics.jobs,
+  jobsComplete: () => store.state.game.statistics.jobs,
 };
 
 const mutations = {
@@ -31,6 +31,13 @@ const mutations = {
   },
   speedJobCooldown(s, id) {
     s.jobsAvailableTimestamps[id] -= store.state.rebirth.bonuses.hurryAmount * 1000;
+  },
+  resetJobs(s) {
+    const d = jobsData();
+    Object.keys(d).forEach((key) => {
+      s[key] = d[key];
+    });
+    console.log(s);
   },
 };
 

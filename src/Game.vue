@@ -69,7 +69,6 @@ export default {
       // currency
       'currency',
       'playerWords',
-      'totalWps',
       // upgrades
       'upgrades',
       // workers
@@ -252,8 +251,8 @@ export default {
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
       // add frame words (totalWps * increment)
-      if (this.totalWps.gt(0)) {
-        this.addWords(this.totalWps.times(frameIncrement));
+      if (this.currency.totalWps.gt(0)) {
+        this.addWords(this.currency.totalWps.times(frameIncrement));
       }
 
       // update title
@@ -437,21 +436,20 @@ export default {
         // add plot point bonus
         totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
       }
-      this.setGameData({ index: 'workerWps', value: workerWps.total });
-      this.setGameData({ index: 'totalWps', value: totalWps });
+      this.currency.totalWps = totalWps;
+      this.setGameData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
       this.setGameData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setGameData({ index: 'individualWorkerWps', value: workerWps.worker });
-      this.setGameData({ index: 'totalMps', value: this.totalWps.times(this.currency.wordValue) });
     },
     // jobs
-    updateJobs() {
-      if (this.utimestamp < this.nextJobCheck) {
+    updateJobs(force = false) {
+      if (!force && this.utimestamp < this.nextJobCheck) {
         return;
       }
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
         this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
-        if (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true)) {
+        if (force || (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true))) {
           // generate new job
           this.jobs[jobId] = generateJob(this.currency.wordValue, this.workerWps, jobId);
         }
@@ -591,8 +589,8 @@ export default {
       }
 
       // update max wps
-      if (this.totalWps.gt(this.statistics.wps)) {
-        this.statistics.wps = Big(this.totalWps);
+      if (this.currency.totalWps.gt(this.statistics.wps)) {
+        this.statistics.wps = Big(this.currency.totalWps);
       }
 
       Object.keys(this.milestones).forEach((stat) => {
@@ -641,10 +639,12 @@ export default {
       this.addRebirthData({ index: 'plotPoints', amount: this.currency.milestones });
       this.addRebirthData({ index: 'rebirths', amount: 1 });
 
-      // reload game vuex data
+      // reload relevant vuex stores
       this.resetGame();
+      this.resetJobs();
+      this.updateJobs(true);
 
-      // show bonus pane
+      // show bonus panel
       this.revealUnfolding('showbonus');
 
       // reload game data
@@ -672,6 +672,7 @@ export default {
     ]),
     ...mapMutations('jobs', [
       'setJobsData',
+      'resetJobs',
     ]),
   },
 };

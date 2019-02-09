@@ -19,10 +19,8 @@ const data = {
     money: Big(10000),
     wordValue: Big(0.10),
     milestones: Big(0),
+    totalWps: Big(0), // worker + caffeine wps
   },
-
-  // worker + caffeine wps (displayed)
-  totalWps: Big(0),
 
   // player words (clicking)
   playerWords: Big(1),
@@ -44,7 +42,6 @@ const data = {
   workers: {},
   workerQuantities: workerIndex(0),
   workerWps: Big(0),
-  totalMps: Big(0),
   individualWorkerWps: {},
   workerTooltips: {},
 
