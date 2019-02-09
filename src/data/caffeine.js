@@ -7,7 +7,7 @@ export default {
   caffeineCooldown: 300,
   caffeineClickMultiplier: Big(2),
   caffeineWordMultiplier: Big(1),
-  caffeineMinimumWordGeneration: Big(10),
+  caffeineMinimumWordGeneration: Big(5),
   nextCaffeineTime: 0,
   endCaffeineTime: 0,
 };

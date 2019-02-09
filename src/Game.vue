@@ -442,16 +442,14 @@ export default {
     },
     updateWps() {
       log('recalculating wps');
-      // get plot point bonus
+      // get plot bonus
       const plotBonus = Big(1).plus(this.plotPoints.div(100));
       // get worker wps
       const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.caffeineWordMultiplier);
-
       // add plot point bonus
       let totalWps = workerWps.total.times(plotBonus);
-      // get caffeine wps
+      // add caffeine wps
       if (this.buzzActive) {
-        // add plot point bonus
         totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
       }
       this.setCurrencyData({ index: 'totalWps', value: totalWps });
