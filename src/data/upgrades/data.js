@@ -23,7 +23,7 @@ export default {
     multiplier: 2,
   },
   urgentJobReward: {
-    base: 1E5,
+    base: 1E6,
     scale: 100,
     multiplier: 2,
   },
@@ -223,10 +223,6 @@ export default {
   // urgent jobs
   urgentJobs: [
     {
-      cost: 5E3,
-      cooldownMultiplier: 0.75,
-    },
-    {
       cost: 5E6,
       cooldownMultiplier: 0.75,
     },
@@ -244,6 +240,10 @@ export default {
     },
     {
       cost: 5E10,
+      timerMultiplier: 1.5,
+    },
+    {
+      cost: 5E13,
       timerMultiplier: 1.5,
     },
   ],

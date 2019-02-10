@@ -361,10 +361,20 @@ export default {
       }
 
       const vm = this;
-      let loopAmount = 10;
+      let loopAmount = 10.0;
       if (amount.abs().lt(10)) {
         loopAmount = amount;
       }
+
+      if (loopAmount !== 10.0) {
+        // deal with fractions -- subtract fractional amount from loopamount & add immediately
+        const decimalAmount = loopAmount.round(0, 0).minus(loopAmount).abs();
+        vm[data] = vm[data].plus(decimalAmount);
+
+        loopAmount = loopAmount.minus(decimalAmount);
+        amount = amount.minus(decimalAmount);
+      }
+
       const tickAmount = amount.div(loopAmount);
       for (let i = 0; i < loopAmount; i += 1) {
         setTimeout(() => {
@@ -581,7 +591,9 @@ export default {
         } else if (this.utimestamp >= this.urgentJobExpiration) {
           log('urgent job expired');
           this.setJobsData({ index: 'urgentJobActive', value: false });
-          this.urgentJobNotification.close();
+          if (this.urgentJobNotification) {
+            this.urgentJobNotification.close();
+          }
           this.setNextUrgentJob();
         }
       }
