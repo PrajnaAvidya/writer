@@ -6,6 +6,7 @@ export default {
   urgentJobs: false,
   books: false,
   rebirth: false,
+  disableAutosave: true,
   disableAutoload: false,
   // startingWords: Big(1000000),
   // startingMoney: Big(1E9),

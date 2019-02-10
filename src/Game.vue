@@ -169,7 +169,7 @@ export default {
       } else {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoload')) {
-          await this.loadGame();
+          await this.loadGame(saveData.timestamp);
         } else {
           this.newGame();
         }
@@ -188,7 +188,7 @@ export default {
       this.updateWps();
       window.requestAnimationFrame(this.tick);
     },
-    async loadGame() {
+    async loadGame(timestamp) {
       await load().then(() => {
         this.$ga.event({
           eventCategory: 'Game',
@@ -202,7 +202,11 @@ export default {
           this.loadFirstTutorial = true;
         }
 
-        this.setNextBook();
+        // offline earnings
+        const timeDifference = (unixTimestamp() - timestamp) / 1000;
+        const offlineWords = timeDifference * this.totalWps;
+        this.addCurrencyData({ index: 'words', amount: offlineWords });
+        log(`applied offline earnings for ${timeDifference} seconds: ${this.$options.filters.round(offlineWords)} words`);
 
         // register events
         this.registerEvents();
@@ -230,6 +234,8 @@ export default {
         eventAction: 'Rebirth',
         eventLabel: `Rebirths: ${this.rebirths.toString()}`,
       });
+
+      this.setNextBook();
     },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
@@ -270,8 +276,8 @@ export default {
     registerEvents() {
       log('registering events');
       // save before closing window
-      window.addEventListener('beforeunload', () => save());
-      window.addEventListener('unload', () => save());
+      window.addEventListener('beforeunload', () => { if (!this.checkDebug('disableAutosave')) { save(); } });
+      window.addEventListener('unload', () => { if (!this.checkDebug('disableAutosave')) { save(); } });
       // game root events
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
@@ -334,7 +340,7 @@ export default {
       // update title
       this.updateTitle();
 
-      if (this.utimestamp >= this.nextSave) {
+      if (!this.checkDebug('disableAutosave') && this.utimestamp >= this.nextSave) {
         save();
         this.nextSave = unixTimestamp(this.saveInterval);
       }
