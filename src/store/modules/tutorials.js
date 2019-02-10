@@ -13,6 +13,9 @@ const mutations = {
       s[key] = d[key];
     });
   },
+  saveTutorial(s, tutorial) {
+    s.currentTutorial = tutorial;
+  },
   fromJSON(s, obj) {
     Object.keys(obj).forEach((key) => {
       s[key] = obj[key];

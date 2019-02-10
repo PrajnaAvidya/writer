@@ -21,6 +21,7 @@ const gameData = {
   caffeineAnimationAmount: '1',
   caffeineAnimationNext: 0,
   // unfolding
+  loadFirstTutorial: false,
   unfoldingComponent: null,
   crazyBooksComponent: null,
   // particles

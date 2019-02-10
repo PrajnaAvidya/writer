@@ -3,7 +3,10 @@
     <ClickableBook />
     <Component :is="crazyBooksComponent" />
 
-    <Component :is="unfoldingComponent" />
+    <Component
+      :is="unfoldingComponent"
+      ref="unfolding"
+    />
 
     <section class="section stats">
       <CurrencyDisplay
@@ -144,6 +147,7 @@ export default {
     ]),
     ...mapState('tutorials', [
       'tutorials',
+      'currentTutorial',
     ]),
     ...mapGetters('debug', [
       'checkDebug',
@@ -193,8 +197,9 @@ export default {
         });
 
         // enable tutorials/unfolding if necessary
-        if (this.tutorials.length > 0) {
+        if (this.currentTutorial) {
           this.unfoldingComponent = 'UnfoldingTutorials';
+          this.loadFirstTutorial = true;
         }
 
         this.setNextBook();
@@ -212,6 +217,7 @@ export default {
 
       // enable tutorials/unfolding
       this.unfoldingComponent = 'UnfoldingTutorials';
+      this.loadFirstTutorial = true;
 
       this.setNextBook();
 
@@ -307,6 +313,10 @@ export default {
       this.utimestamp = unixTimestamp();
 
       // check/update stuff
+      if (this.loadFirstTutorial && this.$refs.unfolding !== undefined) {
+        this.$refs.unfolding.getNextTutorial(this.currentTutorial);
+        this.loadFirstTutorial = false;
+      }
       this.checkCaffeine();
       this.checkBook();
       this.updateMilestones();

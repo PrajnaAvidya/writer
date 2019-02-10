@@ -2,10 +2,10 @@ import Big from 'big.js';
 
 export default {
   enabled: false,
-  disableUnfolding: true,
+  disableUnfolding: false,
   urgentJobs: false,
   books: false,
-  rebirth: true,
+  rebirth: false,
   disableAutoload: false,
   // startingWords: Big(1000000),
   // startingMoney: Big(1E9),

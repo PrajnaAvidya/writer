@@ -59,8 +59,8 @@ const tutorials = [
 export default function () {
   const data = {};
 
-  // tutorials/unfolding
   data.tutorials = tutorials.reverse();
+  data.currentTutorial = null;
 
   return data;
 }
