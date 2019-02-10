@@ -23,6 +23,8 @@ const gameData = {
   // unfolding
   unfoldingComponent: null,
   crazyBooksComponent: null,
+  // particles
+  particles: null,
 };
 
 export default function () {

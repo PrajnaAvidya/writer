@@ -5,7 +5,7 @@
     :style="{ top: `${bookPosition.y}px`, right: `${bookPosition.x}px` }"
     @click="clickBook($event)"
   >
-    <img src="@/assets/book.png">
+    <img src="/images/book.png">
   </div>
 </template>
 

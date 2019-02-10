@@ -14,7 +14,7 @@ html, body {
 #game {
   min-height: 100%;
 
-  margin-bottom: -60px;
+  margin-bottom: -40px;
 }
 
 .is-primary, .is-active > a {
@@ -58,5 +58,11 @@ a, i, strong {
 
 .footer,
 .push {
-  height: 60px;
+  height: 40px;
+}
+
+canvas {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
 }

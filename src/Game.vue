@@ -47,6 +47,7 @@ import generateUrgentJob from '@/utils/generateUrgentJob';
 import animatePlus from '@/utils/animatePlus';
 import notify from '@/utils/notify';
 import notifyIconText from '@/utils/notifyIconText';
+import particles from '@/utils/particles';
 // components
 import ClickableBook from '@/components/ClickableBook.vue';
 import CrazyBooks from '@/components/CrazyBooks.vue';
@@ -147,6 +148,8 @@ export default {
   },
   mounted() {
     this.newGame();
+
+    this.particles = particles();
   },
   methods: {
     newGame() {
@@ -333,6 +336,7 @@ export default {
       let words = this.playerWords;
       if (this.buzzActive) {
         words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
+        this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       // add plot bonus
       words = words.times(Big(1).plus(this.plotPoints.div(100)));
@@ -383,6 +387,7 @@ export default {
           this.setCaffeineData({ index: 'buzzActive', value: false });
           this.updateWps();
         } else if (this.utimestamp >= this.caffeineAnimationNext) {
+          this.particles.spawnParticle(this.caffeineX, this.caffeineY);
           // show animation
           animatePlus({
             x: this.caffeineX,

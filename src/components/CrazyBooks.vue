@@ -6,7 +6,7 @@
       class="book"
       :style="{ top: `${randomY()}px`, right: `${randomX()}px` }"
     >
-      <img src="@/assets/book.png">
+      <img src="/images/book.png">
     </div>
   </div>
 </template>
