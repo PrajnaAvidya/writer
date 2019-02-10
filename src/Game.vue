@@ -178,6 +178,9 @@ export default {
       // check for debug mode
       this.setDebugMode();
 
+      // show bonus panel
+      this.revealUnfolding('showBonus');
+
       // loop in currency
       this.loopEffect('displayedWords', this.words);
       this.loopEffect('displayedMoney', this.money);
@@ -204,8 +207,8 @@ export default {
 
         // offline earnings
         const timeDifference = (unixTimestamp() - timestamp) / 1000;
-        const offlineWords = timeDifference * this.totalWps;
-        this.addCurrencyData({ index: 'words', amount: offlineWords });
+        const offlineWords = this.totalWps.times(timeDifference);
+        this.addMoney(offlineWords);
         log(`applied offline earnings for ${timeDifference} seconds: ${this.$options.filters.round(offlineWords)} words`);
 
         // register events
@@ -684,7 +687,7 @@ export default {
 
       // update max wps
       if (this.totalWps.gt(this.stats.wps)) {
-        this.setStatisticsData({ index: 'wps', value: Big(this.totalWps) });
+        this.setStatisticsData({ index: 'wps', value: this.totalWps });
       }
 
       Object.keys(this.milestoneTargets).forEach((stat) => {
@@ -729,6 +732,7 @@ export default {
     doRebirth() {
       // update rebirth data
       this.addRebirthData({ index: 'plotPoints', amount: this.milestones });
+      this.addRebirthData({ index: 'plotPoints', amount: this.words.e });
       this.addRebirthData({ index: 'rebirths', amount: 1 });
 
       // reload relevant vuex stores
@@ -741,9 +745,6 @@ export default {
       this.resetWorkers();
       this.resetUpgrades();
       this.updateJobs(true);
-
-      // show bonus panel
-      this.revealUnfolding('showBonus');
 
       // reload game data
       Object.assign(this.$data, gameData());

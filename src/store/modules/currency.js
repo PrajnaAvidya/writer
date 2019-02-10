@@ -23,7 +23,7 @@ const mutations = {
     }
   },
   setCurrencyData(s, { index, value }) {
-    s[index] = value;
+    s[index] = Big(value);
   },
   resetCurrency(s) {
     const d = Object.assign({}, currencyData);

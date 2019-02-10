@@ -14,7 +14,7 @@ const mutations = {
     }
   },
   setStatisticsData(s, { index, value }) {
-    s[index] = value;
+    s.stats[index] = Big(value);
   },
   resetStatistics(s) {
     const d = Object.assign({}, statisticsData());
