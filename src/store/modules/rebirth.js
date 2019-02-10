@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Big from 'big.js';
 import store from '@/store';
 import rebirthData from '@/data/rebirth';
 
@@ -46,6 +47,16 @@ const mutations = {
   },
   removeBonus(s, id) {
     Vue.delete(s.lockedBonuses, id);
+  },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+    s.baseMilestonesNeeded = Big(s.baseMilestonesNeeded);
+    s.plotPoints = Big(s.plotPoints);
+    s.rebirths = Big(s.rebirths);
+    s.bonuses.caffeineClickWps = Big(s.bonuses.caffeineClickWps);
+    s.bonuses.caffeineWordMultiplier = Big(s.bonuses.caffeineWordMultiplier);
   },
 };
 

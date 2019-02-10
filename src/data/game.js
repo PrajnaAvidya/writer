@@ -25,6 +25,9 @@ const gameData = {
   crazyBooksComponent: null,
   // particles
   particles: null,
+  // save/load
+  saveInterval: 30,
+  nextSave: 0,
 };
 
 export default function () {

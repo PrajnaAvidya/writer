@@ -22,6 +22,15 @@ const mutations = {
       s[key] = d[key];
     });
   },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+    Object.keys(s.stats).forEach((stat) => {
+      s.stats[stat] = Big(s.stats[stat]);
+      s.milestoneTargets[stat] = Big(s.milestoneTargets[stat]);
+    });
+  },
 };
 
 const actions = {

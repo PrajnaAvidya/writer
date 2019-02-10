@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import unixTimestamp from '@/utils/unixTimestamp';
 import jobsData from '@/data/jobs';
 import store from '@/store';
@@ -36,6 +37,17 @@ const mutations = {
     const d = Object.assign({}, jobsData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
+    });
+  },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+    s.jobRewardMultiplier = Big(s.jobRewardMultiplier);
+    s.urgentJobRewardMultiplier = Big(s.urgentJobRewardMultiplier);
+    Object.keys(s.jobs).forEach((jobId) => {
+      s.jobs[jobId].payment = Big(s.jobs[jobId].payment);
+      s.jobs[jobId].words = Big(s.jobs[jobId].words);
     });
   },
 };

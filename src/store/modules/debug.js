@@ -7,7 +7,11 @@ const getters = {
 };
 
 const mutations = {
-  //
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+  },
 };
 
 const actions = {

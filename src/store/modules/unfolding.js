@@ -11,6 +11,11 @@ const mutations = {
   revealUnfolding(s, data) {
     s[data] = true;
   },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+  },
 };
 
 const actions = {

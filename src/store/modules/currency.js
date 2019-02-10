@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import currencyData from '@/data/currencies';
 
 const state = Object.assign({}, currencyData);
@@ -28,6 +29,11 @@ const mutations = {
     const d = Object.assign({}, currencyData);
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
+    });
+  },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = Big(obj[key]);
     });
   },
 };

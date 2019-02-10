@@ -13,6 +13,11 @@ const mutations = {
       s[key] = d[key];
     });
   },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+  },
 };
 
 const actions = {

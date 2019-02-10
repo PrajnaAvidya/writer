@@ -36,21 +36,20 @@
 import Big from 'big.js';
 import Noty from 'noty';
 import { mapState, mapMutations, mapGetters } from 'vuex';
-// internal libs
+import localforage from 'localforage';
+// utility libs
 import log from '@/utils/log';
-import calculateWorkerWps from '@/utils/calculateWorkerWps';
-import randomInt from '@/utils/randomInt';
 import unixTimestamp from '@/utils/unixTimestamp';
+import randomInt from '@/utils/randomInt';
+import notify from '@/utils/notify';
+import notifyIconText from '@/utils/notifyIconText';
+// game libs
+import calculateWorkerWps from '@/utils/calculateWorkerWps';
 import workerCost from '@/utils/workerCost';
 import generateJob from '@/utils/generateJob';
 import generateUrgentJob from '@/utils/generateUrgentJob';
-import animatePlus from '@/utils/animatePlus';
-import notify from '@/utils/notify';
-import notifyIconText from '@/utils/notifyIconText';
-import particles from '@/utils/particles';
 // components
 import ClickableBook from '@/components/ClickableBook.vue';
-import CrazyBooks from '@/components/CrazyBooks.vue';
 import UnfoldingTutorials from '@/components/UnfoldingTutorials.vue';
 import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
@@ -59,6 +58,13 @@ import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
 // data
 import gameData from '@/data/game';
 import milestoneData from '@/data/milestones';
+// effects
+import CrazyBooks from '@/components/CrazyBooks.vue';
+import animatePlus from '@/utils/animatePlus';
+import particles from '@/utils/particles';
+// save/load
+import save from '@/utils/save';
+import load from '@/utils/load';
 
 export default {
   name: 'Game',
@@ -136,6 +142,9 @@ export default {
       'bonuses',
       'baseMilestonesNeeded',
     ]),
+    ...mapState('tutorials', [
+      'tutorials',
+    ]),
     ...mapGetters('debug', [
       'checkDebug',
     ]),
@@ -147,34 +156,67 @@ export default {
     ]),
   },
   mounted() {
-    this.newGame();
-
-    this.particles = particles();
+    this.setupGame();
   },
   methods: {
-    newGame() {
-      this.$ga.event({
-        eventCategory: 'Game',
-        eventAction: 'New',
-        eventLabel: this.words.toString(),
-      });
+    async setupGame(rebirth = false) {
+      if (rebirth) {
+        this.rebirthGame();
+      } else {
+        const saveData = await localforage.getItem('writerSave');
+        if (saveData && !this.checkDebug('disableAutoload')) {
+          await this.loadGame();
+        } else {
+          this.newGame();
+        }
+      }
 
       // check for debug mode
       this.setDebugMode();
-
-      // enable tutorials/unfolding
-      this.unfoldingComponent = 'UnfoldingTutorials';
 
       // loop in currency
       this.loopEffect('displayedWords', this.words);
       this.loopEffect('displayedMoney', this.money);
 
       // start game
-      this.setNextBook();
-      this.registerEvents();
-      this.calculateWorkerCosts();
+      this.particles = particles();
+      this.calculateWorkerCosts(true);
       this.updateWps();
       window.requestAnimationFrame(this.tick);
+    },
+    async loadGame() {
+      await load().then(() => {
+        this.$ga.event({
+          eventCategory: 'Game',
+          eventAction: 'Load',
+          eventLabel: this.utimestamp,
+        });
+
+        // enable tutorials/unfolding if necessary
+        if (this.tutorials.length > 0) {
+          this.unfoldingComponent = 'UnfoldingTutorials';
+        }
+
+        this.setNextBook();
+
+        // register events
+        this.registerEvents();
+      });
+    },
+    newGame() {
+      this.$ga.event({
+        eventCategory: 'Game',
+        eventAction: 'New',
+        eventLabel: this.utimestamp,
+      });
+
+      // enable tutorials/unfolding
+      this.unfoldingComponent = 'UnfoldingTutorials';
+
+      this.setNextBook();
+
+      // register events
+      this.registerEvents();
     },
     rebirthGame() {
       this.$ga.event({
@@ -182,19 +224,6 @@ export default {
         eventAction: 'Rebirth',
         eventLabel: `Rebirths: ${this.rebirths.toString()}`,
       });
-
-      // check for debug mode
-      this.setDebugMode();
-
-      // loop in currency
-      this.loopEffect('displayedWords', this.words);
-      this.loopEffect('displayedMoney', this.money);
-
-      // start game
-      this.setNextBook();
-      this.calculateWorkerCosts();
-      this.updateWps();
-      window.requestAnimationFrame(this.tick);
     },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
@@ -234,6 +263,10 @@ export default {
     },
     registerEvents() {
       log('registering events');
+      // save before closing window
+      window.addEventListener('beforeunload', () => save());
+      window.addEventListener('unload', () => save());
+      // game root events
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
       this.$root.$on('addMoney', this.addMoney);
@@ -290,6 +323,11 @@ export default {
 
       // update title
       this.updateTitle();
+
+      if (this.utimestamp >= this.nextSave) {
+        save();
+        this.nextSave = unixTimestamp(this.saveInterval);
+      }
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -444,11 +482,11 @@ export default {
         eventLabel: `${this.buyAmount} ${this.workers[id].pluralName}`,
       });
     },
-    calculateWorkerCosts() {
+    calculateWorkerCosts(force = false) {
       log('recalculating worker costs');
       const { workers } = this;
       Object.keys(this.workers).forEach((id) => {
-        if (this.workerQuantities[id] !== workers[id].quantity) {
+        if (force || this.workerQuantities[id] !== workers[id].quantity) {
           workers[id].costs[0] = workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier, 1);
           workers[id].costs[1] = workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier, 10);
           workers[id].costs[2] = workerCost(workers[id].baseCost, workers[id].quantity, workers[id].costMultiplier, 100);
@@ -696,7 +734,7 @@ export default {
 
       // start game
       this.haltAnimation = false;
-      this.rebirthGame();
+      this.setupGame(true);
     },
     // === end methods ===
     ...mapMutations('unfolding', [

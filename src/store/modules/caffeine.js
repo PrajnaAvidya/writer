@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import store from '@/store';
 import caffeineData from '@/data/caffeine';
 import unixTimestamp from '@/utils/unixTimestamp';
@@ -38,6 +39,14 @@ const mutations = {
     });
     s.endCaffeineTime = 0;
     s.nextCaffeineTime = 0;
+  },
+  fromJSON(s, obj) {
+    Object.keys(obj).forEach((key) => {
+      s[key] = obj[key];
+    });
+
+    s.caffeineClickMultiplier = Big(s.caffeineClickMultiplier);
+    s.caffeineMinimumWordGeneration = Big(s.caffeineMinimumWordGeneration);
   },
 };
 

@@ -1,11 +1,12 @@
 import Big from 'big.js';
 
 export default {
-  enabled: true,
+  enabled: false,
   disableUnfolding: true,
   urgentJobs: false,
   books: false,
   rebirth: true,
+  disableAutoload: false,
   // startingWords: Big(1000000),
   // startingMoney: Big(1E9),
   // startingPlotPoints: Big(1200),
