@@ -2,7 +2,29 @@ import Sketch from 'sketch-js';
 import random from 'lodash/random';
 
 const particleImage = new Image();
-particleImage.src = '/images/pencil.png';
+particleImage.src = '/images/book.png';
+const particleImage2 = new Image();
+particleImage2.src = '/images/pencil.png';
+const particleImages = [
+  {
+    image: particleImage,
+    dimensions: {
+      x: 37,
+      y: 35,
+    },
+  },
+  {
+    image: particleImage2,
+    dimensions: {
+      x: 32,
+      y: 49,
+    },
+  },
+];
+
+const particles = [];
+const particlePool = [];
+const maxParticles = 100;
 
 class Particle {
   constructor(x, y) {
@@ -21,6 +43,8 @@ class Particle {
 
     this.vx = random(-5, 5);
     this.vy = random(-5, -2);
+
+    this.image = particleImages[Math.floor(Math.random() * particleImages.length)];
   }
 
   move() {
@@ -38,16 +62,12 @@ class Particle {
 
   draw(ctx) {
     if (this.alive) {
-      ctx.drawImage(particleImage, this.x, this.y, 40, 40);
+      ctx.drawImage(this.image.image, this.x, this.y, this.image.dimensions.x, this.image.dimensions.y);
     }
   }
 }
 
 export default function () {
-  const particles = [];
-  const particlePool = [];
-  const maxParticles = 100;
-
   return Sketch.create({
     container: document.getElementById('canvas'),
     retina: 'auto',
