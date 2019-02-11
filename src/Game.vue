@@ -614,6 +614,7 @@ export default {
             ],
           });
         }
+        this.urgentJobNotification.show();
         this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
       }
     },

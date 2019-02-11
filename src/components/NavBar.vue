@@ -44,7 +44,7 @@
       >
         <RouterLink
           to="/stats"
-          class="nav-link"
+          class="nav-link nav-stats"
         >
           <i class="fas fa-chart-line fa-lg" />
           Stats
@@ -99,5 +99,8 @@ export default {
 .nav-link {
   margin-left: 5px;
   margin-right: 5px;
+}
+.nav-stats {
+  margin-left: 50px;
 }
 </style>

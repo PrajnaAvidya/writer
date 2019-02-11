@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="monospace">
     <Transition name="fade">
       <div class="is-size-3">
         Words: {{ words | round }}
