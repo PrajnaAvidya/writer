@@ -9,22 +9,22 @@ export default {
   */
   clicking: {
     base: 500,
-    scale: 10,
+    scale: 25,
     multiplier: 2,
   },
   caffeinePower: {
     base: 1000,
-    scale: 25,
+    scale: 50,
     multiplier: 2,
   },
   jobReward: {
     base: 100,
-    scale: 50,
+    scale: 100,
     multiplier: 2,
   },
   urgentJobReward: {
     base: 1E6,
-    scale: 100,
+    scale: 1000,
     multiplier: 2,
   },
 
@@ -52,10 +52,6 @@ export default {
       lengthMultiplier: 1.5,
     },
     // caffeine cooldown reduction
-    {
-      cost: 1E3,
-      cooldownReduction: 30,
-    },
     {
       cost: 1E4,
       cooldownReduction: 30,
@@ -90,6 +86,10 @@ export default {
     },
     {
       cost: 1E12,
+      cooldownReduction: 30,
+    },
+    {
+      cost: 1E13,
       cooldownReduction: 30,
     },
   ],
@@ -198,6 +198,7 @@ export default {
       cost: 5E9,
       cooldownMultiplier: 0.75,
     },
+    /*
     {
       cost: 5E4,
       timerMultiplier: 1.5,
@@ -214,5 +215,6 @@ export default {
       cost: 5E13,
       timerMultiplier: 1.5,
     },
+    */
   ],
 };
