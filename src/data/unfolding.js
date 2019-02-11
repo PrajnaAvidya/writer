@@ -8,6 +8,7 @@ export default {
   showUpgrades: false,
   showStats: false,
   showRebirth: false,
+  showBonus: false,
   firstJobComplete: false,
   firstUrgentJobComplete: false,
 };

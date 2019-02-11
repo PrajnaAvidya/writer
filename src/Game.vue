@@ -250,6 +250,9 @@ export default {
     setDebugMode() {
       if (this.checkDebug('enabled')) {
         const debugSettings = this.$store.state.debug;
+        if (debugSettings.startingMilestones) {
+          this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
+        }
         if (debugSettings.startingWords) {
           this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
         }
@@ -780,7 +783,6 @@ export default {
       Object.assign(this.$data, gameData);
       this.displayedWords = Big(0);
       this.displayedMoney = Big(0);
-      this.revealUnfolding('showBonus');
 
       // start game
       this.haltAnimation = false;
