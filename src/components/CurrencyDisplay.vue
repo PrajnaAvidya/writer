@@ -8,6 +8,7 @@
     <div
       v-if="checkUnfolding('showWps')"
       class="is-size-6"
+      :class="{ pulse: buzzActive, buzz: buzzActive }"
     >
       Words per Second: {{ totalWps | round }}
     </div>
@@ -45,6 +46,9 @@ export default {
       'totalWps',
       'wordValue',
     ]),
+    ...mapState('caffeine', [
+      'buzzActive',
+    ]),
     ...mapGetters('debug', [
       'checkDebug',
     ]),
@@ -54,3 +58,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.buzz {
+  color: $red;
+  font-size: 16pt !important;
+}
+</style>
