@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     numberTooltip(stat) {
-      return `${this.statDescriptions[stat]} milestones: ${this.milestoneCount[stat]}`;
+      return `${this.statDescriptions[stat]} Milestones: ${this.milestoneCount[stat]}`;
     },
     progressTooltip(stat) {
       if (stat === 'money' || stat === 'moneySpent') {

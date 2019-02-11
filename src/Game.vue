@@ -179,9 +179,6 @@ export default {
       // check for debug mode
       this.setDebugMode();
 
-      // show bonus panel
-      this.revealUnfolding('showBonus');
-
       // loop in currency
       this.loopEffect('displayedWords', this.words);
       this.loopEffect('displayedMoney', this.money);
@@ -240,6 +237,9 @@ export default {
         eventAction: 'Rebirth',
         eventLabel: `Rebirths: ${this.rebirths.toString()}`,
       });
+
+      // show bonus panel
+      this.revealUnfolding('showBonus');
 
       this.setNextBook();
     },

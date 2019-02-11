@@ -7,7 +7,10 @@
       <p class="text">
         Once you achieve {{ milestonesNeeded | round }} milestones you can rebirth and start from zero. Your words and milestones will be converted into <strong>plot points</strong> which will give you a bonus in the next life.
       </p>
-      <p class="text">
+      <p
+        v-if="milestones.gte(milestonesNeeded)"
+        class="text"
+      >
         If you rebirth now you will recieve {{ milestones | round }} milestone plot points + {{ words.e | round }} word plot points for a total of <strong>{{ milestones.plus(words.e) | round }} plot points</strong>.
       </p>
       <a
