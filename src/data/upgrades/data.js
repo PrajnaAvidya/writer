@@ -167,15 +167,7 @@ export default {
   jobs: [
     // cooldown reduction
     {
-      cost: 1E2,
-      cooldownReduction: 10,
-    },
-    {
       cost: 1E3,
-      cooldownReduction: 10,
-    },
-    {
-      cost: 1E4,
       cooldownReduction: 10,
     },
     {
@@ -183,15 +175,7 @@ export default {
       cooldownReduction: 10,
     },
     {
-      cost: 1E6,
-      cooldownReduction: 10,
-    },
-    {
       cost: 1E7,
-      cooldownReduction: 10,
-    },
-    {
-      cost: 1E8,
       cooldownReduction: 10,
     },
     {
@@ -199,19 +183,7 @@ export default {
       cooldownReduction: 10,
     },
     {
-      cost: 1E10,
-      cooldownReduction: 10,
-    },
-    {
       cost: 1E11,
-      cooldownReduction: 10,
-    },
-    {
-      cost: 1E12,
-      cooldownReduction: 10,
-    },
-    {
-      cost: 1E13,
       cooldownReduction: 10,
     },
   ],

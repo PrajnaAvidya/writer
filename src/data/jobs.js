@@ -6,7 +6,7 @@ const data = {
   jobs: {},
   jobsCompletedTimestamps: {},
   jobsAvailableTimestamps: {},
-  jobCooldown: 120,
+  jobCooldown: 60,
   jobRewardMultiplier: Big(1),
   jobAvailable: {},
 
