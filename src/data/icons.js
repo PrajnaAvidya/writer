@@ -1,4 +1,12 @@
-import playerIcons from '@/data/playerIcons';
+const playerIcons = [
+  'fa-feather-alt',
+  'fa-pencil-alt',
+  'fa-pen',
+  'fa-keyboard',
+  'fa-laptop',
+  'fa-desktop',
+  'fa-hand-holding-usd',
+];
 
 export default function () {
   const iconData = {

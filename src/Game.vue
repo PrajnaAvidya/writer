@@ -569,7 +569,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (!this.urgentJobActive && (force === true || (this.checkUnfolding('firstUrgentJobComplete') && this.utimestamp >= this.urgentJobTimestamp))) {
+      if (!this.urgentJobActive && (force === true || this.utimestamp >= this.urgentJobTimestamp)) {
         log('enabling urgent job');
         if (force === true) {
           // update end time for forced jobs
@@ -584,6 +584,7 @@ export default {
           this.setJobsData({ index: 'urgentJobActive', value: false });
           if (this.urgentJobNotification) {
             this.urgentJobNotification.close();
+            this.urgentJobNotification = null;
           }
           this.setNextUrgentJob();
         } else {
@@ -603,7 +604,6 @@ export default {
               ],
             });
           }
-          this.urgentJobNotification.show();
           this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
         }
       }
@@ -612,6 +612,7 @@ export default {
       const time = randomInt(this.urgentJobMinimumTime, this.urgentJobMaximumTime);
       if (this.urgentJobNotification) {
         this.urgentJobNotification.close();
+        this.urgentJobNotification = null;
       }
       log(`next urgent job in ${time}`);
 
