@@ -9,10 +9,6 @@ export default {
   },
   money: {
     base: 1000,
-    multiplier: 10,
-  },
-  moneySpent: {
-    base: 1000,
     multiplier: 5,
   },
   caffeines: {

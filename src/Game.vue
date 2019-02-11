@@ -662,7 +662,6 @@ export default {
     subtractMoney(money, loop = true) {
       // subtract money
       this.addCurrencyData({ index: 'money', amount: money.times(-1) });
-      this.addToStat({ stat: 'moneySpent', amount: money });
       if (this.money.lt(0)) {
         this.setCurrencyData({ index: 'money', value: Big(0) });
       }
