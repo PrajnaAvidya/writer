@@ -89,6 +89,7 @@ export default {
       'stats',
       'milestoneTargets',
       'milestoneCount',
+      'statDescriptions',
     ]),
     ...mapState('currency', [
       'words',
@@ -724,7 +725,7 @@ export default {
           this.addCurrencyData({ index: 'milestones', amount: 1 });
 
           // show message
-          notify('You completed a milestone!', {
+          notify(`You completed a milestone: ${this.statDescriptions[stat]}`, {
             type: 'info',
             icon: 'fa-star',
             callbacks: {
