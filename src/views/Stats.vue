@@ -10,19 +10,23 @@
           <td
             v-if="stat === 'money' || stat === 'moneySpent'"
             style="width: 150px;"
+            class="tooltip"
+            :data-tooltip="numberTooltip(stat)"
           >
-            {{ stats[stat] | moneyCents }} ({{ milestoneCount[stat] }})
+            {{ stats[stat] | moneyCents }}
           </td>
           <td
             v-else
             style="width: 150px;"
+            class="tooltip"
+            :data-tooltip="numberTooltip(stat)"
           >
-            {{ stats[stat] | round }} ({{ milestoneCount[stat] }})
+            {{ stats[stat] | round }}
           </td>
           <td style="width: 300px">
             <div
               class="stat-progress tooltip is-tooltip-bottom"
-              :data-tooltip="tooltip(stat)"
+              :data-tooltip="progressTooltip(stat)"
             >
               <progress
                 class="progress is-info"
@@ -54,7 +58,10 @@ export default {
     ]),
   },
   methods: {
-    tooltip(stat) {
+    numberTooltip(stat) {
+      return `${this.statDescriptions[stat]} milestones: ${this.milestoneCount[stat]}`;
+    },
+    progressTooltip(stat) {
       if (stat === 'money' || stat === 'moneySpent') {
         return `${this.$options.filters.moneyCents(this.stats[stat])} / ${this.$options.filters.moneyCents(this.milestoneTargets[stat])}`;
       }
