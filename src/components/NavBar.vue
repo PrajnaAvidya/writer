@@ -94,7 +94,7 @@ export default {
 
 <style lang="scss" scoped>
 .nav {
-  font-size: 16pt;
+  font-size: 14pt;
 }
 .nav-link {
   margin-left: 5px;
