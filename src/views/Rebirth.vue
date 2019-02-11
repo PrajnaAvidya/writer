@@ -76,7 +76,6 @@ export default {
           this.$root.$emit('rebirth');
           this.doRebirth = false;
           this.buttonText = 'Rebirth';
-          this.$router.push('/');
         }, 5000);
       }
     },

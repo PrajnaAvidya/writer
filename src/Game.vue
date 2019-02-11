@@ -176,6 +176,9 @@ export default {
         }
       }
 
+      // go home
+      this.$router.push('/');
+
       // check for debug mode
       this.setDebugMode();
 
@@ -206,7 +209,7 @@ export default {
         // offline earnings
         const timeDifference = (unixTimestamp() - timestamp) / 1000;
         if (timeDifference >= 60) {
-          const offlineWords = this.totalWps.times(timeDifference);
+          const offlineWords = this.totalWps.times(timeDifference).times(0.5);
           this.addMoney(offlineWords);
           log(`applied offline earnings for ${timeDifference} seconds: ${this.$options.filters.round(offlineWords)} words`);
         }
@@ -711,7 +714,7 @@ export default {
           this.addCurrencyData({ index: 'milestones', amount: 1 });
 
           // show message
-          notify(`You completed a milestone: ${this.statDescriptions[stat]}`, {
+          notify(`Milestone Completed: ${this.statDescriptions[stat]}`, {
             type: 'info',
             icon: 'fa-star',
             callbacks: {

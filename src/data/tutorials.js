@@ -28,16 +28,16 @@ const tutorials = [
   },
   {
     unlock: {
-      worker: true,
-    },
-    reveal: ['showUpgrades'],
-  },
-  {
-    unlock: {
       words: 200,
     },
     urgentJob: true,
     reveal: ['showStats'],
+  },
+  {
+    unlock: {
+      money: 100,
+    },
+    reveal: ['showUpgrades'],
   },
 ];
 

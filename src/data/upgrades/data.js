@@ -97,67 +97,67 @@ export default {
   // worker upgrade costs are multiples of worker base cost
   genericWorker: [
     {
-      cost: 10,
+      cost: 100,
       requirement: 1,
       multiplier: 2,
     },
     {
-      cost: 50,
+      cost: 500,
       requirement: 5,
       multiplier: 2,
     },
     {
-      cost: 500,
+      cost: 5000,
       requirement: 25,
       multiplier: 2,
     },
     {
-      cost: 5E4,
+      cost: 5E5,
       requirement: 50,
       multiplier: 2,
     },
     {
-      cost: 5E6,
+      cost: 5E7,
       requirement: 100,
       multiplier: 2,
     },
     {
-      cost: 5E8,
+      cost: 5E9,
       requirement: 150,
       multiplier: 2,
     },
     { // + 3e cost, +50 req
-      cost: 5E11,
+      cost: 5E12,
       requirement: 200,
       multiplier: 2,
     },
     {
-      cost: 5E14,
+      cost: 5E15,
       requirement: 250,
       multiplier: 2,
     },
     {
-      cost: 5E17,
+      cost: 5E18,
       requirement: 300,
       multiplier: 2,
     },
     {
-      cost: 5E20,
+      cost: 5E21,
       requirement: 350,
       multiplier: 2,
     },
     { // +4e cost, +50 req
-      cost: 5E24,
+      cost: 5E25,
       requirement: 400,
       multiplier: 2,
     },
     {
-      cost: 5E28,
+      cost: 5E29,
       requirement: 450,
       multiplier: 2,
     },
     {
-      cost: 5E32,
+      cost: 5E33,
       requirement: 500,
       multiplier: 2,
     },
