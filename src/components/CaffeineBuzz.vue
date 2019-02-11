@@ -105,6 +105,7 @@ export default {
   margin-right: 5px;
 }
 .caffeine-status {
+  font-size: 10pt;
   height: 52px;
   line-height: 52px;
 }

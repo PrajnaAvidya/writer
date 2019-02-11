@@ -742,7 +742,15 @@ export default {
         this.revealUnfolding('showRebirth');
       }
       if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths))) {
-        notify('Rebirth Ready', { type: 'alert', icon: 'fa-recycle' });
+        notify('Rebirth Ready', {
+          type: 'alert',
+          icon: 'fa-recycle',
+          callbacks: {
+            onClick: () => {
+              this.$router.push('/rebirth');
+            },
+          },
+        });
         this.rebirthNotification = true;
       }
 
