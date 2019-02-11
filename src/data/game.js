@@ -18,7 +18,7 @@ export default {
   caffeineX: 0,
   caffeineY: 0,
   caffeineAnimationInterval: 1,
-  caffeineAnimationAmount: '1',
+  caffeineAnimationAmount: Big(1),
   caffeineAnimationNext: 0,
   // unfolding
   loadFirstTutorial: false,
