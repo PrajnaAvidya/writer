@@ -112,7 +112,7 @@ export default {
           this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
           // upgrade icon
           const icon = this.playerIcons.pop();
-          if (icon !== undefined) {
+          if (icon) {
             this.setIconData({ index: 'playerIcon', value: icon });
           }
         }

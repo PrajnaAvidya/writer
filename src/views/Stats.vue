@@ -13,7 +13,7 @@
             class="tooltip"
             :data-tooltip="numberTooltip(stat)"
           >
-            {{ stats[stat] | moneyCents }}
+            {{ stats[stat] | money }}
           </td>
           <td
             v-else
@@ -63,7 +63,7 @@ export default {
     },
     progressTooltip(stat) {
       if (stat === 'money' || stat === 'moneySpent') {
-        return `${this.$options.filters.moneyCents(this.stats[stat])} / ${this.$options.filters.moneyCents(this.milestoneTargets[stat])}`;
+        return `${this.$options.filters.money(this.stats[stat])} / ${this.$options.filters.money(this.milestoneTargets[stat])}`;
       }
       return `${this.$options.filters.round(this.stats[stat])} / ${this.$options.filters.round(this.milestoneTargets[stat])}`;
     },

@@ -21,7 +21,7 @@
       v-if="checkUnfolding('showMoney')"
       class="is-size-4"
     >
-      Money: {{ money | moneyCents }}
+      Money: {{ money | money }}
     </div>
   </div>
 </template>

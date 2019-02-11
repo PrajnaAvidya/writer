@@ -566,44 +566,43 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (force === true || (this.checkUnfolding('firstUrgentJobComplete') && this.utimestamp >= this.urgentJobTimestamp)) {
-        if (!this.urgentJobActive) {
-          log('enabling urgent job');
-          if (force === true) {
-            // update end time for forced jobs
-            this.setJobsData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
-          }
-          // generate urgent job
-          this.setJobsData({ index: 'urgentJob', value: generateUrgentJob(this.words, this.wordValue, this.workerWps) });
-          this.setJobsData({ index: 'urgentJobActive', value: true });
-        } else if (this.utimestamp >= this.urgentJobExpiration) {
+      if (!this.urgentJobActive && (force === true || (this.checkUnfolding('firstUrgentJobComplete') && this.utimestamp >= this.urgentJobTimestamp))) {
+        log('enabling urgent job');
+        if (force === true) {
+          // update end time for forced jobs
+          this.setJobsData({ index: 'urgentJobExpiration', value: unixTimestamp(this.urgentJobTimer) });
+        }
+        // generate urgent job
+        this.setJobsData({ index: 'urgentJob', value: generateUrgentJob(this.words, this.wordValue, this.workerWps) });
+        this.setJobsData({ index: 'urgentJobActive', value: true });
+      } else if (this.urgentJobActive) {
+        if (this.utimestamp >= this.urgentJobExpiration) {
           log('urgent job expired');
           this.setJobsData({ index: 'urgentJobActive', value: false });
           if (this.urgentJobNotification) {
             this.urgentJobNotification.close();
           }
           this.setNextUrgentJob();
+        } else {
+          // update countdowns
+          this.setJobsData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
+          if (!this.urgentJobNotification) {
+            // show notification with countdown timer
+            this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
+              type: 'error',
+              icon: 'fa-bullhorn',
+              timeout: (this.urgentJobTimer - 0.75) * 1000,
+              closeWith: 'button',
+              buttons: [
+                Noty.button('Go to Agency', 'button is-link is-primary', () => {
+                  this.$router.push('/jobs');
+                }, { id: 'button1', 'data-status': 'ok' }),
+              ],
+            });
+          }
+          this.urgentJobNotification.show();
+          this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
         }
-      }
-      if (this.urgentJobActive) {
-        // update countdowns
-        this.setJobsData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
-        if (!this.urgentJobNotification) {
-          // show notification with countdown timer
-          this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
-            type: 'error',
-            icon: 'fa-bullhorn',
-            timeout: (this.urgentJobTimer - 0.75) * 1000,
-            closeWith: 'button',
-            buttons: [
-              Noty.button('Go to Agency', 'button is-link is-primary', () => {
-                this.$router.push('/jobs');
-              }, { id: 'button1', 'data-status': 'ok' }),
-            ],
-          });
-        }
-        this.urgentJobNotification.show();
-        this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
       }
     },
     setNextUrgentJob() {
