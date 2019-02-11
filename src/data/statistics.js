@@ -5,7 +5,6 @@ const stats = {
   words: 'Words Written',
   clickWords: 'Words Written from Clicks',
   money: 'Money Made',
-  moneySpent: 'Money Spent',
   caffeines: 'Coffees Drank',
   workers: 'Workers Hired',
   jobs: 'Jobs Complete',

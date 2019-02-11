@@ -570,7 +570,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (!this.urgentJobActive && (force === true || this.utimestamp >= this.urgentJobTimestamp)) {
+      if (!this.firstUrgentJobComplete && !this.urgentJobActive && (force === true || this.utimestamp >= this.urgentJobTimestamp)) {
         log('enabling urgent job');
         if (force === true) {
           // update end time for forced jobs
@@ -662,7 +662,6 @@ export default {
     subtractMoney(money, loop = true) {
       // subtract money
       this.addCurrencyData({ index: 'money', amount: money.times(-1) });
-      this.addToStat({ stat: 'moneySpent', amount: money });
       if (this.money.lt(0)) {
         this.setCurrencyData({ index: 'money', value: Big(0) });
       }
@@ -779,6 +778,9 @@ export default {
 
       // reload game data
       Object.assign(this.$data, gameData);
+      this.displayedWords = Big(0);
+      this.displayedMoney = Big(0);
+      this.revealUnfolding('showBonus');
 
       // start game
       this.haltAnimation = false;

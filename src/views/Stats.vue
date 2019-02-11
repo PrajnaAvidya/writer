@@ -11,7 +11,7 @@
         >
           <th>{{ statDescriptions[stat] }}</th>
           <td
-            v-if="stat === 'money' || stat === 'moneySpent'"
+            v-if="stat === 'money'"
             style="width: 150px;"
             class="tooltip"
             :data-tooltip="numberTooltip(stat)"
@@ -65,7 +65,7 @@ export default {
       return `${this.statDescriptions[stat]} Milestones: ${this.milestoneCount[stat]}`;
     },
     progressTooltip(stat) {
-      if (stat === 'money' || stat === 'moneySpent') {
+      if (stat === 'money') {
         return `${this.$options.filters.money(this.stats[stat])} / ${this.$options.filters.money(this.milestoneTargets[stat])}`;
       }
       return `${this.$options.filters.round(this.stats[stat])} / ${this.$options.filters.round(this.milestoneTargets[stat])}`;
