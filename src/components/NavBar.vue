@@ -2,78 +2,54 @@
   <section class="section nav">
     <div id="nav">
       <hr>
-      <Transition
+      <RouterLink
         v-if="checkUnfolding('showJobs')"
-        name="fade"
+        to="/jobs"
+        class="nav-link"
       >
-        <RouterLink
-          to="/jobs"
-          class="nav-link"
-        >
-          <i class="fas fa-briefcase fa-lg" />
-          Jobs
-        </RouterLink>
-      </Transition>
-      <Transition
+        <i class="fas fa-briefcase fa-lg" />
+        Jobs
+      </RouterLink>
+      <RouterLink
         v-if="checkUnfolding('showWorkers')"
-        name="fade"
+        to="/workers"
+        class="nav-link"
       >
-        <RouterLink
-          to="/workers"
-          class="nav-link"
-        >
-          <i class="fas fa-building fa-lg" />
-          Workers
-        </RouterLink>
-      </Transition>
-      <Transition
+        <i class="fas fa-building fa-lg" />
+        Workers
+      </RouterLink>
+      <RouterLink
         v-if="checkUnfolding('showUpgrades')"
-        name="fade"
+        to="/upgrades"
+        class="nav-link"
       >
-        <RouterLink
-          to="/upgrades"
-          class="nav-link"
-        >
-          <i class="fas fa-arrow-up fa-lg" />
-          Upgrades
-        </RouterLink>
-      </Transition>
-      <Transition
+        <i class="fas fa-arrow-up fa-lg" />
+        Upgrades
+      </RouterLink>
+      <RouterLink
         v-if="checkUnfolding('showStats')"
-        name="fade"
+        to="/stats"
+        class="nav-link nav-stats"
       >
-        <RouterLink
-          to="/stats"
-          class="nav-link nav-stats"
-        >
-          <i class="fas fa-chart-line fa-lg" />
-          Stats
-        </RouterLink>
-      </Transition>
-      <Transition
+        <i class="fas fa-chart-line fa-lg" />
+        Stats
+      </RouterLink>
+      <RouterLink
         v-if="checkUnfolding('showRebirth')"
-        name="fade"
+        to="/rebirth"
+        class="nav-link"
       >
-        <RouterLink
-          to="/rebirth"
-          class="nav-link"
-        >
-          <i class="fas fa-recycle fa-lg" />
-          Rebirth
-        </RouterLink>
-      </Transition>
-      <Transition
+        <i class="fas fa-recycle fa-lg" />
+        Rebirth
+      </RouterLink>
+      <RouterLink
         v-if="checkUnfolding('showBonus')"
-        name="fade"
+        to="/bonus"
+        class="nav-link"
       >
-        <RouterLink
-          to="/bonus"
-          class="nav-link"
-        >
-          <i class="fas fa-star fa-lg" />
-          Bonus
-        </RouterLink>
-      </Transition>
+        <i class="fas fa-star fa-lg" />
+        Bonus
+      </RouterLink>
       <hr>
     </div>
   </section>
@@ -100,7 +76,7 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
 }
-.nav-stats {
+.nav-stats, .nav-options {
   margin-left: 50px;
 }
 </style>
