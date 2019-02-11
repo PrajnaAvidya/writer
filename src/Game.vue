@@ -281,8 +281,18 @@ export default {
     registerEvents() {
       log('registering events');
       // save before closing window
-      window.addEventListener('beforeunload', () => { if (!this.checkDebug('disableAutosave')) { save(); } });
-      window.addEventListener('unload', () => { if (!this.checkDebug('disableAutosave')) { save(); } });
+      window.addEventListener('beforeunload', () => {
+        if (!this.unloadSave && !this.checkDebug('disableAutosave')) {
+          this.unloadSave = true;
+          save();
+        }
+      });
+      window.addEventListener('unload', () => {
+        if (!this.unloadSave && !this.checkDebug('disableAutosave')) {
+          this.unloadSave = true;
+          save();
+        }
+      });
       // game root events
       this.$root.$on('write', this.write);
       this.$root.$on('coffee', this.coffee);
