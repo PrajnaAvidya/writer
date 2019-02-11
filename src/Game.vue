@@ -80,7 +80,7 @@ export default {
     CaffeineBuzz,
     CurrencyDisplay,
   },
-  data: () => gameData(),
+  data: () => gameData,
   computed: {
     ...mapState('upgrades', [
       'upgrades',
@@ -169,7 +169,7 @@ export default {
         this.rebirthGame();
       } else {
         const saveData = await localforage.getItem('writerSave');
-        if (saveData && !this.checkDebug('disableAutoload')) {
+        if (saveData && !this.checkDebug('disableAutoLoad')) {
           await this.loadGame(saveData.timestamp);
         } else {
           this.newGame();
@@ -283,13 +283,13 @@ export default {
       log('registering events');
       // save before closing window
       window.addEventListener('beforeunload', () => {
-        if (!this.unloadSave && !this.checkDebug('disableAutosave')) {
+        if (!this.unloadSave && !this.checkDebug('disableAutoSave')) {
           this.unloadSave = true;
           save();
         }
       });
       window.addEventListener('unload', () => {
-        if (!this.unloadSave && !this.checkDebug('disableAutosave')) {
+        if (!this.unloadSave && !this.checkDebug('disableAutoSave')) {
           this.unloadSave = true;
           save();
         }
@@ -356,7 +356,7 @@ export default {
       // update title
       this.updateTitle();
 
-      if (!this.checkDebug('disableAutosave') && this.utimestamp >= this.nextSave) {
+      if (!this.checkDebug('disableAutoSave') && this.utimestamp >= this.nextSave) {
         save();
         this.nextSave = unixTimestamp(this.saveInterval);
       }
@@ -374,20 +374,7 @@ export default {
       }
 
       const vm = this;
-      let loopAmount = 10.0;
-      if (amount.abs().lt(10)) {
-        loopAmount = amount;
-      }
-
-      if (loopAmount !== 10.0) {
-        // deal with fractions -- subtract fractional amount from loopamount & add immediately
-        const decimalAmount = loopAmount.round(0, 0).minus(loopAmount).abs();
-        vm[data] = vm[data].plus(decimalAmount);
-
-        loopAmount = loopAmount.minus(decimalAmount);
-        amount = amount.minus(decimalAmount);
-      }
-
+      const loopAmount = 10.0;
       const tickAmount = amount.div(loopAmount);
       for (let i = 0; i < loopAmount; i += 1) {
         setTimeout(() => {
@@ -787,7 +774,7 @@ export default {
       this.updateJobs(true);
 
       // reload game data
-      Object.assign(this.$data, gameData());
+      Object.assign(this.$data, gameData);
 
       // start game
       this.haltAnimation = false;

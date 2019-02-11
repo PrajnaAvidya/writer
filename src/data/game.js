@@ -1,6 +1,6 @@
 import Big from 'big.js';
 
-const gameData = {
+export default {
   // tick
   lastFrame: 0,
   utimestamp: 0,
@@ -27,13 +27,9 @@ const gameData = {
   // particles
   particles: null,
   // save/load
-  saveInterval: 60,
+  saveInterval: 30,
   nextSave: 0,
   unloadSave: false,
   // rebirth
   rebirthNotification: false,
 };
-
-export default function () {
-  return Object.assign({}, gameData);
-}
