@@ -8,7 +8,7 @@ export default {
   },
   */
   clicking: {
-    base: 100,
+    base: 500,
     scale: 10,
     multiplier: 2,
   },
@@ -31,10 +31,6 @@ export default {
   // static upgrades
   caffeine: [
     // caffeine length
-    {
-      cost: 1E2,
-      lengthMultiplier: 1.5,
-    },
     {
       cost: 1E4,
       lengthMultiplier: 1.5,

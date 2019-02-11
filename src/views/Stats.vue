@@ -1,5 +1,8 @@
 <template>
   <div>
+    <span class="is-size-4">
+      Total Milestones: {{ milestones | round }}
+    </span>
     <table class="table">
       <tbody>
         <tr
@@ -54,7 +57,7 @@ export default {
       'statDescriptions',
     ]),
     ...mapState('currency', [
-
+      'milestones',
     ]),
   },
   methods: {
