@@ -27,8 +27,9 @@ const gameData = {
   // particles
   particles: null,
   // save/load
-  saveInterval: 30,
+  saveInterval: 60,
   nextSave: 0,
+  unloadSave: false,
   // rebirth
   rebirthNotification: false,
 };
