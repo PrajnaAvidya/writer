@@ -178,6 +178,7 @@ export default {
 
       // go home
       this.$router.push('/');
+      this.crazyBooksComponent = null;
 
       // check for debug mode
       this.setDebugMode();
