@@ -57,7 +57,7 @@ export default {
 
 <style lang="scss">
 .buy-amounts {
-  width: 200px;
+  width: 206px;
   margin: 0 auto;
   padding-bottom: 20px;
   a {

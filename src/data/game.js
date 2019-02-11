@@ -29,6 +29,8 @@ const gameData = {
   // save/load
   saveInterval: 30,
   nextSave: 0,
+  // rebirth
+  rebirthNotification: false,
 };
 
 export default function () {

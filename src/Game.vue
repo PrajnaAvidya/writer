@@ -207,9 +207,11 @@ export default {
 
         // offline earnings
         const timeDifference = (unixTimestamp() - timestamp) / 1000;
-        const offlineWords = this.totalWps.times(timeDifference);
-        this.addMoney(offlineWords);
-        log(`applied offline earnings for ${timeDifference} seconds: ${this.$options.filters.round(offlineWords)} words`);
+        if (timeDifference >= 60) {
+          const offlineWords = this.totalWps.times(timeDifference);
+          this.addMoney(offlineWords);
+          log(`applied offline earnings for ${timeDifference} seconds: ${this.$options.filters.round(offlineWords)} words`);
+        }
 
         // register events
         this.registerEvents();
@@ -738,6 +740,10 @@ export default {
 
       if (this.milestones.gte(10)) {
         this.revealUnfolding('showRebirth');
+      }
+      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths))) {
+        notify('Rebirth Ready', { type: 'alert', icon: 'fa-recycle' });
+        this.rebirthNotification = true;
       }
 
       this.nextMilestoneCheck = unixTimestamp(0.5);

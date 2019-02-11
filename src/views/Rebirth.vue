@@ -63,7 +63,7 @@ export default {
         this.buttonText = 'Are You Sure?';
         setTimeout(() => {
           this.buttonText = 'Rebirth';
-        }, 5000);
+        }, 3000);
       } else {
         log('rebirth');
         document.title = 'REBIRTH!';
