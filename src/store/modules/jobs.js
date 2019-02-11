@@ -49,8 +49,10 @@ const mutations = {
       s.jobs[jobId].words = Big(s.jobs[jobId].words);
     });
     s.urgentJobRewardMultiplier = Big(s.urgentJobRewardMultiplier);
-    s.urgentJob.payment = Big(s.urgentJob.payment);
-    s.urgentJob.words = Big(s.urgentJob.words);
+    if (s.urgentJob) {
+      s.urgentJob.payment = Big(s.urgentJob.payment);
+      s.urgentJob.words = Big(s.urgentJob.words);
+    }
   },
 };
 
