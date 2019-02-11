@@ -741,7 +741,7 @@ export default {
         }
       });
 
-      if (this.milestones.gte(10)) {
+      if (this.milestones.gte(15)) {
         this.revealUnfolding('showRebirth');
       }
       if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths))) {
