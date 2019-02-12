@@ -274,6 +274,7 @@ export default {
         if (this.checkDebug('books')) {
           this.setBooksData({ index: 'bookMinimumTime', value: 1 });
           this.setBooksData({ index: 'bookMaximumTime', value: 1 });
+          this.setNextBook();
         }
         if (this.checkDebug('disableUnfolding')) {
           this.revealUnfolding('firstJobComplete');

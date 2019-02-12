@@ -42,10 +42,7 @@ export default {
         eventLabel = 'Caffeine';
       } else {
         // +words
-        let words = this.words.times(randomInt(10, 50) / 100).plus(1800);
-        if (words.gt(1800) && words.gt(this.totalWps.times(1800))) {
-          words = this.totalWps.times(1800).plus(1800);
-        }
+        const words = this.totalWps.times(randomInt(600, 1200)).plus(2000);
         this.$root.$emit('addWords', words, true);
         log(`bonus words: ${words.toString()}`);
         eventLabel = 'Words';
