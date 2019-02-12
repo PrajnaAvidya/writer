@@ -123,6 +123,7 @@ export default {
     jobProgress: {},
     jobTimer: {},
     interval: null,
+    completingJob: {},
   }),
   computed: {
     ...mapState('currency', [
@@ -169,6 +170,15 @@ export default {
       }
     },
     completeJob(id) {
+      // check/start cooldown timer
+      if (this.completingJob[id]) {
+        return;
+      }
+      this.completingJob[id] = true;
+      setTimeout(() => {
+        this.completingJob[id] = false;
+      }, 1000);
+
       // get job
       const job = this.jobs[id];
 
@@ -198,7 +208,7 @@ export default {
         eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.payment).toString()}`,
       });
     },
-    completeUrgentJob(id) {
+    completeUrgentJob() {
       // get job
       const job = this.urgentJob;
 
