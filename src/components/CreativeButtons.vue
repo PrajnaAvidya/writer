@@ -9,7 +9,7 @@
       >
         <i
           class="fas fa-4x"
-          :class="playerIcon"
+          :class="buzzActive ? 'fa-bolt' : playerIcon"
         />
       </a>
     </div>
