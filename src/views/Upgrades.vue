@@ -225,8 +225,7 @@ export default {
       return true;
     },
     canSeeUpgrade(upgrade) {
-      // check for debug
-      if (this.checkDebug('enabled')) {
+      if (this.checkDebug('showAllUpgrades')) {
         return true;
       }
       // check for previous id
@@ -236,6 +235,10 @@ export default {
 
       let metRequirements = true;
       if (upgrade.type === 'worker') {
+        if (this.money.lt(upgrade.cost.div(2))) {
+          return false;
+        }
+
         // show upgrade when player has 1/2 workers
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];

@@ -1,0 +1,13 @@
+v1.0.X-alpha2 - 2019-02-XX
+Added player icon for caffeine boost
+Tweaks to currency effects
+Adjusted urgent job & book rewards
+Fixed worker wps percent amounts
+Fixed offline progress bug
+Fixed word amount in writing tooltip
+Fixed rebirth/bonus reveal bug
+Fixed new game urgent job bug
+Fixed player icon bugs
+
+v1.0.0-alpha1 - 2019-02-11
+Initial public release

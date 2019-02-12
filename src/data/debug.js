@@ -4,6 +4,7 @@ export default {
   enabled: true, // TODO disable before merging to release
   disableUnfolding: true,
   urgentJobs: false,
+  showAllUpgrades: false,
   books: false,
   rebirth: false,
   disableAutoSave: false,
