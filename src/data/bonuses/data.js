@@ -131,4 +131,28 @@ export default [
     cost: 6000,
     caffeine: 'prize',
   },
+  {
+    name: 'Caffeine Simulator',
+    description: 'Caffeine click bonus now affects markov chains',
+    cost: 7000,
+    caffeine: 'markov',
+  },
+  {
+    name: 'Java',
+    description: 'Caffeine click bonus now affects AI clusters',
+    cost: 8000,
+    caffeine: 'ai',
+  },
+  {
+    name: 'Inner Buzz',
+    description: 'Caffeine click bonus now affects hive minds',
+    cost: 9000,
+    caffeine: 'hive',
+  },
+  {
+    name: 'Everyone Is Buzzed',
+    description: 'Caffeine click bonus now affects the entire planet',
+    cost: 10000,
+    caffeine: 'planet',
+  },
 ];
