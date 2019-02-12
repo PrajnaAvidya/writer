@@ -441,9 +441,8 @@ export default {
         this.caffeineX = event.pageX - 5;
         this.caffeineY = event.pageY - 20;
 
-        this.calculateCoffeeWps();
+        this.updateWps();
         this.activateCaffeine(force);
-        this.caffeineAnimationParams();
 
         // show message
         notify('You feel buzzed', {
@@ -458,11 +457,6 @@ export default {
           eventLabel: this.caffeineWordGeneration.toString(),
         });
       }
-    },
-    calculateCoffeeWps() {
-      const wordGeneration = this.bonuses.caffeineWordMultiplier.times(this.totalWps).times(Big(1).plus(this.plotPoints.div(100)));
-      const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
-      this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
     },
     checkCaffeine() {
       if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
@@ -561,14 +555,16 @@ export default {
       let totalWps = workerWps.total.times(plotBonus);
       // add caffeine wps
       if (this.buzzActive) {
-        totalWps = totalWps.plus(this.caffeineWordGeneration.times(plotBonus));
+        const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(plotBonus);
+        const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
+        this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
+        totalWps = totalWps.plus(this.caffeineWordGeneration);
+        this.caffeineAnimationParams();
       }
       this.setCurrencyData({ index: 'totalWps', value: totalWps });
       this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
       this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
-
-      this.calculateCoffeeWps();
     },
     // jobs
     updateJobs(force = false) {
