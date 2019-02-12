@@ -59,11 +59,10 @@ export default {
     writeTooltip() {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
+        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps).times(this.caffeineClickMultiplier));
       }
       // add plot bonus
       words = words.times(Big(1).plus(this.plotPoints.div(100)));
-      console.log(words.toString());
 
       if (words.eq(1)) {
         this.tooltip = 'Write a word';
