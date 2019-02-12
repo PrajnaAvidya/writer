@@ -1,7 +1,10 @@
 v1.0.X-alpha2 - 2019-02-XX
+Click multipler upgrades now apply to caffeine click bonuses
 Added player icon for caffeine boost
 Tweaks to currency effects
 Adjusted urgent job & book rewards
+Adjusted upgrade visiblity
+Fixed minimum caffeine bonus
 Fixed worker wps percent amounts
 Fixed offline progress bug
 Fixed word amount in writing tooltip

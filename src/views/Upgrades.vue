@@ -104,7 +104,6 @@ export default {
         if (upgrade.multipliers) {
           Object.keys(upgrade.multipliers).forEach((workerId) => {
             this.workers[workerId].productivityMultiplier = this.workers[workerId].productivityMultiplier.times(upgrade.multipliers[workerId]);
-            this.$root.$emit('updateWps');
           });
         }
       } else if (upgrade.type === 'clicking') {
@@ -127,7 +126,6 @@ export default {
         this.multiplyCaffeineData({ index: 'caffeineClickMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'wordValue') {
         this.multiplyCurrencyData({ index: 'wordValue', amount: upgrade.multiplier });
-        this.$root.$emit('updateWpsMps');
       } else if (upgrade.type === 'jobReward') {
         this.multiplyJobData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'urgentJobReward') {

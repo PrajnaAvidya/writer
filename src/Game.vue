@@ -441,8 +441,10 @@ export default {
         this.caffeineX = event.pageX - 5;
         this.caffeineY = event.pageY - 20;
 
+        this.calculateCoffeeWps();
         this.activateCaffeine(force);
         this.caffeineAnimationParams();
+
         // show message
         notify('You feel buzzed', {
           type: 'warning',
@@ -457,10 +459,16 @@ export default {
         });
       }
     },
+    calculateCoffeeWps() {
+      const wordGeneration = this.bonuses.caffeineWordMultiplier.times(this.totalWps).times(Big(1).plus(this.plotPoints.div(100)));
+      const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
+      this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
+    },
     checkCaffeine() {
       if (!this.buzzActive && this.endCaffeineTime > this.utimestamp) {
         log('buzz active');
         this.setCaffeineData({ index: 'buzzActive', value: true });
+
         this.updateWps();
       } else if (this.buzzActive) {
         if (this.endCaffeineTime <= this.utimestamp) {
@@ -484,9 +492,6 @@ export default {
     },
     // caffeine animation
     caffeineAnimationParams() {
-      const wordGeneration = this.bonuses.caffeineWordMultiplier.times(this.totalWps).times(Big(1).plus(this.plotPoints.div(100)));
-      this.caffeineWordGeneration = wordGeneration.gt(this.caffeineMinimumWordGeneration) ? wordGeneration : this.caffeineMinimumWordGeneration;
-
       if (this.caffeineWordGeneration.lte(5)) {
         // show +1
         this.caffeineAnimationInterval = Big(1000).div(this.caffeineWordGeneration).toFixed();
@@ -544,6 +549,7 @@ export default {
       const newUpgrades = this.upgrades;
       this.$delete(newUpgrades, upgradeId);
       this.setUpgrades(newUpgrades);
+      this.updateWps();
     },
     updateWps() {
       log('recalculating wps');
@@ -561,6 +567,8 @@ export default {
       this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
       this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
+
+      this.calculateCoffeeWps();
     },
     // jobs
     updateJobs(force = false) {
