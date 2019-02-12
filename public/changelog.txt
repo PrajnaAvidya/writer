@@ -5,6 +5,7 @@ Tweaks to currency & cooldown bar effects
 Adjusted urgent job & book rewards
 Adjusted upgrade visiblity
 Adjusted workers layout
+Fixed caffeine wps exploit
 Fixed minimum caffeine bonus
 Fixed worker wps percent amounts
 Fixed offline progress bug
