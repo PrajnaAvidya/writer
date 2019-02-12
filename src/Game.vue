@@ -207,7 +207,7 @@ export default {
         const timeDifference = (unixTimestamp() - timestamp) / 1000;
         if (timeDifference >= 60) {
           const offlineWords = this.totalWps.times(timeDifference).times(0.5);
-          this.addMoney(offlineWords);
+          this.addWords(offlineWords);
           log(`applied offline earnings for ${timeDifference} seconds: ${this.$options.filters.round(offlineWords)} words`);
         }
 
