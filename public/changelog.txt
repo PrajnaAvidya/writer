@@ -1,7 +1,7 @@
 v1.0.X-alpha2 - 2019-02-XX
 Click multipler upgrades now apply to caffeine click bonuses
 Added player icon for caffeine boost
-Tweaks to currency effects
+Tweaks to currency & cooldown bar effects
 Adjusted urgent job & book rewards
 Adjusted upgrade visiblity
 Fixed minimum caffeine bonus
