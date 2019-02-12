@@ -1,10 +1,11 @@
 Alpha 2 - 2019-02-12
 Added player icon for caffeine boost
 Added 1s minimum job cooldown
-Tweaks to currency & cooldown bar effects
+Adjusted plot point bonus from +1% wps to +2% wps
 Adjusted urgent job & book rewards
 Adjusted upgrade visiblity
 Adjusted workers layout
+Tweaks to currency & cooldown bar effects
 Fixed minimum caffeine bonus
 Fixed worker wps percent amounts
 Fixed offline progress bug
