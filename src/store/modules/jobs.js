@@ -32,6 +32,9 @@ const mutations = {
   },
   speedJobCooldown(s, id) {
     s.jobsAvailableTimestamps[id] -= store.state.rebirth.bonuses.hurryAmount * 1000;
+    if (s.jobsAvailableTimestamps[id] < unixTimestamp()) {
+      s.jobsAvailableTimestamps[id] = unixTimestamp();
+    }
   },
   resetJobs(s) {
     const d = Object.assign({}, jobsData());

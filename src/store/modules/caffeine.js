@@ -11,7 +11,10 @@ const getters = {
 
 const mutations = {
   speedCaffeineCooldown(s) {
-    s.nextCaffeineTime -= store.state.rebirth.bonuses.hurryAmount * 1000;
+    s.nextCaffeineTime -= store.state.rebirth.bonuses.hurryAmount * 100000;
+    if (s.nextCaffeineTime < unixTimestamp()) {
+      s.nextCaffeineTime = unixTimestamp();
+    }
   },
   activateCaffeine(s, force = false) {
     s.endCaffeineTime = unixTimestamp(s.caffeineTime);
