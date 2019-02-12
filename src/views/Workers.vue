@@ -8,11 +8,8 @@
       class="production"
       :class="{ 'is-hidden': !showWorker(worker) }"
     >
-      <div
-        slot="title"
-        class="columns"
-      >
-        <div class="column">
+      <div class="columns">
+        <div class="buy-column">
           <a
             :disabled="worker.costs[buyAmountIndex].gt(money)"
             class="button buy-button tooltip"
@@ -31,14 +28,14 @@
             </span>
           </a>
         </div>
-        <div class="column">
+        <div class="cost-column">
           Cost {{ worker.costs[buyAmountIndex] | money }} for {{ buyAmount }}
         </div>
-        <div class="column">
+        <div class="stats-column">
           <span v-if="worker.quantity > 0">
             <strong>{{ worker.pluralName }}: {{ worker.quantity | round }}</strong>
             <br>
-            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ workerWpsPercent(worker) | roundDecimal }}%)
+            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ workerWpsPercent(worker) | round }}%)
           </span>
         </div>
       </div>
@@ -103,5 +100,14 @@ export default {
 }
 .buy-button[disabled] {
   background-color: $blue;
+}
+.buy-column {
+  width: 280px;
+}
+.cost-column {
+  width: 330px;
+}
+.stats-column {
+  width: 290px;
 }
 </style>

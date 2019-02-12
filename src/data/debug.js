@@ -1,7 +1,7 @@
 import Big from 'big.js';
 
 export default {
-  enabled: true, // TODO disable before merging to release
+  enabled: false,
   disableUnfolding: true,
   urgentJobs: false,
   showAllUpgrades: false,
@@ -10,8 +10,8 @@ export default {
   disableAutoSave: false,
   disableAutoLoad: true,
   // startingMilestones: Big(100),
-  // startingWords: Big(1E9),
-  // startingMoney: Big(1E9),
+  // startingWords: Big(1E100),
+  // startingMoney: Big(1E100),
   // startingPlotPoints: Big(200),
   // caffeineTime: 10,
   // caffeineCooldown: 300,
