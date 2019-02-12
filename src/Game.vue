@@ -183,10 +183,6 @@ export default {
       // check for debug mode
       this.setDebugMode();
 
-      // loop in currency
-      this.loopEffect('displayedWords', this.words);
-      this.loopEffect('displayedMoney', this.money);
-
       // start game
       this.particles = particles();
       this.calculateWorkerCosts(true);
@@ -368,6 +364,9 @@ export default {
         this.nextSave = unixTimestamp(this.saveInterval);
       }
 
+      // do loop effect
+      this.loopEffect(frameIncrement);
+
       // get next frame
       window.requestAnimationFrame(this.tick);
     },
@@ -375,18 +374,25 @@ export default {
 
     // === start methods ===
     // ui/effects
-    loopEffect(data, amount, ms = 333) {
-      if (amount.eq(0)) {
-        return;
+    loopEffect(frameIncrement) {
+      const loopAmount = frameIncrement.times(11);
+
+      if (this.words.gt(0)) {
+        const wordDiff = this.words.minus(this.displayedWords);
+        if (wordDiff.eq(1) || wordDiff.abs().div(this.words).lt(0.01)) {
+          this.displayedWords = Big(this.words);
+        } else {
+          this.displayedWords = this.displayedWords.plus(wordDiff.times(loopAmount));
+        }
       }
 
-      const vm = this;
-      const loopAmount = 10.0;
-      const tickAmount = amount.div(loopAmount);
-      for (let i = 0; i < loopAmount; i += 1) {
-        setTimeout(() => {
-          vm[data] = vm[data].plus(tickAmount);
-        }, i * ms / loopAmount);
+      if (this.money.gt(0)) {
+        const moneyDiff = this.money.minus(this.displayedMoney);
+        if (moneyDiff.eq(1) || moneyDiff.abs().div(this.money).lt(0.01)) {
+          this.displayedMoney = Big(this.money);
+        } else {
+          this.displayedMoney = this.displayedMoney.plus(moneyDiff.times(loopAmount));
+        }
       }
     },
     updateTitle() {
@@ -650,54 +656,26 @@ export default {
       }
     },
     // economy
-    addMoney(money, loop = true) {
+    addMoney(money) {
       // add money
       this.addCurrencyData({ index: 'money', amount: money });
       this.addToStat({ stat: 'money', amount: money });
-
-      // loop in effect
-      if (loop && money.gt(this.money.div(1000))) {
-        this.loopEffect('displayedMoney', money);
-      } else {
-        this.displayedMoney = this.displayedMoney.plus(money);
-      }
     },
-    subtractMoney(money, loop = true) {
+    subtractMoney(money) {
       // subtract money
       this.addCurrencyData({ index: 'money', amount: money.times(-1) });
       if (this.money.lt(0)) {
         this.setCurrencyData({ index: 'money', value: Big(0) });
       }
-
-      // loop in effect
-      if (loop && money.gt(this.money.div(1000))) {
-        this.loopEffect('displayedMoney', money.times(-1), 166);
-      } else {
-        this.displayedMoney = this.displayedMoney.minus(money);
-      }
     },
-    addWords(words, loop = false) {
+    addWords(words) {
       this.addCurrencyData({ index: 'words', amount: words });
       this.addToStat({ stat: 'words', amount: words });
-
-      // loop in effect
-      if (loop && words.gt(this.totalWps.div(10))) {
-        this.loopEffect('displayedWords', words);
-      } else {
-        this.displayedWords = this.displayedWords.plus(words);
-      }
     },
-    subtractWords(words, loop = true) {
+    subtractWords(words) {
       this.addCurrencyData({ index: 'words', amount: words.times(-1) });
       if (this.words.lt(0)) {
         this.setCurrencyData({ index: 'words', value: Big(0) });
-      }
-
-      // loop in effect
-      if (loop && words.gt(this.totalWps.div(10))) {
-        this.loopEffect('displayedWords', words.times(-1), 166);
-      } else {
-        this.displayedWords = this.displayedWords.plus(words);
       }
     },
     // stats
