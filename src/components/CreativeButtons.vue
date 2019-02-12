@@ -18,6 +18,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import Big from 'big.js';
 
 export default {
   name: 'CreativeButtons',
@@ -33,6 +34,14 @@ export default {
     ]),
     ...mapState('caffeine', [
       'buzzActive',
+      'caffeineClickMultiplier',
+    ]),
+    ...mapState('rebirth', [
+      'plotPoints',
+      'bonuses',
+    ]),
+    ...mapState('workers', [
+      'workerWps',
     ]),
   },
   watch: {
@@ -43,14 +52,23 @@ export default {
       this.writeTooltip();
     },
   },
+  mounted() {
+    this.writeTooltip();
+  },
   methods: {
     writeTooltip() {
+      let words = this.playerWords;
       if (this.buzzActive) {
-        this.tooltip = `Write ${this.$options.filters.round(this.playerWords.times(2))} words`;
-      } else if (this.playerWords.eq(1)) {
-        this.tooltip = 'Write some words';
+        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
+      }
+      // add plot bonus
+      words = words.times(Big(1).plus(this.plotPoints.div(100)));
+      console.log(words.toString());
+
+      if (words.eq(1)) {
+        this.tooltip = 'Write a word';
       } else {
-        this.tooltip = `Write ${this.$options.filters.round(this.playerWords)} words`;
+        this.tooltip = `Write ${this.$options.filters.round(words)} words`;
       }
     },
   },
