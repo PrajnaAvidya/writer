@@ -1,7 +1,7 @@
 import Big from 'big.js';
 
 export default {
-  enabled: false,
+  enabled: true, // TODO disable before merging to release
   disableUnfolding: true,
   urgentJobs: false,
   books: false,

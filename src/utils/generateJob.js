@@ -17,7 +17,7 @@ const jobTypes = {
   },
   3: {
     name: 'Medium',
-    rewardRange: [225, 300],
+    rewardRange: [250, 325],
     wordRange: [180, 600],
     minimumWords: 1000,
   },
@@ -29,7 +29,7 @@ const jobTypes = {
   },
   5: {
     name: 'Epic',
-    rewardRange: [425, 500],
+    rewardRange: [400, 500],
     wordRange: [3600, 9000],
     minimumWords: 10000,
   },
