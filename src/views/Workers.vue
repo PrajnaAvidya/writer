@@ -38,7 +38,7 @@
           <span v-if="worker.quantity > 0">
             <strong>{{ worker.pluralName }}: {{ worker.quantity | round }}</strong>
             <br>
-            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ individualWorkerWps[worker.id].div(workerWps).times(100) | roundDecimal }}%)
+            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ workerWpsPercent(worker) | roundDecimal }}%)
           </span>
         </div>
       </div>
@@ -49,6 +49,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import Big from 'big.js';
 import BuyAmounts from '@/components/BuyAmounts.vue';
 
 export default {
@@ -68,10 +69,16 @@ export default {
       'individualWorkerWps',
       'workerTooltips',
     ]),
+    ...mapState('rebirth', [
+      'plotPoints',
+    ]),
   },
   methods: {
     showWorker(worker) {
       return worker.id === 'child' || this.workers[worker.previousId].quantity >= 5;
+    },
+    workerWpsPercent(worker) {
+      return this.individualWorkerWps[worker.id].div(this.workerWps).times(Big(1).plus(this.plotPoints.div(100))).times(100);
     },
   },
 };
