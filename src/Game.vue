@@ -579,7 +579,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (!this.firstUrgentJobComplete && !this.urgentJobActive && (force === true || this.utimestamp >= this.urgentJobTimestamp)) {
+      if (force || (this.firstUrgentJobComplete && !this.urgentJobActive && this.utimestamp >= this.urgentJobTimestamp)) {
         log('enabling urgent job');
         if (force === true) {
           // update end time for forced jobs
