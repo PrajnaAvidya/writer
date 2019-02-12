@@ -11,7 +11,7 @@ export default {
   // startingMilestones: Big(100),
   // startingWords: Big(1E9),
   // startingMoney: Big(1E9),
-  // startingPlotPoints: Big(1200),
+  // startingPlotPoints: Big(200),
   // caffeineTime: 10,
   // caffeineCooldown: 300,
   // jobCooldown: 1,
