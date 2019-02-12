@@ -1,5 +1,4 @@
 Alpha 2 - 2019-02-12
-Click multipler upgrades now apply to caffeine click bonuses
 Added player icon for caffeine boost
 Added 1s minimum job cooldown
 Tweaks to currency & cooldown bar effects

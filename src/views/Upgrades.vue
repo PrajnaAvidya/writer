@@ -233,7 +233,7 @@ export default {
 
       let metRequirements = true;
       if (upgrade.type === 'worker') {
-        if (this.money.lt(upgrade.cost.div(2))) {
+        if (this.money.lt(upgrade.cost.div(10))) {
           return false;
         }
 
@@ -251,8 +251,8 @@ export default {
       } else if (upgrade.type === 'urgentJobs') {
         return this.stats.urgentJobs.gte(3);
       } else {
-        // show upgrade when player has 1/2 money
-        metRequirements = this.money.gte(upgrade.cost.div(2));
+        // show upgrade when player has 1/5 money
+        metRequirements = this.money.gte(upgrade.cost.div(5));
       }
       if (!metRequirements) {
         return false;

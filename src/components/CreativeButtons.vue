@@ -59,7 +59,7 @@ export default {
     writeTooltip() {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps).times(this.caffeineClickMultiplier));
+        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
       }
       // add plot bonus
       words = words.times(Big(1).plus(this.plotPoints.div(100)));
