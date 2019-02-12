@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Big from 'big.js';
 
 export default {
@@ -43,6 +43,9 @@ export default {
     ...mapState('workers', [
       'workerWps',
     ]),
+    ...mapGetters('rebirth', [
+      'plotBonus',
+    ]),
   },
   watch: {
     playerWords() {
@@ -62,7 +65,7 @@ export default {
         words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
       }
       // add plot bonus
-      words = words.times(Big(1).plus(this.plotPoints.div(100)));
+      words = words.times(this.plotBonus);
 
       if (words.eq(1)) {
         this.tooltip = 'Write a word';

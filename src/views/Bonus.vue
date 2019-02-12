@@ -4,7 +4,7 @@
       Plot Points: {{ plotPoints | round }}
     </div>
     <p class="text">
-      You are currently receiving a <strong>{{ plotPoints | round }}% bonus to clicks, caffeine, and workers.</strong> You may spend some of your plot points on the following abilities:
+      You are currently receiving a <strong>{{ plotPoints.times(2) | round }}% bonus to clicks, caffeine, and workers.</strong> You may spend some of your plot points on the following abilities:
     </p>
     <div class="bonuses">
       <div

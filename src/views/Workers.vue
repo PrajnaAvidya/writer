@@ -69,13 +69,16 @@ export default {
     ...mapState('rebirth', [
       'plotPoints',
     ]),
+    ...mapGetters('rebirth', [
+      'plotBonus',
+    ]),
   },
   methods: {
     showWorker(worker) {
       return worker.id === 'child' || this.workers[worker.previousId].quantity >= 5;
     },
     workerWpsPercent(worker) {
-      return this.individualWorkerWps[worker.id].div(this.workerWps).times(Big(1).plus(this.plotPoints.div(100))).times(100);
+      return this.individualWorkerWps[worker.id].div(this.workerWps).times(this.plotBonus).times(100);
     },
   },
 };

@@ -7,6 +7,7 @@ const state = Object.assign({}, rebirthData);
 
 const getters = {
   jobSlots: s => s.bonuses.jobSlots,
+  plotBonus: s => Big(1).plus(s.plotPoints.div(50)),
 };
 
 const mutations = {

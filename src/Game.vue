@@ -158,6 +158,7 @@ export default {
     ]),
     ...mapGetters('rebirth', [
       'jobSlots',
+      'plotBonus',
     ]),
   },
   mounted() {
@@ -420,7 +421,7 @@ export default {
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       // add plot bonus
-      words = words.times(Big(1).plus(this.plotPoints.div(100)));
+      words = words.times(this.plotBonus);
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
 
@@ -475,7 +476,7 @@ export default {
           animatePlus({
             x: this.caffeineX,
             y: this.caffeineY,
-            value: this.$options.filters.round(this.caffeineAnimationAmount.times(Big(1).plus(this.plotPoints.div(100)))),
+            value: this.$options.filters.round(this.caffeineAnimationAmount.times(this.plotBonus)),
             time: 500,
             height: 150,
             disappearFrom: 0.25,
@@ -547,22 +548,20 @@ export default {
     },
     updateWps() {
       log('recalculating wps');
-      // get plot bonus
-      const plotBonus = Big(1).plus(this.plotPoints.div(100));
       // get worker wps
       const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.bonuses.caffeineWordMultiplier);
       // add plot point bonus
-      let totalWps = workerWps.total.times(plotBonus);
+      let totalWps = workerWps.total.times(this.plotBonus);
       // add caffeine wps
       if (this.buzzActive) {
-        const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(plotBonus);
+        const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(this.plotBonus);
         const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
         this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
         totalWps = totalWps.plus(this.caffeineWordGeneration);
         this.caffeineAnimationParams();
       }
       this.setCurrencyData({ index: 'totalWps', value: totalWps });
-      this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(plotBonus) });
+      this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(this.plotBonus) });
       this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
     },
