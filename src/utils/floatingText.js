@@ -1,8 +1,8 @@
-export default function ({ x, y, value, time = 500, height = 100, disappearFrom = 0.5, className = 'floating-plus' }) {
+export default function ({ x, y, text, time = 500, height = 100, disappearFrom = 0.5, className = 'floating-plus' }) {
   // create and add div
   const dvPlus = document.createElement('div');
   dvPlus.className = className;
-  dvPlus.innerHTML = `+${value}`;
+  dvPlus.innerHTML = text;
   dvPlus.style.left = `${x}px`;
   document.body.appendChild(dvPlus);
 

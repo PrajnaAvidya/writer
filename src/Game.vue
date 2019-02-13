@@ -63,7 +63,7 @@ import gameData from '@/data/game';
 import milestoneData from '@/data/milestones';
 // effects
 import CrazyBooks from '@/components/CrazyBooks.vue';
-import animatePlus from '@/utils/animatePlus';
+import floatingText from '@/utils/floatingText';
 import particles from '@/utils/particles';
 // save/load
 import save from '@/utils/save';
@@ -426,10 +426,10 @@ export default {
       this.addWords(words, true);
 
       // show floating + animation
-      animatePlus({
+      floatingText({
         x: event.pageX - 5,
         y: event.pageY - 20,
-        value: this.$options.filters.round(words),
+        text: `+${this.$options.filters.round(words)}`,
         time: 500,
         height: 150,
         disappearFrom: 0.25,
@@ -473,10 +473,10 @@ export default {
         } else if (this.utimestamp >= this.caffeineAnimationNext) {
           this.particles.spawnParticle(this.caffeineX, this.caffeineY);
           // show animation
-          animatePlus({
+          floatingText({
             x: this.caffeineX,
             y: this.caffeineY,
-            value: this.$options.filters.round(this.caffeineAnimationAmount.times(this.plotBonus)),
+            text: `+${this.$options.filters.round(this.caffeineAnimationAmount.times(this.plotBonus))}`,
             time: 500,
             height: 150,
             disappearFrom: 0.25,

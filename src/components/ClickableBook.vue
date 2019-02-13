@@ -13,7 +13,7 @@
 import { mapState, mapMutations } from 'vuex';
 import log from '@/utils/log';
 import notify from '@/utils/notify';
-import animatePlus from '@/utils/animatePlus';
+import floatingText from '@/utils/floatingText';
 import randomInt from '@/utils/randomInt';
 
 export default {
@@ -35,11 +35,12 @@ export default {
     clickBook(event) {
       const roll = randomInt(1, 100);
       let eventLabel;
-      if (roll <= 50 && !this.buzzActive) {
+      let floatText;
+      if (roll <= 50) {
         // caffeine
-        this.$root.$emit('coffee', event, true);
-        log('bonus caffeine buzz');
         eventLabel = 'Caffeine';
+        log('bonus caffeine buzz');
+        this.$root.$emit('coffee', event, true);
       } else {
         // +words
         const words = this.totalWps.times(randomInt(600, 1200)).plus(2000);
@@ -48,16 +49,18 @@ export default {
         eventLabel = 'Words';
         notify(`Bonus Words: ${this.$options.filters.round(words)}!`, { type: 'info', icon: 'fa-book' });
 
-        animatePlus({
-          x: event.pageX - 5,
-          y: event.pageY - 20,
-          value: `${this.$options.filters.round(words)} Words`,
-          time: 3000,
-          height: 250,
-          disappearFrom: 0.5,
-          className: 'bonus-plus',
-        });
+        floatText = `+${this.$options.filters.round(words)} Words`;
       }
+
+      floatingText({
+        x: event.pageX - 5,
+        y: event.pageY - 20,
+        text: floatText,
+        time: 3000,
+        height: 250,
+        disappearFrom: 0.5,
+        className: 'bonus-plus',
+      });
 
       this.addToStat({ stat: 'clickables', amount: 1 });
       this.$root.$emit('setNextBook');
