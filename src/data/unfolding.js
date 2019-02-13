@@ -10,5 +10,5 @@ export default {
   showRebirth: false,
   showBonus: false,
   firstJobComplete: false,
-  firstUrgentJobComplete: false,
+  firstUrgentJob: false,
 };

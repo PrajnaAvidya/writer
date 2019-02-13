@@ -220,7 +220,7 @@ export default {
       this.$root.$emit('addMoney', this.jobRewardMultiplier.times(this.urgentJobRewardMultiplier).times(job.payment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
-      this.revealUnfolding('firstUrgentJobComplete');
+      this.revealUnfolding('firstUrgentJob');
 
       // show message
       notify(`Job Complete: ${job.name}`, { icon: 'fa-bullhorn' });

@@ -268,6 +268,7 @@ export default {
           this.setCaffeineData({ index: 'caffeineCooldown', value: debugSettings.caffeineCooldown });
         }
         if (this.checkDebug('urgentJobs')) {
+          this.revealUnfolding('firstUrgentJob');
           this.setJobsData({ index: 'urgentJobMinimumTime', value: 1 });
           this.setJobsData({ index: 'urgentJobMaximumTime', value: 1 });
         }
@@ -277,8 +278,8 @@ export default {
           this.setNextBook();
         }
         if (this.checkDebug('disableUnfolding')) {
+          this.revealUnfolding('firstUrgentJob');
           this.revealUnfolding('firstJobComplete');
-          this.revealUnfolding('firstUrgentJobComplete');
           this.setNextUrgentJob();
         }
       }
@@ -582,7 +583,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (force || (this.checkUnfolding('firstUrgentJobComplete') && !this.urgentJobActive && this.utimestamp >= this.urgentJobTimestamp)) {
+      if (force || (this.checkUnfolding('firstUrgentJob') && !this.urgentJobActive && this.utimestamp >= this.urgentJobTimestamp)) {
         log('enabling urgent job');
         if (force === true) {
           // update end time for forced jobs
