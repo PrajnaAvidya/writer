@@ -1,7 +1,7 @@
 import Big from 'big.js';
 
 export default {
-  enabled: false,
+  enabled: false && process.env.NODE_ENV === 'development',
   disableUnfolding: false,
   urgentJobs: false,
   showAllUpgrades: false,
