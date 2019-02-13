@@ -136,7 +136,6 @@ export default {
       'jobRewardMultiplier',
       'jobsAvailableTimestamps',
       'jobsCompletedTimestamps',
-      'firstJobComplete',
       'nextJobTime',
       'jobAvailable',
       'urgentJob',

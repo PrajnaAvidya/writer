@@ -122,7 +122,6 @@ export default {
       'jobCooldown',
       'jobsAvailableTimestamps',
       'jobAvailable',
-      'firstUrgentJobComplete',
       // urgent jobs
       'urgentJobActive',
       'urgentJobCountdown',
@@ -583,7 +582,7 @@ export default {
     },
     // urgent jobs
     updateUrgentJob(force = false) {
-      if (force || (this.firstUrgentJobComplete && !this.urgentJobActive && this.utimestamp >= this.urgentJobTimestamp)) {
+      if (force || (this.checkUnfolding('firstUrgentJobComplete') && !this.urgentJobActive && this.utimestamp >= this.urgentJobTimestamp)) {
         log('enabling urgent job');
         if (force === true) {
           // update end time for forced jobs
