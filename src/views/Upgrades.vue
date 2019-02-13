@@ -189,7 +189,9 @@ export default {
       const requirements = [];
       if (upgrade.type === 'worker') {
         Object.keys(upgrade.requirements).forEach((workerId) => {
-          requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
+          if (this.workers[workerId].quantity < upgrade.requirements[workerId]) {
+            requirements.push(`Requires ${this.$options.filters.round(upgrade.requirements[workerId])} ${this.workers[workerId].pluralName}`);
+          }
         });
       } else {
         // requirement is cost only
@@ -237,10 +239,10 @@ export default {
           return false;
         }
 
-        // show upgrade when player has 1/2 workers
+        // show upgrade when player has 1/4 workers
         metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
           const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity < required / 2) {
+          if (this.workers[workerId].quantity < required / 4) {
             metRequirements = false;
             return false;
           }
