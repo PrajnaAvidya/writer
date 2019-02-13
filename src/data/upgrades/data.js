@@ -186,6 +186,10 @@ export default {
       cost: 1E11,
       cooldownReduction: 10,
     },
+    {
+      cost: 1E13,
+      cooldownReduction: 10,
+    },
   ],
 
   // urgent jobs
