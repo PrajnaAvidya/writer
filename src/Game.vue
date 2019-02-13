@@ -381,7 +381,7 @@ export default {
 
       if (this.words.gt(0)) {
         const wordDiff = this.words.minus(this.displayedWords);
-        if (wordDiff.eq(1) || wordDiff.abs().div(this.words).lt(0.01)) {
+        if (wordDiff.lte(1) || wordDiff.abs().div(this.words).lt(0.01)) {
           this.displayedWords = Big(this.words);
         } else {
           this.displayedWords = this.displayedWords.plus(wordDiff.times(loopAmount));
