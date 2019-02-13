@@ -5,6 +5,7 @@ Adjusted plot point bonus from +1% wps to +2% wps
 Adjusted urgent job & book rewards
 Adjusted upgrade visiblity
 Adjusted workers layout
+Adjusted upgrade requirement text
 Tweaks to currency & cooldown bar effects
 Fixed caffeine wps exploit
 Fixed minimum caffeine bonus
