@@ -390,7 +390,7 @@ export default {
 
       if (this.money.gt(0)) {
         const moneyDiff = this.money.minus(this.displayedMoney);
-        if (moneyDiff.eq(1) || moneyDiff.abs().div(this.money).lt(0.01)) {
+        if (moneyDiff.lte(1) || moneyDiff.abs().div(this.money).lt(0.01)) {
           this.displayedMoney = Big(this.money);
         } else {
           this.displayedMoney = this.displayedMoney.plus(moneyDiff.times(loopAmount));
