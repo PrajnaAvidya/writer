@@ -38,6 +38,7 @@ export default {
       let floatText;
       if (roll <= 50) {
         // caffeine
+        floatText = 'Caffeine';
         eventLabel = 'Caffeine';
         log('bonus caffeine buzz');
         this.$root.$emit('coffee', event, true);
