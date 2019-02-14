@@ -30,6 +30,7 @@ const mutations = {
     Object.keys(s.upgrades).forEach((upgradeId) => {
       s.upgrades[upgradeId].cost = Big(s.upgrades[upgradeId].cost);
     });
+    s.upgradeId = parseInt(s.upgradeId, 10);
   },
 };
 
