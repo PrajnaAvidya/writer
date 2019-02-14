@@ -42,6 +42,11 @@ const router = new Router({
       name: 'Bonus',
       component: () => import('@/views/Bonus.vue'),
     },
+    {
+      path: '/options',
+      name: 'Options',
+      component: () => import('@/views/Options.vue'),
+    },
   ],
 });
 

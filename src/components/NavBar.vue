@@ -50,6 +50,13 @@
         <i class="fas fa-star fa-lg" />
         Bonus
       </RouterLink>
+      <RouterLink
+        to="/options"
+        class="nav-link"
+      >
+        <i class="far fa-check-square fa-lg" />
+        Options
+      </RouterLink>
       <hr>
     </div>
   </section>
