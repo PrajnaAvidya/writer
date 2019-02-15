@@ -1,5 +1,8 @@
 <template>
-  <div class="columns buttons">
+  <div
+    v-if="buttonSize > 0"
+    class="columns buttons"
+  >
     <div class="column">
       <a
         class="button is-primary is-large tooltip is-tooltip-right"

@@ -8,7 +8,7 @@ const getters = {
 
 const mutations = {
   adjustButtonSize(s, amount) {
-    if (s.buttonSize + amount >= 1 && s.buttonSize + amount <= s.maxButtonSize) {
+    if (s.buttonSize + amount >= 0 && s.buttonSize + amount <= s.maxButtonSize) {
       s.buttonSize += amount;
     }
   },

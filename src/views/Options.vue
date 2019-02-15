@@ -9,7 +9,7 @@
       </span>
       <a
         class="button option-choice"
-        :disabled="buttonSize <= 1"
+        :disabled="buttonSize <= 0"
         @click="adjustButtonSize(-1)"
       >
         Smaller
