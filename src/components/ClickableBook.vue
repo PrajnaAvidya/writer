@@ -44,7 +44,7 @@ export default {
         this.$root.$emit('coffee', event, true);
       } else {
         // +words
-        const words = this.totalWps.times(randomInt(600, 1200)).plus(2000);
+        const words = this.totalWps.times(randomInt(600, 900)).plus(2000);
         this.$root.$emit('addWords', words, true);
         log(`bonus words: ${words.toString()}`);
         eventLabel = 'Words';

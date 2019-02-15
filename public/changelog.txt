@@ -1,5 +1,4 @@
 Alpha 3 - 2019-02-XX
-Added more info to rebirth page
 Added options page:
 - Write button size
 - Scientific notation
@@ -8,7 +7,10 @@ Added options page:
 - Floating text effect
 - Currency ticking effect
 - Hard reset
+Added more info to rebirth page
 Change cursor when over cooldown bars
+Increased urgent job min reward
+Decreased book max reward
 Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
 
 Alpha 2 - 2019-02-12

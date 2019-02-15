@@ -1,9 +1,9 @@
 import randomInt from '@/utils/randomInt';
 import randomJobName from '@/utils/randomJobName';
 
-const rewardRangePercent = [750, 1250];
+const rewardRangePercent = [1000, 1500];
 const wordsRangePercent = [10, 50];
-const wpsRange = [180, 1200];
+const wpsRange = [600, 1800];
 
 export default function (playerWords, wordValue, wps) {
   const jobWordValue = wordValue.times(randomInt(rewardRangePercent[0], rewardRangePercent[1]) / 100);
