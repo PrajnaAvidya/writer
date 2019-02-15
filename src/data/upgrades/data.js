@@ -163,9 +163,8 @@ export default {
     },
   ],
 
-  // jobs
-  jobs: [
-    // cooldown reduction
+  // job cooldown
+  jobCooldown: [
     {
       cost: 1E3,
       cooldownReduction: 10,
@@ -188,11 +187,11 @@ export default {
     },
     {
       cost: 1E13,
-      cooldownReduction: 10,
+      cooldownReduction: 9,
     },
   ],
 
-  // urgent jobs
+  // urgent job cooldown
   urgentJobCooldown: [
     {
       cost: 5E6,

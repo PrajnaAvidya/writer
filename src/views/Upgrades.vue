@@ -107,13 +107,11 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
-        if (upgrade.writingMultiplier) {
-          this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
-          // upgrade icon
-          const icon = this.playerIcons.pop();
-          if (icon) {
-            this.setIconData({ index: 'playerIcon', value: icon });
-          }
+        this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
+        // upgrade icon
+        const icon = this.playerIcons.pop();
+        if (icon) {
+          this.setIconData({ index: 'playerIcon', value: icon });
         }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
@@ -130,7 +128,7 @@ export default {
         this.multiplyJobData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'urgentJobReward') {
         this.multiplyJobData({ index: 'urgentJobRewardMultiplier', amount: upgrade.multiplier });
-      } else if (upgrade.type === 'jobs') {
+      } else if (upgrade.type === 'jobCooldown') {
         this.adjustJobTimer(-upgrade.cooldownReduction);
       } else if (upgrade.type === 'urgentJobCooldown') {
         this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
@@ -159,10 +157,9 @@ export default {
         effects.push(`Increases job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'urgentJobReward') {
         effects.push(`Increases urgent job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'clicking') {
+        effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
       } else {
-        if (upgrade.writingMultiplier) {
-          effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
-        }
         if (upgrade.cooldownReduction) {
           effects.push(`Subtracts ${upgrade.cooldownReduction} seconds from cooldown`);
         }
@@ -171,9 +168,6 @@ export default {
         }
         if (upgrade.cooldownMultiplier) {
           effects.push(`Reduces cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
-        }
-        if (upgrade.timerMultiplier) {
-          effects.push(`Increases timer by ${parseInt((upgrade.timerMultiplier - 1) * 100, 10)}%`);
         }
       }
 

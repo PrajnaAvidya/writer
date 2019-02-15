@@ -71,31 +71,29 @@ export default function () {
     upgrades[id] = upgrade;
   });
 
-  // jobs
+  // job cooldown
   let previousJobCooldownUpgrade = null;
-  upgradeData.jobs.forEach((jobUpgrade) => {
+  upgradeData.jobCooldown.forEach((jobUpgrade) => {
     id += 1;
 
     const upgrade = {
       id,
-      type: 'jobs',
+      type: 'jobCooldown',
       name: `${randomAdjective()} Jobs`,
+      cooldownReduction: jobUpgrade.cooldownReduction,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-briefcase',
     };
-    // set effect
-    if (jobUpgrade.cooldownReduction) {
-      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
-      if (previousJobCooldownUpgrade) {
-        upgrade.previousId = previousJobCooldownUpgrade;
-      }
-      previousJobCooldownUpgrade = id;
+    upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
+    if (previousJobCooldownUpgrade) {
+      upgrade.previousId = previousJobCooldownUpgrade;
     }
+    previousJobCooldownUpgrade = id;
 
     upgrades[id] = upgrade;
   });
 
-  // urgent jobs
+  // urgent job cooldown
   let previousUrgentJobCooldownUpgrade = null;
   upgradeData.urgentJobCooldown.forEach((jobUpgrade) => {
     id += 1;
