@@ -31,6 +31,12 @@
     />
 
     <EnableDisable
+      label="Particle Effects"
+      tooltip="Disable if you have an old graphics card or if you are boring"
+      option-index="particles"
+    />
+
+    <EnableDisable
       label="Currency Ticking Effect"
       tooltip="Disabling may improve performance on slower computers"
       option-index="loopEffect"

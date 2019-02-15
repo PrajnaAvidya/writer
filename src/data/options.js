@@ -4,6 +4,7 @@ export default function () {
   const options = {
     buttonSize: 5,
     notifications: true,
+    particles: true,
     loopEffect: true,
   };
 
