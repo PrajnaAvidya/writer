@@ -132,15 +132,9 @@ export default {
         this.multiplyJobData({ index: 'urgentJobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'jobs') {
         this.adjustJobTimer(-upgrade.cooldownReduction);
-      } else if (upgrade.type === 'urgentJobs') {
-        if (upgrade.cooldownMultiplier) {
-          this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
-          this.multiplyJobData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
-        }
-        if (upgrade.timerMultiplier) {
-          this.multiplyJobData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
-          this.setJobsData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
-        }
+      } else if (upgrade.type === 'urgentJobCooldown') {
+        this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
+        this.multiplyJobData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
       }
 
       // show message
@@ -234,27 +228,13 @@ export default {
       }
 
       let metRequirements = true;
-      if (upgrade.type === 'worker') {
-        if (this.money.lt(upgrade.cost.div(10))) {
-          return false;
-        }
-
-        // show upgrade when player has 1/4 workers
-        metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-          const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity < required / 4) {
-            metRequirements = false;
-            return false;
-          }
-          return true;
-        });
-      } else if (upgrade.type === 'jobs') {
-        return this.stats.jobs.gte(5);
+      if (upgrade.type === 'jobs') {
+        metRequirements = this.stats.jobs.gte(1);
       } else if (upgrade.type === 'urgentJobs') {
-        return this.stats.urgentJobs.gte(3);
+        metRequirements = this.stats.urgentJobs.gte(1);
       } else {
-        // show upgrade when player has 1/5 money
-        metRequirements = this.money.gte(upgrade.cost.div(5));
+        // show upgrade when player has 10% money
+        metRequirements = this.money.gte(upgrade.cost.div(10));
       }
       if (!metRequirements) {
         return false;

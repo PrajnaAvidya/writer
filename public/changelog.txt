@@ -12,6 +12,7 @@ Change cursor when over cooldown bars
 Increased urgent job min reward
 Decreased book max reward
 Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
+UI tweaks
 
 Alpha 2 - 2019-02-12
 Added player icon for caffeine boost

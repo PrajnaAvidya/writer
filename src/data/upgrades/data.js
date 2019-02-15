@@ -193,7 +193,7 @@ export default {
   ],
 
   // urgent jobs
-  urgentJobs: [
+  urgentJobCooldown: [
     {
       cost: 5E6,
       cooldownMultiplier: 0.75,
@@ -202,23 +202,9 @@ export default {
       cost: 5E9,
       cooldownMultiplier: 0.75,
     },
-    /*
     {
-      cost: 5E4,
-      timerMultiplier: 1.5,
+      cost: 5E12,
+      cooldownMultiplier: 0.75,
     },
-    {
-      cost: 5E7,
-      timerMultiplier: 1.5,
-    },
-    {
-      cost: 5E10,
-      timerMultiplier: 1.5,
-    },
-    {
-      cost: 5E13,
-      timerMultiplier: 1.5,
-    },
-    */
   ],
 };
