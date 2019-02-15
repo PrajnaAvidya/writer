@@ -8,7 +8,7 @@ export default {
   books: false,
   rebirth: false,
   disableAutoSave: false,
-  disableAutoLoad: true,
+  disableAutoLoad: false,
   // startingMilestones: Big(100),
   // startingWords: Big(1E100),
   // startingMoney: Big(1E100),
