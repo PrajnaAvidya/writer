@@ -2,9 +2,6 @@
 node_modules
 /dist*
 
-# ignore debug changes
-src/data/debug.js
-
 # local env files
 .env.local
 .env.*.local
