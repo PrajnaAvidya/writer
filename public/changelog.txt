@@ -6,6 +6,7 @@ Added options page:
 - Particle effects
 - Floating text effect
 - Currency ticking effect
+- Hard reset
 Automated my build/staging/devops process (really sorry to the person whose save game was wiped when I screwed up a build, hopefully that won't happen again)
 
 Alpha 2 - 2019-02-12

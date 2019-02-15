@@ -8,6 +8,7 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
+    'no-alert': 'off',
     'no-param-reassign': 0,
     'object-curly-newline': 0,
     'max-len': 0,

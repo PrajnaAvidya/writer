@@ -68,6 +68,7 @@ import particles from '@/utils/particles';
 // save/load
 import save from '@/utils/save';
 import load from '@/utils/load';
+import deleteSave from '@/utils/deleteSave';
 
 export default {
   name: 'Game',
@@ -250,11 +251,19 @@ export default {
 
       this.setNextBook();
     },
+    async hardReset() {
+      this.hardResetting = true;
+
+      // delete all save files
+      await deleteSave();
+
+      window.location.reload(false);
+    },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
         const debugSettings = this.$store.state.debug;
         if (debugSettings.fastSaves) {
-          this.saveInterval = 3;
+          this.saveInterval = 5;
         }
         if (debugSettings.startingMilestones) {
           this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
@@ -301,13 +310,13 @@ export default {
       log('registering events');
       // save before closing window
       window.addEventListener('beforeunload', () => {
-        if (!this.unloadSave && !this.checkDebug('disableAutoSave')) {
+        if (!this.unloadSave && !this.hardResetting && !this.checkDebug('disableAutoSave')) {
           this.unloadSave = true;
           save();
         }
       });
       window.addEventListener('unload', () => {
-        if (!this.unloadSave && !this.checkDebug('disableAutoSave')) {
+        if (!this.unloadSave && !this.hardResetting && !this.checkDebug('disableAutoSave')) {
           this.unloadSave = true;
           save();
         }
@@ -332,6 +341,7 @@ export default {
         this.crazyBooksComponent = 'CrazyBooks';
       });
       this.$root.$on('rebirth', this.doRebirth);
+      this.$root.$on('hardReset', this.hardReset);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -374,7 +384,7 @@ export default {
       // update title
       this.updateTitle();
 
-      if (!this.checkDebug('disableAutoSave') && this.utimestamp >= this.nextSave) {
+      if (!this.checkDebug('disableAutoSave') && this.utimestamp >= this.nextSave && !this.hardResetting) {
         save();
         this.nextSave = unixTimestamp(this.saveInterval);
       }

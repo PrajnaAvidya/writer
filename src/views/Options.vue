@@ -48,11 +48,12 @@
       option-index="loopEffect"
     />
 
-    <!--a
+    <a
       class="button is-danger"
+      @click="hardReset()"
     >
-      Hard Reset
-    </a-->
+      {{ resetButtonText }}
+    </a>
   </div>
 </template>
 
@@ -65,6 +66,9 @@ export default {
   components: {
     EnableDisable,
   },
+  data: () => ({
+    resetButtonText: 'Hard Reset',
+  }),
   computed: {
     ...mapState('options', [
       'buttonSize',
@@ -72,6 +76,21 @@ export default {
     ]),
   },
   methods: {
+    hardReset() {
+      if (this.resetButtonText === 'Hard Reset') {
+        this.resetButtonText = 'Are You Sure?';
+        setTimeout(() => {
+          this.resetButtonText = 'Hard Reset';
+        }, 3000);
+      } else {
+        const choice = window.confirm('Are you absolutely sure? This will completely wipe all of your progress (including rebirths/plot points) and you will recieve no bonus or hidden achievements or anything like that.');
+        if (choice === true) {
+          this.$root.$emit('hardReset');
+        } else {
+          this.resetButtonText = 'Hard Reset';
+        }
+      }
+    },
     ...mapMutations('options', [
       'adjustButtonSize',
     ]),

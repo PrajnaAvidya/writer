@@ -27,6 +27,5 @@ export default async function () {
   Vue.$ga.event({
     eventCategory: 'Game',
     eventAction: 'Save',
-    eventLabel: saveData.timestamp,
   });
 }
