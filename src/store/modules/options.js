@@ -1,14 +1,19 @@
 import optionsData from '@/data/options';
 
-const state = Object.assign({}, optionsData);
+const state = Object.assign({}, optionsData());
 
 const getters = {
   //
 };
 
 const mutations = {
+  adjustButtonSize(s, amount) {
+    if (s.buttonSize + amount >= 1 && s.buttonSize + amount <= s.maxButtonSize) {
+      s.buttonSize += amount;
+    }
+  },
   resetOptions(s) {
-    const d = Object.assign({}, optionsData);
+    const d = Object.assign({}, optionsData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

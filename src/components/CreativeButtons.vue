@@ -4,12 +4,13 @@
       <a
         class="button is-primary is-large tooltip is-tooltip-right"
         :class="{ pulse: buzzActive }"
+        :style="{ width: buttonSizePx, height: buttonSizePx }"
         :data-tooltip="tooltip"
         @click="$root.$emit('write', $event)"
       >
         <i
-          class="fas fa-4x"
-          :class="buzzActive ? 'fa-bolt' : playerIcon"
+          class="fas"
+          :class="iconClass"
         />
       </a>
     </div>
@@ -19,6 +20,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import Big from 'big.js';
+import buttonSizes from '@/data/buttonSizes';
 
 export default {
   name: 'CreativeButtons',
@@ -26,6 +28,17 @@ export default {
     tooltip: 'Write some words',
   }),
   computed: {
+    buttonSizePx() {
+      return `${buttonSizes[this.buttonSize].size}px`;
+    },
+    iconClass() {
+      const iconClasses = {};
+      iconClasses[`fa-${buttonSizes[this.buttonSize].icon}`] = true;
+      iconClasses['fa-bolt'] = this.buzzActive;
+      iconClasses[this.playerIcon] = !this.buzzActive;
+
+      return iconClasses;
+    },
     ...mapState('icons', [
       'playerIcon',
     ]),
@@ -42,6 +55,9 @@ export default {
     ]),
     ...mapState('workers', [
       'workerWps',
+    ]),
+    ...mapState('options', [
+      'buttonSize',
     ]),
     ...mapGetters('rebirth', [
       'plotBonus',
@@ -78,10 +94,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.button {
-  height: 150px;
-  width: 150px;
-}
 .buttons {
   margin: 0 auto;
   width: 200px;

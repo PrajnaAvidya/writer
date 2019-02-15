@@ -246,6 +246,9 @@ export default {
     setDebugMode() {
       if (this.checkDebug('enabled')) {
         const debugSettings = this.$store.state.debug;
+        if (debugSettings.fastSaves) {
+          this.saveInterval = 3;
+        }
         if (debugSettings.startingMilestones) {
           this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
         }
