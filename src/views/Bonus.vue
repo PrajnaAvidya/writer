@@ -71,8 +71,6 @@ export default {
         this.multiplyBonus({ index: 'hurryAmount', amount: 2 });
       } else if (bonus.type === 'caffeineWordMultiplier') {
         this.multiplyBonus({ index: 'caffeineWordMultiplier', amount: 2 });
-      } else if (bonus.type === 'caffeineClickWps') {
-        this.addBonus({ index: 'caffeineClickWps', amount: 1 });
       } else if (bonus.type === 'passiveMoney') {
         this.passiveMoney();
       }

@@ -68,7 +68,7 @@ export default [
     cost: 5000,
     type: 'caffeineWordMultiplier',
   },
-  // TODO passive $
+  // passive $
   {
     name: 'Easy Money',
     description: 'Recieve 1 cent for every word generated (includes job reward multipliers)',
@@ -99,37 +99,37 @@ export default [
     cost: 550,
     type: 'passiveMoney',
   },
-  // clicking worker wps
+  // TODO use these names for a new bonus
   /*
   {
     name: 'Cappuccino',
     description: 'Adds 100% of your worker words per second per click during caffeine boost',
     cost: 200,
-    type: 'caffeineClickWps',
+    type: 'todo',
   },
   {
     name: 'Espresso',
     description: 'Adds 100% of your worker words per second per click during caffeine boost',
     cost: 1000,
-    type: 'caffeineClickWps',
+    type: 'todo',
   },
   {
     name: 'Latte',
     description: 'Adds 100% of your worker words per second per click during caffeine boost',
     cost: 2000,
-    type: 'caffeineClickWps',
+    type: 'todo',
   },
   {
     name: 'Mocha',
     description: 'Adds 100% of your worker words per second per click during caffeine boost',
     cost: 5000,
-    type: 'caffeineClickWps',
+    type: 'todo',
   },
   {
     name: 'Ristretto',
     description: 'Adds 100% of your worker words per second per click during caffeine boost',
     cost: 10000,
-    type: 'caffeineClickWps',
+    type: 'todo',
   },
   // caffeine click children
   {
