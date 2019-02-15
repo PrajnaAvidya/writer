@@ -8,7 +8,7 @@ Added options page:
 - Floating text effect
 - Currency ticking effect
 - Hard reset
-Automated my build/staging/devops process (really sorry to the person whose save game was wiped when I screwed up a build, hopefully that won't happen again)
+Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
 
 Alpha 2 - 2019-02-12
 Added player icon for caffeine boost

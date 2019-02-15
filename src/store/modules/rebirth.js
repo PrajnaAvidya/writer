@@ -22,6 +22,7 @@ const mutations = {
     }
   },
   spendPlotPoints(s, amount) {
+    s.spentPlotPoints = s.spentPlotPoints.plus(amount);
     s.plotPoints = s.plotPoints.minus(amount);
   },
   addJobSlot(s) {

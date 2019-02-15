@@ -6,6 +6,7 @@ export default {
   baseMilestonesNeeded: Big(30),
   rebirths: Big(0),
   plotPoints: Big(0),
+  spentPlotPoints: Big(0),
   bonuses: {
     jobSlots: 1,
     hurryAmount: 1,
