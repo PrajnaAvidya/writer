@@ -2,6 +2,7 @@ Alpha 3 - 2019-02-XX
 Added more info to rebirth page
 Added options page:
 - Write button size
+- Scientific notation
 - Notifications
 - Particle effects
 - Floating text effect

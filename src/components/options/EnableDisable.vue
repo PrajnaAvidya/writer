@@ -55,17 +55,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.option-label, .option-choice {
-  margin-right: 10px;
-}
-.option-label {
-  font-weight: bold;
-}
-.option-item {
-  height: 35px;
-  line-height: 35px;
-  margin-bottom: 20px;
-}
-</style>

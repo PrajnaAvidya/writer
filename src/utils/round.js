@@ -1,6 +1,7 @@
 // round/format large numbers
 
 import Big from 'big.js';
+import store from '@/store';
 
 export default function (inputValue, userOptions = {}) {
   // get/combine default options
@@ -20,7 +21,7 @@ export default function (inputValue, userOptions = {}) {
   // convert to big.js
   const value = Big(inputValue);
 
-  // check if negative
+  // check if negative (not allowed in this game!)
   if (options.alwaysPositive && value.lt(0)) {
     return 0;
   }
@@ -36,7 +37,7 @@ export default function (inputValue, userOptions = {}) {
   }
 
   // exponential option
-  if (options.exponential && value.lt('1E303')) {
+  if (store.state.options.scientificNotation || options.exponential) {
     return value.toExponential(3);
   }
 

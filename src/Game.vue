@@ -254,7 +254,6 @@ export default {
     async hardReset() {
       this.hardResetting = true;
 
-      // delete all save files
       await deleteSave();
 
       window.location.reload(false);

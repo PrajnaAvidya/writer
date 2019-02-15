@@ -3,6 +3,7 @@ import buttonSizes from '@/data/buttonSizes';
 export default function () {
   const options = {
     buttonSize: 5,
+    scientificNotation: false,
     notifications: true,
     particles: true,
     floatingText: true,

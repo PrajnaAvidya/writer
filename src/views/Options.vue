@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <!-- TODO make component -->
+  <div class="options">
     <div
       class="option-item tooltip"
       data-tooltip="Change the size of the 'write' button"
@@ -23,6 +22,12 @@
         Bigger
       </a>
     </div>
+
+    <EnableDisable
+      label="Scientific Notation"
+      tooltip="Scientific Notation is try-hard"
+      option-index="scientificNotation"
+    />
 
     <EnableDisable
       label="Notifications"
@@ -48,12 +53,14 @@
       option-index="loopEffect"
     />
 
-    <a
-      class="button is-danger"
-      @click="hardReset()"
-    >
-      {{ resetButtonText }}
-    </a>
+    <div class="hard-reset">
+      <a
+        class="button is-danger"
+        @click="hardReset()"
+      >
+        {{ resetButtonText }}
+      </a>
+    </div>
   </div>
 </template>
 
@@ -98,8 +105,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// TODO remove styling when in components
+<style lang="scss">
+.options {
+  margin: 0 auto;
+  width: 400px;
+  text-align: right;
+}
 .option-label, .option-choice {
   margin-right: 10px;
 }
@@ -110,5 +121,8 @@ export default {
   height: 35px;
   line-height: 35px;
   margin-bottom: 20px;
+}
+.hard-reset {
+  text-align: center;
 }
 </style>
