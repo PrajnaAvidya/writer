@@ -50,7 +50,7 @@ export default {
     ]),
     ...mapState('caffeine', [
       'buzzActive',
-      'caffeineClickMultiplier',
+      'caffeineMinimumWordGeneration',
     ]),
     ...mapState('rebirth', [
       'plotPoints',
@@ -81,7 +81,7 @@ export default {
     writeTooltip() {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
+        words = this.workerWps.plus(this.caffeineMinimumWordGeneration);
       }
       // add plot bonus
       words = words.times(this.plotBonus);

@@ -105,7 +105,6 @@ export default {
       'caffeineTime',
       'nextCaffeineTime',
       'endCaffeineTime',
-      'caffeineClickMultiplier',
       'caffeineMinimumWordGeneration',
     ]),
     ...mapState('books', [
@@ -455,7 +454,7 @@ export default {
     write(event) {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
+        words = this.workerWps.plus(this.caffeineMinimumWordGeneration);
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       // add plot bonus

@@ -48,7 +48,6 @@ const mutations = {
       s[key] = obj[key];
     });
 
-    s.caffeineClickMultiplier = Big(s.caffeineClickMultiplier);
     s.caffeineMinimumWordGeneration = Big(s.caffeineMinimumWordGeneration);
   },
 };
