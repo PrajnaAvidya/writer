@@ -10,6 +10,7 @@ export default {
   rebirth: false,
   disableAutoSave: false,
   disableAutoLoad: false,
+  // startingPlayerWords: Big(100),
   // startingMilestones: Big(100),
   // startingWords: Big(1E100),
   // startingMoney: Big(1E100),

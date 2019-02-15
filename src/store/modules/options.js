@@ -3,7 +3,7 @@ import optionsData from '@/data/options';
 const state = Object.assign({}, optionsData());
 
 const getters = {
-  //
+  checkOption: s => option => s[option] === true,
 };
 
 const mutations = {
@@ -11,6 +11,9 @@ const mutations = {
     if (s.buttonSize + amount >= 1 && s.buttonSize + amount <= s.maxButtonSize) {
       s.buttonSize += amount;
     }
+  },
+  setOptionData(s, { index, value }) {
+    s[index] = value;
   },
   resetOptions(s) {
     const d = Object.assign({}, optionsData());

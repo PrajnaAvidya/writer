@@ -159,6 +159,9 @@ export default {
       'jobSlots',
       'plotBonus',
     ]),
+    ...mapGetters('options', [
+      'checkOption',
+    ]),
   },
   mounted() {
     this.setupGame();
@@ -177,7 +180,11 @@ export default {
       }
 
       // go home
-      this.$router.push('/');
+      if (!this.checkDebug('enabled')) {
+        this.$router.push('/');
+      }
+
+      // disable crazy books
       this.crazyBooksComponent = null;
 
       // check for debug mode
@@ -251,6 +258,9 @@ export default {
         }
         if (debugSettings.startingMilestones) {
           this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
+        }
+        if (debugSettings.startingPlayerWords) {
+          this.setCurrencyData({ index: 'playerWords', value: debugSettings.startingPlayerWords });
         }
         if (debugSettings.startingWords) {
           this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
@@ -380,6 +390,11 @@ export default {
     // === start methods ===
     // ui/effects
     loopEffect(frameIncrement) {
+      if (!this.checkOption('loopEffect')) {
+        this.displayedWords = Big(this.words);
+        this.displayedMoney = Big(this.money);
+      }
+
       const loopAmount = frameIncrement.times(11);
 
       if (this.words.gt(0)) {
