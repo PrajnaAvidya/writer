@@ -110,6 +110,7 @@ export default {
   line-height: 52px;
 }
 .caffeine-cooldown {
+  cursor: pointer;
   padding-left: 20px;
   padding-right: 20px;
   height: 43px;

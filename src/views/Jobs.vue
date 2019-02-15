@@ -280,6 +280,7 @@ export default {
   margin-bottom: 5px;
 }
 .job-cooldown {
+  cursor: pointer;
   padding-left: 20px;
   padding-right: 20px;
   height: 43px;
