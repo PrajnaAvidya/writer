@@ -379,18 +379,22 @@ export default {
     loopEffect(frameIncrement) {
       const loopAmount = frameIncrement.times(11);
 
-      if (this.words.gt(0)) {
+      if (this.words.eq(0)) {
+        this.displayedWords = Big(0);
+      } else {
         const wordDiff = this.words.minus(this.displayedWords);
-        if (wordDiff.lte(1) || wordDiff.abs().div(this.words).lt(0.01)) {
+        if (wordDiff.abs().lte(1) || wordDiff.abs().div(this.words).lt(0.01)) {
           this.displayedWords = Big(this.words);
         } else {
           this.displayedWords = this.displayedWords.plus(wordDiff.times(loopAmount));
         }
       }
 
-      if (this.money.gt(0)) {
+      if (this.money.eq(0)) {
+        this.displayedMoney = Big(0);
+      } else {
         const moneyDiff = this.money.minus(this.displayedMoney);
-        if (moneyDiff.lte(1) || moneyDiff.abs().div(this.money).lt(0.01)) {
+        if (moneyDiff.abs().lte(1) || moneyDiff.abs().div(this.money).lt(0.01)) {
           this.displayedMoney = Big(this.money);
         } else {
           this.displayedMoney = this.displayedMoney.plus(moneyDiff.times(loopAmount));
