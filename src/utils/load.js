@@ -4,8 +4,10 @@ import log from '@/utils/log';
 import saveStores from '@/data/saveStores';
 
 async function loadStoreData(state) {
-  const stateData = JSON.parse(await localforage.getItem(`writerSaveState_${state}`));
-  store.commit(`${state}/fromJSON`, stateData);
+  const stateData = await localforage.getItem(`writerSaveState_${state}`);
+  if (stateData) {
+    store.commit(`${state}/fromJSON`, JSON.parse(stateData));
+  }
 }
 
 export default async function () {
