@@ -8,6 +8,7 @@ Added options page:
 - Floating text effect
 - Currency ticking effect
 - Hard reset
+Change cursor when over cooldown bars
 Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
 
 Alpha 2 - 2019-02-12
