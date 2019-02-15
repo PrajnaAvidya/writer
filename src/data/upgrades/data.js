@@ -126,7 +126,7 @@ export default {
       requirement: 150,
       multiplier: 2,
     },
-    { // + 3e cost, +50 req
+    {
       cost: 5E12,
       requirement: 200,
       multiplier: 2,
@@ -146,7 +146,7 @@ export default {
       requirement: 350,
       multiplier: 2,
     },
-    { // +4e cost, +50 req
+    {
       cost: 5E25,
       requirement: 400,
       multiplier: 2,
@@ -159,6 +159,31 @@ export default {
     {
       cost: 5E33,
       requirement: 500,
+      multiplier: 2,
+    },
+    {
+      cost: 5E43,
+      requirement: 600,
+      multiplier: 2,
+    },
+    {
+      cost: 5E53,
+      requirement: 700,
+      multiplier: 2,
+    },
+    {
+      cost: 5E63,
+      requirement: 800,
+      multiplier: 2,
+    },
+    {
+      cost: 5E73,
+      requirement: 900,
+      multiplier: 2,
+    },
+    {
+      cost: 5E83,
+      requirement: 1000,
       multiplier: 2,
     },
   ],
