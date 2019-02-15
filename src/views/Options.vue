@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO make component -->
     <div
       class="option-item tooltip"
       data-tooltip="Change the size of the 'write' button"
@@ -23,28 +24,17 @@
       </a>
     </div>
 
-    <div
-      class="option-item tooltip"
-      data-tooltip="Disabling may improve performance on slower computers"
-    >
-      <span class="option-label">
-        Currency Ticking Effect:
-      </span>
-      <a
-        class="button option-choice"
-        :disabled="loopEffect"
-        @click="setOptionData({ index: 'loopEffect', value: true })"
-      >
-        Enable
-      </a>
-      <a
-        class="button option-choice"
-        :disabled="!loopEffect"
-        @click="setOptionData({ index: 'loopEffect', value: false })"
-      >
-        Disable
-      </a>
-    </div>
+    <EnableDisable
+      label="Notifications"
+      tooltip="Notifications make the game more fun!"
+      option-index="notifications"
+    />
+
+    <EnableDisable
+      label="Currency Ticking Effect"
+      tooltip="Disabling may improve performance on slower computers"
+      option-index="loopEffect"
+    />
 
     <!--a
       class="button is-danger"
@@ -56,19 +46,21 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import EnableDisable from '@/components/options/EnableDisable.vue';
 
 export default {
   name: 'Options',
+  components: {
+    EnableDisable,
+  },
   computed: {
     ...mapState('options', [
       'buttonSize',
       'maxButtonSize',
-      'loopEffect',
     ]),
   },
   methods: {
     ...mapMutations('options', [
-      'setOptionData',
       'adjustButtonSize',
     ]),
   },
@@ -76,6 +68,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// TODO remove styling when in components
 .option-label, .option-choice {
   margin-right: 10px;
 }

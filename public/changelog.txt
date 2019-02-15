@@ -2,7 +2,8 @@ Alpha 3 - 2019-02-XX
 Added more info to rebirth page
 Added options page:
 - Adjustable write icon size
-- Enable/Disable currency ticking effect
+- Enable/disable notifications
+- Enable/disable currency ticking effect
 Automated my build/staging/devops process (really sorry to the person whose save game was wiped when I screwed up a build, hopefully that won't happen again)
 
 Alpha 2 - 2019-02-12

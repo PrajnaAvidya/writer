@@ -622,7 +622,7 @@ export default {
         } else {
           // update countdowns
           this.setJobsData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
-          if (!this.urgentJobNotification) {
+          if (!this.urgentJobNotification && this.checkOption('notifications')) {
             // show notification with countdown timer
             this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
               type: 'error',
@@ -636,7 +636,9 @@ export default {
               ],
             });
           }
-          this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
+          if (this.checkOption('notifications')) {
+            this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
+          }
         }
       }
     },
