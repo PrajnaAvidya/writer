@@ -5,6 +5,7 @@ export default function () {
     buttonSize: 5,
     notifications: true,
     particles: true,
+    floatingText: true,
     loopEffect: true,
   };
 
