@@ -4,17 +4,18 @@
       class="option-item tooltip"
       data-tooltip="Change the size of the 'write' button"
     >
-      Change Writing Button Size:
+      <span class="option-label">
+        Write Button Size:
+      </span>
       <a
-        class="button"
+        class="button option-choice"
         :disabled="buttonSize <= 1"
         @click="adjustButtonSize(-1)"
       >
         Smaller
       </a>
-      &nbsp;
       <a
-        class="button"
+        class="button option-choice"
         :disabled="buttonSize >= maxButtonSize"
         @click="adjustButtonSize(1)"
       >
@@ -26,17 +27,18 @@
       class="option-item tooltip"
       data-tooltip="Disabling may improve performance on slower computers"
     >
-      Currency Ticking Effect:
+      <span class="option-label">
+        Currency Ticking Effect:
+      </span>
       <a
-        class="button"
+        class="button option-choice"
         :disabled="loopEffect"
         @click="setOptionData({ index: 'loopEffect', value: true })"
       >
         Enable
       </a>
-      &nbsp;
       <a
-        class="button"
+        class="button option-choice"
         :disabled="!loopEffect"
         @click="setOptionData({ index: 'loopEffect', value: false })"
       >
@@ -74,6 +76,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.option-label, .option-choice {
+  margin-right: 10px;
+}
+.option-label {
+  font-weight: bold;
+}
 .option-item {
   height: 35px;
   line-height: 35px;
