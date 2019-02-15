@@ -14,19 +14,9 @@ export default function () {
   data.upgrades = staticUpgrades();
   let upgradeId = parseInt(Object.keys(data.upgrades)[Object.keys(data.upgrades).length - 1], 10);
 
-  // word value upgrades disabled because it doesn't make sense on its own currently
-  // upgradeId += 1;
-  // upgrades[upgradeId] = generateUpgrade(upgradeId, 'wordValue');
-
   // clicking upgrades
   upgradeId += 1;
   data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'clicking');
-  // caffeine power
-  upgradeId += 1;
-  data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'caffeinePower');
-  // caffeine word gen
-  // upgradeId += 1;
-  // data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'caffeineGeneration');
   // job reward
   upgradeId += 1;
   data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'jobReward');

@@ -12,11 +12,6 @@ export default {
     scale: 25,
     multiplier: 2,
   },
-  caffeinePower: {
-    base: 1000,
-    scale: 50,
-    multiplier: 2,
-  },
   jobReward: {
     base: 100,
     scale: 100,

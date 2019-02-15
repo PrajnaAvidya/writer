@@ -13,13 +13,13 @@
         class="columns bonus"
         :class="{ 'is-hidden': !canSeeBonus(bonus) }"
       >
-        <div class="column">
+        <div class="bonus-name">
           {{ bonus.name }}
         </div>
-        <div class="column">
+        <div class="bonus-description">
           {{ bonus.description }}
         </div>
-        <div class="column">
+        <div class="bonus-button">
           <a
             :disabled="plotPoints.lt(bonus.cost)"
             class="button is-warning"
@@ -73,6 +73,8 @@ export default {
         this.multiplyBonus({ index: 'caffeineWordMultiplier', amount: 2 });
       } else if (bonus.type === 'caffeineClickWps') {
         this.addBonus({ index: 'caffeineClickWps', amount: 1 });
+      } else if (bonus.type === 'passiveMoney') {
+        this.passiveMoney();
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -94,6 +96,7 @@ export default {
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',
+      'passiveMoney',
       'addBonus',
       'multiplyBonus',
     ]),
@@ -112,5 +115,14 @@ export default {
 }
 .bonus {
   margin-top: 15px;
+}
+.bonus-name {
+  width: 200px;
+}
+.bonus-description {
+  width: 550px;
+}
+.bonus-button {
+  width: 150px;
 }
 </style>

@@ -1,4 +1,5 @@
 export default [
+  // job slots
   {
     name: 'Second Job Slot',
     description: 'Unlocks another job slot',
@@ -23,6 +24,7 @@ export default [
     cost: 1000,
     type: 'jobSlot',
   },
+  // cooldowns
   {
     name: 'Hurry Cooldowns',
     description: 'Increase effectiveness of clicking job/caffeine cooldown bars',
@@ -35,6 +37,7 @@ export default [
     cost: 1000,
     type: 'hurryAmount',
   },
+  // coffee wps
   {
     name: 'Good Coffee',
     description: 'Permanently doubles the word generating effect of caffeine',
@@ -65,6 +68,39 @@ export default [
     cost: 5000,
     type: 'caffeineWordMultiplier',
   },
+  // TODO passive $
+  {
+    name: 'Easy Money',
+    description: 'Recieve 1 cent for every word generated (includes job reward multipliers)',
+    cost: 150,
+    type: 'passiveMoney',
+  },
+  {
+    name: 'EZ Money',
+    description: 'Doubles passive money generation (includes job reward multiplier)',
+    cost: 250,
+    type: 'passiveMoney',
+  },
+  {
+    name: 'Ballin\'',
+    description: 'Doubles passive money generation (includes job reward multiplier)',
+    cost: 500,
+    type: 'passiveMoney',
+  },
+  {
+    name: 'Trust Fund',
+    description: 'Doubles passive money generation (includes job reward multiplier)',
+    cost: 450,
+    type: 'passiveMoney',
+  },
+  {
+    name: 'Plutocracy',
+    description: 'Doubles passive money generation (includes job reward multiplier)',
+    cost: 550,
+    type: 'passiveMoney',
+  },
+  // clicking worker wps
+  /*
   {
     name: 'Cappuccino',
     description: 'Adds 100% of your worker words per second per click during caffeine boost',
@@ -95,6 +131,7 @@ export default [
     cost: 10000,
     type: 'caffeineClickWps',
   },
+  // caffeine click children
   {
     name: 'Buzzed Kids',
     description: 'Caffeine click bonus now affects children',
@@ -155,4 +192,5 @@ export default [
     cost: 10000,
     caffeine: 'planet',
   },
+  */
 ];

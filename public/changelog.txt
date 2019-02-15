@@ -7,11 +7,14 @@ Added options page:
 - Floating text effect
 - Currency ticking effect
 - Hard reset
+Added passive money bonus skill
 Added more info to rebirth page
+Added more tiers of worker upgrades
 Change cursor when over cooldown bars
 Increased urgent job min reward
 Decreased book max reward
 Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
+Removed caffeine click power upgrade
 UI tweaks
 
 Alpha 2 - 2019-02-12

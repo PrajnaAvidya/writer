@@ -13,6 +13,8 @@ export default {
     workerCaffeine: workerIndex(false),
     caffeineWordMultiplier: Big(1),
     caffeineClickWps: Big(0),
+    passiveMoney: false,
+    passiveMoneyAmount: Big(0.01),
   },
   lockedBonuses: bonuses(),
   purchasedBonuses: [],

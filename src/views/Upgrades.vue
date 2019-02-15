@@ -120,8 +120,6 @@ export default {
         if (upgrade.lengthMultiplier) {
           this.multiplyCaffeineData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
         }
-      } else if (upgrade.type === 'caffeinePower') {
-        this.multiplyCaffeineData({ index: 'caffeineClickMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'wordValue') {
         this.multiplyCurrencyData({ index: 'wordValue', amount: upgrade.multiplier });
       } else if (upgrade.type === 'jobReward') {
@@ -151,8 +149,6 @@ export default {
         }
       } else if (upgrade.type === 'wordValue') {
         effects.push(`Increases base word value (& job payments) by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
-      } else if (upgrade.type === 'caffeinePower') {
-        effects.push(`Increases caffeine click power by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'jobReward') {
         effects.push(`Increases job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'urgentJobReward') {

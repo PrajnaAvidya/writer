@@ -171,10 +171,12 @@ export default {
     async setupGame(rebirth = false) {
       if (rebirth) {
         this.rebirthGame();
+        this.isNewGame = false;
       } else {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoLoad')) {
           await this.loadGame(saveData.timestamp);
+          this.isNewGame = false;
         } else {
           this.newGame();
         }
@@ -261,23 +263,27 @@ export default {
     setDebugMode() {
       if (this.checkDebug('enabled')) {
         const debugSettings = this.$store.state.debug;
+
+        if (this.isNewGame) {
+          if (debugSettings.startingMilestones) {
+            this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
+          }
+          if (debugSettings.startingPlayerWords) {
+            this.setCurrencyData({ index: 'playerWords', value: debugSettings.startingPlayerWords });
+          }
+          if (debugSettings.startingWords) {
+            this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
+          }
+          if (debugSettings.startingMoney) {
+            this.setCurrencyData({ index: 'money', value: debugSettings.startingMoney });
+          }
+          if (debugSettings.startingPlotPoints) {
+            this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
+          }
+        }
+
         if (debugSettings.fastSaves) {
           this.saveInterval = 5;
-        }
-        if (debugSettings.startingMilestones) {
-          this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
-        }
-        if (debugSettings.startingPlayerWords) {
-          this.setCurrencyData({ index: 'playerWords', value: debugSettings.startingPlayerWords });
-        }
-        if (debugSettings.startingWords) {
-          this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
-        }
-        if (debugSettings.startingMoney) {
-          this.setCurrencyData({ index: 'money', value: debugSettings.startingMoney });
-        }
-        if (debugSettings.startingPlotPoints) {
-          this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
         }
         if (debugSettings.jobCooldown) {
           this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
@@ -375,9 +381,10 @@ export default {
       // how much to divide progress for current tick
       const frameIncrement = Big(1).div(Big(1000).div(progress));
 
-      // add frame words (totalWps * increment)
       if (this.totalWps.gt(0)) {
-        this.addWords(this.totalWps.times(frameIncrement));
+        const frameWords = this.totalWps.times(frameIncrement);
+
+        this.addWords(frameWords);
       }
 
       // update title
@@ -708,6 +715,10 @@ export default {
     addWords(words) {
       this.addCurrencyData({ index: 'words', amount: words });
       this.addToStat({ stat: 'words', amount: words });
+
+      if (this.bonuses.passiveMoney === true) {
+        this.addMoney(words.times(this.jobRewardMultiplier).times(this.bonuses.passiveMoneyAmount));
+      }
     },
     subtractWords(words) {
       this.addCurrencyData({ index: 'words', amount: words.times(-1) });

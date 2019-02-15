@@ -37,6 +37,13 @@ const mutations = {
       s.bonuses[index] += amount;
     }
   },
+  passiveMoney(s) {
+    if (!s.bonuses.passiveMoney) {
+      s.bonuses.passiveMoney = true;
+    } else {
+      s.bonuses.passiveMoneyAmount = s.bonuses.passiveMoneyAmount.times(2);
+    }
+  },
   multiplyBonus(s, { index, amount }) {
     if (typeof s.bonuses[index] === 'object') {
       s.bonuses[index] = s.bonuses[index].times(amount);
@@ -56,9 +63,11 @@ const mutations = {
     });
     s.baseMilestonesNeeded = Big(s.baseMilestonesNeeded);
     s.plotPoints = Big(s.plotPoints);
+    s.spentPlotPoints = Big(s.spentPlotPoints);
     s.rebirths = Big(s.rebirths);
     s.bonuses.caffeineClickWps = Big(s.bonuses.caffeineClickWps);
     s.bonuses.caffeineWordMultiplier = Big(s.bonuses.caffeineWordMultiplier);
+    s.bonuses.passiveMoneyAmount = Big(s.bonuses.passiveMoneyAmount);
   },
 };
 
