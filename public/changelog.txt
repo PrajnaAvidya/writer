@@ -8,6 +8,7 @@ Added options page:
 - Currency ticking effect
 - Hard reset
 Added passive money bonus skill
+Added skill to reduce rebirth milestones
 Added more info to rebirth page
 Added more tiers of worker upgrades
 Change cursor when over cooldown bars
