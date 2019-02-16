@@ -282,9 +282,13 @@ export default {
         this.addRebirthData({ index: 'plotPoints', amount: upgradeData.plotPoints / 2 });
 
         // show modal
+        this.upgradePlotPoints = upgradeData.plotPoints;
         this.$refs.upgradeModal.open();
 
-        // delete
+        // show bonus panel
+        this.revealUnfolding('showBonus');
+
+        // delete upgrade save
         await localforage.removeItem('writerSaveUpgrade');
       }
 
