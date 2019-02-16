@@ -29,6 +29,24 @@
           </a>
         </div>
       </div>
+
+      <div class="columns bonus">
+        <div class="bonus-name">
+          Rebirth Milestone Reduction
+        </div>
+        <div class="bonus-description">
+          Reduce the number of milestones required for rebirth by 15%
+        </div>
+        <div class="bonus-button">
+          <a
+            :disabled="plotPoints.lt(100)"
+            class="button is-warning"
+            @click="buyMilestoneReduction()"
+          >
+            100 Plot Points
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -87,6 +105,15 @@ export default {
         eventLabel: `${bonus.name}`,
       });
     },
+    buyMilestoneReduction() {
+      if (this.plotPoints.lt(100)) {
+        return;
+      }
+
+      this.spendPlotPoints(100);
+
+      this.multiplyRebirthData({ index: 'baseMilestonesNeeded', amount: 0.85 });
+    },
     ...mapMutations('rebirth', [
       'removeBonus',
       'spendPlotPoints',
@@ -94,6 +121,7 @@ export default {
       'passiveMoney',
       'addBonus',
       'multiplyBonus',
+      'multiplyRebirthData',
     ]),
   },
 };

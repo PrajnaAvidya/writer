@@ -21,6 +21,13 @@ const mutations = {
       s[index] += amount;
     }
   },
+  multiplyRebirthData(s, { index, amount }) {
+    if (typeof s[index] === 'object') {
+      s[index] = s[index].times(amount);
+    } else {
+      s[index] *= amount;
+    }
+  },
   spendPlotPoints(s, amount) {
     s.spentPlotPoints = s.spentPlotPoints.plus(amount);
     s.plotPoints = s.plotPoints.minus(amount);
