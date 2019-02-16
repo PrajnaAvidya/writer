@@ -12,10 +12,10 @@ export default {
   disableAutoLoad: true,
   // startingPlayerWords: Big(0),
   // startingMilestones: Big(0),
-  // startingWords: Big(1E9),
+  startingWords: Big(1E9),
   startingMoney: Big(102),
   // startingPlotPoints: Big(2000),
   // caffeineTime: 10,
   // caffeineCooldown: 1,
-  jobCooldown: 20,
+  // jobCooldown: 20,
 };

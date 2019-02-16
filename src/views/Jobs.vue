@@ -71,7 +71,7 @@
           @click="hurryCooldown(job.id)"
         >
           <span class="job-current-payment">
-            {{ job.currentPayment | money }}
+            {{ jobRewardMultiplier.times(job.currentPayment) | money }}
           </span>
           <progress
             class="progress is-info"
