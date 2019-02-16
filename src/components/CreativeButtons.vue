@@ -65,14 +65,6 @@ export default {
       'plotBonus',
     ]),
   },
-  watch: {
-    playerWords() {
-      this.writeTooltip();
-    },
-    buzzActive() {
-      this.writeTooltip();
-    },
-  },
   mounted() {
     this.writeTooltip();
   },

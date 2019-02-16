@@ -19,7 +19,7 @@
         class="caffeine-section"
       />
 
-      <CreativeButtons />
+      <CreativeButtons ref="creative" />
     </section>
 
     <NavBar v-if="checkUnfolding('showNavigation')" />
@@ -603,6 +603,8 @@ export default {
       this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(this.plotBonus) });
       this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
+
+      this.$refs.creative.writeTooltip();
     },
     // jobs
     updateJobs(initial = false) {
