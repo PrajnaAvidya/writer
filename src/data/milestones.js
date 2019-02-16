@@ -44,7 +44,7 @@ export default {
     multiplier: 5,
   },
   jobCooldown: {
-    base: 10,
+    base: 60,
     multiplier: 2,
   },
 };

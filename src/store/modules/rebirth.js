@@ -74,6 +74,7 @@ const mutations = {
     s.rebirths = Big(s.rebirths);
     s.bonuses.caffeineWordMultiplier = Big(s.bonuses.caffeineWordMultiplier);
     s.bonuses.passiveMoneyAmount = Big(s.bonuses.passiveMoneyAmount);
+    s.bonuses.startingMoney = Big(s.bonuses.startingMoney);
   },
 };
 
