@@ -36,4 +36,7 @@ export default {
   hardResetting: false,
   // rebirth
   rebirthNotification: false,
+  // upgrade
+  showUpgradeModal: false,
+  upgradePlotPoints: 0,
 };

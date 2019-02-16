@@ -7,7 +7,7 @@ import saveStores from '@/data/saveStores';
 
 export default async function () {
   const saveData = {};
-  saveData.version = 1;
+  saveData.version = 2;
   saveData.timestamp = unixTimestamp();
   saveData.stores = [];
   Object.keys(store.state).forEach((state) => {

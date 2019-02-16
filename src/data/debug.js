@@ -1,13 +1,13 @@
 import Big from 'big.js';
 
 export default {
-  enabled: true && process.env.NODE_ENV === 'development',
-  fastSaves: true,
-  disableUnfolding: true,
+  enabled: false && process.env.NODE_ENV === 'development',
+  fastSaves: false,
+  disableUnfolding: false,
   urgentJobs: false,
   showAllUpgrades: false,
   books: false,
-  rebirth: true,
+  rebirth: false,
   disableAutoSave: false,
   disableAutoLoad: false,
   // startingPlayerWords: Big(0),

@@ -1,6 +1,23 @@
 <template>
   <div id="game">
+    <UpgradeModal
+      ref="upgradeModal"
+      :show-header="false"
+      :show-footer="false"
+    >
+      <div class="upgrade-text">
+        Hello, Writer Incremental has been upgraded to <strong>Alpha 3</strong> and because it contains significant changes your save file was been wiped. Since you earned {{ upgradePlotPoints }} plot points in your previous game you have been given {{ upgradePlotPoints / 2 }} plot points for your new game.
+      </div>
+      <button
+        class="button is-primary"
+        @click="$refs.upgradeModal.close()"
+      >
+        OK
+      </button>
+    </UpgradeModal>
+
     <ClickableBook />
+
     <Component :is="crazyBooksComponent" />
 
     <Component
@@ -59,6 +76,7 @@ import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
+import UpgradeModal from '@/components/BaseModal.vue';
 // data
 import gameData from '@/data/game';
 import milestoneData from '@/data/milestones';
@@ -81,6 +99,7 @@ export default {
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
+    UpgradeModal,
   },
   data: () => gameData,
   computed: {
@@ -178,23 +197,28 @@ export default {
           if (saveData.version === 1) {
             const plotPoints = await v1plotPoints();
 
-            // TODO delete save files
-
-            this.newGame();
-
-            // TODO add PP & show modal
-
             log('upgrade save file');
             this.$ga.event({
               eventCategory: 'Game',
               eventAction: 'Upgrade From 1',
               eventLabel: plotPoints,
             });
+
+            // delete save files
+            await deleteSave();
+
+            // inject data for new game
+            const upgradeData = {
+              plotPoints,
+            };
+            await localforage.setItem('writerSaveUpgrade', upgradeData);
+
+            window.location.reload(false);
           } else {
             await this.loadGame(saveData.timestamp);
           }
         } else {
-          this.newGame();
+          await this.newGame();
         }
       }
 
@@ -241,7 +265,7 @@ export default {
         this.registerEvents();
       });
     },
-    newGame() {
+    async newGame() {
       this.$ga.event({
         eventCategory: 'Game',
         eventAction: 'New',
@@ -251,6 +275,18 @@ export default {
       // enable tutorials/unfolding
       this.unfoldingComponent = 'UnfoldingTutorials';
       this.loadFirstTutorial = true;
+
+      // check for upgrade
+      const upgradeData = await localforage.getItem('writerSaveUpgrade');
+      if (upgradeData) {
+        this.addRebirthData({ index: 'plotPoints', amount: upgradeData.plotPoints / 2 });
+
+        // show modal
+        this.$refs.upgradeModal.open();
+
+        // delete
+        await localforage.removeItem('writerSaveUpgrade');
+      }
 
       this.setNextBook();
       this.updateJobs(true);
@@ -921,5 +957,8 @@ export default {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
+}
+.upgrade-text {
+  margin-bottom: 10px;
 }
 </style>
