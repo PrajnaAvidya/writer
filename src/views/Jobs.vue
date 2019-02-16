@@ -71,7 +71,7 @@
           @click="hurryCooldown(job.id)"
         >
           <span class="job-current-payment">
-            {{ job.payment | money }}
+            {{ job.currentPayment | money }}
           </span>
           <progress
             class="progress is-info"
@@ -155,17 +155,24 @@ export default {
   },
   mounted() {
     // only run once
-    this.interval = setInterval(() => this.updateProgressBars(), 100);
+    this.interval = setInterval(() => this.updateJobStatuses(), 100);
   },
   beforeDestroy() {
     clearInterval(this.interval);
   },
   methods: {
-    updateProgressBars() {
+    updateJobStatuses() {
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
         if (!this.jobAvailable[jobId]) {
+          // update bars
           this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp()));
           this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`);
+          // set currentPayment
+          let currentPayment = this.jobs[jobId].payment.minus(Big((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000).times(this.jobs[jobId].payment.div(this.jobCooldown)));
+          if (currentPayment.gt(this.jobs[jobId].payment)) {
+            currentPayment = Big(this.jobs[jobId].payment);
+          }
+          this.jobs[jobId].currentPayment = currentPayment;
         } else {
           this.$set(this.jobProgress, jobId, 0);
         }

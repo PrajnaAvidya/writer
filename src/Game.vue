@@ -612,17 +612,10 @@ export default {
         // generate new job right away when complete
         if (!this.jobs[jobId] || this.jobs[jobId].completed === true) {
           this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
-          console.log(this.jobs[jobId].name);
         }
 
         // update available based on timestamp
         this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
-        /*
-        if (force || (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true))) {
-          // generate new job
-          this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
-        }
-        */
       }
 
       this.nextJobCheck = unixTimestamp(0.1);
