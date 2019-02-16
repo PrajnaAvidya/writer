@@ -612,7 +612,7 @@ export default {
         this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
         if (force || (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true))) {
           // generate new job
-          this.jobs[jobId] = generateJob(this.wordValue, this.workerWps, jobId);
+          this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
         }
       }
 
@@ -848,6 +848,7 @@ export default {
     ]),
     ...mapMutations('jobs', [
       'setJobsData',
+      'setJob',
       'resetJobs',
     ]),
     ...mapMutations('workers', [

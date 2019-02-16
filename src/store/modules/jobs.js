@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Big from 'big.js';
 import unixTimestamp from '@/utils/unixTimestamp';
 import jobsData from '@/data/jobs';
@@ -12,6 +13,9 @@ const getters = {
 const mutations = {
   setJobsData(s, { index, value }) {
     s[index] = value;
+  },
+  setJob(s, { id, job }) {
+    Vue.set(s.jobs, id, job);
   },
   multiplyJobData(s, { index, amount }) {
     if (typeof s[index] === 'object') {
