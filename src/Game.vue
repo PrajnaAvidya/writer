@@ -612,7 +612,7 @@ export default {
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
         // generate new job right away when complete
-        if (!this.jobs[jobId] || this.jobs[jobId].completed === true) {
+        if (initial || !this.jobs[jobId] || this.jobs[jobId].completed === true) {
           this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
         }
 
