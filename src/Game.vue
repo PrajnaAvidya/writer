@@ -279,7 +279,7 @@ export default {
       // check for upgrade
       const upgradeData = await localforage.getItem('writerSaveUpgrade');
       if (upgradeData) {
-        this.addRebirthData({ index: 'plotPoints', amount: upgradeData.plotPoints / 2 });
+        this.addRebirthData({ index: 'plotPoints', amount: Big(upgradeData.plotPoints / 2) });
 
         // show modal
         this.upgradePlotPoints = upgradeData.plotPoints;

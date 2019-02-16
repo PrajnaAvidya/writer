@@ -31,7 +31,7 @@ const bonusCosts = {
 
 export default async function () {
   const stateData = JSON.parse(await localforage.getItem('writerSaveState_rebirth'));
-  let { plotPoints } = parseInt(stateData, 10);
+  let { plotPoints } = stateData;
   stateData.purchasedBonuses.forEach((bonusId) => {
     plotPoints += parseInt(bonusCosts[bonusId], 10);
   });
