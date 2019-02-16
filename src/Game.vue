@@ -51,6 +51,7 @@ import calculateWorkerWps from '@/utils/calculateWorkerWps';
 import workerCost from '@/utils/workerCost';
 import generateJob from '@/utils/generateJob';
 import generateUrgentJob from '@/utils/generateUrgentJob';
+import v1plotPoints from '@/utils/v1plotPoints';
 // components
 import ClickableBook from '@/components/ClickableBook.vue';
 import UnfoldingTutorials from '@/components/UnfoldingTutorials.vue';
@@ -170,7 +171,24 @@ export default {
       } else {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoLoad')) {
-          await this.loadGame(saveData.timestamp);
+          if (saveData.version === 1) {
+            const plotPoints = await v1plotPoints();
+
+            // TODO delete save files
+
+            this.newGame();
+
+            // TODO add PP & show modal
+
+            log('upgrade save file');
+            this.$ga.event({
+              eventCategory: 'Game',
+              eventAction: 'Upgrade From 1',
+              eventLabel: plotPoints,
+            });
+          } else {
+            await this.loadGame(saveData.timestamp);
+          }
         } else {
           this.newGame();
         }
