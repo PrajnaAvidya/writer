@@ -4,6 +4,7 @@
       <div class="column is-half">
         <a
           class="button caffeine-button"
+          :class="{ pulse: buzzActive }"
           :disabled="buzzActive || coffeeAvailableTimer > 0"
           @click="$root.$emit('coffee', $event)"
         >
