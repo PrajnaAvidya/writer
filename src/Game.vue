@@ -6,7 +6,7 @@
       :show-footer="false"
     >
       <div class="upgrade-text">
-        Hello, Writer Incremental has been upgraded to <strong>Alpha 3</strong> and because it contains significant changes your save file was been wiped. Since you earned {{ upgradePlotPoints }} plot points in your previous game you have been given {{ upgradePlotPoints / 2 }} plot points for your new game.
+        Hello, Writer Incremental has been upgraded to <strong>Alpha 3</strong> and because it contains significant changes your save file was been wiped. Based on your progress from your previous game you have been given <strong>{{ upgradePlotPoints / 3 }} plot points</strong> for your new game.
       </div>
       <button
         class="button is-primary"
@@ -279,7 +279,7 @@ export default {
       // check for upgrade
       const upgradeData = await localforage.getItem('writerSaveUpgrade');
       if (upgradeData) {
-        this.addRebirthData({ index: 'plotPoints', amount: Big(upgradeData.plotPoints / 2) });
+        this.addRebirthData({ index: 'plotPoints', amount: Big(upgradeData.plotPoints / 3) });
 
         // show modal
         this.upgradePlotPoints = upgradeData.plotPoints;
