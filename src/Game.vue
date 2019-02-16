@@ -236,6 +236,7 @@ export default {
       this.loadFirstTutorial = true;
 
       this.setNextBook();
+      this.updateJobs(true);
 
       // register events
       this.registerEvents();
@@ -251,6 +252,7 @@ export default {
       this.revealUnfolding('showBonus');
 
       this.setNextBook();
+      this.updateJobs(true);
     },
     async hardReset() {
       this.hardResetting = true;
@@ -603,8 +605,8 @@ export default {
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
     },
     // jobs
-    updateJobs(force = false) {
-      if (!force && this.utimestamp < this.nextJobCheck) {
+    updateJobs(initial = false) {
+      if (!initial && this.utimestamp < this.nextJobCheck) {
         return;
       }
 
@@ -615,7 +617,7 @@ export default {
         }
 
         // update available based on timestamp
-        this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
+        this.$set(this.jobAvailable, jobId, initial || this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
       }
 
       this.nextJobCheck = unixTimestamp(0.1);
@@ -804,7 +806,6 @@ export default {
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
-      this.updateJobs(true);
 
       // reload game data
       Object.assign(this.$data, gameData);

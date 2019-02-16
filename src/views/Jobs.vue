@@ -32,7 +32,7 @@
         <tbody>
           <tr>
             <td style="width: 120px">
-              {{ jobRewardMultiplier.times(job.payment) | money }}
+              {{ jobRewardMultiplier.times(job.currentPayment) | money }}
             </td>
             <td style="width: 350px">
               {{ job.name }}
@@ -198,7 +198,7 @@ export default {
       }
 
       // complete job
-      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
+      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.currentPayment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'jobs', amount: 1 });
       this.revealUnfolding('firstJobComplete');
@@ -215,7 +215,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Job',
         eventAction: 'Completed',
-        eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.payment).toString()}`,
+        eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.currentPayment).toString()}`,
       });
     },
     completeUrgentJob() {
@@ -261,7 +261,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Job',
         eventAction: 'Declined',
-        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.payment).toString()}`,
+        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.currentPayment).toString()}`,
       });
     },
     hurryCooldown(id) {
