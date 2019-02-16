@@ -12,6 +12,8 @@ const stats = {
   upgrades: 'Upgrades Bought',
   clickables: 'Books Clicked',
   wps: 'Highest Words Per Second',
+  jobBars: 'Job Bars Clicked',
+  jobCooldown: 'Job Cooldown Seconds',
 };
 
 export default function () {

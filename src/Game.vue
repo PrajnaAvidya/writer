@@ -380,10 +380,10 @@ export default {
       this.updateUrgentJob();
 
       // how much to divide progress for current tick
-      const frameIncrement = Big(1).div(Big(1000).div(progress));
+      this.frameIncrement = Big(1).div(Big(1000).div(progress));
 
       if (this.totalWps.gt(0)) {
-        const frameWords = this.totalWps.times(frameIncrement);
+        const frameWords = this.totalWps.times(this.frameIncrement);
 
         this.addWords(frameWords);
       }
@@ -397,7 +397,7 @@ export default {
       }
 
       // do loop effect
-      this.loopEffect(frameIncrement);
+      this.loopEffect(this.frameIncrement);
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -618,8 +618,14 @@ export default {
 
         // update available based on timestamp
         this.$set(this.jobAvailable, jobId, initial || this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
+
+        if (!this.jobAvailable[jobId]) {
+          // update cooldown stat
+          this.addToStat({ stat: 'jobCooldown', amount: (unixTimestamp() - this.lastJobCheck) / 1000 });
+        }
       }
 
+      this.lastJobCheck = unixTimestamp();
       this.nextJobCheck = unixTimestamp(0.1);
     },
     // urgent jobs
