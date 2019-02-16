@@ -1,7 +1,7 @@
 import randomInt from '@/utils/randomInt';
 import randomJobName from '@/utils/randomJobName';
 
-const rewardRangePercent = [1000, 1500];
+const rewardRangePercent = [1500, 2500];
 const wordsRangePercent = [10, 50];
 const wpsRange = [600, 1800];
 
