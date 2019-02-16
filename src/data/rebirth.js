@@ -10,7 +10,6 @@ export default {
   bonuses: {
     jobSlots: 1,
     hurryAmount: 1,
-    workerCaffeine: workerIndex(false),
     caffeineWordMultiplier: Big(1),
     passiveMoney: false,
     passiveMoneyAmount: Big(0.01),

@@ -2,18 +2,13 @@
 
 import Big from 'big.js';
 
-export default function (workers, caffeine, workerCaffeine, multiplier) {
+export default function (workers) {
   let total = Big(0);
   const worker = {};
   const tooltips = {};
   Object.keys(workers).forEach((workerId) => {
     const baseContrubution = workers[workerId].productivityMultiplier.times(workers[workerId].baseProductivity);
-    let totalContribution = baseContrubution.times(workers[workerId].quantity);
-
-    // caffeine
-    if (caffeine === true && workerCaffeine[workerId] === true) {
-      totalContribution = totalContribution.times(multiplier);
-    }
+    const totalContribution = baseContrubution.times(workers[workerId].quantity);
 
     if (totalContribution.gt(0)) {
       total = total.plus(totalContribution);

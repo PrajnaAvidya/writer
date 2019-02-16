@@ -586,7 +586,7 @@ export default {
     updateWps() {
       log('recalculating wps');
       // get worker wps
-      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.bonuses.caffeineWordMultiplier);
+      const workerWps = calculateWorkerWps(this.workers);
       // add plot point bonus
       let totalWps = workerWps.total.times(this.plotBonus);
       // add caffeine wps

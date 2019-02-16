@@ -51,9 +51,6 @@ const mutations = {
       s.bonuses[index] *= amount;
     }
   },
-  enableWorkerCaffeine(s, worker) {
-    s.bonuses.workerCaffeine[worker] = true;
-  },
   removeBonus(s, id) {
     Vue.delete(s.lockedBonuses, id);
   },

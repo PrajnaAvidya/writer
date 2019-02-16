@@ -63,9 +63,7 @@ export default {
       this.spendPlotPoints(bonus.cost);
 
       // apply bonus
-      if (bonus.caffeine) {
-        this.enableWorkerCaffeine(bonus.caffeine);
-      } else if (bonus.type === 'jobSlot') {
+      if (bonus.type === 'jobSlot') {
         this.addJobSlot();
       } else if (bonus.type === 'hurryAmount') {
         this.multiplyBonus({ index: 'hurryAmount', amount: 2 });
@@ -90,7 +88,6 @@ export default {
       });
     },
     ...mapMutations('rebirth', [
-      'enableWorkerCaffeine',
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',
