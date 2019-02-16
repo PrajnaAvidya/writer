@@ -12,7 +12,7 @@ const stats = {
   upgrades: 'Upgrades Bought',
   clickables: 'Books Clicked',
   wps: 'Highest Words Per Second',
-  jobBars: 'Job Bars Clicked',
+  jobBars: 'Job Bar Clicks',
   jobCooldown: 'Job Cooldown Seconds',
 };
 

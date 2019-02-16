@@ -265,6 +265,7 @@ export default {
       });
     },
     hurryCooldown(id) {
+      this.addToStat({ stat: 'jobBars', amount: 1 });
       this.speedJobCooldown(id);
     },
     ...mapMutations('unfolding', [

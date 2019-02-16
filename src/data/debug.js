@@ -17,5 +17,5 @@ export default {
   // startingPlotPoints: Big(2000),
   // caffeineTime: 10,
   // caffeineCooldown: 1,
-  jobCooldown: 10,
+  jobCooldown: 20,
 };
