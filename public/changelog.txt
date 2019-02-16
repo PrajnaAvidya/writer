@@ -13,8 +13,9 @@ Added more tiers of worker upgrades
 Change cursor when over cooldown bars
 Increased urgent job min reward
 Decreased book max reward
+Decreased bonus skill prices
 Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
-Removed caffeine click power upgrade
+Removed bonus skills that made game too click-heavy
 UI tweaks
 
 Alpha 2 - 2019-02-12
