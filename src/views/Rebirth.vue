@@ -77,7 +77,7 @@ export default {
           this.$root.$emit('rebirth');
           this.doRebirth = false;
           this.buttonText = 'Rebirth';
-        }, 5000);
+        }, 3000);
       }
     },
   },
@@ -99,9 +99,9 @@ export default {
   position: fixed;
 
   -webkit-animation-name: fadeIn;
-  -webkit-animation-duration: 3s;
+  -webkit-animation-duration: 2s;
   animation-name: fadeIn;
-  animation-duration: 3s;
+  animation-duration: 2s;
 }
 @-webkit-keyframes fadeIn {
   0% { opacity: 0; }

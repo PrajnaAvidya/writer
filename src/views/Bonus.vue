@@ -89,6 +89,8 @@ export default {
         this.multiplyBonus({ index: 'caffeineWordMultiplier', amount: 2 });
       } else if (bonus.type === 'passiveMoney') {
         this.passiveMoney();
+      } else if (bonus.type === 'rebirthMoney') {
+        this.setRebirthMoney(bonus.amount);
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -122,6 +124,7 @@ export default {
       'addBonus',
       'multiplyBonus',
       'multiplyRebirthData',
+      'setRebirthMoney',
     ]),
   },
 };

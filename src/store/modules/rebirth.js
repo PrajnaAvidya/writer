@@ -51,6 +51,9 @@ const mutations = {
       s.bonuses.passiveMoneyAmount = s.bonuses.passiveMoneyAmount.times(2);
     }
   },
+  setRebirthMoney(s, amount) {
+    s.bonuses.startingMoney = Big(amount);
+  },
   multiplyBonus(s, { index, amount }) {
     if (typeof s.bonuses[index] === 'object') {
       s.bonuses[index] = s.bonuses[index].times(amount);

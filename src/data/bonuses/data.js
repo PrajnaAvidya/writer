@@ -57,7 +57,7 @@ export default [
     type: 'passiveMoney',
   },
   {
-    name: 'Trust Fund',
+    name: 'Rich Kid',
     description: 'Doubles passive money generation (includes job reward multiplier)',
     cost: 400,
     type: 'passiveMoney',
@@ -98,5 +98,41 @@ export default [
     description: 'Permanently doubles the word generating effect of caffeine',
     cost: 500,
     type: 'caffeineWordMultiplier',
+  },
+  // rebirth $
+  {
+    name: 'Pay It Forward',
+    description: 'Start with $1,000 when rebirthing',
+    cost: 50,
+    type: 'rebirthMoney',
+    amount: 1000,
+  },
+  {
+    name: 'Dividends',
+    description: 'Start with $10,000 when rebirthing',
+    cost: 100,
+    type: 'rebirthMoney',
+    amount: 10000,
+  },
+  {
+    name: '401k',
+    description: 'Start with $100,000 when rebirthing',
+    cost: 250,
+    type: 'rebirthMoney',
+    amount: 100000,
+  },
+  {
+    name: 'Trust Fund',
+    description: 'Start with $1,000,000 when rebirthing',
+    cost: 500,
+    type: 'rebirthMoney',
+    amount: 1E6,
+  },
+  {
+    name: '0.01%',
+    description: 'Start with $1,000,000,000 when rebirthing',
+    cost: 1000,
+    type: 'rebirthMoney',
+    amount: 1E9,
   },
 ];

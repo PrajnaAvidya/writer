@@ -13,6 +13,7 @@ export default {
     caffeineWordMultiplier: Big(1),
     passiveMoney: false,
     passiveMoneyAmount: Big(0.01),
+    startingMoney: Big(0),
   },
   lockedBonuses: bonuses(),
   purchasedBonuses: [],

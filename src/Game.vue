@@ -809,6 +809,9 @@ export default {
       this.displayedWords = Big(0);
       this.displayedMoney = Big(0);
 
+      // set starting money
+      this.addMoney(this.bonuses.startingMoney);
+
       // start game
       this.haltAnimation = false;
       this.setupGame(true);
