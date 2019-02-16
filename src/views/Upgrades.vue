@@ -222,6 +222,8 @@ export default {
         metRequirements = this.stats.jobs.gte(1);
       } else if (upgrade.type === 'urgentJobs') {
         metRequirements = this.stats.urgentJobs.gte(1);
+      } else if (upgrade.type === 'caffeine') {
+        metRequirements = this.stats.caffeines.gte(1);
       } else {
         // show upgrade when player has 10% money
         metRequirements = this.money.gte(upgrade.cost.div(10));
