@@ -300,7 +300,8 @@ export default {
   background-color: $greenish;
 }
 .job-current-payment {
-  margin-right: 76px;
+  text-align: left;
+  width: 140px;
   padding-bottom: 3px;
   font-weight: 400;
   color: #363636;
