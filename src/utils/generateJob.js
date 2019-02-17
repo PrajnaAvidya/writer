@@ -5,31 +5,31 @@ import randomJobName from '@/utils/randomJobName';
 const jobTypes = {
   1: {
     name: 'Tiny',
-    rewardRange: [200, 300],
+    rewardRange: [400, 500],
     wordRange: [10, 30],
     minimumWords: 100,
   },
   2: {
     name: 'Short',
-    rewardRange: [300, 400],
+    rewardRange: [500, 600],
     wordRange: [30, 90],
     minimumWords: 200,
   },
   3: {
     name: 'Medium',
-    rewardRange: [400, 500],
+    rewardRange: [600, 800],
     wordRange: [180, 600],
     minimumWords: 1000,
   },
   4: {
     name: 'Long',
-    rewardRange: [500, 600],
+    rewardRange: [800, 1000],
     wordRange: [900, 2400],
     minimumWords: 2000,
   },
   5: {
     name: 'Epic',
-    rewardRange: [600, 700],
+    rewardRange: [1000, 1200],
     wordRange: [3600, 9000],
     minimumWords: 10000,
   },

@@ -343,7 +343,7 @@ export default {
         if (debugSettings.fastSaves) {
           this.saveInterval = 5;
         }
-        if (debugSettings.jobCooldown) {
+        if (debugSettings.jobCooldown || debugSettings.jobCooldown === 0) {
           this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
         }
         if (debugSettings.caffeineTime) {
@@ -677,14 +677,8 @@ export default {
 
         // update available based on timestamp
         this.$set(this.jobAvailable, jobId, initial || this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
-
-        if (!this.jobAvailable[jobId]) {
-          // update cooldown stat
-          this.addToStat({ stat: 'jobCooldown', amount: (unixTimestamp() - this.lastJobCheck) / 1000 });
-        }
       }
 
-      this.lastJobCheck = unixTimestamp();
       this.nextJobCheck = unixTimestamp(0.1);
     },
     // urgent jobs

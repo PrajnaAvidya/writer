@@ -169,7 +169,7 @@ export default {
           this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - uTimestamp));
           this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - uTimestamp) / 1000, 10)} seconds until new job`);
           // set currentPayment
-          let currentPayment = Big((uTimestamp - this.jobsCompletedTimestamps[jobId]) / 1000).div(this.jobCooldown).times(this.jobs[jobId].payment);
+          let currentPayment = this.jobs[jobId].payment.plus(Big((uTimestamp - this.jobsCompletedTimestamps[jobId]) / 1000).div(this.jobCooldown).times(this.jobs[jobId].payment)).div(2);
           if (currentPayment.gt(this.jobs[jobId].payment)) {
             currentPayment = Big(this.jobs[jobId].payment);
           }
