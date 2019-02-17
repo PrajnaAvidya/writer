@@ -694,9 +694,9 @@ export default {
 
       let adjustment;
       if (oldWps.eq(0)) {
-        adjustment = Big(1).plus(this.workerWps.div(20));
+        adjustment = Big(1).plus(this.workerWps.div(40));
       } else {
-        adjustment = Big(1).plus((this.workerWps.div(oldWps).minus(1)).div(2));
+        adjustment = Big(1).plus((this.workerWps.div(oldWps).minus(1)).div(4));
       }
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
