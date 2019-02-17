@@ -1,21 +1,5 @@
 <template>
   <div id="game">
-    <UpgradeModal
-      ref="upgradeModal"
-      :show-header="false"
-      :show-footer="false"
-    >
-      <div class="upgrade-text">
-        Hello, Writer Incremental has been upgraded to <strong>Alpha 3</strong> and because it contains significant changes your save file was been wiped. Based on your progress from your previous game you have been given <strong>{{ upgradePlotPoints / 3 | round }} plot points</strong> for your new game.
-      </div>
-      <button
-        class="button is-primary"
-        @click="$refs.upgradeModal.close()"
-      >
-        OK
-      </button>
-    </UpgradeModal>
-
     <ClickableBook />
 
     <Component :is="crazyBooksComponent" />
@@ -68,7 +52,6 @@ import calculateWorkerWps from '@/utils/calculateWorkerWps';
 import workerCost from '@/utils/workerCost';
 import generateJob from '@/utils/generateJob';
 import generateUrgentJob from '@/utils/generateUrgentJob';
-import v1plotPoints from '@/utils/v1plotPoints';
 // components
 import ClickableBook from '@/components/ClickableBook.vue';
 import UnfoldingTutorials from '@/components/UnfoldingTutorials.vue';
@@ -76,7 +59,6 @@ import NavBar from '@/components/NavBar.vue';
 import CreativeButtons from '@/components/CreativeButtons.vue';
 import CaffeineBuzz from '@/components/CaffeineBuzz.vue';
 import CurrencyDisplay from '@/components/CurrencyDisplay.vue';
-import UpgradeModal from '@/components/BaseModal.vue';
 // data
 import gameData from '@/data/game';
 import milestoneData from '@/data/milestones';
@@ -99,7 +81,6 @@ export default {
     CreativeButtons,
     CaffeineBuzz,
     CurrencyDisplay,
-    UpgradeModal,
   },
   data: () => gameData,
   computed: {
@@ -194,25 +175,8 @@ export default {
       } else {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoLoad')) {
-          if (saveData.version === 1) {
-            const plotPoints = await v1plotPoints();
-
-            log('upgrade save file');
-            this.$ga.event({
-              eventCategory: 'Game',
-              eventAction: 'Upgrade From 1',
-              eventLabel: plotPoints,
-            });
-
-            // delete save files
+          if (saveData.version === 1 || saveData.version === 2) {
             await deleteSave();
-
-            // inject data for new game
-            const upgradeData = {
-              plotPoints,
-            };
-            await localforage.setItem('writerSaveUpgrade', upgradeData);
-
             window.location.reload(false);
           } else {
             await this.loadGame(saveData.timestamp);
