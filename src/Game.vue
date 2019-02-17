@@ -675,6 +675,9 @@ export default {
         // generate new job right away when complete
         if (initial || !this.jobs[jobId] || this.jobs[jobId].completed === true) {
           this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
+          if (initial) {
+            this.jobs[jobId].currentPayment = this.jobs[jobId].payment;
+          }
         }
 
         // update available based on timestamp
@@ -696,9 +699,9 @@ export default {
 
       let adjustment;
       if (oldWps.eq(0)) {
-        adjustment = Big(1).plus(this.workerWps.div(10));
+        adjustment = Big(1).plus(this.workerWps.div(20));
       } else {
-        adjustment = this.workerWps.div(oldWps);
+        adjustment = Big(1).plus((this.workerWps.div(oldWps).minus(1)).div(2));
       }
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
