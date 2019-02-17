@@ -15,13 +15,14 @@ Added skill to reduce rebirth milestones
 Added skill to start with money after rebirth
 Added more info to rebirth page
 Added more tiers of worker upgrades
-Job rework: job payment now scales based on time elapsed since last job completion (if you are using a clicker it will pay about the same amount as letting it tick down all the way)
-Job base cooldown lowered to 30s & rewards have been greatly increased to compensate for the previous item
+Job rework:
+- Payment now scales based on time elapsed since last job completion (starting at 50% of max)
+- Payments have been more than doubled
 Change cursor when over cooldown bars
 Increased urgent job min reward
 Decreased book max reward
 Decreased bonus skill prices
-Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment, that won't happen again)
+Automated my devops process (really sorry to the person whose save game was wiped when I screwed up the Alpha 2 deployment)
 Removed bonus skills that made game too click-heavy
 UI tweaks
 
