@@ -10,6 +10,7 @@ export default {
   displayedWords: Big(0),
   displayedMoney: Big(0),
   // periodic checks
+  lastJobCheck: 0,
   nextJobCheck: 0,
   nextMilestoneCheck: 0,
   nextTitleUpdate: 0,
