@@ -70,12 +70,10 @@ export default {
   },
   methods: {
     writeTooltip() {
-      let words = this.playerWords;
+      let words = this.playerWords.times(this.plotBonus);
       if (this.buzzActive) {
         words = words.plus(this.workerWps.plus(this.caffeineMinimumWordGeneration.div(2)));
       }
-      // add plot bonus
-      words = words.times(this.plotBonus);
 
       if (words.eq(1)) {
         this.tooltip = 'Write a word';
