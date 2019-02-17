@@ -7,7 +7,7 @@ import saveStores from '@/data/saveStores';
 
 export default async function () {
   const saveData = {};
-  saveData.version = 1;
+  saveData.version = 3;
   saveData.timestamp = unixTimestamp();
   saveData.stores = [];
   Object.keys(store.state).forEach((state) => {
@@ -27,6 +27,5 @@ export default async function () {
   Vue.$ga.event({
     eventCategory: 'Game',
     eventAction: 'Save',
-    eventLabel: saveData.timestamp,
   });
 }

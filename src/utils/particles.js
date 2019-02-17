@@ -1,4 +1,5 @@
 import Sketch from 'sketch-js';
+import store from '@/store';
 import random from 'lodash/random';
 
 const particleImage = new Image();
@@ -76,6 +77,10 @@ export default function () {
     },
 
     spawnParticle(x, y) {
+      if (store.state.options.particles !== true) {
+        return;
+      }
+
       if (particles.length >= maxParticles) {
         particlePool.push(particles.shift());
       }

@@ -5,10 +5,12 @@ export default {
   lastFrame: 0,
   utimestamp: 0,
   haltAnimation: false,
+  frameIncrement: 0,
   // currency display
   displayedWords: Big(0),
   displayedMoney: Big(0),
   // periodic checks
+  lastJobCheck: 0,
   nextJobCheck: 0,
   nextMilestoneCheck: 0,
   nextTitleUpdate: 0,
@@ -27,9 +29,14 @@ export default {
   // particles
   particles: null,
   // save/load
+  isNewGame: true,
   saveInterval: 30,
   nextSave: 0,
   unloadSave: false,
+  hardResetting: false,
   // rebirth
   rebirthNotification: false,
+  // upgrade
+  showUpgradeModal: false,
+  upgradePlotPoints: 0,
 };

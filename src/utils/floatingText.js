@@ -1,4 +1,10 @@
+import store from '@/store';
+
 export default function ({ x, y, text, time = 500, height = 100, disappearFrom = 0.5, className = 'floating-plus' }) {
+  if (store.state.options.floatingText !== true) {
+    return;
+  }
+
   // create and add div
   const dvPlus = document.createElement('div');
   dvPlus.className = className;

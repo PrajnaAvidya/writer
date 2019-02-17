@@ -13,6 +13,7 @@ import jobs from '@/store/modules/jobs';
 import workers from '@/store/modules/workers';
 import upgrades from '@/store/modules/upgrades';
 import rebirth from '@/store/modules/rebirth';
+import options from '@/store/modules/options';
 
 Vue.use(Vuex);
 
@@ -30,5 +31,6 @@ export default new Vuex.Store({
     workers,
     upgrades,
     rebirth,
+    options,
   },
 });

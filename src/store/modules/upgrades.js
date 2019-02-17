@@ -24,12 +24,15 @@ const mutations = {
     });
   },
   fromJSON(s, obj) {
-    Object.keys(obj).forEach((key) => {
-      s[key] = obj[key];
-    });
+    if (obj && typeof obj === 'object') {
+      Object.keys(obj).forEach((key) => {
+        s[key] = obj[key];
+      });
+    }
     Object.keys(s.upgrades).forEach((upgradeId) => {
       s.upgrades[upgradeId].cost = Big(s.upgrades[upgradeId].cost);
     });
+    s.upgradeId = parseInt(s.upgradeId, 10);
   },
 };
 

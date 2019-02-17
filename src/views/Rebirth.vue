@@ -5,16 +5,17 @@
         Milestones: {{ milestones | round }}
       </div>
       <p class="text">
-        Once you achieve {{ milestonesNeeded | round }} milestones you can rebirth and start from zero. Your words and milestones will be converted into <strong>plot points</strong> which will give you a bonus in the next life.
+        Once you achieve {{ milestonesNeeded | round }} milestones you can rebirth and start from zero. Your words and milestones will be converted into <strong>plot points</strong> which will give you a bonus in the next life, and allow you to unlock new abilities.
       </p>
       <p
         v-if="milestones.gte(milestonesNeeded)"
         class="text"
       >
-        If you rebirth now you will recieve {{ milestones | round }} milestone plot points + {{ words.e | round }} word plot points for a total of <strong>{{ milestones.plus(words.e) | round }} plot points</strong>.
+        If you rebirth now you will recieve {{ milestones | round }} milestone plot points + {{ words.e | round }} word plot points for a total of <strong>{{ milestones.plus(words.e) | round }} plot points</strong> (or a {{ milestones.times(2) | round }}% bonus in the next life).
       </p>
       <a
-        class="button is-danger"
+        class="button is-warning"
+        :class="{ glow: checkDebug('rebirth') || milestones.gte(milestonesNeeded), pulse: checkDebug('rebirth') || milestones.gte(milestonesNeeded) }"
         :disabled="!checkDebug('rebirth') && milestones.lt(milestonesNeeded)"
         @click="confirmRebirth()"
       >
@@ -42,7 +43,8 @@ export default {
   }),
   computed: {
     milestonesNeeded() {
-      return this.baseMilestonesNeeded.plus(this.rebirths);
+      const needed = this.baseMilestonesNeeded.plus(this.rebirths.times(2));
+      return needed.gt(0) ? needed : 0;
     },
     ...mapState('currency', [
       'words',
@@ -76,7 +78,7 @@ export default {
           this.$root.$emit('rebirth');
           this.doRebirth = false;
           this.buttonText = 'Rebirth';
-        }, 5000);
+        }, 3000);
       }
     },
   },
@@ -98,9 +100,9 @@ export default {
   position: fixed;
 
   -webkit-animation-name: fadeIn;
-  -webkit-animation-duration: 3s;
+  -webkit-animation-duration: 2s;
   animation-name: fadeIn;
-  animation-duration: 3s;
+  animation-duration: 2s;
 }
 @-webkit-keyframes fadeIn {
   0% { opacity: 0; }

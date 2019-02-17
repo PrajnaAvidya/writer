@@ -105,12 +105,12 @@ export default {
   background-color: $blue;
 }
 .buy-column {
-  width: 280px;
+  width: 260px;
 }
 .cost-column {
   width: 330px;
 }
 .stats-column {
-  width: 290px;
+  width: 310px;
 }
 </style>

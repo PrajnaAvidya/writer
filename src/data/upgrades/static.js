@@ -71,57 +71,45 @@ export default function () {
     upgrades[id] = upgrade;
   });
 
-  // jobs
+  // job cooldown
   let previousJobCooldownUpgrade = null;
-  upgradeData.jobs.forEach((jobUpgrade) => {
+  upgradeData.jobCooldown.forEach((jobUpgrade) => {
     id += 1;
 
     const upgrade = {
       id,
-      type: 'jobs',
+      type: 'jobCooldown',
       name: `${randomAdjective()} Jobs`,
+      cooldownReduction: jobUpgrade.cooldownReduction,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-briefcase',
     };
-    // set effect
-    if (jobUpgrade.cooldownReduction) {
-      upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
-      if (previousJobCooldownUpgrade) {
-        upgrade.previousId = previousJobCooldownUpgrade;
-      }
-      previousJobCooldownUpgrade = id;
+    upgrade.cooldownReduction = jobUpgrade.cooldownReduction;
+    if (previousJobCooldownUpgrade) {
+      upgrade.previousId = previousJobCooldownUpgrade;
     }
+    previousJobCooldownUpgrade = id;
 
     upgrades[id] = upgrade;
   });
 
-  // urgent jobs
+  // urgent job cooldown
   let previousUrgentJobCooldownUpgrade = null;
-  let previousUrgentJobTimerUpgrade = null;
-  upgradeData.urgentJobs.forEach((jobUpgrade) => {
+  upgradeData.urgentJobCooldown.forEach((jobUpgrade) => {
     id += 1;
 
     const upgrade = {
       id,
-      type: 'urgentJobs',
+      type: 'urgentJobCooldown',
       name: `${randomAdjective()} Urgent Jobs`,
+      cooldownMultiplier: jobUpgrade.cooldownMultiplier,
       cost: Big(jobUpgrade.cost),
       icon: 'fa-bullhorn',
     };
-    // set effect
-    if (jobUpgrade.cooldownMultiplier) {
-      upgrade.cooldownMultiplier = jobUpgrade.cooldownMultiplier;
-      if (previousUrgentJobCooldownUpgrade) {
-        upgrade.previousId = previousUrgentJobCooldownUpgrade;
-      }
-      previousUrgentJobCooldownUpgrade = id;
-    } else if (jobUpgrade.timerMultiplier) {
-      upgrade.timerMultiplier = jobUpgrade.timerMultiplier;
-      if (previousUrgentJobTimerUpgrade) {
-        upgrade.previousId = previousUrgentJobTimerUpgrade;
-      }
-      previousUrgentJobTimerUpgrade = id;
+    if (previousUrgentJobCooldownUpgrade) {
+      upgrade.previousId = previousUrgentJobCooldownUpgrade;
     }
+    previousUrgentJobCooldownUpgrade = id;
 
     upgrades[id] = upgrade;
   });

@@ -6,14 +6,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th style="width: 140px;">
-            Word Count
+          <th style="width: 120px;">
+            Payment
           </th>
           <th style="width: 350px;">
             Job Name
           </th>
-          <th style="width: 120px;">
-            Payment
+          <th style="width: 140px;">
+            Word Count
           </th>
           <th style="width: 230px;">
             Actions
@@ -31,14 +31,14 @@
       >
         <tbody>
           <tr>
-            <td style="width: 140px">
-              {{ job.words | round }}
+            <td style="width: 120px">
+              {{ jobRewardMultiplier.times(job.currentPayment) | money }}
             </td>
             <td style="width: 350px">
               {{ job.name }}
             </td>
-            <td style="width: 120px">
-              {{ jobRewardMultiplier.times(job.payment) | money }}
+            <td style="width: 140px">
+              {{ job.words | round }}
             </td>
             <td style="width: 230px">
               <a
@@ -70,6 +70,9 @@
           :data-tooltip="`${jobTimer[job.id]}`"
           @click="hurryCooldown(job.id)"
         >
+          <span class="job-current-payment">
+            {{ jobRewardMultiplier.times(job.currentPayment) | money }}
+          </span>
           <progress
             class="progress is-info"
             :value="jobProgress[job.id]"
@@ -85,14 +88,14 @@
     >
       <tbody>
         <tr class="urgent">
-          <td style="width: 140px">
-            {{ urgentJob.words | round }}
+          <td style="width: 120px">
+            {{ jobRewardMultiplier.times(urgentJobRewardMultiplier).times(urgentJob.payment) | money }}
           </td>
           <td style="width: 350px">
             {{ urgentJob.name }} ({{ urgentJobCountdown }} seconds remaining)
           </td>
-          <td style="width: 120px">
-            {{ jobRewardMultiplier.times(urgentJobRewardMultiplier).times(urgentJob.payment) | money }}
+          <td style="width: 140px">
+            {{ urgentJob.words | round }}
           </td>
           <td style="width: 230px">
             <a
@@ -152,17 +155,25 @@ export default {
   },
   mounted() {
     // only run once
-    this.interval = setInterval(() => this.updateProgressBars(), 100);
+    this.interval = setInterval(() => this.updateJobStatuses(), 100);
   },
   beforeDestroy() {
     clearInterval(this.interval);
   },
   methods: {
-    updateProgressBars() {
+    updateJobStatuses() {
+      const uTimestamp = unixTimestamp();
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
         if (!this.jobAvailable[jobId]) {
-          this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - unixTimestamp()));
-          this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - unixTimestamp()) / 1000, 10)} seconds until new job`);
+          // update bars
+          this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - uTimestamp));
+          this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - uTimestamp) / 1000, 10)} seconds until new job`);
+          // set currentPayment
+          let currentPayment = this.jobs[jobId].payment.plus(Big((uTimestamp - this.jobsCompletedTimestamps[jobId]) / 1000).div(this.jobCooldown).times(this.jobs[jobId].payment)).div(2);
+          if (currentPayment.gt(this.jobs[jobId].payment)) {
+            currentPayment = Big(this.jobs[jobId].payment);
+          }
+          this.jobs[jobId].currentPayment = currentPayment;
         } else {
           this.$set(this.jobProgress, jobId, 0);
         }
@@ -187,7 +198,7 @@ export default {
       }
 
       // complete job
-      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.payment));
+      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.currentPayment));
       this.$root.$emit('subtractWords', job.words);
       this.addToStat({ stat: 'jobs', amount: 1 });
       this.revealUnfolding('firstJobComplete');
@@ -204,7 +215,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Job',
         eventAction: 'Completed',
-        eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.payment).toString()}`,
+        eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.currentPayment).toString()}`,
       });
     },
     completeUrgentJob() {
@@ -250,7 +261,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Job',
         eventAction: 'Declined',
-        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.payment).toString()}`,
+        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.currentPayment).toString()}`,
       });
     },
     hurryCooldown(id) {
@@ -280,12 +291,20 @@ export default {
   margin-bottom: 5px;
 }
 .job-cooldown {
-  padding-left: 20px;
+  cursor: pointer;
+  padding-left: 12px;
   padding-right: 20px;
   height: 43px;
   display: flex;
   align-items: center;
   background-color: $greenish;
+}
+.job-current-payment {
+  text-align: left;
+  width: 140px;
+  padding-bottom: 3px;
+  font-weight: 400;
+  color: #363636;
 }
 hr, .table, .progress {
   margin: 0;

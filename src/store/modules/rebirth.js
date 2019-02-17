@@ -21,7 +21,15 @@ const mutations = {
       s[index] += amount;
     }
   },
+  multiplyRebirthData(s, { index, amount }) {
+    if (typeof s[index] === 'object') {
+      s[index] = s[index].times(amount);
+    } else {
+      s[index] *= amount;
+    }
+  },
   spendPlotPoints(s, amount) {
+    s.spentPlotPoints = s.spentPlotPoints.plus(amount);
     s.plotPoints = s.plotPoints.minus(amount);
   },
   addJobSlot(s) {
@@ -36,6 +44,16 @@ const mutations = {
       s.bonuses[index] += amount;
     }
   },
+  passiveMoney(s) {
+    if (!s.bonuses.passiveMoney) {
+      s.bonuses.passiveMoney = true;
+    } else {
+      s.bonuses.passiveMoneyAmount = s.bonuses.passiveMoneyAmount.times(2);
+    }
+  },
+  setRebirthMoney(s, amount) {
+    s.bonuses.startingMoney = Big(amount);
+  },
   multiplyBonus(s, { index, amount }) {
     if (typeof s.bonuses[index] === 'object') {
       s.bonuses[index] = s.bonuses[index].times(amount);
@@ -43,21 +61,22 @@ const mutations = {
       s.bonuses[index] *= amount;
     }
   },
-  enableWorkerCaffeine(s, worker) {
-    s.bonuses.workerCaffeine[worker] = true;
-  },
   removeBonus(s, id) {
     Vue.delete(s.lockedBonuses, id);
   },
   fromJSON(s, obj) {
-    Object.keys(obj).forEach((key) => {
-      s[key] = obj[key];
-    });
+    if (obj && typeof obj === 'object') {
+      Object.keys(obj).forEach((key) => {
+        s[key] = obj[key];
+      });
+    }
     s.baseMilestonesNeeded = Big(s.baseMilestonesNeeded);
     s.plotPoints = Big(s.plotPoints);
+    s.spentPlotPoints = Big(s.spentPlotPoints);
     s.rebirths = Big(s.rebirths);
-    s.bonuses.caffeineClickWps = Big(s.bonuses.caffeineClickWps);
     s.bonuses.caffeineWordMultiplier = Big(s.bonuses.caffeineWordMultiplier);
+    s.bonuses.passiveMoneyAmount = Big(s.bonuses.passiveMoneyAmount);
+    s.bonuses.startingMoney = Big(s.bonuses.startingMoney);
   },
 };
 

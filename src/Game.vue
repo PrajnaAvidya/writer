@@ -1,6 +1,7 @@
 <template>
   <div id="game">
     <ClickableBook />
+
     <Component :is="crazyBooksComponent" />
 
     <Component
@@ -19,7 +20,7 @@
         class="caffeine-section"
       />
 
-      <CreativeButtons />
+      <CreativeButtons ref="creative" />
     </section>
 
     <NavBar v-if="checkUnfolding('showNavigation')" />
@@ -68,6 +69,7 @@ import particles from '@/utils/particles';
 // save/load
 import save from '@/utils/save';
 import load from '@/utils/load';
+import deleteSave from '@/utils/deleteSave';
 
 export default {
   name: 'Game',
@@ -104,7 +106,6 @@ export default {
       'caffeineTime',
       'nextCaffeineTime',
       'endCaffeineTime',
-      'caffeineClickMultiplier',
       'caffeineMinimumWordGeneration',
     ]),
     ...mapState('books', [
@@ -159,6 +160,9 @@ export default {
       'jobSlots',
       'plotBonus',
     ]),
+    ...mapGetters('options', [
+      'checkOption',
+    ]),
   },
   mounted() {
     this.setupGame();
@@ -167,17 +171,27 @@ export default {
     async setupGame(rebirth = false) {
       if (rebirth) {
         this.rebirthGame();
+        this.isNewGame = false;
       } else {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoLoad')) {
-          await this.loadGame(saveData.timestamp);
+          if (saveData.version === 1 || saveData.version === 2) {
+            await deleteSave();
+            window.location.reload(false);
+          } else {
+            await this.loadGame(saveData.timestamp);
+          }
         } else {
-          this.newGame();
+          await this.newGame();
         }
       }
 
       // go home
-      this.$router.push('/');
+      if (!this.checkDebug('enabled')) {
+        this.$router.push('/');
+      }
+
+      // disable crazy books
       this.crazyBooksComponent = null;
 
       // check for debug mode
@@ -215,7 +229,7 @@ export default {
         this.registerEvents();
       });
     },
-    newGame() {
+    async newGame() {
       this.$ga.event({
         eventCategory: 'Game',
         eventAction: 'New',
@@ -226,7 +240,24 @@ export default {
       this.unfoldingComponent = 'UnfoldingTutorials';
       this.loadFirstTutorial = true;
 
+      // check for upgrade
+      const upgradeData = await localforage.getItem('writerSaveUpgrade');
+      if (upgradeData) {
+        this.addRebirthData({ index: 'plotPoints', amount: Big(upgradeData.plotPoints / 3) });
+
+        // show modal
+        this.upgradePlotPoints = upgradeData.plotPoints;
+        this.$refs.upgradeModal.open();
+
+        // show bonus panel
+        this.revealUnfolding('showBonus');
+
+        // delete upgrade save
+        await localforage.removeItem('writerSaveUpgrade');
+      }
+
       this.setNextBook();
+      this.updateJobs(true);
 
       // register events
       this.registerEvents();
@@ -242,23 +273,41 @@ export default {
       this.revealUnfolding('showBonus');
 
       this.setNextBook();
+      this.updateJobs(true);
+    },
+    async hardReset() {
+      this.hardResetting = true;
+
+      await deleteSave();
+
+      window.location.reload(false);
     },
     setDebugMode() {
       if (this.checkDebug('enabled')) {
         const debugSettings = this.$store.state.debug;
-        if (debugSettings.startingMilestones) {
-          this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
+
+        if (this.isNewGame) {
+          if (debugSettings.startingMilestones) {
+            this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
+          }
+          if (debugSettings.startingPlayerWords) {
+            this.setCurrencyData({ index: 'playerWords', value: debugSettings.startingPlayerWords });
+          }
+          if (debugSettings.startingWords) {
+            this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
+          }
+          if (debugSettings.startingMoney) {
+            this.setCurrencyData({ index: 'money', value: debugSettings.startingMoney });
+          }
+          if (debugSettings.startingPlotPoints) {
+            this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
+          }
         }
-        if (debugSettings.startingWords) {
-          this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
+
+        if (debugSettings.fastSaves) {
+          this.saveInterval = 5;
         }
-        if (debugSettings.startingMoney) {
-          this.setCurrencyData({ index: 'money', value: debugSettings.startingMoney });
-        }
-        if (debugSettings.startingPlotPoints) {
-          this.setRebirthData({ index: 'plotPoints', value: debugSettings.startingPlotPoints });
-        }
-        if (debugSettings.jobCooldown) {
+        if (debugSettings.jobCooldown || debugSettings.jobCooldown === 0) {
           this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
         }
         if (debugSettings.caffeineTime) {
@@ -288,13 +337,13 @@ export default {
       log('registering events');
       // save before closing window
       window.addEventListener('beforeunload', () => {
-        if (!this.unloadSave && !this.checkDebug('disableAutoSave')) {
+        if (!this.unloadSave && !this.hardResetting && !this.checkDebug('disableAutoSave')) {
           this.unloadSave = true;
           save();
         }
       });
       window.addEventListener('unload', () => {
-        if (!this.unloadSave && !this.checkDebug('disableAutoSave')) {
+        if (!this.unloadSave && !this.hardResetting && !this.checkDebug('disableAutoSave')) {
           this.unloadSave = true;
           save();
         }
@@ -319,6 +368,7 @@ export default {
         this.crazyBooksComponent = 'CrazyBooks';
       });
       this.$root.$on('rebirth', this.doRebirth);
+      this.$root.$on('hardReset', this.hardReset);
     },
     // === start global update loop ===
     tick(timestamp) {
@@ -351,23 +401,24 @@ export default {
       this.updateUrgentJob();
 
       // how much to divide progress for current tick
-      const frameIncrement = Big(1).div(Big(1000).div(progress));
+      this.frameIncrement = Big(1).div(Big(1000).div(progress));
 
-      // add frame words (totalWps * increment)
       if (this.totalWps.gt(0)) {
-        this.addWords(this.totalWps.times(frameIncrement));
+        const frameWords = this.totalWps.times(this.frameIncrement);
+
+        this.addWords(frameWords);
       }
 
       // update title
       this.updateTitle();
 
-      if (!this.checkDebug('disableAutoSave') && this.utimestamp >= this.nextSave) {
+      if (!this.checkDebug('disableAutoSave') && this.utimestamp >= this.nextSave && !this.hardResetting) {
         save();
         this.nextSave = unixTimestamp(this.saveInterval);
       }
 
       // do loop effect
-      this.loopEffect(frameIncrement);
+      this.loopEffect(this.frameIncrement);
 
       // get next frame
       window.requestAnimationFrame(this.tick);
@@ -377,6 +428,11 @@ export default {
     // === start methods ===
     // ui/effects
     loopEffect(frameIncrement) {
+      if (!this.checkOption('loopEffect')) {
+        this.displayedWords = Big(this.words);
+        this.displayedMoney = Big(this.money);
+      }
+
       const loopAmount = frameIncrement.times(11);
 
       if (this.words.eq(0)) {
@@ -419,13 +475,11 @@ export default {
     },
     // player input
     write(event) {
-      let words = this.playerWords;
+      let words = this.playerWords.times(this.plotBonus);
       if (this.buzzActive) {
-        words = words.times(this.caffeineClickMultiplier).plus(this.bonuses.caffeineClickWps.times(this.workerWps));
+        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration.div(2)) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration.div(2);
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
-      // add plot bonus
-      words = words.times(this.plotBonus);
       this.addToStat({ stat: 'clickWords', amount: words });
       this.addWords(words, true);
 
@@ -553,11 +607,13 @@ export default {
     updateWps() {
       log('recalculating wps');
       // get worker wps
-      const workerWps = calculateWorkerWps(this.workers, this.buzzActive, this.bonuses.workerCaffeine, this.bonuses.caffeineWordMultiplier);
+      const oldWps = Big(this.workerWps);
+      const workerWps = calculateWorkerWps(this.workers);
       // add plot point bonus
       let totalWps = workerWps.total.times(this.plotBonus);
       // add caffeine wps
       if (this.buzzActive) {
+        // apply plot bonus econd time for caffeine
         const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(this.plotBonus);
         const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
         this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
@@ -568,22 +624,51 @@ export default {
       this.setWorkersData({ index: 'workerWps', value: workerWps.total.times(this.plotBonus) });
       this.setWorkersData({ index: 'workerTooltips', value: workerWps.tooltips });
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
+
+      this.$refs.creative.writeTooltip();
+      this.updateJobWords(oldWps);
     },
     // jobs
-    updateJobs(force = false) {
-      if (!force && this.utimestamp < this.nextJobCheck) {
+    updateJobs(initial = false) {
+      if (!initial && this.utimestamp < this.nextJobCheck) {
         return;
       }
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
-        this.$set(this.jobAvailable, jobId, this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
-        if (force || (this.jobAvailable[jobId] && (!this.jobs[jobId] || this.jobs[jobId].completed === true))) {
-          // generate new job
-          this.jobs[jobId] = generateJob(this.wordValue, this.workerWps, jobId);
+        // generate new job right away when complete
+        if (initial || !this.jobs[jobId] || this.jobs[jobId].completed === true) {
+          this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
+          if (initial) {
+            this.jobs[jobId].currentPayment = this.jobs[jobId].payment;
+          }
         }
+
+        // update available based on timestamp
+        this.$set(this.jobAvailable, jobId, initial || this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
       }
 
+      this.lastJobCheck = unixTimestamp();
       this.nextJobCheck = unixTimestamp(0.1);
+    },
+    updateJobWords(oldWps) {
+      if (this.workerWps.eq(oldWps)) {
+        return;
+      }
+
+      let adjustment;
+      if (oldWps.eq(0)) {
+        adjustment = Big(1).plus(this.workerWps.div(40));
+      } else {
+        adjustment = Big(1).plus((this.workerWps.div(oldWps).minus(1)).div(4));
+      }
+
+      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+        // only update pending jobs
+        if (!this.jobAvailable[jobId]) {
+          this.jobs[jobId].words = this.jobs[jobId].words.times(adjustment);
+          this.jobs[jobId].payment = this.jobs[jobId].payment.times(adjustment);
+        }
+      }
     },
     // urgent jobs
     updateUrgentJob(force = false) {
@@ -608,7 +693,7 @@ export default {
         } else {
           // update countdowns
           this.setJobsData({ index: 'urgentJobCountdown', value: parseInt(((this.urgentJobExpiration) - this.utimestamp) / 1000, 10) });
-          if (!this.urgentJobNotification) {
+          if (!this.urgentJobNotification && this.checkOption('notifications')) {
             // show notification with countdown timer
             this.urgentJobNotification = notify(`<strong>Urgent Job!</strong><br>${this.urgentJobTimer} seconds left to accept`, {
               type: 'error',
@@ -622,7 +707,9 @@ export default {
               ],
             });
           }
-          this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
+          if (this.checkOption('notifications')) {
+            this.urgentJobNotification.setText(notifyIconText(`<strong>Urgent Job!</strong><br>${this.urgentJobCountdown} seconds left to accept`, 'fa-bullhorn'));
+          }
         }
       }
     },
@@ -679,6 +766,10 @@ export default {
     addWords(words) {
       this.addCurrencyData({ index: 'words', amount: words });
       this.addToStat({ stat: 'words', amount: words });
+
+      if (this.bonuses.passiveMoney === true) {
+        this.addMoney(words.times(this.jobRewardMultiplier).times(this.bonuses.passiveMoneyAmount));
+      }
     },
     subtractWords(words) {
       this.addCurrencyData({ index: 'words', amount: words.times(-1) });
@@ -732,7 +823,7 @@ export default {
       if (this.milestones.gte(15)) {
         this.revealUnfolding('showRebirth');
       }
-      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths))) {
+      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths.times(2)))) {
         notify('Rebirth Ready', {
           type: 'alert',
           icon: 'fa-recycle',
@@ -763,12 +854,14 @@ export default {
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
-      this.updateJobs(true);
 
       // reload game data
       Object.assign(this.$data, gameData);
       this.displayedWords = Big(0);
       this.displayedMoney = Big(0);
+
+      // set starting money
+      this.addMoney(this.bonuses.startingMoney);
 
       // start game
       this.haltAnimation = false;
@@ -806,6 +899,7 @@ export default {
     ]),
     ...mapMutations('jobs', [
       'setJobsData',
+      'setJob',
       'resetJobs',
     ]),
     ...mapMutations('workers', [
@@ -850,5 +944,8 @@ export default {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
+}
+.upgrade-text {
+  margin-bottom: 10px;
 }
 </style>

@@ -10,4 +10,5 @@ export default [
   'unfolding',
   'upgrades',
   'workers',
+  'options',
 ];

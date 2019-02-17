@@ -107,13 +107,11 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
-        if (upgrade.writingMultiplier) {
-          this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
-          // upgrade icon
-          const icon = this.playerIcons.pop();
-          if (icon) {
-            this.setIconData({ index: 'playerIcon', value: icon });
-          }
+        this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
+        // upgrade icon
+        const icon = this.playerIcons.pop();
+        if (icon) {
+          this.setIconData({ index: 'playerIcon', value: icon });
         }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
@@ -122,25 +120,17 @@ export default {
         if (upgrade.lengthMultiplier) {
           this.multiplyCaffeineData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
         }
-      } else if (upgrade.type === 'caffeinePower') {
-        this.multiplyCaffeineData({ index: 'caffeineClickMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'wordValue') {
         this.multiplyCurrencyData({ index: 'wordValue', amount: upgrade.multiplier });
       } else if (upgrade.type === 'jobReward') {
         this.multiplyJobData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'urgentJobReward') {
         this.multiplyJobData({ index: 'urgentJobRewardMultiplier', amount: upgrade.multiplier });
-      } else if (upgrade.type === 'jobs') {
+      } else if (upgrade.type === 'jobCooldown') {
         this.adjustJobTimer(-upgrade.cooldownReduction);
-      } else if (upgrade.type === 'urgentJobs') {
-        if (upgrade.cooldownMultiplier) {
-          this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
-          this.multiplyJobData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
-        }
-        if (upgrade.timerMultiplier) {
-          this.multiplyJobData({ index: 'urgentJobTimer', amount: upgrade.timerMultiplier });
-          this.setJobsData({ index: 'urgentJobExpiration', value: this.urgentJobTimestamp + (1000 * upgrade.timerMultiplier) });
-        }
+      } else if (upgrade.type === 'urgentJobCooldown') {
+        this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
+        this.multiplyJobData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
       }
 
       // show message
@@ -159,16 +149,13 @@ export default {
         }
       } else if (upgrade.type === 'wordValue') {
         effects.push(`Increases base word value (& job payments) by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
-      } else if (upgrade.type === 'caffeinePower') {
-        effects.push(`Increases caffeine click power by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'jobReward') {
         effects.push(`Increases job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'urgentJobReward') {
         effects.push(`Increases urgent job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
+      } else if (upgrade.type === 'clicking') {
+        effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
       } else {
-        if (upgrade.writingMultiplier) {
-          effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
-        }
         if (upgrade.cooldownReduction) {
           effects.push(`Subtracts ${upgrade.cooldownReduction} seconds from cooldown`);
         }
@@ -177,9 +164,6 @@ export default {
         }
         if (upgrade.cooldownMultiplier) {
           effects.push(`Reduces cooldown by ${parseInt((1 - upgrade.cooldownMultiplier) * 100, 10)}%`);
-        }
-        if (upgrade.timerMultiplier) {
-          effects.push(`Increases timer by ${parseInt((upgrade.timerMultiplier - 1) * 100, 10)}%`);
         }
       }
 
@@ -234,27 +218,15 @@ export default {
       }
 
       let metRequirements = true;
-      if (upgrade.type === 'worker') {
-        if (this.money.lt(upgrade.cost.div(10))) {
-          return false;
-        }
-
-        // show upgrade when player has 1/4 workers
-        metRequirements = Object.keys(upgrade.requirements).every((workerId) => {
-          const required = upgrade.requirements[workerId];
-          if (this.workers[workerId].quantity < required / 4) {
-            metRequirements = false;
-            return false;
-          }
-          return true;
-        });
-      } else if (upgrade.type === 'jobs') {
-        return this.stats.jobs.gte(5);
+      if (upgrade.type === 'jobs') {
+        metRequirements = this.stats.jobs.gte(1);
       } else if (upgrade.type === 'urgentJobs') {
-        return this.stats.urgentJobs.gte(3);
+        metRequirements = this.stats.urgentJobs.gte(1);
+      } else if (upgrade.type === 'caffeine') {
+        metRequirements = this.stats.caffeines.gte(1);
       } else {
-        // show upgrade when player has 1/5 money
-        metRequirements = this.money.gte(upgrade.cost.div(5));
+        // show upgrade when player has 10% money
+        metRequirements = this.money.gte(upgrade.cost.div(10));
       }
       if (!metRequirements) {
         return false;

@@ -1,17 +1,22 @@
-import booksData from '@/data/books';
+import optionsData from '@/data/options';
 
-const state = Object.assign({}, booksData);
+const state = Object.assign({}, optionsData());
 
 const getters = {
-  //
+  checkOption: s => option => s[option] === true,
 };
 
 const mutations = {
-  setBooksData(s, { index, value }) {
+  adjustButtonSize(s, amount) {
+    if (s.buttonSize + amount >= 0 && s.buttonSize + amount <= s.maxButtonSize) {
+      s.buttonSize += amount;
+    }
+  },
+  setOptionData(s, { index, value }) {
     s[index] = value;
   },
-  resetBooks(s) {
-    const d = Object.assign({}, booksData);
+  resetOptions(s) {
+    const d = Object.assign({}, optionsData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });

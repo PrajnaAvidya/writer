@@ -5,31 +5,31 @@ import randomJobName from '@/utils/randomJobName';
 const jobTypes = {
   1: {
     name: 'Tiny',
-    rewardRange: [200, 200],
+    rewardRange: [400, 500],
     wordRange: [10, 30],
     minimumWords: 100,
   },
   2: {
     name: 'Short',
-    rewardRange: [200, 250],
+    rewardRange: [500, 600],
     wordRange: [30, 90],
     minimumWords: 200,
   },
   3: {
     name: 'Medium',
-    rewardRange: [250, 325],
+    rewardRange: [600, 800],
     wordRange: [180, 600],
     minimumWords: 1000,
   },
   4: {
     name: 'Long',
-    rewardRange: [325, 400],
+    rewardRange: [800, 1000],
     wordRange: [900, 2400],
     minimumWords: 2000,
   },
   5: {
     name: 'Epic',
-    rewardRange: [400, 500],
+    rewardRange: [1000, 1200],
     wordRange: [3600, 9000],
     minimumWords: 10000,
   },
@@ -48,5 +48,6 @@ export default function (wordValue, wps, id) {
     name: `${jobTypes[id].name} ${randomJobName()}`,
     words,
     payment: jobWordValue.times(words),
+    currentPayment: jobWordValue.times(words).div(2),
   };
 }

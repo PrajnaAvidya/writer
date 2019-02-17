@@ -13,19 +13,37 @@
         class="columns bonus"
         :class="{ 'is-hidden': !canSeeBonus(bonus) }"
       >
-        <div class="column">
+        <div class="bonus-name">
           {{ bonus.name }}
         </div>
-        <div class="column">
+        <div class="bonus-description">
           {{ bonus.description }}
         </div>
-        <div class="column">
+        <div class="bonus-button">
           <a
             :disabled="plotPoints.lt(bonus.cost)"
             class="button is-warning"
             @click="buyBonus(bonus)"
           >
             {{ bonus.cost | round }} Plot Points
+          </a>
+        </div>
+      </div>
+
+      <div class="columns bonus">
+        <div class="bonus-name">
+          Rebirth Milestone Reduction
+        </div>
+        <div class="bonus-description">
+          Reduce the number of milestones required for rebirth by 10 (can be purchased unlimited times)
+        </div>
+        <div class="bonus-button">
+          <a
+            :disabled="plotPoints.lt(150)"
+            class="button is-warning"
+            @click="buyMilestoneReduction()"
+          >
+            150 Plot Points
           </a>
         </div>
       </div>
@@ -63,16 +81,16 @@ export default {
       this.spendPlotPoints(bonus.cost);
 
       // apply bonus
-      if (bonus.caffeine) {
-        this.enableWorkerCaffeine(bonus.caffeine);
-      } else if (bonus.type === 'jobSlot') {
+      if (bonus.type === 'jobSlot') {
         this.addJobSlot();
       } else if (bonus.type === 'hurryAmount') {
         this.multiplyBonus({ index: 'hurryAmount', amount: 2 });
       } else if (bonus.type === 'caffeineWordMultiplier') {
         this.multiplyBonus({ index: 'caffeineWordMultiplier', amount: 2 });
-      } else if (bonus.type === 'caffeineClickWps') {
-        this.addBonus({ index: 'caffeineClickWps', amount: 1 });
+      } else if (bonus.type === 'passiveMoney') {
+        this.passiveMoney();
+      } else if (bonus.type === 'rebirthMoney') {
+        this.setRebirthMoney(bonus.amount);
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -89,13 +107,25 @@ export default {
         eventLabel: `${bonus.name}`,
       });
     },
+    buyMilestoneReduction() {
+      if (this.plotPoints.lt(150)) {
+        return;
+      }
+
+      this.spendPlotPoints(150);
+
+      this.addRebirthData({ index: 'baseMilestonesNeeded', amount: -10 });
+    },
     ...mapMutations('rebirth', [
-      'enableWorkerCaffeine',
       'removeBonus',
       'spendPlotPoints',
       'addJobSlot',
+      'passiveMoney',
       'addBonus',
       'multiplyBonus',
+      'multiplyRebirthData',
+      'setRebirthMoney',
+      'addRebirthData',
     ]),
   },
 };
@@ -112,5 +142,14 @@ export default {
 }
 .bonus {
   margin-top: 15px;
+}
+.bonus-name {
+  width: 200px;
+}
+.bonus-description {
+  width: 550px;
+}
+.bonus-button {
+  width: 150px;
 }
 </style>

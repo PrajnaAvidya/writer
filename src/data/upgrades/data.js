@@ -12,11 +12,6 @@ export default {
     scale: 25,
     multiplier: 2,
   },
-  caffeinePower: {
-    base: 1000,
-    scale: 50,
-    multiplier: 2,
-  },
   jobReward: {
     base: 100,
     scale: 100,
@@ -126,7 +121,7 @@ export default {
       requirement: 150,
       multiplier: 2,
     },
-    { // + 3e cost, +50 req
+    {
       cost: 5E12,
       requirement: 200,
       multiplier: 2,
@@ -146,7 +141,7 @@ export default {
       requirement: 350,
       multiplier: 2,
     },
-    { // +4e cost, +50 req
+    {
       cost: 5E25,
       requirement: 400,
       multiplier: 2,
@@ -161,39 +156,63 @@ export default {
       requirement: 500,
       multiplier: 2,
     },
+    {
+      cost: 5E43,
+      requirement: 600,
+      multiplier: 2,
+    },
+    {
+      cost: 5E53,
+      requirement: 700,
+      multiplier: 2,
+    },
+    {
+      cost: 5E63,
+      requirement: 800,
+      multiplier: 2,
+    },
+    {
+      cost: 5E73,
+      requirement: 900,
+      multiplier: 2,
+    },
+    {
+      cost: 5E83,
+      requirement: 1000,
+      multiplier: 2,
+    },
   ],
 
-  // jobs
-  jobs: [
-    // cooldown reduction
+  // job cooldown
+  jobCooldown: [
     {
       cost: 1E3,
-      cooldownReduction: 10,
+      cooldownReduction: 5,
     },
     {
       cost: 1E5,
-      cooldownReduction: 10,
+      cooldownReduction: 5,
     },
     {
       cost: 1E7,
-      cooldownReduction: 10,
+      cooldownReduction: 5,
     },
     {
       cost: 1E9,
-      cooldownReduction: 10,
+      cooldownReduction: 5,
     },
     {
       cost: 1E11,
-      cooldownReduction: 10,
+      cooldownReduction: 5,
     },
     {
       cost: 1E13,
-      cooldownReduction: 10,
+      cooldownReduction: 4,
     },
   ],
 
-  // urgent jobs
-  urgentJobs: [
+  // urgent job cooldown
+  urgentJobCooldown: [
     {
       cost: 5E6,
       cooldownMultiplier: 0.75,
@@ -202,23 +221,9 @@ export default {
       cost: 5E9,
       cooldownMultiplier: 0.75,
     },
-    /*
     {
-      cost: 5E4,
-      timerMultiplier: 1.5,
+      cost: 5E12,
+      cooldownMultiplier: 0.75,
     },
-    {
-      cost: 5E7,
-      timerMultiplier: 1.5,
-    },
-    {
-      cost: 5E10,
-      timerMultiplier: 1.5,
-    },
-    {
-      cost: 5E13,
-      timerMultiplier: 1.5,
-    },
-    */
   ],
 };

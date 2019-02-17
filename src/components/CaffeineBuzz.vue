@@ -4,6 +4,7 @@
       <div class="column is-half">
         <a
           class="button caffeine-button"
+          :class="{ pulse: buzzActive }"
           :disabled="buzzActive || coffeeAvailableTimer > 0"
           @click="$root.$emit('coffee', $event)"
         >
@@ -110,6 +111,7 @@ export default {
   line-height: 52px;
 }
 .caffeine-cooldown {
+  cursor: pointer;
   padding-left: 20px;
   padding-right: 20px;
   height: 43px;
