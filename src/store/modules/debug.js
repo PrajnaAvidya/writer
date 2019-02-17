@@ -8,7 +8,7 @@ const getters = {
 
 const mutations = {
   fromJSON(s, obj) {
-    if (typeof obj === 'object') {
+    if (obj && typeof obj === 'object') {
       Object.keys(obj).forEach((key) => {
         s[key] = obj[key];
       });
