@@ -513,7 +513,7 @@ export default {
     write(event) {
       let words = this.playerWords.times(this.plotBonus);
       if (this.buzzActive) {
-        words = words.plus(this.workerWps.plus(this.caffeineMinimumWordGeneration.div(2)));
+        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration.div(2)) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration.div(2);
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       this.addToStat({ stat: 'clickWords', amount: words });
