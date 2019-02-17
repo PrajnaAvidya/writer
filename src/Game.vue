@@ -513,7 +513,7 @@ export default {
     write(event) {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = this.workerWps.plus(this.caffeineMinimumWordGeneration);
+        words = this.workerWps.plus(this.caffeineMinimumWordGeneration.div(2));
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       // add plot bonus

@@ -11,7 +11,7 @@ export default function (playerWords, wordValue, wps) {
   let words = playerWords.times(randomInt(wordsRangePercent[0], wordsRangePercent[1]) / 100).plus(wps.times(randomInt(wpsRange[0], wpsRange[1])));
 
   // enforce minimum/maximum
-  const minimumWords = Big(200);
+  const minimumWords = Big(300);
   const maximumWords = playerWords.plus(wps.times(55));
   if (words.lt(minimumWords)) {
     words = minimumWords;
