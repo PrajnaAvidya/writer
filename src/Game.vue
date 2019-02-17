@@ -6,7 +6,7 @@
       :show-footer="false"
     >
       <div class="upgrade-text">
-        Hello, Writer Incremental has been upgraded to <strong>Alpha 3</strong> and because it contains significant changes your save file was been wiped. Based on your progress from your previous game you have been given <strong>{{ upgradePlotPoints / 3 }} plot points</strong> for your new game.
+        Hello, Writer Incremental has been upgraded to <strong>Alpha 3</strong> and because it contains significant changes your save file was been wiped. Based on your progress from your previous game you have been given <strong>{{ upgradePlotPoints / 3 | round }} plot points</strong> for your new game.
       </div>
       <button
         class="button is-primary"
