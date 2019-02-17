@@ -645,6 +645,7 @@ export default {
     updateWps() {
       log('recalculating wps');
       // get worker wps
+      const oldWps = Big(this.workerWps);
       const workerWps = calculateWorkerWps(this.workers);
       // add plot point bonus
       let totalWps = workerWps.total.times(this.plotBonus);
@@ -662,6 +663,7 @@ export default {
       this.setWorkersData({ index: 'individualWorkerWps', value: workerWps.worker });
 
       this.$refs.creative.writeTooltip();
+      this.updateJobWords(oldWps);
     },
     // jobs
     updateJobs(initial = false) {
@@ -686,6 +688,26 @@ export default {
 
       this.lastJobCheck = unixTimestamp();
       this.nextJobCheck = unixTimestamp(0.1);
+    },
+    updateJobWords(oldWps) {
+      if (this.workerWps.eq(oldWps)) {
+        return;
+      }
+
+      let adjustment;
+      if (oldWps.eq(0)) {
+        adjustment = Big(1).plus(this.workerWps.div(10));
+      } else {
+        adjustment = this.workerWps.div(oldWps);
+      }
+
+      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+        // only update pending jobs
+        if (!this.jobAvailable[jobId]) {
+          this.jobs[jobId].words = this.jobs[jobId].words.times(adjustment);
+          this.jobs[jobId].payment = this.jobs[jobId].payment.times(adjustment);
+        }
+      }
     },
     // urgent jobs
     updateUrgentJob(force = false) {
