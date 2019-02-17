@@ -65,9 +65,11 @@ const mutations = {
     Vue.delete(s.lockedBonuses, id);
   },
   fromJSON(s, obj) {
-    Object.keys(obj).forEach((key) => {
-      s[key] = obj[key];
-    });
+    if (typeof obj === 'object') {
+      Object.keys(obj).forEach((key) => {
+        s[key] = obj[key];
+      });
+    }
     s.baseMilestonesNeeded = Big(s.baseMilestonesNeeded);
     s.plotPoints = Big(s.plotPoints);
     s.spentPlotPoints = Big(s.spentPlotPoints);

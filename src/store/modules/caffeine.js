@@ -44,9 +44,11 @@ const mutations = {
     s.nextCaffeineTime = 0;
   },
   fromJSON(s, obj) {
-    Object.keys(obj).forEach((key) => {
-      s[key] = obj[key];
-    });
+    if (typeof obj === 'object') {
+      Object.keys(obj).forEach((key) => {
+        s[key] = obj[key];
+      });
+    }
 
     s.caffeineMinimumWordGeneration = Big(s.caffeineMinimumWordGeneration);
   },

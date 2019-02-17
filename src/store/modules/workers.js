@@ -26,9 +26,11 @@ const mutations = {
     });
   },
   fromJSON(s, obj) {
-    Object.keys(obj).forEach((key) => {
-      s[key] = obj[key];
-    });
+    if (typeof obj === 'object') {
+      Object.keys(obj).forEach((key) => {
+        s[key] = obj[key];
+      });
+    }
     s.workerWps = Big(s.workerWps);
     Object.keys(s.workers).forEach((worker) => {
       s.workers[worker].productivityMultiplier = Big(s.workers[worker].productivityMultiplier);

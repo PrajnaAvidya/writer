@@ -47,9 +47,11 @@ const mutations = {
     });
   },
   fromJSON(s, obj) {
-    Object.keys(obj).forEach((key) => {
-      s[key] = obj[key];
-    });
+    if (typeof obj === 'object') {
+      Object.keys(obj).forEach((key) => {
+        s[key] = obj[key];
+      });
+    }
     s.jobRewardMultiplier = Big(s.jobRewardMultiplier);
     Object.keys(s.jobs).forEach((jobId) => {
       s.jobs[jobId].payment = Big(s.jobs[jobId].payment);
