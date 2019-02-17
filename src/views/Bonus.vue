@@ -35,15 +35,15 @@
           Rebirth Milestone Reduction
         </div>
         <div class="bonus-description">
-          Reduce the number of milestones required for rebirth by 15%
+          Reduce the number of milestones required for rebirth by 10 (can be purchased unlimited times)
         </div>
         <div class="bonus-button">
           <a
-            :disabled="plotPoints.lt(100)"
+            :disabled="plotPoints.lt(150)"
             class="button is-warning"
             @click="buyMilestoneReduction()"
           >
-            100 Plot Points
+            150 Plot Points
           </a>
         </div>
       </div>
@@ -108,13 +108,13 @@ export default {
       });
     },
     buyMilestoneReduction() {
-      if (this.plotPoints.lt(100)) {
+      if (this.plotPoints.lt(150)) {
         return;
       }
 
-      this.spendPlotPoints(100);
+      this.spendPlotPoints(150);
 
-      this.multiplyRebirthData({ index: 'baseMilestonesNeeded', amount: 0.85 });
+      this.addRebirthData({ index: 'baseMilestonesNeeded', amount: -10 });
     },
     ...mapMutations('rebirth', [
       'removeBonus',
@@ -125,6 +125,7 @@ export default {
       'multiplyBonus',
       'multiplyRebirthData',
       'setRebirthMoney',
+      'addRebirthData',
     ]),
   },
 };

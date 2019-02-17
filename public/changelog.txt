@@ -18,6 +18,7 @@ Added more tiers of worker upgrades
 Job rework:
 - Payment now scales based on time elapsed since last job completion (starting at 50% of max)
 - Payments have been more than doubled
+Rebirthing now adds 2 milestones required for next rebirth (was 1)
 Change cursor when over cooldown bars
 Increased urgent job min reward
 Decreased book max reward

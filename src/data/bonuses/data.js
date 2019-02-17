@@ -135,4 +135,22 @@ export default [
     type: 'rebirthMoney',
     amount: 1E9,
   },
+  {
+    name: 'Lower Milestones',
+    description: 'Rebirthing requires 10 fewer milestones',
+    cost: 100,
+    type: 'baseMilestones',
+  },
+  {
+    name: 'Lower Milestones',
+    description: 'Rebirthing requires 10 fewer milestones',
+    cost: 100,
+    type: 'baseMilestones',
+  },
+  {
+    name: 'Lower Milestones',
+    description: 'Rebirthing requires 10 fewer milestones',
+    cost: 100,
+    type: 'baseMilestones',
+  },
 ];
