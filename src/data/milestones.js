@@ -39,12 +39,4 @@ export default {
     base: 10,
     multiplier: 2,
   },
-  jobBars: {
-    base: 10,
-    multiplier: 5,
-  },
-  jobCooldown: {
-    base: 60,
-    multiplier: 2,
-  },
 };

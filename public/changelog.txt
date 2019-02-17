@@ -7,9 +7,6 @@ Added options page:
 - Floating text effect
 - Currency ticking effect
 - Hard reset
-Added milestones:
-- Job bar clicks
-- Job cooldown seconds
 Added passive money skill
 Added skill to reduce rebirth milestones
 Added skill to start with money after rebirth

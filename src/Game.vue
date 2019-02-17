@@ -682,11 +682,6 @@ export default {
 
         // update available based on timestamp
         this.$set(this.jobAvailable, jobId, initial || this.utimestamp >= this.jobsAvailableTimestamps[jobId]);
-
-        // update cooldown stat/milestone
-        if (!this.jobAvailable[jobId]) {
-          this.addToStat({ stat: 'jobCooldown', amount: (unixTimestamp() - this.lastJobCheck) / 1000 });
-        }
       }
 
       this.lastJobCheck = unixTimestamp();
