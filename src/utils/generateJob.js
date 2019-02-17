@@ -48,6 +48,6 @@ export default function (wordValue, wps, id) {
     name: `${jobTypes[id].name} ${randomJobName()}`,
     words,
     payment: jobWordValue.times(words),
-    currentPayment: jobWordValue.times(words),
+    currentPayment: jobWordValue.times(words).div(2),
   };
 }

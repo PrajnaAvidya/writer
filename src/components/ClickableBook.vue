@@ -11,6 +11,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import Big from 'big.js';
 import log from '@/utils/log';
 import notify from '@/utils/notify';
 import floatingText from '@/utils/floatingText';
@@ -44,7 +45,7 @@ export default {
         this.$root.$emit('coffee', event, true);
       } else {
         // +words
-        const words = this.totalWps.times(randomInt(600, 900)).plus(2000);
+        const words = Big(2000).plus(this.totalWps.times(randomInt(300, 600)));
         this.$root.$emit('addWords', words, true);
         log(`bonus words: ${words.toString()}`);
         eventLabel = 'Words';
