@@ -72,7 +72,7 @@ export default {
     writeTooltip() {
       let words = this.playerWords;
       if (this.buzzActive) {
-        words = this.workerWps.plus(this.caffeineMinimumWordGeneration);
+        words = words.plus(this.workerWps.plus(this.caffeineMinimumWordGeneration.div(2)));
       }
       // add plot bonus
       words = words.times(this.plotBonus);
