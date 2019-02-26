@@ -1,7 +1,7 @@
 import Big from 'big.js';
 
 export default {
-  // tick
+  // tick/timers
   lastFrame: 0,
   utimestamp: 0,
   haltAnimation: false,
@@ -12,6 +12,7 @@ export default {
   // periodic checks
   lastJobCheck: 0,
   nextJobCheck: 0,
+  nextUpgradeCheck: 0,
   nextMilestoneCheck: 0,
   nextTitleUpdate: 0,
   urgentJobNotification: null,
@@ -36,7 +37,4 @@ export default {
   hardResetting: false,
   // rebirth
   rebirthNotification: false,
-  // upgrade
-  showUpgradeModal: false,
-  upgradePlotPoints: 0,
 };

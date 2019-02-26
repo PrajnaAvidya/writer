@@ -4,7 +4,7 @@
       v-for="upgrade in orderedUpgrades()"
       :key="upgrade.id"
       class="columns"
-      :class="{ 'is-hidden': !revealedUpgrades[upgrade.id] && !canSeeUpgrade(upgrade) }"
+      :class="{ 'is-hidden': !checkDebug('showAllUpgrades') && !upgrade.revealed }"
     >
       <div class="column">
         <i
@@ -47,7 +47,6 @@ export default {
     ]),
     ...mapState('upgrades', [
       'upgrades',
-      'revealedUpgrades',
       'purchasedUpgrades',
       'upgradeId',
     ]),
@@ -206,34 +205,6 @@ export default {
         return false;
       }
 
-      return true;
-    },
-    canSeeUpgrade(upgrade) {
-      if (this.checkDebug('showAllUpgrades')) {
-        return true;
-      }
-      // check for previous id
-      if (upgrade.previousId && !this.purchasedUpgrades.includes(upgrade.previousId)) {
-        return false;
-      }
-
-      let metRequirements = true;
-      if (upgrade.type === 'jobs') {
-        metRequirements = this.stats.jobs.gte(1);
-      } else if (upgrade.type === 'urgentJobs') {
-        metRequirements = this.stats.urgentJobs.gte(1);
-      } else if (upgrade.type === 'caffeine') {
-        metRequirements = this.stats.caffeines.gte(1);
-      } else {
-        // show upgrade when player has 10% money
-        metRequirements = this.money.gte(upgrade.cost.div(10));
-      }
-      if (!metRequirements) {
-        return false;
-      }
-
-      // upgrades can always been seen once revealed
-      this.revealedUpgrades[upgrade.id] = true;
       return true;
     },
     ...mapMutations('icons', [

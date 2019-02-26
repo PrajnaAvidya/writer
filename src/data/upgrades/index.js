@@ -6,7 +6,6 @@ export default function () {
   const data = {
     upgrades: {},
     upgradeId: 0,
-    revealedUpgrades: {},
     purchasedUpgrades: [],
   };
 

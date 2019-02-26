@@ -85,6 +85,7 @@ export default {
   data: () => gameData,
   computed: {
     ...mapState('upgrades', [
+      'purchasedUpgrades',
       'upgrades',
     ]),
     ...mapState('statistics', [
@@ -240,22 +241,6 @@ export default {
       this.unfoldingComponent = 'UnfoldingTutorials';
       this.loadFirstTutorial = true;
 
-      // check for upgrade
-      const upgradeData = await localforage.getItem('writerSaveUpgrade');
-      if (upgradeData) {
-        this.addRebirthData({ index: 'plotPoints', amount: Big(upgradeData.plotPoints / 3) });
-
-        // show modal
-        this.upgradePlotPoints = upgradeData.plotPoints;
-        this.$refs.upgradeModal.open();
-
-        // show bonus panel
-        this.revealUnfolding('showBonus');
-
-        // delete upgrade save
-        await localforage.removeItem('writerSaveUpgrade');
-      }
-
       this.setNextBook();
       this.updateJobs(true);
 
@@ -396,6 +381,7 @@ export default {
       }
       this.checkCaffeine();
       this.checkBook();
+      this.checkUpgrades();
       this.updateMilestones();
       this.updateJobs();
       this.updateUrgentJob();
@@ -597,13 +583,6 @@ export default {
       // have to re-assign whole workers object to trigger reactivity
       this.setWorkers(workers);
     },
-    removeUpgrade(upgradeId) {
-      this.addToStat({ stat: 'upgrades', amount: 1 });
-      const newUpgrades = this.upgrades;
-      this.$delete(newUpgrades, upgradeId);
-      this.setUpgrades(newUpgrades);
-      this.updateWps();
-    },
     updateWps() {
       log('recalculating wps');
       // get worker wps
@@ -627,6 +606,27 @@ export default {
 
       this.$refs.creative.writeTooltip();
       this.updateJobWords(oldWps);
+    },
+    checkUpgrades() {
+      if (this.utimestamp >= this.nextUpgradeCheck) {
+        Object.keys(this.upgrades).forEach((upgradeId) => {
+          const upgrade = this.upgrades[upgradeId];
+          if (!upgrade.revealed && (
+            (upgrade.type !== 'worker' && !upgrade.previousId && this.money.gte(upgrade.cost.div(10)))
+            || (upgrade.type === 'worker' && !upgrade.previousId && (!this.workers[upgrade.workerId] || this.workers[upgrade.workerId].quantity > 0))
+            || (upgrade.previousId && this.purchasedUpgrades.includes(upgrade.previousId)))) {
+            upgrade.revealed = true;
+          }
+        });
+        this.nextUpgradeCheck = unixTimestamp(0.5);
+      }
+    },
+    removeUpgrade(upgradeId) {
+      this.addToStat({ stat: 'upgrades', amount: 1 });
+      const newUpgrades = this.upgrades;
+      this.$delete(newUpgrades, upgradeId);
+      this.setUpgrades(newUpgrades);
+      this.updateWps();
     },
     // jobs
     updateJobs(initial = false) {

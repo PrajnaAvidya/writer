@@ -9,6 +9,7 @@ export default function (id, type, previousUpgrade = null) {
     id,
     type,
     infinite: true,
+    revealed: false,
   };
 
   if (type === 'clicking') {

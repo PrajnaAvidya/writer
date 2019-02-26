@@ -1,4 +1,4 @@
-Alpha 4 - 2019-09-XX
+Alpha 4 - 2019-02-26
 Increased milestones needed per rebirth to 3 (was 2)
 Adjusted the wording of some descriptions
 Removed duplicate milestone skill (only affects new games)
