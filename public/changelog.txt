@@ -1,5 +1,8 @@
 Alpha 4 - 2019-09-XX
+Adjusted the wording of some descriptions
+Removed duplicate milestone skill (only affects new games)
 Fixed % bonus shown on rebirth page
+UI adjustments
 
 Alpha 3 - 2019-02-17
 Had to wipe everyone's save. Sorry :(

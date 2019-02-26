@@ -40,31 +40,31 @@ export default [
   // passive $
   {
     name: 'Easy Money',
-    description: 'Recieve 1 cent for every word generated (includes job reward multipliers)',
+    description: 'Recieve 1 cent for every word generated (includes job reward multiplier)',
     cost: 100,
     type: 'passiveMoney',
   },
   {
     name: 'EZ Money',
-    description: 'Doubles passive money generation (includes job reward multiplier)',
+    description: 'Doubles passive money generation',
     cost: 200,
     type: 'passiveMoney',
   },
   {
     name: 'Ballin\'',
-    description: 'Doubles passive money generation (includes job reward multiplier)',
+    description: 'Doubles passive money generation',
     cost: 300,
     type: 'passiveMoney',
   },
   {
     name: 'Rich Kid',
-    description: 'Doubles passive money generation (includes job reward multiplier)',
+    description: 'Doubles passive money generation',
     cost: 400,
     type: 'passiveMoney',
   },
   {
     name: 'Plutocracy',
-    description: 'Doubles passive money generation (includes job reward multiplier)',
+    description: 'Doubles passive money generation',
     cost: 500,
     type: 'passiveMoney',
   },
@@ -134,23 +134,5 @@ export default [
     cost: 1000,
     type: 'rebirthMoney',
     amount: 1E9,
-  },
-  {
-    name: 'Lower Milestones',
-    description: 'Rebirthing requires 10 fewer milestones',
-    cost: 100,
-    type: 'baseMilestones',
-  },
-  {
-    name: 'Lower Milestones',
-    description: 'Rebirthing requires 10 fewer milestones',
-    cost: 100,
-    type: 'baseMilestones',
-  },
-  {
-    name: 'Lower Milestones',
-    description: 'Rebirthing requires 10 fewer milestones',
-    cost: 100,
-    type: 'baseMilestones',
   },
 ];
