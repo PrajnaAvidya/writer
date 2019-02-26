@@ -11,7 +11,7 @@
         v-if="milestones.gte(milestonesNeeded)"
         class="text"
       >
-        If you rebirth now you will recieve {{ milestones | round }} milestone plot points + {{ words.e | round }} word plot points for a total of <strong>{{ milestones.plus(words.e) | round }} plot points</strong> (or a {{ milestones.times(2) | round }}% bonus in the next life).
+        If you rebirth now you will recieve {{ milestones | round }} milestone plot points + {{ words.e | round }} word plot points for a total of <strong>{{ milestones.plus(words.e) | round }} plot points</strong> (or a {{ milestones.plus(words.e).times(2) | round }}% bonus in the next life).
       </p>
       <a
         class="button is-warning"

@@ -1,3 +1,6 @@
+Alpha 4 - 2019-09-XX
+Fixed % bonus shown on rebirth page
+
 Alpha 3 - 2019-02-17
 Had to wipe everyone's save. Sorry :(
 Added options page:
