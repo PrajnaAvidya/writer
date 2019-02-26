@@ -1,5 +1,13 @@
+Alpha 4 - 2019-02-26
+Increased milestones needed per rebirth to 3 (was 2)
+Adjusted the wording of some descriptions
+Removed duplicate milestone skill (only affects new games)
+Fixed % bonus shown on rebirth page
+Game engine optimizations
+UI adjustments
+
 Alpha 3 - 2019-02-17
-Had to wipe everyone's save. Sorry :(
+Had to wipe everyone's save. Sorry :( This will hopefully be the only save wipe.
 Added options page:
 - Write button size
 - Scientific notation

@@ -18,11 +18,13 @@ export default function () {
       const upgrade = {
         id,
         type: 'worker',
+        workerId: worker.id,
         name: `${randomAdjective()} ${worker.plural}`,
         cost: Big(Big(genericUpgrade.cost).times(worker.baseCost)),
         requirements: {},
         multipliers: {},
         icon: worker.icon,
+        revealed: false,
       };
       upgrade.requirements[worker.id] = genericUpgrade.requirement;
       if (genericUpgrade.multiplier) {

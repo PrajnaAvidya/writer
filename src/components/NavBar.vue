@@ -52,7 +52,7 @@
       </RouterLink>
       <RouterLink
         to="/options"
-        class="nav-link"
+        class="nav-link nav-options"
       >
         <i class="far fa-check-square fa-lg" />
         Options
@@ -84,6 +84,6 @@ export default {
   margin-right: 5px;
 }
 .nav-stats, .nav-options {
-  margin-left: 50px;
+  margin-left: 40px;
 }
 </style>
