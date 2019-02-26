@@ -43,7 +43,7 @@ export default {
   }),
   computed: {
     milestonesNeeded() {
-      const needed = this.baseMilestonesNeeded.plus(this.rebirths.times(2));
+      const needed = this.baseMilestonesNeeded.plus(this.rebirths.times(3));
       return needed.gt(0) ? needed : 0;
     },
     ...mapState('currency', [
