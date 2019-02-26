@@ -164,7 +164,7 @@ export default {
     updateJobStatuses() {
       const uTimestamp = unixTimestamp();
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
-        if (!this.jobAvailable[jobId]) {
+        if (!this.jobAvailable[jobId] && this.jobs[jobId]) {
           // update bars
           this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - uTimestamp));
           this.$set(this.jobTimer, jobId, `${parseInt((this.jobsAvailableTimestamps[jobId] - uTimestamp) / 1000, 10)} seconds until new job`);
