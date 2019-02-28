@@ -48,11 +48,11 @@ export default {
     },
     // caffeine cooldown reduction
     {
-      cost: 1E4,
+      cost: 1E2,
       cooldownReduction: 30,
     },
     {
-      cost: 1E5,
+      cost: 1E4,
       cooldownReduction: 30,
     },
     {
@@ -60,15 +60,7 @@ export default {
       cooldownReduction: 30,
     },
     {
-      cost: 1E7,
-      cooldownReduction: 30,
-    },
-    {
       cost: 1E8,
-      cooldownReduction: 30,
-    },
-    {
-      cost: 1E9,
       cooldownReduction: 30,
     },
     {
@@ -76,16 +68,24 @@ export default {
       cooldownReduction: 30,
     },
     {
-      cost: 1E11,
-      cooldownReduction: 30,
-    },
-    {
       cost: 1E12,
       cooldownReduction: 30,
     },
     {
-      cost: 1E13,
+      cost: 1E14,
       cooldownReduction: 30,
+    },
+    {
+      cost: 1E16,
+      cooldownReduction: 30,
+    },
+    {
+      cost: 1E18,
+      cooldownReduction: 30,
+    },
+    {
+      cost: 1E20,
+      cooldownReduction: 29,
     },
   ],
 
@@ -207,6 +207,30 @@ export default {
     },
     {
       cost: 1E13,
+      cooldownReduction: 5,
+    },
+    {
+      cost: 1E15,
+      cooldownReduction: 5,
+    },
+    {
+      cost: 1E17,
+      cooldownReduction: 5,
+    },
+    {
+      cost: 1E19,
+      cooldownReduction: 5,
+    },
+    {
+      cost: 1E21,
+      cooldownReduction: 5,
+    },
+    {
+      cost: 1E23,
+      cooldownReduction: 5,
+    },
+    {
+      cost: 1E25,
       cooldownReduction: 4,
     },
   ],
