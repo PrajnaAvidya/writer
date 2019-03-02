@@ -43,7 +43,7 @@ export default {
   }),
   computed: {
     milestonesNeeded() {
-      const needed = this.baseMilestonesNeeded.plus(this.rebirths.times(3));
+      const needed = this.baseMilestonesNeeded + (this.rebirths * 3);
       return needed.gt(0) ? needed : 0;
     },
     ...mapState('currency', [
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     confirmRebirth() {
-      if (!this.checkDebug('rebirth') && this.milestones.lt(this.milestonesNeeded)) {
+      if (!this.checkDebug('rebirth') && this.milestones < this.milestonesNeeded) {
         return;
       }
 

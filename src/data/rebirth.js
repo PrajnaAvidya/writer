@@ -1,20 +1,18 @@
-import Big from 'big.js';
-import workerIndex from '@/data/workers/workerIndex';
 import bonuses from '@/data/bonuses';
 
 export default {
-  baseMilestonesNeeded: Big(30),
-  rebirths: Big(0),
-  plotPoints: Big(0),
-  spentPlotPoints: Big(0),
+  baseMilestonesNeeded: 30,
+  rebirths: 0,
+  plotPoints: 0,
+  spentPlotPoints: 0,
   bonuses: {
     jobSlots: 1,
-    jobWordMultiplier: Big(1),
+    jobWordMultiplier: 1.0,
     hurryAmount: 1,
-    caffeineWordMultiplier: Big(1),
+    caffeineWordMultiplier: 1,
     passiveMoney: false,
-    passiveMoneyAmount: Big(0.01),
-    startingMoney: Big(0),
+    passiveMoneyAmount: 0.01,
+    startingMoney: 0,
     autoCaffeine: false,
   },
   lockedBonuses: bonuses(),

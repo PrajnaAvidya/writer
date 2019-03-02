@@ -66,9 +66,6 @@ export default {
       'individualWorkerWps',
       'workerTooltips',
     ]),
-    ...mapState('rebirth', [
-      'plotPoints',
-    ]),
     ...mapGetters('rebirth', [
       'plotBonus',
     ]),

@@ -7,9 +7,7 @@ const state = Object.assign({}, rebirthData);
 
 const getters = {
   checkBonus: s => bonus => s.bonuses[bonus] && s.bonuses[bonus] === true,
-  jobSlots: s => s.bonuses.jobSlots,
-  jobWordMultiplier: s => s.bonuses.jobWordMultiplier,
-  plotBonus: s => Big(1).plus(s.plotPoints.div(50)),
+  plotBonus: s => Big(1).plus(s.plotPoints / 50),
 };
 
 const mutations = {
@@ -17,22 +15,14 @@ const mutations = {
     s[index] = value;
   },
   addRebirthData(s, { index, amount }) {
-    if (typeof s[index] === 'object') {
-      s[index] = s[index].plus(amount);
-    } else {
-      s[index] += amount;
-    }
+    s[index] += amount;
   },
   multiplyRebirthData(s, { index, amount }) {
-    if (typeof s[index] === 'object') {
-      s[index] = s[index].times(amount);
-    } else {
-      s[index] *= amount;
-    }
+    s[index] *= amount;
   },
   spendPlotPoints(s, amount) {
-    s.spentPlotPoints = s.spentPlotPoints.plus(amount);
-    s.plotPoints = s.plotPoints.minus(amount);
+    s.spentPlotPoints += amount;
+    s.plotPoints -= amount;
   },
   addJobSlot(s) {
     if (s.bonuses.jobSlots < store.state.jobs.maxJobSlots) {
@@ -40,11 +30,7 @@ const mutations = {
     }
   },
   addBonus(s, { index, amount }) {
-    if (typeof s.bonuses[index] === 'object') {
-      s.bonuses[index] = s.bonuses[index].plus(amount);
-    } else {
-      s.bonuses[index] += amount;
-    }
+    s.bonuses[index] += amount;
   },
   enableBonus(s, index) {
     if (typeof s.bonuses[index] === 'boolean') {
@@ -55,18 +41,14 @@ const mutations = {
     if (!s.bonuses.passiveMoney) {
       s.bonuses.passiveMoney = true;
     } else {
-      s.bonuses.passiveMoneyAmount = s.bonuses.passiveMoneyAmount.times(2);
+      s.bonuses.passiveMoneyAmount *= 2;
     }
   },
   setRebirthMoney(s, amount) {
-    s.bonuses.startingMoney = Big(amount);
+    s.bonuses.startingMoney = amount;
   },
   multiplyBonus(s, { index, amount }) {
-    if (typeof s.bonuses[index] === 'object') {
-      s.bonuses[index] = s.bonuses[index].times(amount);
-    } else {
-      s.bonuses[index] *= amount;
-    }
+    s.bonuses[index] *= amount;
   },
   removeBonus(s, id) {
     Vue.delete(s.lockedBonuses, id);
@@ -77,14 +59,6 @@ const mutations = {
         s[key] = obj[key];
       });
     }
-    s.baseMilestonesNeeded = Big(s.baseMilestonesNeeded);
-    s.plotPoints = Big(s.plotPoints);
-    s.spentPlotPoints = Big(s.spentPlotPoints);
-    s.rebirths = Big(s.rebirths);
-    s.bonuses.jobWordMultiplier = Big(s.bonuses.jobWordMultiplier);
-    s.bonuses.caffeineWordMultiplier = Big(s.bonuses.caffeineWordMultiplier);
-    s.bonuses.passiveMoneyAmount = Big(s.bonuses.passiveMoneyAmount);
-    s.bonuses.startingMoney = Big(s.bonuses.startingMoney);
   },
 };
 

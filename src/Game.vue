@@ -162,7 +162,6 @@ export default {
     ]),
     ...mapGetters('rebirth', [
       'checkBonus',
-      'jobSlots',
       'plotBonus',
     ]),
     ...mapGetters('options', [
@@ -267,7 +266,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Game',
         eventAction: 'Rebirth',
-        eventLabel: `Rebirths: ${this.rebirths.toString()}`,
+        eventLabel: `Rebirths: ${this.rebirths}`,
       });
 
       // show bonus panel
@@ -610,7 +609,7 @@ export default {
       // add caffeine wps
       if (this.buzzActive) {
         // apply plot bonus econd time for caffeine
-        const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(this.plotBonus);
+        const wordGeneration = Big(this.bonuses.caffeineWordMultiplier).times(totalWps).times(this.plotBonus);
         const minimumWordGeneration = Big(this.caffeineMinimumWordGeneration).times(this.bonuses.caffeineWordMultiplier);
         this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
         totalWps = totalWps.plus(this.caffeineWordGeneration);
@@ -651,7 +650,7 @@ export default {
         return;
       }
 
-      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+      for (let jobId = 1; jobId <= this.bonuses.jobSlots; jobId += 1) {
         // generate new job right away when complete
         if (initial || !this.jobs[jobId] || this.jobs[jobId].completed === true) {
           this.setJob({ id: jobId, job: generateJob(this.wordValue, this.workerWps, jobId) });
@@ -679,7 +678,7 @@ export default {
         adjustment = Big(1).plus((this.workerWps.div(oldWps).minus(1)).div(4));
       }
 
-      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+      for (let jobId = 1; jobId <= this.bonuses.jobSlots; jobId += 1) {
         // only update pending jobs
         if (!this.jobAvailable[jobId] && this.jobs[jobId]) {
           this.jobs[jobId].words = this.jobs[jobId].words.times(adjustment);
@@ -840,7 +839,7 @@ export default {
       if (this.milestones.gte(15)) {
         this.revealUnfolding('showRebirth');
       }
-      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths.times(3)))) {
+      if (!this.rebirthNotification && this.milestones >= (this.baseMilestonesNeeded + (this.rebirths * 3))) {
         notify('Rebirth Ready', {
           type: 'alert',
           icon: 'fa-recycle',
