@@ -102,6 +102,9 @@ export default {
       'playerWords',
       'totalWps',
     ]),
+    ...mapState('icons', [
+      'playerIcons',
+    ]),
     ...mapState('caffeine', [
       'buzzActive',
       'caffeineTime',
@@ -290,7 +293,7 @@ export default {
         }
 
         if (debugSettings.fastSaves) {
-          this.saveInterval = 5;
+          this.saveInterval = 3;
         }
         if (debugSettings.jobCooldown || debugSettings.jobCooldown === 0) {
           this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
@@ -738,8 +741,8 @@ export default {
         this.setBooksData({
           index: 'bookPosition',
           value: {
-            x: Math.floor(Math.random() * document.body.offsetWidth),
-            y: Math.floor(Math.random() * document.body.offsetHeight),
+            x: Math.floor(Math.random() * (document.body.offsetWidth - 50)),
+            y: Math.floor(Math.random() * (document.body.offsetHeight - 50)),
           },
         });
         this.setBooksData({ index: 'bookActive', value: true });
@@ -840,6 +843,8 @@ export default {
     },
     // rebirth
     doRebirth() {
+      Noty.closeAll();
+
       // update rebirth data
       this.addRebirthData({ index: 'plotPoints', amount: this.milestones });
       this.addRebirthData({ index: 'plotPoints', amount: this.words.e });
@@ -848,12 +853,17 @@ export default {
       // reload relevant vuex stores
       this.resetCurrency();
       this.resetStatistics();
-      this.resetIcons();
       this.resetCaffeine();
       this.resetBooks();
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
+
+      // load next icon if exists
+      const icon = this.playerIcons.pop();
+      if (icon) {
+        this.setIconData({ index: 'playerIcon', value: icon });
+      }
 
       // reload game data
       Object.assign(this.$data, gameData);
@@ -886,6 +896,7 @@ export default {
       'resetStatistics',
     ]),
     ...mapMutations('icons', [
+      'setIconData',
       'resetIcons',
     ]),
     ...mapMutations('caffeine', [

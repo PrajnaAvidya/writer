@@ -37,13 +37,13 @@
 
     <EnableDisable
       label="Particle Effects"
-      tooltip="Disable if you have an old graphics card or if you are boring"
+      tooltip="Disable if you have an old graphics card"
       option-index="particles"
     />
 
     <EnableDisable
       label="Floating text Effect"
-      tooltip="Disable if you have an old graphics card or if you are boring"
+      tooltip="Disable if you have an old graphics card"
       option-index="floatingText"
     />
 
@@ -51,6 +51,12 @@
       label="Currency Ticking Effect"
       tooltip="Disabling may improve performance on slower computers"
       option-index="loopEffect"
+    />
+
+    <EnableDisable
+      label="Decline Jobs"
+      tooltip="Disable if you never want to decline any jobs"
+      option-index="declineJobs"
     />
 
     <div class="hard-reset">

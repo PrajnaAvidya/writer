@@ -1,6 +1,7 @@
 // calculate words per second of workers
 
 import Big from 'big.js';
+import round from '@/utils/round';
 
 export default function (workers) {
   let total = Big(0);
@@ -21,7 +22,7 @@ export default function (workers) {
     } else if (baseContrubution.eq(1)) {
       tooltips[workerId] = 'Produces 1 word per second';
     } else {
-      tooltips[workerId] = `Produces ${baseContrubution} words per second`;
+      tooltips[workerId] = `Produces ${round(baseContrubution)} words per second`;
     }
   });
 

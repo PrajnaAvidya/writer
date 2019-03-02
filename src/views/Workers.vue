@@ -35,7 +35,7 @@
           <span v-if="worker.quantity > 0">
             <strong>{{ worker.pluralName }}: {{ worker.quantity | round }}</strong>
             <br>
-            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ workerWpsPercent(worker) | round }}%)
+            Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ workerWpsPercent(worker) | roundPercent }}%)
           </span>
         </div>
       </div>

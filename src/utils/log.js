@@ -1,7 +1,7 @@
 import store from '@/store';
 
-export default function (message) {
+export default function (...items) {
   if (store.state.debug.enabled === true) {
-    console.log(message);
+    console.log(...items);
   }
 }

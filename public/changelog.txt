@@ -1,7 +1,12 @@
 Alpha 5 Preview (ETA early/mid-March)
 A new game mechanic!
 New bonus skills
+Added option to disable job declines
 Further UI Improvements
+
+Alpha 5 - 2019-03-XX
+Removed click power upgrade
+Various UI Improvements
 
 Alpha 4.1 - 2019-02-27
 Added missing tiers for job cooldown upgrade

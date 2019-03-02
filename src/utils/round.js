@@ -10,6 +10,7 @@ export default function (inputValue, userOptions = {}) {
     alwaysPositive: false, // don't show values below 0
     showNaN: false, // show 'NaN' instead of 0 for invalid numbers
     exponential: false, // use exp notation?
+    percentFormat: false, // show 0 as <1
   };
   const options = Object.assign(defaultOptions, userOptions);
 
@@ -23,17 +24,19 @@ export default function (inputValue, userOptions = {}) {
 
   // check if negative (not allowed in this game!)
   if (options.alwaysPositive && value.lt(0)) {
-    return 0;
+    return options.percentFormat ? '<1' : '0';
   }
 
   // return decimal if enabled & small enough
   if (options.decimal && value.lt(100)) {
-    return value.toFixed(2);
+    const decimalValue = value.toFixed(2);
+    return options.percentFormat && decimalValue === 0.00 ? '<0.01' : decimalValue;
   }
 
   // return number for under 1M
   if (value.lt(1000000)) {
-    return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const lowValue = Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return options.percentFormat && lowValue === '0' ? '<1' : Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   // exponential option
