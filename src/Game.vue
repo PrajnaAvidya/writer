@@ -162,6 +162,7 @@ export default {
       'checkUnfolding',
     ]),
     ...mapGetters('rebirth', [
+      'checkBonus',
       'jobSlots',
       'plotBonus',
     ]),
@@ -498,9 +499,11 @@ export default {
     // caffeine
     coffee(event, force = false) {
       if (force || this.utimestamp >= this.nextCaffeineTime) {
-        // capture player mouse position
-        this.caffeineX = event.pageX - 5;
-        this.caffeineY = event.pageY - 20;
+        if (event) {
+          // capture player mouse position
+          this.caffeineX = event.pageX - 5;
+          this.caffeineY = event.pageY - 20;
+        }
 
         this.updateWps();
         this.activateCaffeine(force);
@@ -530,7 +533,7 @@ export default {
           log('buzz ending');
           this.setCaffeineData({ index: 'buzzActive', value: false });
           this.updateWps();
-        } else if (this.utimestamp >= this.caffeineAnimationNext) {
+        } else if (this.utimestamp >= this.caffeineAnimationNext && (!this.checkBonus('autoCaffeine') || (this.checkBonus('autoCaffeine') && !this.checkOption('autoCaffeine')))) {
           this.particles.spawnParticle(this.caffeineX, this.caffeineY);
           // show animation
           floatingText({
@@ -543,6 +546,8 @@ export default {
           });
           this.caffeineAnimationNext = parseInt(this.utimestamp, 10) + parseInt(this.caffeineAnimationInterval, 10);
         }
+      } else if (!this.buzzActive && this.checkBonus('autoCaffeine') && this.checkOption('autoCaffeine') && this.nextCaffeineTime <= this.utimestamp) {
+        this.coffee();
       }
     },
     // caffeine animation
@@ -783,7 +788,7 @@ export default {
       this.addCurrencyData({ index: 'words', amount: words });
       this.addToStat({ stat: 'words', amount: words });
 
-      if (this.bonuses.passiveMoney === true) {
+      if (this.checkBonus('passiveMoney')) {
         this.addMoney(words.times(this.jobRewardMultiplier).times(this.bonuses.passiveMoneyAmount));
       }
     },

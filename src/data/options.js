@@ -9,6 +9,7 @@ export default function () {
     floatingText: true,
     loopEffect: true,
     declineJobs: true,
+    autoCaffeine: true,
   };
 
   options.maxButtonSize = parseInt(Object.keys(buttonSizes)[Object.keys(buttonSizes).length - 1], 10);

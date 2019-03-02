@@ -54,6 +54,13 @@
     />
 
     <EnableDisable
+      v-if="checkBonus('autoCaffeine')"
+      label="Auto Caffeine"
+      tooltip="Enable or disable the Insomniac skill"
+      option-index="autoCaffeine"
+    />
+
+    <EnableDisable
       label="Decline Jobs"
       tooltip="Disable if you never want to decline any jobs"
       option-index="declineJobs"
@@ -71,7 +78,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import EnableDisable from '@/components/options/EnableDisable.vue';
 
 export default {
@@ -86,6 +93,9 @@ export default {
     ...mapState('options', [
       'buttonSize',
       'maxButtonSize',
+    ]),
+    ...mapGetters('rebirth', [
+      'checkBonus',
     ]),
   },
   methods: {

@@ -93,6 +93,8 @@ export default {
         this.setRebirthMoney(bonus.amount);
       } else if (bonus.type === 'jobWords') {
         this.multiplyBonus({ index: 'jobWordMultiplier', amount: 0.8 });
+      } else if (bonus.type === 'autoCaffeine') {
+        this.enableBonus('autoCaffeine');
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -124,6 +126,7 @@ export default {
       'addJobSlot',
       'passiveMoney',
       'addBonus',
+      'enableBonus',
       'multiplyBonus',
       'multiplyRebirthData',
       'setRebirthMoney',

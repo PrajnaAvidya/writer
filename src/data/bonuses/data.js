@@ -166,4 +166,11 @@ export default [
     cost: 500,
     type: 'jobWords',
   },
+  // auto caffeine
+  {
+    name: 'Insomniac',
+    description: 'Automatically drink Coffee when available',
+    cost: 200,
+    type: 'autoCaffeine',
+  },
 ];

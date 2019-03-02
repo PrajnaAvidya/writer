@@ -15,6 +15,7 @@ export default {
     passiveMoney: false,
     passiveMoneyAmount: Big(0.01),
     startingMoney: Big(0),
+    autoCaffeine: false,
   },
   lockedBonuses: bonuses(),
   purchasedBonuses: [],

@@ -6,6 +6,7 @@ import rebirthData from '@/data/rebirth';
 const state = Object.assign({}, rebirthData);
 
 const getters = {
+  checkBonus: s => bonus => s.bonuses[bonus] && s.bonuses[bonus] === true,
   jobSlots: s => s.bonuses.jobSlots,
   jobWordMultiplier: s => s.bonuses.jobWordMultiplier,
   plotBonus: s => Big(1).plus(s.plotPoints.div(50)),
@@ -43,6 +44,11 @@ const mutations = {
       s.bonuses[index] = s.bonuses[index].plus(amount);
     } else {
       s.bonuses[index] += amount;
+    }
+  },
+  enableBonus(s, index) {
+    if (typeof s.bonuses[index] === 'boolean') {
+      s.bonuses[index] = true;
     }
   },
   passiveMoney(s) {
