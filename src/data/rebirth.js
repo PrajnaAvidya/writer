@@ -9,6 +9,7 @@ export default {
   spentPlotPoints: Big(0),
   bonuses: {
     jobSlots: 1,
+    jobWordMultiplier: Big(1),
     hurryAmount: 1,
     caffeineWordMultiplier: Big(1),
     passiveMoney: false,

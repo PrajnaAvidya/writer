@@ -91,6 +91,8 @@ export default {
         this.passiveMoney();
       } else if (bonus.type === 'rebirthMoney') {
         this.setRebirthMoney(bonus.amount);
+      } else if (bonus.type === 'jobWords') {
+        this.multiplyBonus({ index: 'jobWordMultiplier', amount: 0.8 });
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
