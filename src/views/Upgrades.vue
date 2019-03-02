@@ -230,11 +230,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.upgrades {
-  height: 465px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 .upgrade-icon {
   margin-right: 5px;
 }

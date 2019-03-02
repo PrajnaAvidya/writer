@@ -738,8 +738,8 @@ export default {
         this.setBooksData({
           index: 'bookPosition',
           value: {
-            x: Math.floor(Math.random() * document.body.offsetWidth),
-            y: Math.floor(Math.random() * document.body.offsetHeight),
+            x: Math.floor(Math.random() * (document.body.offsetWidth - 50)),
+            y: Math.floor(Math.random() * (document.body.offsetHeight - 50)),
           },
         });
         this.setBooksData({ index: 'bookActive', value: true });
