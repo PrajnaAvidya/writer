@@ -8,15 +8,15 @@
         Once you achieve {{ milestonesNeeded | round }} milestones you can rebirth and start from zero. Your words and milestones will be converted into <strong>plot points</strong> which will give you a bonus in the next life, and allow you to unlock new abilities.
       </p>
       <p
-        v-if="milestones.gte(milestonesNeeded)"
+        v-if="milestones >= milestonesNeeded"
         class="text"
       >
         If you rebirth now you will recieve {{ milestones | round }} milestone plot points + {{ words.e | round }} word plot points for a total of <strong>{{ milestones.plus(words.e) | round }} plot points</strong> (or a {{ milestones.plus(words.e).times(2) | round }}% bonus in the next life).
       </p>
       <a
         class="button is-warning"
-        :class="{ glow: checkDebug('rebirth') || milestones.gte(milestonesNeeded), pulse: checkDebug('rebirth') || milestones.gte(milestonesNeeded) }"
-        :disabled="!checkDebug('rebirth') && milestones.lt(milestonesNeeded)"
+        :class="{ glow: checkDebug('rebirth') || milestones >= milestonesNeeded, pulse: checkDebug('rebirth') || milestones >= milestonesNeeded }"
+        :disabled="!checkDebug('rebirth') && milestones < milestonesNeeded"
         @click="confirmRebirth()"
       >
         {{ buttonText }}
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     confirmRebirth() {
-      if (!this.checkDebug('rebirth') && this.milestones.lt(this.milestonesNeeded)) {
+      if (!this.checkDebug('rebirth') && this.milestones < this.milestonesNeeded) {
         return;
       }
 

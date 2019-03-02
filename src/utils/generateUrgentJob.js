@@ -7,7 +7,7 @@ const wordsRangePercent = [10, 50];
 const wpsRange = [600, 1800];
 
 export default function (playerWords, wordValue, wps) {
-  const jobWordValue = wordValue.times(randomInt(rewardRangePercent[0], rewardRangePercent[1]) / 100);
+  const jobWordValue = Big(wordValue).times(randomInt(rewardRangePercent[0], rewardRangePercent[1]) / 100);
   let words = playerWords.times(randomInt(wordsRangePercent[0], wordsRangePercent[1]) / 100).plus(wps.times(randomInt(wpsRange[0], wpsRange[1])));
 
   // enforce minimum/maximum

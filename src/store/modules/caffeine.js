@@ -49,8 +49,6 @@ const mutations = {
         s[key] = obj[key];
       });
     }
-
-    s.caffeineMinimumWordGeneration = Big(s.caffeineMinimumWordGeneration);
   },
 };
 

@@ -33,7 +33,6 @@ const mutations = {
     }
     s.workerWps = Big(s.workerWps);
     Object.keys(s.workers).forEach((worker) => {
-      s.workers[worker].productivityMultiplier = Big(s.workers[worker].productivityMultiplier);
       s.workers[worker].costs[0] = Big(s.workers[worker].costs[0]);
       s.workers[worker].costs[1] = Big(s.workers[worker].costs[1]);
       s.workers[worker].costs[2] = Big(s.workers[worker].costs[2]);

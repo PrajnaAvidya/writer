@@ -55,7 +55,6 @@ export default {
     ]),
     ...mapState('currency', [
       'money',
-      'wordValue',
     ]),
     ...mapState('jobs', [
       'urgentJobTimestamp',
@@ -102,16 +101,8 @@ export default {
       if (upgrade.type === 'worker') {
         if (upgrade.multipliers) {
           Object.keys(upgrade.multipliers).forEach((workerId) => {
-            this.workers[workerId].productivityMultiplier = this.workers[workerId].productivityMultiplier.times(upgrade.multipliers[workerId]);
+            this.workers[workerId].productivityMultiplier *= upgrade.multipliers[workerId];
           });
-        }
-      } else if (upgrade.type === 'clicking') {
-        // not currently used
-        this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
-        // upgrade icon
-        const icon = this.playerIcons.pop();
-        if (icon) {
-          this.setIconData({ index: 'playerIcon', value: icon });
         }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
@@ -120,8 +111,6 @@ export default {
         if (upgrade.lengthMultiplier) {
           this.multiplyCaffeineData({ index: 'caffeineTime', amount: upgrade.lengthMultiplier });
         }
-      } else if (upgrade.type === 'wordValue') {
-        this.multiplyCurrencyData({ index: 'wordValue', amount: upgrade.multiplier });
       } else if (upgrade.type === 'jobReward') {
         this.multiplyJobData({ index: 'jobRewardMultiplier', amount: upgrade.multiplier });
       } else if (upgrade.type === 'urgentJobReward') {
@@ -147,14 +136,10 @@ export default {
             effects.push(`Multiplies ${this.workers[workerId].name} productivity by ${upgrade.multipliers[workerId]}x`);
           });
         }
-      } else if (upgrade.type === 'wordValue') {
-        effects.push(`Increases base word value (& job payments) by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'jobReward') {
         effects.push(`Increases job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
       } else if (upgrade.type === 'urgentJobReward') {
         effects.push(`Increases urgent job payments by ${parseInt((upgrade.multiplier - 1) * 100, 10)}%`);
-      } else if (upgrade.type === 'clicking') {
-        effects.push(`Increases writing clicks by ${parseInt((upgrade.writingMultiplier - 1) * 100, 10)}%`);
       } else {
         if (upgrade.cooldownReduction) {
           effects.push(`Subtracts ${upgrade.cooldownReduction} seconds from cooldown`);

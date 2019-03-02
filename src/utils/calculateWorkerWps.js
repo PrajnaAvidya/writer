@@ -8,7 +8,7 @@ export default function (workers) {
   const worker = {};
   const tooltips = {};
   Object.keys(workers).forEach((workerId) => {
-    const baseContrubution = workers[workerId].productivityMultiplier.times(workers[workerId].baseProductivity);
+    const baseContrubution = Big(workers[workerId].productivityMultiplier).times(workers[workerId].baseProductivity);
     const totalContribution = baseContrubution.times(workers[workerId].quantity);
 
     if (totalContribution.gt(0)) {

@@ -12,13 +12,7 @@ export default function (id, type, previousUpgrade = null) {
     revealed: false,
   };
 
-  if (type === 'clicking') {
-    // not currently used
-    upgrade.name = `${randomAdjective()} Clicking`;
-    upgrade.cost = previousUpgrade ? previousUpgrade.cost.times(upgradeData.clicking.scale) : Big(upgradeData.clicking.base);
-    upgrade.writingMultiplier = upgradeData.clicking.multiplier;
-    upgrade.icon = 'fa-mouse-pointer';
-  } else if (type === 'wordValue') {
+  if (type === 'wordValue') {
     upgrade.name = `${randomAdjective()} Word Value`;
     upgrade.cost = previousUpgrade ? previousUpgrade.cost.times(upgradeData.wordValue.scale) : Big(upgradeData.wordValue.base);
     upgrade.multiplier = upgradeData.wordValue.multiplier;

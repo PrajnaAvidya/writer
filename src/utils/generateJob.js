@@ -36,7 +36,7 @@ const jobTypes = {
 };
 
 export default function (wordValue, wps, id) {
-  const jobWordValue = wordValue.times(randomInt(jobTypes[id].rewardRange[0], jobTypes[id].rewardRange[1]) / 100);
+  const jobWordValue = Big(wordValue).times(randomInt(jobTypes[id].rewardRange[0], jobTypes[id].rewardRange[1]) / 100);
   let words = wps.times(randomInt(jobTypes[id].wordRange[0], jobTypes[id].wordRange[1]));
   if (words.lt(jobTypes[id].minimumWords)) {
     words = Big(jobTypes[id].minimumWords);

@@ -131,7 +131,6 @@ export default {
   computed: {
     ...mapState('currency', [
       'words',
-      'wordValue',
     ]),
     ...mapState('jobs', [
       'jobs',

@@ -99,7 +99,6 @@ export default {
       'money',
       'wordValue',
       'milestones',
-      'playerWords',
       'totalWps',
     ]),
     ...mapState('icons', [
@@ -179,7 +178,7 @@ export default {
       } else {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoLoad')) {
-          if (saveData.version === 1 || saveData.version === 2) {
+          if (saveData.version < 3) {
             await deleteSave();
             window.location.reload(false);
           } else {
@@ -283,9 +282,6 @@ export default {
         if (this.isNewGame) {
           if (debugSettings.startingMilestones) {
             this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
-          }
-          if (debugSettings.startingPlayerWords) {
-            this.setCurrencyData({ index: 'playerWords', value: debugSettings.startingPlayerWords });
           }
           if (debugSettings.startingWords) {
             this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
@@ -470,9 +466,9 @@ export default {
     },
     // player input
     write(event) {
-      let words = this.playerWords.times(this.plotBonus);
+      let words = Big(1).times(this.plotBonus);
       if (this.buzzActive) {
-        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration.div(2)) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration.div(2);
+        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration / 2) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration / 2;
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       this.addToStat({ stat: 'clickWords', amount: words });
@@ -603,7 +599,7 @@ export default {
       if (this.buzzActive) {
         // apply plot bonus econd time for caffeine
         const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(this.plotBonus);
-        const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
+        const minimumWordGeneration = Big(this.caffeineMinimumWordGeneration).times(this.bonuses.caffeineWordMultiplier);
         this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
         totalWps = totalWps.plus(this.caffeineWordGeneration);
         this.caffeineAnimationParams();
@@ -829,10 +825,10 @@ export default {
         }
       });
 
-      if (this.milestones.gte(15)) {
+      if (this.milestones >= 15) {
         this.revealUnfolding('showRebirth');
       }
-      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths.times(3)))) {
+      if (!this.rebirthNotification && this.milestones >= this.baseMilestonesNeeded.plus(this.rebirths.times(3))) {
         notify('Rebirth Ready', {
           type: 'alert',
           icon: 'fa-recycle',

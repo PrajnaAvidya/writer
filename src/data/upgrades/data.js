@@ -1,12 +1,5 @@
 export default {
   // infinite/procedural upgrades
-  /*
-  wordValue: {
-    base: 100,
-    scale: 10,
-    multiplier: 2,
-  },
-  */
   clicking: {
     base: 500,
     scale: 25,

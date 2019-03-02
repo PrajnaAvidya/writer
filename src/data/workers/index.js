@@ -33,7 +33,7 @@ export default function () {
       baseCost: worker.baseCost,
       costMultiplier: worker.costMultiplier,
       baseProductivity: worker.productivity,
-      productivityMultiplier: Big(1),
+      productivityMultiplier: 1,
       icon: worker.icon,
     };
 
