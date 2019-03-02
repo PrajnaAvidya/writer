@@ -52,7 +52,7 @@
               </a>
               &nbsp;
               <a
-                v-if="checkUnfolding('firstJobComplete')"
+                v-if="checkUnfolding('firstJobComplete') && checkOption('declineJobs')"
                 class="button is-small"
                 @click="declineJob(job.id)"
               >
@@ -151,6 +151,9 @@ export default {
     ]),
     ...mapGetters('rebirth', [
       'jobSlots',
+    ]),
+    ...mapGetters('options', [
+      'checkOption',
     ]),
   },
   mounted() {

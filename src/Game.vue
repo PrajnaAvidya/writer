@@ -293,7 +293,7 @@ export default {
         }
 
         if (debugSettings.fastSaves) {
-          this.saveInterval = 5;
+          this.saveInterval = 3;
         }
         if (debugSettings.jobCooldown || debugSettings.jobCooldown === 0) {
           this.setJobsData({ index: 'jobCooldown', value: debugSettings.jobCooldown });
