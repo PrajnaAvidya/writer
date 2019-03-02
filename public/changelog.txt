@@ -3,6 +3,10 @@ A new game mechanic!
 New bonus skills
 Further UI Improvements
 
+Alpha 5 - 2019-03-XX
+Removed click power upgrade
+Various UI Improvements
+
 Alpha 4.1 - 2019-02-27
 Added missing tiers for job cooldown upgrade
 Adjusted prices for caffeine cooldown upgrade
