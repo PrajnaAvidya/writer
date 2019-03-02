@@ -685,7 +685,7 @@ export default {
 
       for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
         // only update pending jobs
-        if (!this.jobAvailable[jobId]) {
+        if (!this.jobAvailable[jobId] && this.jobs[jobId]) {
           this.jobs[jobId].words = this.jobs[jobId].words.times(adjustment);
           this.jobs[jobId].payment = this.jobs[jobId].payment.times(adjustment);
         }
