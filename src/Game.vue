@@ -67,9 +67,10 @@ import CrazyBooks from '@/components/CrazyBooks.vue';
 import floatingText from '@/utils/floatingText';
 import particles from '@/utils/particles';
 // save/load
-import save from '@/utils/save';
-import load from '@/utils/load';
-import deleteSave from '@/utils/deleteSave';
+import save from '@/utils/saveLoad/save';
+import load from '@/utils/saveLoad/load';
+import deleteSave from '@/utils/saveLoad/deleteSave';
+import saveUpgrade from '@/utils/saveLoad/upgrade';
 
 export default {
   name: 'Game',
@@ -180,10 +181,16 @@ export default {
         const saveData = await localforage.getItem('writerSave');
         if (saveData && !this.checkDebug('disableAutoLoad')) {
           if (saveData.version === 1 || saveData.version === 2) {
+            // these are broken/old savegames that are beyond salvaging at this point
             await deleteSave();
             window.location.reload(false);
           } else {
             await this.loadGame(saveData.timestamp);
+            if (saveUpgrade(saveData)) {
+              // save and reload after upgrading
+              await save();
+              window.location.reload(false);
+            }
           }
         } else {
           await this.newGame();

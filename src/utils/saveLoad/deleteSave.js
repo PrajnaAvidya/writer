@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import localforage from 'localforage';
 import log from '@/utils/log';
-import saveStores from '@/data/saveStores';
+import saveStores from '@/data/saveLoad/saveStores';
 
 export default async function () {
   const deletes = [];

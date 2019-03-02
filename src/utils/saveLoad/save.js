@@ -3,11 +3,12 @@ import localforage from 'localforage';
 import store from '@/store';
 import unixTimestamp from '@/utils/unixTimestamp';
 import log from '@/utils/log';
-import saveStores from '@/data/saveStores';
+import saveStores from '@/data/saveLoad/saveStores';
+import version from '@/data/saveLoad/version';
 
 export default async function () {
   const saveData = {};
-  saveData.version = 3;
+  saveData.version = version;
   saveData.timestamp = unixTimestamp();
   saveData.stores = [];
   Object.keys(store.state).forEach((state) => {

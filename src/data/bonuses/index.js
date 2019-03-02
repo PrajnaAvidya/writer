@@ -1,18 +1,18 @@
-import bonusData from '@/data/bonuses/data';
+import defaultData from '@/data/bonuses/data';
 
-export default function () {
+export default function (customData = null, lastId = 0) {
   const bonuses = {};
-  let id = 0;
   const previousIds = {};
 
+  const bonusData = customData || defaultData;
   bonusData.forEach((bonus) => {
-    id += 1;
-    bonuses[id] = Object.assign({}, bonus);
-    bonuses[id].id = id;
+    lastId += 1;
+    bonuses[lastId] = Object.assign({}, bonus);
+    bonuses[lastId].id = lastId;
     if (previousIds[bonus.type]) {
-      bonuses[id].previousId = previousIds[bonus.type];
+      bonuses[lastId].previousId = previousIds[bonus.type];
     }
-    previousIds[bonus.type] = id;
+    previousIds[bonus.type] = lastId;
   });
 
   return bonuses;

@@ -75,6 +75,7 @@ const mutations = {
     s.plotPoints = Big(s.plotPoints);
     s.spentPlotPoints = Big(s.spentPlotPoints);
     s.rebirths = Big(s.rebirths);
+    s.bonuses.jobWordMultiplier = Big(s.bonuses.jobWordMultiplier);
     s.bonuses.caffeineWordMultiplier = Big(s.bonuses.caffeineWordMultiplier);
     s.bonuses.passiveMoneyAmount = Big(s.bonuses.passiveMoneyAmount);
     s.bonuses.startingMoney = Big(s.bonuses.startingMoney);
