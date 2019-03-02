@@ -31,7 +31,7 @@ export default {
   particles: null,
   // save/load
   isNewGame: true,
-  saveInterval: 30,
+  saveInterval: 15,
   nextSave: 0,
   unloadSave: false,
   hardResetting: false,
