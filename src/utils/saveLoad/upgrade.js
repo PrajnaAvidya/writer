@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Big from 'big.js';
 import store from '@/store';
 import bonusGenerator from '@/data/bonuses';
@@ -24,6 +25,12 @@ export default function (saveData) {
       });
 
       saveData.version = 4;
+
+      Vue.$ga.event({
+        eventCategory: 'Game',
+        eventAction: 'Upgrade',
+        eventLabel: '4',
+      });
     }
 
     upgraded = true;
