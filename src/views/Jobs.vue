@@ -282,6 +282,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+hr {
+  background-color: $light;
+}
 .jobs {
   margin: 0 auto;
   width: 800px;
