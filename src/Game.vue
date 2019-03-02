@@ -205,6 +205,11 @@ export default {
       this.particles = particles();
       this.calculateWorkerCosts(true);
       this.updateWps();
+
+      // save everything before starting ticks
+      await save();
+      this.nextSave = unixTimestamp(this.saveInterval);
+
       window.requestAnimationFrame(this.tick);
     },
     async loadGame(timestamp) {
@@ -234,6 +239,7 @@ export default {
       });
     },
     async newGame() {
+      log('new game');
       this.$ga.event({
         eventCategory: 'Game',
         eventAction: 'New',
