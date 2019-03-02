@@ -1,13 +1,11 @@
-Alpha 5 Preview (ETA early/mid-March)
-A new game mechanic!
-New bonus skills
+Alpha 5 - 2019-03-XX
+Added bonus skill to reduce job words
+Added auto-coffee bonus skill
 Added option to disable job declines
 Changed urgent job & book milestones to base 1
-Further UI Improvements
-
-Alpha 5 - 2019-03-XX
 Removed click power upgrade
-Various UI Improvements
+Various UI improvements
+Engine/performance improvements
 
 Alpha 4.1 - 2019-02-27
 Added missing tiers for job cooldown upgrade
