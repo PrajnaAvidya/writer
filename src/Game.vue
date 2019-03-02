@@ -100,7 +100,6 @@ export default {
       'money',
       'wordValue',
       'milestones',
-      'playerWords',
       'totalWps',
     ]),
     ...mapState('icons', [
@@ -292,9 +291,6 @@ export default {
           if (debugSettings.startingMilestones) {
             this.setCurrencyData({ index: 'milestones', value: debugSettings.startingMilestones });
           }
-          if (debugSettings.startingPlayerWords) {
-            this.setCurrencyData({ index: 'playerWords', value: debugSettings.startingPlayerWords });
-          }
           if (debugSettings.startingWords) {
             this.setCurrencyData({ index: 'words', value: debugSettings.startingWords });
           }
@@ -478,7 +474,7 @@ export default {
     },
     // player input
     write(event) {
-      let words = this.playerWords.times(this.plotBonus);
+      let words = this.plotBonus;
       if (this.buzzActive) {
         words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration / 2) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration / 2;
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);

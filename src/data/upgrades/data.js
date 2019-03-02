@@ -1,17 +1,5 @@
 export default {
   // infinite/procedural upgrades
-  /*
-  wordValue: {
-    base: 100,
-    scale: 10,
-    multiplier: 2,
-  },
-  */
-  clicking: {
-    base: 500,
-    scale: 25,
-    multiplier: 2,
-  },
   jobReward: {
     base: 100,
     scale: 100,

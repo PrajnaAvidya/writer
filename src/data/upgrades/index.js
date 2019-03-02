@@ -13,11 +13,6 @@ export default function () {
   data.upgrades = staticUpgrades();
   let upgradeId = parseInt(Object.keys(data.upgrades)[Object.keys(data.upgrades).length - 1], 10);
 
-  // clicking upgrades
-  /*
-  upgradeId += 1;
-  data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'clicking');
-  */
   // job reward
   upgradeId += 1;
   data.upgrades[upgradeId] = infiniteUpgrade(upgradeId, 'jobReward');

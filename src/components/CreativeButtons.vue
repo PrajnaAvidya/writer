@@ -44,9 +44,6 @@ export default {
     ...mapState('icons', [
       'playerIcon',
     ]),
-    ...mapState('currency', [
-      'playerWords',
-    ]),
     ...mapState('caffeine', [
       'buzzActive',
       'caffeineMinimumWordGeneration',
@@ -70,7 +67,7 @@ export default {
   },
   methods: {
     writeTooltip() {
-      let words = this.playerWords.times(this.plotBonus);
+      let words = this.plotBonus;
       if (this.buzzActive) {
         words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration / 2) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration / 2;
       }

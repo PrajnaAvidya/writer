@@ -105,14 +105,6 @@ export default {
             this.workers[workerId].productivityMultiplier = this.workers[workerId].productivityMultiplier.times(upgrade.multipliers[workerId]);
           });
         }
-      } else if (upgrade.type === 'clicking') {
-        // not currently used
-        this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
-        // upgrade icon
-        const icon = this.playerIcons.pop();
-        if (icon) {
-          this.setIconData({ index: 'playerIcon', value: icon });
-        }
       } else if (upgrade.type === 'caffeine') {
         if (upgrade.cooldownReduction) {
           this.adjustCaffeineTimer(-upgrade.cooldownReduction);
