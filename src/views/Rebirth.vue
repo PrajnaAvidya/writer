@@ -44,7 +44,7 @@ export default {
   computed: {
     milestonesNeeded() {
       const needed = this.baseMilestonesNeeded + (this.rebirths * 3);
-      return needed.gt(0) ? needed : 0;
+      return needed > 0 ? needed : 0;
     },
     ...mapState('currency', [
       'words',
