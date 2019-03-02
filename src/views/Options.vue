@@ -42,8 +42,8 @@
     />
 
     <EnableDisable
-      label="Floating text Effect"
-      tooltip="Disable if you have an old graphics card"
+      label="Floating Text Effect"
+      tooltip="Disabling may improve performance on slower computers"
       option-index="floatingText"
     />
 
