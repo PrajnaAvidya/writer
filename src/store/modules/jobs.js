@@ -21,7 +21,7 @@ const mutations = {
     if (typeof s[index] === 'object') {
       s[index] = s[index].times(amount);
     } else {
-      s[index] *= amount;
+      s[index] *= parseFloat(amount);
     }
   },
   adjustJobTimer(s, amount) {
@@ -54,6 +54,7 @@ const mutations = {
     }
     Object.keys(s.jobs).forEach((jobId) => {
       s.jobs[jobId].payment = Big(s.jobs[jobId].payment);
+      s.jobs[jobId].currentPayment = Big(s.jobs[jobId].currentPayment);
       s.jobs[jobId].words = Big(s.jobs[jobId].words);
     });
     if (s.urgentJob) {

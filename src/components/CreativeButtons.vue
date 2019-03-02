@@ -69,7 +69,7 @@ export default {
     writeTooltip() {
       let words = this.plotBonus;
       if (this.buzzActive) {
-        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration / 2) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration / 2;
+        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration / 2) ? words.plus(this.workerWps.div(2)) : Big(this.caffeineMinimumWordGeneration / 2);
       }
 
       if (words.eq(1)) {

@@ -9,18 +9,10 @@ const getters = {
 
 const mutations = {
   addCurrencyData(s, { index, amount }) {
-    if (typeof s[index] === 'object') {
-      s[index] = s[index].plus(amount);
-    } else {
-      s[index] += amount;
-    }
+    s[index] = s[index].plus(amount);
   },
   multiplyCurrencyData(s, { index, amount }) {
-    if (typeof s[index] === 'object') {
-      s[index] = s[index].times(amount);
-    } else {
-      s[index] *= amount;
-    }
+    s[index] = s[index].times(amount);
   },
   setCurrencyData(s, { index, value }) {
     s[index] = Big(value);

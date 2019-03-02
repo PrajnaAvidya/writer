@@ -38,13 +38,13 @@
               {{ job.name }}
             </td>
             <td style="width: 140px">
-              {{ job.words.times(jobWordMultiplier) | round }}
+              {{ job.words.times(bonuses.jobWordMultiplier) | round }}
             </td>
             <td style="width: 230px">
               <a
                 class="button is-small is-primary is-tooltip-top"
-                :class="{ 'tooltip': job.words.times(jobWordMultiplier).gt(words) }"
-                :disabled="job.words.times(jobWordMultiplier).gt(words)"
+                :class="{ 'tooltip': job.words.times(bonuses.jobWordMultiplier).gt(words) }"
+                :disabled="job.words.times(bonuses.jobWordMultiplier).gt(words)"
                 data-tooltip="Not enough words"
                 @click="completeJob(job.id)"
               >
@@ -95,14 +95,14 @@
             {{ urgentJob.name }} ({{ urgentJobCountdown }} seconds remaining)
           </td>
           <td style="width: 140px">
-            {{ urgentJob.words.times(jobWordMultiplier) | round }}
+            {{ urgentJob.words.times(bonuses.jobWordMultiplier) | round }}
           </td>
           <td style="width: 230px">
             <a
               class="button is-small is-primary is-tooltip-right"
               data-tooltip="Not enough words"
-              :class="{ 'tooltip': urgentJob.words.times(jobWordMultiplier).gt(words) }"
-              :disabled="urgentJob.words.times(jobWordMultiplier).gt(words)"
+              :class="{ 'tooltip': urgentJob.words.times(bonuses.jobWordMultiplier).gt(words) }"
+              :disabled="urgentJob.words.times(bonuses.jobWordMultiplier).gt(words)"
               @click="completeUrgentJob()"
             >
               Complete
@@ -146,12 +146,11 @@ export default {
       'urgentJobCountdown',
       'urgentJobRewardMultiplier',
     ]),
+    ...mapState('rebirth', [
+      'bonuses',
+    ]),
     ...mapGetters('unfolding', [
       'checkUnfolding',
-    ]),
-    ...mapGetters('rebirth', [
-      'jobSlots',
-      'jobWordMultiplier',
     ]),
     ...mapGetters('options', [
       'checkOption',
@@ -167,7 +166,7 @@ export default {
   methods: {
     updateJobStatuses() {
       const uTimestamp = unixTimestamp();
-      for (let jobId = 1; jobId <= this.jobSlots; jobId += 1) {
+      for (let jobId = 1; jobId <= this.bonuses.jobSlots; jobId += 1) {
         if (!this.jobAvailable[jobId] && this.jobs[jobId]) {
           // update bars
           this.$set(this.jobProgress, jobId, (1000 * this.jobCooldown) - (this.jobsAvailableTimestamps[jobId] - uTimestamp));
@@ -197,13 +196,13 @@ export default {
       const job = this.jobs[id];
 
       // check words
-      if (this.words.lt(job.words.times(this.jobWordMultiplier))) {
+      if (this.words.lt(job.words.times(this.bonuses.jobWordMultiplier))) {
         return;
       }
 
       // complete job
       this.$root.$emit('addMoney', Big(this.jobRewardMultiplier).times(job.currentPayment));
-      this.$root.$emit('subtractWords', job.words.times(this.jobWordMultiplier));
+      this.$root.$emit('subtractWords', job.words.times(this.bonuses.jobWordMultiplier));
       this.addToStat({ stat: 'jobs', amount: 1 });
       this.revealUnfolding('firstJobComplete');
 
@@ -227,13 +226,13 @@ export default {
       const job = this.urgentJob;
 
       // check words
-      if (this.words.lt(job.words.times(this.jobWordMultiplier))) {
+      if (this.words.lt(job.words.times(this.bonuses.jobWordMultiplier))) {
         return;
       }
 
       // complete job
       this.$root.$emit('addMoney', Big(this.jobRewardMultiplier).times(this.urgentJobRewardMultiplier).times(job.payment));
-      this.$root.$emit('subtractWords', job.words.times(this.jobWordMultiplier));
+      this.$root.$emit('subtractWords', job.words.times(this.bonuses.jobWordMultiplier));
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
       this.revealUnfolding('firstUrgentJob');
 

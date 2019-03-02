@@ -4,7 +4,7 @@
       Plot Points: {{ plotPoints | round }}
     </div>
     <p class="text">
-      You are currently receiving a <strong>{{ plotPoints.times(2) | round }}% bonus to clicks, caffeine, and workers.</strong> You may spend some of your plot points on the following abilities:
+      You are currently receiving a <strong>{{ plotPoints * 2 | round }}% bonus to clicks, caffeine, and workers.</strong> You may spend some of your plot points on the following abilities:
     </p>
     <div class="bonuses">
       <div
@@ -21,7 +21,7 @@
         </div>
         <div class="bonus-button">
           <a
-            :disabled="plotPoints.lt(bonus.cost)"
+            :disabled="plotPoints < bonus.cost"
             class="button is-warning"
             @click="buyBonus(bonus)"
           >
@@ -39,7 +39,7 @@
         </div>
         <div class="bonus-button">
           <a
-            :disabled="plotPoints.lt(150)"
+            :disabled="plotPoints < 150"
             class="button is-warning"
             @click="buyMilestoneReduction()"
           >
@@ -74,7 +74,7 @@ export default {
       return true;
     },
     buyBonus(bonus) {
-      if (this.plotPoints.lt(bonus.cost)) {
+      if (this.plotPoints < bonus.cost) {
         return;
       }
 
@@ -112,7 +112,7 @@ export default {
       });
     },
     buyMilestoneReduction() {
-      if (this.plotPoints.lt(150)) {
+      if (this.plotPoints < 150) {
         return;
       }
 
