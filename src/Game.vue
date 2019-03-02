@@ -480,7 +480,7 @@ export default {
     write(event) {
       let words = this.playerWords.times(this.plotBonus);
       if (this.buzzActive) {
-        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration.div(2)) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration.div(2);
+        words = words.plus(this.workerWps.div(2)).gt(this.caffeineMinimumWordGeneration / 2) ? words.plus(this.workerWps.div(2)) : this.caffeineMinimumWordGeneration / 2;
         this.particles.spawnParticle(event.pageX - 5, event.pageY - 20);
       }
       this.addToStat({ stat: 'clickWords', amount: words });
@@ -615,7 +615,7 @@ export default {
       if (this.buzzActive) {
         // apply plot bonus econd time for caffeine
         const wordGeneration = this.bonuses.caffeineWordMultiplier.times(totalWps).times(this.plotBonus);
-        const minimumWordGeneration = this.caffeineMinimumWordGeneration.times(this.bonuses.caffeineWordMultiplier);
+        const minimumWordGeneration = Big(this.caffeineMinimumWordGeneration).times(this.bonuses.caffeineWordMultiplier);
         this.caffeineWordGeneration = wordGeneration.gt(minimumWordGeneration) ? wordGeneration : minimumWordGeneration;
         totalWps = totalWps.plus(this.caffeineWordGeneration);
         this.caffeineAnimationParams();

@@ -13,6 +13,9 @@ export default function (saveData) {
     log(`upgrading save from version ${saveData.version}`);
 
     if (saveData.version === 3) {
+      // change Bigs to ints
+      store.state.caffeine.caffeineMinimumWordGeneration = 4;
+
       // add lastBonusId
       store.state.rebirth.lastBonusId = Math.max(...store.state.rebirth.purchasedBonuses.concat(Object.keys(store.state.rebirth.lockedBonuses)));
 
