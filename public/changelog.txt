@@ -2,6 +2,7 @@ Alpha 5 Preview (ETA early/mid-March)
 A new game mechanic!
 New bonus skills
 Added option to disable job declines
+Changed urgent job & book milestones to base 1
 Further UI Improvements
 
 Alpha 5 - 2019-03-XX

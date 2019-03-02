@@ -28,11 +28,11 @@ export default {
     multiplier: 2,
   },
   urgentJobs: {
-    base: 3,
+    base: 1,
     multiplier: 2,
   },
   clickables: {
-    base: 3,
+    base: 1,
     multiplier: 2,
   },
   wps: {
