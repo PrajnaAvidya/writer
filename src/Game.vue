@@ -843,6 +843,8 @@ export default {
     },
     // rebirth
     doRebirth() {
+      Noty.closeAll();
+
       // update rebirth data
       this.addRebirthData({ index: 'plotPoints', amount: this.milestones });
       this.addRebirthData({ index: 'plotPoints', amount: this.words.e });
