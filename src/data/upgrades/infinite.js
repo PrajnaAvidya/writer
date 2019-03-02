@@ -13,6 +13,7 @@ export default function (id, type, previousUpgrade = null) {
   };
 
   if (type === 'clicking') {
+    // not currently used
     upgrade.name = `${randomAdjective()} Clicking`;
     upgrade.cost = previousUpgrade ? previousUpgrade.cost.times(upgradeData.clicking.scale) : Big(upgradeData.clicking.base);
     upgrade.writingMultiplier = upgradeData.clicking.multiplier;

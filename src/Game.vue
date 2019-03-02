@@ -102,6 +102,9 @@ export default {
       'playerWords',
       'totalWps',
     ]),
+    ...mapState('icons', [
+      'playerIcons',
+    ]),
     ...mapState('caffeine', [
       'buzzActive',
       'caffeineTime',
@@ -848,12 +851,17 @@ export default {
       // reload relevant vuex stores
       this.resetCurrency();
       this.resetStatistics();
-      this.resetIcons();
       this.resetCaffeine();
       this.resetBooks();
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
+
+      // load next icon if exists
+      const icon = this.playerIcons.pop();
+      if (icon) {
+        this.setIconData({ index: 'playerIcon', value: icon });
+      }
 
       // reload game data
       Object.assign(this.$data, gameData);
@@ -886,6 +894,7 @@ export default {
       'resetStatistics',
     ]),
     ...mapMutations('icons', [
+      'setIconData',
       'resetIcons',
     ]),
     ...mapMutations('caffeine', [

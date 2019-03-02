@@ -106,6 +106,7 @@ export default {
           });
         }
       } else if (upgrade.type === 'clicking') {
+        // not currently used
         this.multiplyCurrencyData({ index: 'playerWords', amount: upgrade.writingMultiplier });
         // upgrade icon
         const icon = this.playerIcons.pop();
