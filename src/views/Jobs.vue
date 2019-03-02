@@ -32,7 +32,7 @@
         <tbody>
           <tr>
             <td style="width: 120px">
-              {{ jobRewardMultiplier.times(job.currentPayment) | money }}
+              {{ job.currentPayment.times(jobRewardMultiplier) | money }}
             </td>
             <td style="width: 350px">
               {{ job.name }}
@@ -71,7 +71,7 @@
           @click="hurryCooldown(job.id)"
         >
           <span class="job-current-payment">
-            {{ jobRewardMultiplier.times(job.currentPayment) | money }}
+            {{ job.currentPayment.times(jobRewardMultiplier) | money }}
           </span>
           <progress
             class="progress is-info"
@@ -89,7 +89,7 @@
       <tbody>
         <tr class="urgent">
           <td style="width: 120px">
-            {{ jobRewardMultiplier.times(urgentJobRewardMultiplier).times(urgentJob.payment) | money }}
+            {{ urgentJob.payment.times(urgentJobRewardMultiplier).times(jobRewardMultiplier) | money }}
           </td>
           <td style="width: 350px">
             {{ urgentJob.name }} ({{ urgentJobCountdown }} seconds remaining)
@@ -202,7 +202,7 @@ export default {
       }
 
       // complete job
-      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(job.currentPayment));
+      this.$root.$emit('addMoney', Big(this.jobRewardMultiplier).times(job.currentPayment));
       this.$root.$emit('subtractWords', job.words.times(this.jobWordMultiplier));
       this.addToStat({ stat: 'jobs', amount: 1 });
       this.revealUnfolding('firstJobComplete');
@@ -219,7 +219,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Job',
         eventAction: 'Completed',
-        eventLabel: `${job.name} ${this.jobRewardMultiplier.times(job.currentPayment).toString()}`,
+        eventLabel: `${job.name} ${Big(this.jobRewardMultiplier).times(job.currentPayment).toString()}`,
       });
     },
     completeUrgentJob() {
@@ -232,7 +232,7 @@ export default {
       }
 
       // complete job
-      this.$root.$emit('addMoney', this.jobRewardMultiplier.times(this.urgentJobRewardMultiplier).times(job.payment));
+      this.$root.$emit('addMoney', Big(this.jobRewardMultiplier).times(this.urgentJobRewardMultiplier).times(job.payment));
       this.$root.$emit('subtractWords', job.words.times(this.jobWordMultiplier));
       this.addToStat({ stat: 'urgentJobs', amount: 1 });
       this.revealUnfolding('firstUrgentJob');
@@ -246,7 +246,7 @@ export default {
       this.$ga.event({
         eventCategory: 'Urgent Job',
         eventAction: 'Completed',
-        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.payment).toString()}`,
+        eventLabel: `${job.name} ${Big(this.jobRewardMultiplier).times(this.urgentJobRewardMultiplier).times(job.payment).toString()}`,
       });
     },
     declineJob(id) {
@@ -265,7 +265,6 @@ export default {
       this.$ga.event({
         eventCategory: 'Job',
         eventAction: 'Declined',
-        eventLabel: `${job.name} ${this.urgentJobRewardMultiplier.times(job.currentPayment).toString()}`,
       });
     },
     hurryCooldown(id) {

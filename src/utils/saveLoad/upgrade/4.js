@@ -9,6 +9,8 @@ export default function () {
   // remove/change vars
   delete store.state.currency.playerWords;
   store.state.caffeine.caffeineMinimumWordGeneration = 4;
+  store.state.jobs.jobRewardMultiplier = parseInt(store.state.jobs.jobRewardMultiplier, 10);
+  store.state.jobs.urgentJobRewardMultiplier = parseInt(store.state.jobs.urgentJobRewardMultiplier, 10);
 
   // add lastBonusId
   store.state.rebirth.lastBonusId = Math.max(...store.state.rebirth.purchasedBonuses.concat(Object.keys(store.state.rebirth.lockedBonuses)));

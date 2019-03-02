@@ -52,12 +52,10 @@ const mutations = {
         s[key] = obj[key];
       });
     }
-    s.jobRewardMultiplier = Big(s.jobRewardMultiplier);
     Object.keys(s.jobs).forEach((jobId) => {
       s.jobs[jobId].payment = Big(s.jobs[jobId].payment);
       s.jobs[jobId].words = Big(s.jobs[jobId].words);
     });
-    s.urgentJobRewardMultiplier = Big(s.urgentJobRewardMultiplier);
     if (s.urgentJob) {
       s.urgentJob.payment = Big(s.urgentJob.payment);
       s.urgentJob.words = Big(s.urgentJob.words);

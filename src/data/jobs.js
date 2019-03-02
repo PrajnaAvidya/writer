@@ -7,7 +7,7 @@ const data = {
   jobsCompletedTimestamps: {},
   jobsAvailableTimestamps: {},
   jobCooldown: 60,
-  jobRewardMultiplier: Big(1),
+  jobRewardMultiplier: 1,
   jobAvailable: {},
 
   // urgent jobs
@@ -19,7 +19,7 @@ const data = {
   urgentJobMaximumTime: 900,
   urgentJobTimer: 60,
   urgentJobCountdown: 0,
-  urgentJobRewardMultiplier: Big(1),
+  urgentJobRewardMultiplier: 1,
 };
 
 export default function () {
