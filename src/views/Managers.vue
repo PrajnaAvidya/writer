@@ -4,15 +4,15 @@
       v-for="worker in workers"
       :key="worker.id"
       class="production"
-      :class="{ 'is-hidden': !showRecruiter(worker) }"
+      :class="{ 'is-hidden': !showManager(worker) }"
     >
       <div class="columns">
         <div class="buy-column">
           <a
             class="button buy-button tooltip"
-            :disabled="recruiterCosts[worker.id].gt(money)"
+            :disabled="managerCosts[worker.id].gt(money)"
             :data-tooltip="tooltip(worker)"
-            @click="$root.$emit('hireRecruiter', worker.id)"
+            @click="$root.$emit('hireManager', worker.id)"
           >
             <i
               class="fas fa-2x worker-icon"
@@ -22,16 +22,16 @@
               class="fas fa-2x fa-file-signature worker-icon"
             />
             <span>
-              <strong>Hire {{ worker.name }} Recruiter</strong>
+              <strong>Hire {{ worker.name }} Manager</strong>
             </span>
           </a>
         </div>
         <div class="cost-column">
-          Cost {{ recruiterCosts[worker.id] | money }}
+          Cost {{ managerCosts[worker.id] | money }}
           <div
-            v-if="true"
+            v-if="managers[worker.id] > 0"
           >
-            {{ recruiters[worker.id] }} Recruiter{{ recruiters[worker.id] !== 1 ? 's' : '' }} Hired
+            {{ managers[worker.id] }} Manager{{ managers[worker.id] !== 1 ? 's' : '' }} Hired
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@ import { mapState, mapGetters } from 'vuex';
 import Big from 'big.js';
 
 export default {
-  name: 'Recruiting',
+  name: 'Managers',
   computed: {
     ...mapState('currency', [
       'money',
@@ -53,28 +53,24 @@ export default {
     ...mapState('workers', [
       'workers',
     ]),
-    ...mapState('recruiting', [
-      'recruiters',
-      'recruiterCosts',
+    ...mapState('managers', [
+      'managers',
+      'managerCosts',
     ]),
   },
   methods: {
     tooltip(worker) {
       return `Hires a ${worker.name} every 10 seconds`;
     },
-    showRecruiter(worker) {
+    showManager(worker) {
+      //TODO
       return true;
     },
   },
 };
 </script>
 
-<style lang="scss">
-.production {
-  padding-top: 10px;
-  margin: 0 auto;
-  width: 800px;
-}
+<style lang="scss" scoped>
 .not-hired {
   margin-top: -5px;
   margin-bottom: -5px;

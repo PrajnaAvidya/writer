@@ -15,7 +15,7 @@ export default {
   nextUpgradeCheck: 0,
   nextMilestoneCheck: 0,
   nextTitleUpdate: 0,
-  nextRecruitingUpdate: 0,
+  nextManagerUpdate: 0,
   urgentJobNotification: null,
   // caffeine animation
   caffeineWordGeneration: Big(0),

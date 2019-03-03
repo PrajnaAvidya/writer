@@ -10,6 +10,6 @@ export default [
   'unfolding',
   'upgrades',
   'workers',
-  'recruiting',
+  'managers',
   'options',
 ];

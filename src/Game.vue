@@ -144,9 +144,9 @@ export default {
       'buyAmount',
       'buyAmountIndex',
     ]),
-    ...mapState('recruiting', [
-      'recruiters',
-      'recruiterCosts',
+    ...mapState('managers', [
+      'managers',
+      'managerCosts',
     ]),
     ...mapState('rebirth', [
       'rebirths',
@@ -214,13 +214,13 @@ export default {
       // start game
       this.particles = particles();
       this.calculateWorkerCosts(true);
-      this.calculateRecruiterCosts();
+      this.calculateManagerCosts();
       this.updateWps();
 
       // save everything before starting ticks
       await save();
       this.nextSave = unixTimestamp(this.saveInterval);
-      this.nextRecruitingUpdate = unixTimestamp(10);
+      this.nextManagerUpdate = unixTimestamp(10);
 
       window.requestAnimationFrame(this.tick);
     },
@@ -360,7 +360,7 @@ export default {
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
       this.$root.$on('hireWorker', this.hireWorker);
-      this.$root.$on('hireRecruiter', this.hireRecruiter);
+      this.$root.$on('hireManager', this.hireManager);
       this.$root.$on('updateWps', this.updateWps);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
@@ -404,7 +404,7 @@ export default {
       this.updateMilestones();
       this.updateJobs();
       this.updateUrgentJob();
-      this.updateRecruiting();
+      this.updateManagers();
 
       // how much to divide progress for current tick
       this.frameIncrement = Big(1).div(Big(1000).div(progress));
@@ -652,39 +652,39 @@ export default {
       this.setUpgrades(newUpgrades);
       this.updateWps();
     },
-    // recruiting
-    hireRecruiter(workerId) {
+    // managers
+    hireManager(workerId) {
       // check if can afford
-      if (this.money.lt(this.recruiterCosts[workerId])) {
+      if (this.money.lt(this.managerCosts[workerId])) {
         return;
       }
 
       // buy & increment
-      this.subtractMoney(this.recruiterCosts[workerId]);
-      this.recruiters[workerId] += 1;
-      //this.addToStat({ stat: 'workers', amount: this.buyAmount }); TODO
+      this.subtractMoney(this.managerCosts[workerId]);
+      this.managers[workerId] += 1;
+      //this.addToStat({ stat: 'managers', amount: 1 }); TODO
 
       // recalculate stuff
-      this.calculateRecruiterCosts();
+      this.calculateManagerCosts();
 
       this.$ga.event({
-        eventCategory: 'Recruiter',
+        eventCategory: 'Manager',
         eventAction: 'Hired',
         eventLabel: `${this.workers[workerId].pluralName}`,
       });
     },
-    calculateRecruiterCosts() {
-      log('recalculating recruiter costs');
+    calculateManagerCosts() {
+      log('recalculating manager costs');
       Object.keys(this.workers).forEach((workerId) => {
-        this.recruiterCosts[workerId] = workerCost(Big(1E9).times(this.workers[workerId].baseCost), this.recruiters[workerId], this.workers[workerId].costMultiplier * 10, 1);
+        this.managerCosts[workerId] = workerCost(Big(1E9).times(this.workers[workerId].baseCost), this.managers[workerId], this.workers[workerId].costMultiplier * 10, 1);
       });
     },
-    updateRecruiting() {
-      if (this.utimestamp >= this.nextRecruitingUpdate) {
+    updateManagers() {
+      if (this.utimestamp >= this.nextManagerUpdate) {
         let hired = false;
         Object.keys(this.workers).forEach((workerId) => {
-          if (this.recruiters[workerId] > 0) {
-            this.workers[workerId].quantity += this.recruiters[workerId];
+          if (this.managers[workerId] > 0) {
+            this.workers[workerId].quantity += this.managers[workerId];
             hired = true;
           }
         });
@@ -694,7 +694,7 @@ export default {
           this.updateWps();
           this.calculateWorkerCosts();
         }
-        this.nextRecruitingUpdate = unixTimestamp(10);
+        this.nextManagerUpdate = unixTimestamp(10);
       }
     },
     // jobs
@@ -924,7 +924,7 @@ export default {
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
-      this.resetRecruiting();
+      this.resetManagers();
 
       // load next icon if exists
       const icon = this.playerIcons.pop();
@@ -985,8 +985,8 @@ export default {
       'setWorkersData',
       'resetWorkers',
     ]),
-    ...mapMutations('recruiting', [
-      'resetRecruiting',
+    ...mapMutations('managers', [
+      'resetManagers',
     ]),
     ...mapMutations('rebirth', [
       'setRebirthData',

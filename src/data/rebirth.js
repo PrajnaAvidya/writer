@@ -15,6 +15,7 @@ export default {
     startingMoney: 0,
     autoCaffeine: false,
     buyAllUpgrades: false,
+    showManagers: false,
   },
   lockedBonuses: bonuses(),
   purchasedBonuses: [],

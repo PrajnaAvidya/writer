@@ -27,12 +27,12 @@
         Upgrades
       </RouterLink>
       <RouterLink
-        v-if="checkUnfolding('showUpgrades')"
-        to="/recruiting"
+        v-if="checkUnfolding('showManagers')"
+        to="/managers"
         class="nav-link"
       >
         <i class="fas fa-comments-dollar fa-lg" />
-        Recruiting
+        Managers
       </RouterLink>
 
       <RouterLink
@@ -78,8 +78,14 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'NavBar',
   computed: {
+    ...mapGetters('debug', [
+      'checkDebug',
+    ]),
     ...mapGetters('unfolding', [
       'checkUnfolding',
+    ]),
+    ...mapGetters('rebirth', [
+      'checkBonus',
     ]),
   },
 };

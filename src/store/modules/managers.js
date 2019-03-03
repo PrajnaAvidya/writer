@@ -1,15 +1,15 @@
 import Big from 'big.js';
-import recruitingData from '@/data/recruiting';
+import managerData from '@/data/managers';
 
-const state = Object.assign({}, recruitingData());
+const state = Object.assign({}, managerData());
 
 const getters = {
   //
 };
 
 const mutations = {
-  resetRecruiting(s) {
-    const d = Object.assign({}, recruitingData());
+  resetManagers(s) {
+    const d = Object.assign({}, managerData());
     Object.keys(d).forEach((key) => {
       s[key] = d[key];
     });
@@ -21,8 +21,8 @@ const mutations = {
       });
     }
 
-    Object.keys(s.recruiters).forEach((workerId) => {
-      s.recruiterCosts[workerId] = Big(s.recruiterCosts[workerId]);
+    Object.keys(s.managers).forEach((workerId) => {
+      s.managerCosts[workerId] = Big(s.managerCosts[workerId]);
     });
   },
 };
