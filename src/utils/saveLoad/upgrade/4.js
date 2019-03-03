@@ -45,7 +45,14 @@ export default function () {
   store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
 
   // add managers skill
+  store.state.rebirth.bonuses.managerIncrement = 10;
   newBonusSkills = bonusGenerator(managersSkill, store.state.rebirth.lastBonusId);
+  store.state.rebirth.lastBonusId += 1;
+  store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
+  store.state.rebirth.lastBonusId += 1;
+  store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
+  store.state.rebirth.lastBonusId += 1;
+  store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
   store.state.rebirth.lastBonusId += 1;
   store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
 

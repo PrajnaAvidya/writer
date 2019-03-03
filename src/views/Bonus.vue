@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import notify from '@/utils/notify';
 
 export default {
@@ -63,6 +63,9 @@ export default {
       'plotPoints',
       'lockedBonuses',
       'purchasedBonuses',
+    ]),
+    ...mapGetters('unfolding', [
+      'checkUnfolding',
     ]),
   },
   methods: {
@@ -99,7 +102,11 @@ export default {
       } else if (bonus.type === 'buyAllUpgrades') {
         this.enableBonus('buyAllUpgrades');
       } else if (bonus.type === 'managers') {
-        this.revealUnfolding('showManagers');
+        if (!this.checkUnfolding('showManagers')) {
+          this.revealUnfolding('showManagers');
+        } else {
+          this.upgradeManagers();
+        }
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -138,6 +145,7 @@ export default {
       'multiplyRebirthData',
       'setRebirthMoney',
       'addRebirthData',
+      'upgradeManagers',
     ]),
   },
 };

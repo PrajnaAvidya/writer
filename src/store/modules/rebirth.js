@@ -53,6 +53,15 @@ const mutations = {
   removeBonus(s, id) {
     Vue.delete(s.lockedBonuses, id);
   },
+  upgradeManagers(s) {
+    if (s.bonuses.managerIncrement === 10) {
+      s.bonuses.managerIncrement = 5;
+    } else if (s.bonuses.managerIncrement === 5) {
+      s.bonuses.managerIncrement = 2;
+    } else if (s.bonuses.managerIncrement === 2) {
+      s.bonuses.managerIncrement = 1;
+    }
+  },
   fromJSON(s, obj) {
     if (obj && typeof obj === 'object') {
       Object.keys(obj).forEach((key) => {

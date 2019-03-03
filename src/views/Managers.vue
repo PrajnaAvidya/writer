@@ -4,7 +4,7 @@
       v-for="worker in workers"
       :key="worker.id"
       class="production"
-      :class="{ 'is-hidden': !showManager(worker) }"
+      :class="{ 'is-hidden': worker.quantity === 0 }"
     >
       <div class="columns">
         <div class="buy-column">
@@ -61,10 +61,6 @@ export default {
   methods: {
     tooltip(worker) {
       return `Hires a ${worker.name} every 10 seconds`;
-    },
-    showManager(worker) {
-      //TODO
-      return true;
     },
   },
 };

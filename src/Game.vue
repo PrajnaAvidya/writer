@@ -220,7 +220,7 @@ export default {
       // save everything before starting ticks
       await save();
       this.nextSave = unixTimestamp(this.saveInterval);
-      this.nextManagerUpdate = unixTimestamp(10);
+      this.nextManagerUpdate = unixTimestamp(this.bonuses.managerIncrement);
 
       window.requestAnimationFrame(this.tick);
     },
@@ -676,25 +676,31 @@ export default {
     calculateManagerCosts() {
       log('recalculating manager costs');
       Object.keys(this.workers).forEach((workerId) => {
-        this.managerCosts[workerId] = workerCost(Big(1E9).times(this.workers[workerId].baseCost), this.managers[workerId], this.workers[workerId].costMultiplier * 10, 1);
+        this.managerCosts[workerId] = workerCost(Big(1E6).times(this.workers[workerId].baseCost), this.managers[workerId], this.workers[workerId].costMultiplier * 10, 1);
       });
     },
     updateManagers() {
       if (this.utimestamp >= this.nextManagerUpdate) {
-        let hired = false;
+        let hired = 0;
         Object.keys(this.workers).forEach((workerId) => {
           if (this.managers[workerId] > 0) {
             this.workers[workerId].quantity += this.managers[workerId];
-            hired = true;
+            hired += this.managers[workerId];
           }
         });
 
-        if (hired) {
-          log('workers hired');
+        if (hired > 0) {
+          log(`${hired} workers hired by managers`);
           this.updateWps();
           this.calculateWorkerCosts();
+
+          this.$ga.event({
+            eventCategory: 'Manager',
+            eventAction: `Hired ${hired} Workers`,
+            eventLabel: hired,
+          });
         }
-        this.nextManagerUpdate = unixTimestamp(10);
+        this.nextManagerUpdate = unixTimestamp(this.bonuses.managerIncrement);
       }
     },
     // jobs
