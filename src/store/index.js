@@ -12,6 +12,7 @@ import books from '@/store/modules/books';
 import jobs from '@/store/modules/jobs';
 import workers from '@/store/modules/workers';
 import upgrades from '@/store/modules/upgrades';
+import recruiting from '@/store/modules/recruiting';
 import rebirth from '@/store/modules/rebirth';
 import options from '@/store/modules/options';
 
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     jobs,
     workers,
     upgrades,
+    recruiting,
     rebirth,
     options,
   },

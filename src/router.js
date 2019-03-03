@@ -28,6 +28,11 @@ const router = new Router({
       component: () => import('@/views/Upgrades.vue'),
     },
     {
+      path: '/recruiting',
+      name: 'Recruiting',
+      component: () => import('@/views/Recruiting.vue'),
+    },
+    {
       path: '/stats',
       name: 'Stats',
       component: () => import('@/views/Stats.vue'),

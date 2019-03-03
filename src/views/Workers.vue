@@ -1,12 +1,12 @@
 <template>
-  <div class="home">
+  <div>
     <BuyAmounts />
 
     <div
       v-for="worker in workers"
       :key="worker.id"
       class="production"
-      :class="{ 'is-hidden': !showWorker(worker) }"
+      :class="{ 'is-hidden': worker.quantity === 0 && !showWorker(worker) }"
     >
       <div class="columns">
         <div class="buy-column">

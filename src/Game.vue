@@ -144,6 +144,10 @@ export default {
       'buyAmount',
       'buyAmountIndex',
     ]),
+    ...mapState('recruiting', [
+      'recruiters',
+      'recruiterCosts',
+    ]),
     ...mapState('rebirth', [
       'rebirths',
       'plotPoints',
@@ -210,11 +214,13 @@ export default {
       // start game
       this.particles = particles();
       this.calculateWorkerCosts(true);
+      this.calculateRecruiterCosts();
       this.updateWps();
 
       // save everything before starting ticks
       await save();
       this.nextSave = unixTimestamp(this.saveInterval);
+      this.nextRecruitingUpdate = unixTimestamp(10);
 
       window.requestAnimationFrame(this.tick);
     },
@@ -354,6 +360,7 @@ export default {
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
       this.$root.$on('hireWorker', this.hireWorker);
+      this.$root.$on('hireRecruiter', this.hireRecruiter);
       this.$root.$on('updateWps', this.updateWps);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
@@ -397,6 +404,7 @@ export default {
       this.updateMilestones();
       this.updateJobs();
       this.updateUrgentJob();
+      this.updateRecruiting();
 
       // how much to divide progress for current tick
       this.frameIncrement = Big(1).div(Big(1000).div(progress));
@@ -644,6 +652,51 @@ export default {
       this.setUpgrades(newUpgrades);
       this.updateWps();
     },
+    // recruiting
+    hireRecruiter(workerId) {
+      // check if can afford
+      if (this.money.lt(this.recruiterCosts[workerId])) {
+        return;
+      }
+
+      // buy & increment
+      this.subtractMoney(this.recruiterCosts[workerId]);
+      this.recruiters[workerId] += 1;
+      //this.addToStat({ stat: 'workers', amount: this.buyAmount }); TODO
+
+      // recalculate stuff
+      this.calculateRecruiterCosts();
+
+      this.$ga.event({
+        eventCategory: 'Recruiter',
+        eventAction: 'Hired',
+        eventLabel: `${this.workers[workerId].pluralName}`,
+      });
+    },
+    calculateRecruiterCosts() {
+      log('recalculating recruiter costs');
+      Object.keys(this.workers).forEach((workerId) => {
+        this.recruiterCosts[workerId] = workerCost(Big(1E9).times(this.workers[workerId].baseCost), this.recruiters[workerId], this.workers[workerId].costMultiplier * 10, 1);
+      });
+    },
+    updateRecruiting() {
+      if (this.utimestamp >= this.nextRecruitingUpdate) {
+        let hired = false;
+        Object.keys(this.workers).forEach((workerId) => {
+          if (this.recruiters[workerId] > 0) {
+            this.workers[workerId].quantity += this.recruiters[workerId];
+            hired = true;
+          }
+        });
+
+        if (hired) {
+          log('workers hired');
+          this.updateWps();
+          this.calculateWorkerCosts();
+        }
+        this.nextRecruitingUpdate = unixTimestamp(10);
+      }
+    },
     // jobs
     updateJobs(initial = false) {
       if (!initial && this.utimestamp < this.nextJobCheck) {
@@ -871,6 +924,7 @@ export default {
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
+      this.resetRecruiting();
 
       // load next icon if exists
       const icon = this.playerIcons.pop();
@@ -930,6 +984,9 @@ export default {
       'setWorkers',
       'setWorkersData',
       'resetWorkers',
+    ]),
+    ...mapMutations('recruiting', [
+      'resetRecruiting',
     ]),
     ...mapMutations('rebirth', [
       'setRebirthData',

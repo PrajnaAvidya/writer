@@ -27,6 +27,15 @@
         Upgrades
       </RouterLink>
       <RouterLink
+        v-if="checkUnfolding('showUpgrades')"
+        to="/recruiting"
+        class="nav-link"
+      >
+        <i class="fas fa-comments-dollar fa-lg" />
+        Recruiting
+      </RouterLink>
+
+      <RouterLink
         v-if="checkUnfolding('showStats')"
         to="/stats"
         class="nav-link nav-stats"
@@ -50,6 +59,7 @@
         <i class="fas fa-star fa-lg" />
         Bonus
       </RouterLink>
+
       <RouterLink
         to="/options"
         class="nav-link nav-options"
