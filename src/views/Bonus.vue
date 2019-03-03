@@ -16,9 +16,10 @@
         <div class="bonus-name">
           {{ bonus.name }}
         </div>
-        <div class="bonus-description">
-          {{ bonus.description }}
-        </div>
+        <div
+          class="bonus-description"
+          v-html="bonus.description"
+        />
         <div class="bonus-button">
           <a
             :disabled="plotPoints < bonus.cost"
@@ -97,12 +98,13 @@ export default {
         this.enableBonus('autoCaffeine');
       } else if (bonus.type === 'buyAllUpgrades') {
         this.enableBonus('buyAllUpgrades');
+      } else if (bonus.type === 'managers') {
+        this.revealUnfolding('showManagers');
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
 
       this.purchasedBonuses.push(bonus.id);
-
       this.removeBonus(bonus.id);
 
       this.$root.$emit('updateWps');
@@ -122,6 +124,9 @@ export default {
 
       this.addRebirthData({ index: 'baseMilestonesNeeded', amount: -10 });
     },
+    ...mapMutations('unfolding', [
+      'revealUnfolding',
+    ]),
     ...mapMutations('rebirth', [
       'removeBonus',
       'spendPlotPoints',

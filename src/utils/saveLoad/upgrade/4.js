@@ -5,6 +5,7 @@ import bonusGenerator from '@/data/bonuses';
 import jobWordSkills from '@/data/saveLoad/4/jobWordSkills';
 import autoCaffeineSkill from '@/data/saveLoad/4/autoCaffeineSkill';
 import buyUpgradesSkill from '@/data/saveLoad/4/buyUpgradesSkill';
+import managersSkill from '@/data/saveLoad/4/managersSkill';
 
 export default function () {
   // remove/change vars
@@ -40,6 +41,11 @@ export default function () {
   // add buy all upgrades bonus
   store.state.rebirth.bonuses.buyAllUpgrades = false;
   newBonusSkills = bonusGenerator(buyUpgradesSkill, store.state.rebirth.lastBonusId);
+  store.state.rebirth.lastBonusId += 1;
+  store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
+
+  // add managers skill
+  newBonusSkills = bonusGenerator(managersSkill, store.state.rebirth.lastBonusId);
   store.state.rebirth.lastBonusId += 1;
   store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
 

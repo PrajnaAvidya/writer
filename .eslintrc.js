@@ -35,11 +35,10 @@ module.exports = {
     'vue/v-on-style': 'error',
     'vue/attributes-order': 'error',
     'vue/no-confusing-v-for-v-if': 'error',
-    'vue/no-v-html': 'error',
     'vue/order-in-components': 'error',
     'vue/this-in-template': 'error',
     'vue/component-name-in-template-casing': 'error',
-    'vue/script-indent': 'error',
+    'vue/script-indent': 'error'
   },
 
   parserOptions: {
@@ -50,4 +49,9 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/airbnb',
   ],
+
+  'extends': [
+    'plugin:vue/essential',
+    '@vue/airbnb'
+  ]
 };

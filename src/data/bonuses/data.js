@@ -1,4 +1,10 @@
 export default [
+  {
+    name: 'Management',
+    description: '<strong>NEW MECHANIC:</strong> Managers will hire workers automatically!',
+    cost: 500,
+    type: 'managers',
+  },
   // job slots
   {
     name: 'Second Job Slot',
@@ -177,7 +183,7 @@ export default [
   {
     name: 'Insomniac',
     description: 'Automatically drink Coffee when available',
-    cost: 200,
+    cost: 150,
     type: 'autoCaffeine',
   },
 ];
