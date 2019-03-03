@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "send": "./buildThenSendToProd.sh"
+    "send": "npm run build && zip -r dist.zip dist && scp dist.zip ubuntu@neat.af:/var/www && rm dist.zip"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.7.2",
