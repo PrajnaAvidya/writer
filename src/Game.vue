@@ -823,7 +823,7 @@ export default {
       if (this.milestones.gte(15)) {
         this.revealUnfolding('showRebirth');
       }
-      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths.times(3)))) {
+      if (!this.rebirthNotification && this.milestones.gte(this.baseMilestonesNeeded.plus(this.rebirths.times(2)))) {
         notify('Rebirth Ready', {
           type: 'alert',
           icon: 'fa-recycle',
