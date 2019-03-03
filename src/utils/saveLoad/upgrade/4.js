@@ -4,6 +4,7 @@ import store from '@/store';
 import bonusGenerator from '@/data/bonuses';
 import jobWordSkills from '@/data/saveLoad/4/jobWordSkills';
 import autoCaffeineSkill from '@/data/saveLoad/4/autoCaffeineSkill';
+import buyUpgradesSkill from '@/data/saveLoad/4/buyUpgradesSkill';
 
 export default function () {
   // remove/change vars
@@ -22,7 +23,7 @@ export default function () {
   // add lastBonusId
   store.state.rebirth.lastBonusId = Math.max(...store.state.rebirth.purchasedBonuses.concat(Object.keys(store.state.rebirth.lockedBonuses)));
 
-  // add job word bonus var/skills
+  // add job word bonus
   store.state.rebirth.bonuses.jobWordMultiplier = 1.0;
   let newBonusSkills = bonusGenerator(jobWordSkills, store.state.rebirth.lastBonusId);
   Object.keys(newBonusSkills).forEach((bonusId) => {
@@ -30,9 +31,15 @@ export default function () {
     store.state.rebirth.lastBonusId = bonusId > store.state.rebirth.lastBonusId ? bonusId : store.state.rebirth.lastBonusId;
   });
 
-  // add caffeine bonus var/skill
+  // add caffeine bonus
   store.state.rebirth.bonuses.autoCaffeine = false;
   newBonusSkills = bonusGenerator(autoCaffeineSkill, store.state.rebirth.lastBonusId);
+  store.state.rebirth.lastBonusId += 1;
+  store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
+
+  // add buy all upgrades bonus
+  store.state.rebirth.bonuses.buyAllUpgrades = false;
+  newBonusSkills = bonusGenerator(buyUpgradesSkill, store.state.rebirth.lastBonusId);
   store.state.rebirth.lastBonusId += 1;
   store.state.rebirth.lockedBonuses[store.state.rebirth.lastBonusId] = newBonusSkills[store.state.rebirth.lastBonusId];
 

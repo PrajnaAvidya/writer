@@ -1,6 +1,7 @@
 Alpha 5 - 2019-03-XX
 Added bonus skill to reduce job words
 Added auto-coffee bonus skill
+Added "Buy All Upgrades" bonus skill
 Added option to disable job declines
 Changed urgent job & book milestones to base 1
 Removed click power upgrade

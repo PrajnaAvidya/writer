@@ -95,6 +95,8 @@ export default {
         this.multiplyBonus({ index: 'jobWordMultiplier', amount: 0.8 });
       } else if (bonus.type === 'autoCaffeine') {
         this.enableBonus('autoCaffeine');
+      } else if (bonus.type === 'buyAllUpgrades') {
+        this.enableBonus('buyAllUpgrades');
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -139,11 +141,6 @@ export default {
 <style lang="scss" scoped>
 .bonus-title {
   font-weight: bolder;
-}
-.bonuses {
-  height: 465px;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 .bonus {
   margin-top: 15px;

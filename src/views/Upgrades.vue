@@ -1,5 +1,12 @@
 <template>
   <div class="upgrades">
+    <a
+      v-if="checkBonus('buyAllUpgrades')"
+      class="button buy-all"
+      @click="buyAll()"
+    >
+      <strong>Buy All</strong>
+    </a>
     <div
       v-for="upgrade in orderedUpgrades()"
       :key="upgrade.id"
@@ -66,9 +73,12 @@ export default {
     ...mapGetters('debug', [
       'checkDebug',
     ]),
+    ...mapGetters('rebirth', [
+      'checkBonus',
+    ]),
   },
   methods: {
-    buyUpgrade(upgrade) {
+    buyUpgrade(upgrade, bulk = false) {
       // check requirements
       if (!this.canBuyUpgrade(upgrade)) {
         return;
@@ -83,6 +93,11 @@ export default {
       // apply
       this.applyUpgrade(upgrade);
 
+      // show message
+      if (!bulk) {
+        notify(`Upgrade Purchased: ${upgrade.name}`, { icon: 'fa-angle-double-up' });
+      }
+
       this.$ga.event({
         eventCategory: 'Upgrade',
         eventAction: 'Bought',
@@ -96,6 +111,20 @@ export default {
       if (upgrade.infinite) {
         this.incrementUpgradeId();
         this.upgrades[this.upgradeId] = infiniteUpgrade(this.upgradeId, upgrade.type, upgrade);
+      }
+    },
+    buyAll() {
+      let bought = 0;
+      this.orderedUpgrades().forEach((upgrade) => {
+        if (upgrade.revealed) {
+          if (this.canBuyUpgrade(upgrade)) {
+            this.buyUpgrade(upgrade, true);
+            bought += 1;
+          }
+        }
+      });
+      if (bought > 0) {
+        notify(`Purchased ${bought} Upgrades`, { icon: 'fa-expand-arrows-alt' });
       }
     },
     applyUpgrade(upgrade) {
@@ -124,9 +153,6 @@ export default {
         this.multiplyJobData({ index: 'urgentJobMinimumTime', amount: upgrade.cooldownMultiplier });
         this.multiplyJobData({ index: 'urgentJobMaximumTime', amount: upgrade.cooldownMultiplier });
       }
-
-      // show message
-      notify(`Upgrade Purchased: ${upgrade.name}`, { icon: 'fa-angle-double-up' });
     },
     orderedUpgrades() {
       return this.$options.filters.orderCost(this.upgrades);
@@ -230,5 +256,9 @@ export default {
   font-size: 14pt;
   padding: 20px 15px;
   background-color: $greenish;
+}
+.buy-all {
+  background-color: $greenish;
+  margin-bottom: 10px;
 }
 </style>

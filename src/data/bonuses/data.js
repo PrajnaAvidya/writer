@@ -99,6 +99,13 @@ export default [
     cost: 500,
     type: 'caffeineWordMultiplier',
   },
+  // buy all upgrades
+  {
+    name: 'Unpaid Intern',
+    description: 'Unlock "Buy All" button for upgrades',
+    cost: 50,
+    type: 'buyAllUpgrades',
+  },
   // rebirth $
   {
     name: 'Pay It Forward',
