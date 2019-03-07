@@ -33,7 +33,10 @@
         </div>
         <div class="stats-column">
           <span v-if="worker.quantity > 0">
-            <strong>{{ worker.pluralName }}: {{ worker.quantity | round }}</strong>
+            <strong>{{ worker.pluralName }}: {{ worker.quantity | round }}<span
+              v-if="worker.managerHired > 0"
+              class="manager-hired"
+            >+{{ worker.managerHired }}</span></strong>
             <br>
             Words per Second: {{ individualWorkerWps[worker.id] | round }} ({{ workerWpsPercent(worker) | roundPercent }}%)
           </span>
@@ -112,5 +115,8 @@ export default {
 }
 .stats-column {
   width: 310px;
+}
+.manager-hired {
+  color: darken($red, 20%);
 }
 </style>
