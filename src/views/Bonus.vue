@@ -11,7 +11,7 @@
         v-for="bonus in lockedBonuses"
         :key="bonus.id"
         class="columns bonus"
-        :class="{ 'is-hidden': !canSeeBonus(bonus) }"
+        :class="{'is-hidden': !canSeeBonus(bonus)}"
       >
         <div class="bonus-name">
           {{ bonus.name }}
@@ -42,7 +42,7 @@
           <a
             :disabled="plotPoints < 150"
             class="button is-warning"
-            @click="buyMilestoneReduction()"
+            @click="buyMilestoneReduction"
           >
             150 Plot Points
           </a>

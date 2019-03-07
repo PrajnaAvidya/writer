@@ -2,7 +2,7 @@
   <div
     v-if="bookActive"
     class="book"
-    :style="{ top: `${bookPosition.y}px`, right: `${bookPosition.x}px` }"
+    :style="{top: `${bookPosition.y}px`, right: `${bookPosition.x}px`}"
     @click="clickBook($event)"
   >
     <img src="/images/book.png">

@@ -3,7 +3,7 @@
     <div class="tabs is-toggle is-small">
       <ul>
         <li
-          :class="{ 'is-active': buyIndex === 0 }"
+          :class="{'is-active': buyIndex === 0}"
           @click="buyIndex = 0"
         >
           <a>
@@ -11,7 +11,7 @@
           </a>
         </li>
         <li
-          :class="{ 'is-active': buyIndex === 1 }"
+          :class="{'is-active': buyIndex === 1}"
           @click="buyIndex = 1"
         >
           <a>
@@ -19,7 +19,7 @@
           </a>
         </li>
         <li
-          :class="{ 'is-active': buyIndex === 2 }"
+          :class="{'is-active': buyIndex === 2}"
           @click="buyIndex = 2"
         >
           <a><span>Buy 100</span></a>

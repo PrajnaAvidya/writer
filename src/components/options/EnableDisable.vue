@@ -1,7 +1,7 @@
 <template>
   <div
     class="option-item"
-    :class="{ tooltip }"
+    :class="{tooltip}"
     :data-tooltip="tooltip"
   >
     <span class="option-label">
@@ -10,14 +10,14 @@
     <a
       class="button option-choice"
       :disabled="checkOption(optionIndex)"
-      @click="setOptionData({ index: optionIndex, value: true })"
+      @click="setOptionData({index: optionIndex, value: true})"
     >
       Enable
     </a>
     <a
       class="button option-choice"
       :disabled="!checkOption(optionIndex)"
-      @click="setOptionData({ index: optionIndex, value: false })"
+      @click="setOptionData({index: optionIndex, value: false})"
     >
       Disable
     </a>

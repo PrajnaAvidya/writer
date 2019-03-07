@@ -8,7 +8,7 @@
     <div
       v-if="checkUnfolding('showWps')"
       class="is-size-6"
-      :class="{ pulse: buzzActive, buzz: buzzActive }"
+      :class="{pulse: buzzActive, buzz: buzzActive}"
     >
       Words per Second: {{ totalWps | round }}
     </div>

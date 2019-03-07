@@ -6,7 +6,7 @@
     <div class="column">
       <a
         class="button is-primary is-large tooltip is-tooltip-right"
-        :style="{ width: buttonSizePx, height: buttonSizePx }"
+        :style="{width: buttonSizePx, height: buttonSizePx}"
         :data-tooltip="tooltip"
         @click="$root.$emit('write', $event)"
       >

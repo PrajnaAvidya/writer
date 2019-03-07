@@ -48,13 +48,13 @@ module.exports = {
     'vue/eqeqeq': 'error',
     'vue/key-spacing': 'error',
     'vue/match-component-file-name': 'error',
-    'vue/no-boolean-default': 'error',
     'vue/no-restricted-syntax': 'error',
     'vue/object-curly-spacing': 'error',
     'vue/require-direct-export': 'error',
     'vue/space-infix-ops': 'error',
     'vue/space-unary-ops': 'error',
-    'vue/no-confusing-v-for-v-if': 'error'
+    'vue/no-confusing-v-for-v-if': 'error',
+    'vue/no-boolean-default': 'error'
   },
 
   parserOptions: {

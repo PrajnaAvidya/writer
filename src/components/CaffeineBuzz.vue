@@ -4,7 +4,7 @@
       <div class="column is-half">
         <a
           class="button caffeine-button"
-          :class="{ pulse: buzzActive }"
+          :class="{pulse: buzzActive}"
           :disabled="buzzActive || coffeeAvailableTimer > 0"
           @click="$root.$emit('coffee', $event)"
         >
@@ -26,7 +26,7 @@
               v-if="coffeeAvailableTimer > 0"
               class="caffeine-cooldown tooltip is-tooltip-bottom"
               :data-tooltip="progressTooltip"
-              @click="hurryCooldown()"
+              @click="hurryCooldown"
             >
               <progress
                 class="progress is-info"

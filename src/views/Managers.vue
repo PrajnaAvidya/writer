@@ -4,7 +4,7 @@
       v-for="worker in workers"
       :key="worker.id"
       class="production"
-      :class="{ 'is-hidden': worker.quantity === 0 }"
+      :class="{'is-hidden': worker.quantity === 0}"
     >
       <div class="columns">
         <div class="buy-column">

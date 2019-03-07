@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal"
-    :class="{ 'is-active': active }"
+    :class="{'is-active': active}"
     @click="clickToClose ? close($event) : null"
   >
     <div class="modal-background" />
@@ -35,26 +35,14 @@
 <script>
 export default {
   props: {
-    initialState: {
-      type: Boolean,
-      default: false,
-    },
+    initialState: Boolean,
     title: {
       type: String,
       default: '',
     },
-    showHeader: {
-      type: Boolean,
-      default: true,
-    },
-    showFooter: {
-      type: Boolean,
-      default: true,
-    },
-    clickToClose: {
-      type: Boolean,
-      default: false,
-    },
+    showHeader: Boolean,
+    showFooter: Boolean,
+    clickToClose: Boolean,
   },
   data: () => ({
     active: false,

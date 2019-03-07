@@ -3,7 +3,7 @@
     <a
       v-if="checkBonus('buyAllUpgrades')"
       class="button buy-all"
-      @click="buyAll()"
+      @click="buyAll"
     >
       <strong>Buy All</strong>
     </a>
@@ -11,7 +11,7 @@
       v-for="upgrade in orderedUpgrades()"
       :key="upgrade.id"
       class="columns"
-      :class="{ 'is-hidden': !checkDebug('showAllUpgrades') && !upgrade.revealed }"
+      :class="{'is-hidden': !checkDebug('showAllUpgrades') && !upgrade.revealed}"
     >
       <div class="column">
         <i
