@@ -53,13 +53,22 @@ const mutations = {
   removeBonus(s, id) {
     Vue.delete(s.lockedBonuses, id);
   },
-  upgradeManagers(s) {
-    if (s.bonuses.managerIncrement === 10) {
-      s.bonuses.managerIncrement = 5;
-    } else if (s.bonuses.managerIncrement === 5) {
-      s.bonuses.managerIncrement = 2;
-    } else if (s.bonuses.managerIncrement === 2) {
-      s.bonuses.managerIncrement = 1;
+  upgradeManagerTimer(s) {
+    if (s.bonuses.managerHiringTimer === 10) {
+      s.bonuses.managerHiringTimer = 5;
+    } else if (s.bonuses.managerHiringTimer === 5) {
+      s.bonuses.managerHiringTimer = 2;
+    } else if (s.bonuses.managerHiringTimer === 2) {
+      s.bonuses.managerHiringTimer = 1;
+    }
+  },
+  upgradeManagerWorkers(s) {
+    if (s.bonuses.managerHiringAmount === 1) {
+      s.bonuses.managerHiringAmount = 2;
+    } else if (s.bonuses.managerHiringAmount === 2) {
+      s.bonuses.managerHiringAmount = 5;
+    } else if (s.bonuses.managerHiringAmount === 5) {
+      s.bonuses.managerHiringAmount = 10;
     }
   },
   fromJSON(s, obj) {

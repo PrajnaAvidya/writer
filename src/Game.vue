@@ -220,7 +220,7 @@ export default {
       // save everything before starting ticks
       await save();
       this.nextSave = unixTimestamp(this.saveInterval);
-      this.nextManagerUpdate = unixTimestamp(this.bonuses.managerIncrement);
+      this.nextManagerUpdate = unixTimestamp(this.bonuses.managerHiringTimer);
 
       window.requestAnimationFrame(this.tick);
     },
@@ -684,7 +684,7 @@ export default {
         let hired = 0;
         Object.keys(this.workers).forEach((workerId) => {
           if (this.managers[workerId] > 0) {
-            this.workers[workerId].managerHired += this.managers[workerId];
+            this.workers[workerId].managerHired += this.managers[workerId] * this.bonuses.managerHiringAmount;
             hired += this.managers[workerId];
           }
         });
@@ -699,7 +699,7 @@ export default {
             eventLabel: hired,
           });
         }
-        this.nextManagerUpdate = unixTimestamp(this.bonuses.managerIncrement);
+        this.nextManagerUpdate = unixTimestamp(this.bonuses.managerHiringTimer);
       }
     },
     // jobs

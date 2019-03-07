@@ -70,6 +70,11 @@ export default {
   },
   methods: {
     canSeeBonus(bonus) {
+      // check for unfolding condition
+      if (bonus.unfoldingCondition) {
+        return this.checkUnfolding(bonus.unfoldingCondition);
+      }
+
       // check for previous id
       if (bonus.previousId && !this.purchasedBonuses.includes(bonus.previousId)) {
         return false;
@@ -105,8 +110,10 @@ export default {
         if (!this.checkUnfolding('showManagers')) {
           this.revealUnfolding('showManagers');
         } else {
-          this.upgradeManagers();
+          this.upgradeManagerTimer();
         }
+      } else if (bonus.type === 'managerWorkers') {
+        this.upgradeManagerWorkers();
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
@@ -145,7 +152,8 @@ export default {
       'multiplyRebirthData',
       'setRebirthMoney',
       'addRebirthData',
-      'upgradeManagers',
+      'upgradeManagerTimer',
+      'upgradeManagerWorkers',
     ]),
   },
 };
