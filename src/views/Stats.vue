@@ -10,7 +10,7 @@
           :key="stat"
         >
           <th
-            :class="{ tooltip: stat === 'workers' && checkUnfolding('showManagers') }"
+            :class="{tooltip: stat === 'workers' && checkUnfolding('showManagers')}"
             data-tooltip="Does not include workers hired by managers"
           >
             {{ statDescriptions[stat] }}
