@@ -901,6 +901,7 @@ export default {
         notify('Rebirth Ready', {
           type: 'alert',
           icon: 'fa-recycle',
+          timeout: false,
           callbacks: {
             onClick: () => {
               this.$router.push('/rebirth');
