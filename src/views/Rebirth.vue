@@ -15,9 +15,9 @@
       </p>
       <a
         class="button is-warning"
-        :class="{ glow: checkDebug('rebirth') || milestones.gte(milestonesNeeded), pulse: checkDebug('rebirth') || milestones.gte(milestonesNeeded) }"
+        :class="{glow: checkDebug('rebirth') || milestones.gte(milestonesNeeded), pulse: checkDebug('rebirth') || milestones.gte(milestonesNeeded)}"
         :disabled="!checkDebug('rebirth') && milestones.lt(milestonesNeeded)"
-        @click="confirmRebirth()"
+        @click="confirmRebirth"
       >
         {{ buttonText }}
       </a>

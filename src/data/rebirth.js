@@ -15,6 +15,8 @@ export default {
     startingMoney: 0,
     autoCaffeine: false,
     buyAllUpgrades: false,
+    managerHiringTimer: 10,
+    managerHiringAmount: 1,
   },
   lockedBonuses: bonuses(),
   purchasedBonuses: [],

@@ -43,7 +43,7 @@
             <td style="width: 230px">
               <a
                 class="button is-small is-primary is-tooltip-top"
-                :class="{ 'tooltip': job.words.times(bonuses.jobWordMultiplier).gt(words) }"
+                :class="{'tooltip': job.words.times(bonuses.jobWordMultiplier).gt(words)}"
                 :disabled="job.words.times(bonuses.jobWordMultiplier).gt(words)"
                 data-tooltip="Not enough words"
                 @click="completeJob(job.id)"
@@ -101,9 +101,9 @@
             <a
               class="button is-small is-primary is-tooltip-right"
               data-tooltip="Not enough words"
-              :class="{ 'tooltip': urgentJob.words.times(bonuses.jobWordMultiplier).gt(words) }"
+              :class="{'tooltip': urgentJob.words.times(bonuses.jobWordMultiplier).gt(words)}"
               :disabled="urgentJob.words.times(bonuses.jobWordMultiplier).gt(words)"
-              @click="completeUrgentJob()"
+              @click="completeUrgentJob"
             >
               Complete
             </a>

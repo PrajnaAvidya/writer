@@ -28,6 +28,11 @@ const router = new Router({
       component: () => import('@/views/Upgrades.vue'),
     },
     {
+      path: '/managers',
+      name: 'Managers',
+      component: () => import('@/views/Managers.vue'),
+    },
+    {
       path: '/stats',
       name: 'Stats',
       component: () => import('@/views/Stats.vue'),

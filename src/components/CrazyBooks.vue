@@ -4,7 +4,7 @@
       v-for="book in Array(numberOfBooks)"
       :key="book"
       class="book"
-      :style="{ top: `${randomY()}px`, right: `${randomX()}px` }"
+      :style="{top: `${randomY()}px`, right: `${randomX()}px`}"
     >
       <img src="/images/book.png">
     </div>

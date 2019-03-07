@@ -11,14 +11,15 @@
         v-for="bonus in lockedBonuses"
         :key="bonus.id"
         class="columns bonus"
-        :class="{ 'is-hidden': !canSeeBonus(bonus) }"
+        :class="{'is-hidden': !canSeeBonus(bonus)}"
       >
         <div class="bonus-name">
           {{ bonus.name }}
         </div>
-        <div class="bonus-description">
-          {{ bonus.description }}
-        </div>
+        <div
+          class="bonus-description"
+          v-html="bonus.description"
+        />
         <div class="bonus-button">
           <a
             :disabled="plotPoints < bonus.cost"
@@ -41,7 +42,7 @@
           <a
             :disabled="plotPoints < 150"
             class="button is-warning"
-            @click="buyMilestoneReduction()"
+            @click="buyMilestoneReduction"
           >
             150 Plot Points
           </a>
@@ -52,7 +53,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import notify from '@/utils/notify';
 
 export default {
@@ -63,9 +64,17 @@ export default {
       'lockedBonuses',
       'purchasedBonuses',
     ]),
+    ...mapGetters('unfolding', [
+      'checkUnfolding',
+    ]),
   },
   methods: {
     canSeeBonus(bonus) {
+      // check for unfolding condition
+      if (bonus.unfoldingCondition) {
+        return this.checkUnfolding(bonus.unfoldingCondition);
+      }
+
       // check for previous id
       if (bonus.previousId && !this.purchasedBonuses.includes(bonus.previousId)) {
         return false;
@@ -97,12 +106,19 @@ export default {
         this.enableBonus('autoCaffeine');
       } else if (bonus.type === 'buyAllUpgrades') {
         this.enableBonus('buyAllUpgrades');
+      } else if (bonus.type === 'managers') {
+        if (!this.checkUnfolding('showManagers')) {
+          this.revealUnfolding('showManagers');
+        } else {
+          this.upgradeManagerTimer();
+        }
+      } else if (bonus.type === 'managerWorkers') {
+        this.upgradeManagerWorkers();
       }
 
       notify(`Bonus Acquired: ${bonus.name}!`, { type: 'alert', icon: 'fa-thumbs-up' });
 
       this.purchasedBonuses.push(bonus.id);
-
       this.removeBonus(bonus.id);
 
       this.$root.$emit('updateWps');
@@ -122,6 +138,9 @@ export default {
 
       this.addRebirthData({ index: 'baseMilestonesNeeded', amount: -10 });
     },
+    ...mapMutations('unfolding', [
+      'revealUnfolding',
+    ]),
     ...mapMutations('rebirth', [
       'removeBonus',
       'spendPlotPoints',
@@ -133,6 +152,8 @@ export default {
       'multiplyRebirthData',
       'setRebirthMoney',
       'addRebirthData',
+      'upgradeManagerTimer',
+      'upgradeManagerWorkers',
     ]),
   },
 };

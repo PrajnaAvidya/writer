@@ -7,6 +7,7 @@ const stats = {
   money: 'Money Made',
   caffeines: 'Coffees Drank',
   workers: 'Workers Hired',
+  managers: 'Managers Hired',
   jobs: 'Jobs Complete',
   urgentJobs: 'Urgent Jobs Complete',
   upgrades: 'Upgrades Bought',

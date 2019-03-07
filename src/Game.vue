@@ -144,6 +144,10 @@ export default {
       'buyAmount',
       'buyAmountIndex',
     ]),
+    ...mapState('managers', [
+      'managers',
+      'managerCosts',
+    ]),
     ...mapState('rebirth', [
       'rebirths',
       'plotPoints',
@@ -210,11 +214,13 @@ export default {
       // start game
       this.particles = particles();
       this.calculateWorkerCosts(true);
+      this.calculateManagerCosts();
       this.updateWps();
 
       // save everything before starting ticks
       await save();
       this.nextSave = unixTimestamp(this.saveInterval);
+      this.nextManagerUpdate = unixTimestamp(this.bonuses.managerHiringTimer);
 
       window.requestAnimationFrame(this.tick);
     },
@@ -354,6 +360,7 @@ export default {
       this.$root.$on('subtractWords', this.subtractWords);
       this.$root.$on('sellWords', this.sellWords);
       this.$root.$on('hireWorker', this.hireWorker);
+      this.$root.$on('hireManager', this.hireManager);
       this.$root.$on('updateWps', this.updateWps);
       this.$root.$on('setNextUrgentJob', this.setNextUrgentJob);
       this.$root.$on('updateUrgentJob', this.updateUrgentJob);
@@ -397,6 +404,7 @@ export default {
       this.updateMilestones();
       this.updateJobs();
       this.updateUrgentJob();
+      this.updateManagers();
 
       // how much to divide progress for current tick
       this.frameIncrement = Big(1).div(Big(1000).div(progress));
@@ -644,6 +652,56 @@ export default {
       this.setUpgrades(newUpgrades);
       this.updateWps();
     },
+    // managers
+    hireManager(workerId) {
+      // check if can afford
+      if (this.money.lt(this.managerCosts[workerId])) {
+        return;
+      }
+
+      // buy & increment
+      this.subtractMoney(this.managerCosts[workerId]);
+      this.managers[workerId] += 1;
+      this.addToStat({ stat: 'managers', amount: 1 });
+
+      // recalculate stuff
+      this.calculateManagerCosts();
+
+      this.$ga.event({
+        eventCategory: 'Manager',
+        eventAction: 'Hired',
+        eventLabel: `${this.workers[workerId].pluralName}`,
+      });
+    },
+    calculateManagerCosts() {
+      log('recalculating manager costs');
+      Object.keys(this.workers).forEach((workerId) => {
+        this.managerCosts[workerId] = workerCost(Big(1E6).times(this.workers[workerId].baseCost), this.managers[workerId], this.workers[workerId].costMultiplier * 10, 1);
+      });
+    },
+    updateManagers() {
+      if (this.utimestamp >= this.nextManagerUpdate) {
+        let hired = 0;
+        Object.keys(this.workers).forEach((workerId) => {
+          if (this.managers[workerId] > 0) {
+            this.workers[workerId].managerHired += this.managers[workerId] * this.bonuses.managerHiringAmount;
+            hired += this.managers[workerId];
+          }
+        });
+
+        if (hired > 0) {
+          log(`${hired} workers hired by managers`);
+          this.updateWps();
+
+          this.$ga.event({
+            eventCategory: 'Manager',
+            eventAction: `Hired ${hired} Workers`,
+            eventLabel: hired,
+          });
+        }
+        this.nextManagerUpdate = unixTimestamp(this.bonuses.managerHiringTimer);
+      }
+    },
     // jobs
     updateJobs(initial = false) {
       if (!initial && this.utimestamp < this.nextJobCheck) {
@@ -871,6 +929,7 @@ export default {
       this.resetJobs();
       this.resetWorkers();
       this.resetUpgrades();
+      this.resetManagers();
 
       // load next icon if exists
       const icon = this.playerIcons.pop();
@@ -930,6 +989,9 @@ export default {
       'setWorkers',
       'setWorkersData',
       'resetWorkers',
+    ]),
+    ...mapMutations('managers', [
+      'resetManagers',
     ]),
     ...mapMutations('rebirth', [
       'setRebirthData',

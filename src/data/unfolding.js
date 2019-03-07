@@ -9,6 +9,7 @@ export default {
   showStats: false,
   showRebirth: false,
   showBonus: false,
+  showManagers: false,
   firstJobComplete: false,
   firstUrgentJob: false,
 };

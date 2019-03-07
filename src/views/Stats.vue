@@ -6,10 +6,15 @@
     <table class="table">
       <tbody>
         <tr
-          v-for="stat in Object.keys(milestoneTargets)"
+          v-for="stat in visibleStats"
           :key="stat"
         >
-          <th>{{ statDescriptions[stat] }}</th>
+          <th
+            :class="{tooltip: stat === 'workers' && checkUnfolding('showManagers')}"
+            data-tooltip="Does not include workers hired by managers"
+          >
+            {{ statDescriptions[stat] }}
+          </th>
           <td
             v-if="stat === 'money'"
             style="width: 150px;"
@@ -45,11 +50,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'Stats',
   computed: {
+    visibleStats() {
+      if (this.checkUnfolding('showManagers')) {
+        return Object.keys(this.milestoneTargets);
+      }
+
+      return Object.keys(this.milestoneTargets).filter(stat => stat !== 'managers');
+    },
     ...mapState('statistics', [
       'stats',
       'milestoneTargets',
@@ -58,6 +70,9 @@ export default {
     ]),
     ...mapState('currency', [
       'milestones',
+    ]),
+    ...mapGetters('unfolding', [
+      'checkUnfolding',
     ]),
   },
   methods: {
