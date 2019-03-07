@@ -638,8 +638,8 @@ export default {
           if (!upgrade.revealed && (
             (upgrade.type !== 'worker' && !upgrade.previousId && this.money.gte(upgrade.cost.div(10)))
             || (upgrade.type === 'worker' && !upgrade.previousId && (!this.workers[upgrade.workerId] || this.workers[upgrade.workerId].quantity > 0))
-            || (upgrade.previousId && this.purchasedUpgrades.includes(upgrade.previousId)))) {
-            upgrade.revealed = true;
+            || (upgrade.previousId && (this.purchasedUpgrades.includes(parseInt(upgrade.previousId, 10)) || this.purchasedUpgrades.includes(upgrade.previousId))))) {
+            this.$set(this.upgrades[upgradeId], 'revealed', true);
           }
         });
         this.nextUpgradeCheck = unixTimestamp(0.5);

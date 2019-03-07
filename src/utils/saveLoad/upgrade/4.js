@@ -35,7 +35,7 @@ export default function () {
   let newBonusSkills = bonusGenerator(jobWordSkills, store.state.rebirth.lastBonusId);
   Object.keys(newBonusSkills).forEach((bonusId) => {
     store.state.rebirth.lockedBonuses[bonusId] = newBonusSkills[bonusId];
-    store.state.rebirth.lastBonusId = bonusId > store.state.rebirth.lastBonusId ? bonusId : store.state.rebirth.lastBonusId;
+    store.state.rebirth.lastBonusId = parseInt(bonusId, 10);
   });
 
   // auto caffeine
@@ -60,7 +60,7 @@ export default function () {
   newBonusSkills = bonusGenerator(managersSkill, store.state.rebirth.lastBonusId);
   Object.keys(newBonusSkills).forEach((bonusId) => {
     store.state.rebirth.lockedBonuses[bonusId] = newBonusSkills[bonusId];
-    store.state.rebirth.lastBonusId = bonusId > store.state.rebirth.lastBonusId ? bonusId : store.state.rebirth.lastBonusId;
+    store.state.rebirth.lastBonusId = parseInt(bonusId, 10);
   });
   Object.keys(store.state.workers.workers).forEach((workerId) => {
     store.state.workers.workers[workerId].managerHired = 0;
