@@ -25,7 +25,7 @@ export default {
   },
   managers: {
     base: 3,
-    multiplier: 3,
+    multiplier: 2,
   },
   upgrades: {
     base: 10,

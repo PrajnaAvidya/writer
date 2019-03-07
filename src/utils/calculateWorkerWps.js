@@ -9,7 +9,7 @@ export default function (workers) {
   const tooltips = {};
   Object.keys(workers).forEach((workerId) => {
     const baseContrubution = workers[workerId].productivityMultiplier.times(workers[workerId].baseProductivity);
-    const totalContribution = baseContrubution.times(workers[workerId].quantity);
+    const totalContribution = baseContrubution.times(workers[workerId].quantity + workers[workerId].managerHired);
 
     if (totalContribution.gt(0)) {
       total = total.plus(totalContribution);
@@ -17,9 +17,7 @@ export default function (workers) {
     worker[workerId] = totalContribution;
 
     // set tooltip
-    if (baseContrubution.eq(0)) {
-      tooltips[workerId] = 'Produces no words (useless!)';
-    } else if (baseContrubution.eq(1)) {
+    if (baseContrubution.eq(1)) {
       tooltips[workerId] = 'Produces 1 word per second';
     } else {
       tooltips[workerId] = `Produces ${round(baseContrubution)} words per second`;
