@@ -5,7 +5,9 @@ Added auto-coffee bonus skill
 Added "Buy All Upgrades" bonus skill
 Added option to disable job declines
 Changed urgent job & book milestones to base 1
+Adjusted caffeine cooldown upgrade prices
 Removed click power upgrade
+Fixed upgrade visibility bug
 Various UI improvements
 Engine/performance improvements
 
