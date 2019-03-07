@@ -25,6 +25,7 @@ export default function () {
       name: worker.name,
       pluralName: worker.plural,
       quantity: 0,
+      managerHired: 0,
       costs: {
         0: workerCost(worker.baseCost, 0, worker.costMultiplier, 1),
         1: workerCost(worker.baseCost, 0, worker.costMultiplier, 10),

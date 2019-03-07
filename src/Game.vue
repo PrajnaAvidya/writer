@@ -662,7 +662,7 @@ export default {
       // buy & increment
       this.subtractMoney(this.managerCosts[workerId]);
       this.managers[workerId] += 1;
-      //this.addToStat({ stat: 'managers', amount: 1 }); TODO
+      this.addToStat({ stat: 'managers', amount: 1 });
 
       // recalculate stuff
       this.calculateManagerCosts();
@@ -684,7 +684,7 @@ export default {
         let hired = 0;
         Object.keys(this.workers).forEach((workerId) => {
           if (this.managers[workerId] > 0) {
-            this.workers[workerId].quantity += this.managers[workerId];
+            this.workers[workerId].managerHired += this.managers[workerId];
             hired += this.managers[workerId];
           }
         });
@@ -692,7 +692,6 @@ export default {
         if (hired > 0) {
           log(`${hired} workers hired by managers`);
           this.updateWps();
-          this.calculateWorkerCosts();
 
           this.$ga.event({
             eventCategory: 'Manager',

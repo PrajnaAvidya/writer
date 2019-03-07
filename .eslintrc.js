@@ -34,11 +34,11 @@ module.exports = {
     'vue/v-bind-style': 'error',
     'vue/v-on-style': 'error',
     'vue/attributes-order': 'error',
-    'vue/no-confusing-v-for-v-if': 'error',
     'vue/order-in-components': 'error',
     'vue/this-in-template': 'error',
     'vue/component-name-in-template-casing': 'error',
-    'vue/script-indent': 'error'
+    'vue/script-indent': 'error',
+    'vue/v-on-function-call': 'error'
   },
 
   parserOptions: {
