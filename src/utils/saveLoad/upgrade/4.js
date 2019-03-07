@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import Big from 'big.js';
 import store from '@/store';
 import bonusGenerator from '@/data/bonuses';
 import jobWordSkills from '@/data/saveLoad/4/jobWordSkills';
@@ -20,6 +19,13 @@ export default function () {
   store.state.rebirth.bonuses.caffeineWordMultiplier = parseInt(store.state.rebirth.bonuses.caffeineWordMultiplier, 10);
   store.state.rebirth.bonuses.passiveMoneyAmount = parseFloat(store.state.rebirth.bonuses.passiveMoneyAmount);
   store.state.rebirth.bonuses.startingMoney = parseInt(store.state.rebirth.bonuses.startingMoney, 10);
+
+  // remove clicking upgrade
+  Object.keys(store.state.upgrades.upgrades).forEach((upgradeId) => {
+    if (store.state.upgrades.upgrades[upgradeId].type === 'clicking') {
+      delete store.state.upgrades.upgrades[upgradeId];
+    }
+  });
 
   // add lastBonusId
   store.state.rebirth.lastBonusId = Math.max(...store.state.rebirth.purchasedBonuses.concat(Object.keys(store.state.rebirth.lockedBonuses)));
