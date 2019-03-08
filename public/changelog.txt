@@ -1,4 +1,4 @@
-Alpha 5 - 2019-03-XX
+Alpha 5 - 2019-03-07
 New game mechanic: Managers (workers who can hire other workers)
 Added bonus skill to reduce job words
 Added auto-coffee bonus skill
