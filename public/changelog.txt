@@ -1,5 +1,5 @@
 Alpha 5 - 2019-03-XX
-New game mechanic: Managers (workers who can hire other workers). Hiring increment is 10 seconds and can be upgraded.
+New game mechanic: Managers (workers who can hire other workers)
 Added bonus skill to reduce job words
 Added auto-coffee bonus skill
 Added "Buy All Upgrades" bonus skill
@@ -8,7 +8,7 @@ Changed urgent job & book milestones to base 1
 Adjusted caffeine cooldown upgrade prices
 Removed click power upgrade
 Fixed upgrade visibility bug
-Various UI improvements
+UI improvements
 Engine/performance improvements
 
 Alpha 4.2 - 2019-03-02
