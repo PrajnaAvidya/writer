@@ -54,7 +54,7 @@ module.exports = {
     'vue/space-infix-ops': 'error',
     'vue/space-unary-ops': 'error',
     'vue/no-confusing-v-for-v-if': 'error',
-    'vue/no-boolean-default': 'error'
+    'vue/no-boolean-default': 'error',
   },
 
   parserOptions: {
@@ -65,9 +65,4 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/airbnb',
   ],
-
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/airbnb'
-  ]
 };

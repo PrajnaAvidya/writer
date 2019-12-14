@@ -29,7 +29,7 @@ html, body {
 #game {
   min-height: 100%;
 
-  margin-bottom: -40px;
+  margin-bottom: -60px;
 }
 
 .is-primary, .is-active > a {
@@ -64,7 +64,7 @@ a, i, strong {
 }
 
 .footer {
-  height: 30px !important;
+  height: 50px !important;
   text-align: center;
   font-size: 10pt;
   background-color: $light !important;
@@ -73,7 +73,7 @@ a, i, strong {
 
 .footer,
 .push {
-  height: 40px;
+  height: 70px;
 }
 
 canvas {

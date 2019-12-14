@@ -69,7 +69,7 @@
     <div class="hard-reset">
       <a
         class="button is-danger"
-        @click="hardReset()"
+        @click="hardReset"
       >
         {{ resetButtonText }}
       </a>
