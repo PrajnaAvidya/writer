@@ -587,11 +587,13 @@ export default {
       this.calculateWorkerCosts();
       this.updateWps();
 
+      /*
       this.$ga.event({
         eventCategory: 'Workers',
         eventAction: 'Hired',
         eventLabel: `${this.buyAmount} ${this.workers[id].pluralName}`,
       });
+      */
     },
     calculateWorkerCosts(force = false) {
       log('recalculating worker costs');
@@ -667,11 +669,13 @@ export default {
       // recalculate stuff
       this.calculateManagerCosts();
 
+      /*
       this.$ga.event({
         eventCategory: 'Manager',
         eventAction: 'Hired',
         eventLabel: `${this.workers[workerId].pluralName}`,
       });
+      */
     },
     calculateManagerCosts() {
       log('recalculating manager costs');
@@ -693,11 +697,13 @@ export default {
           log(`${hired} workers hired by managers`);
           this.updateWps();
 
+          /*
           this.$ga.event({
             eventCategory: 'Manager',
             eventAction: `Hired ${hired} Workers`,
             eventLabel: hired,
           });
+          */
         }
         this.nextManagerUpdate = unixTimestamp(this.bonuses.managerHiringTimer);
       }

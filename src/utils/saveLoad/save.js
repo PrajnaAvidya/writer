@@ -25,8 +25,10 @@ export default async function () {
 
   await Promise.all(saveStates);
   log('game saved');
+  /*
   Vue.$ga.event({
     eventCategory: 'Game',
     eventAction: 'Save',
   });
+  */
 }
